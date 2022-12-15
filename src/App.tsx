@@ -1,13 +1,11 @@
 import AllRoutes from "./Components/AllRoutes/AllRoutes";
-import Header from "./Components/Header/Header";
 
 function App() {
-	return (
-		<div>
-			<Header />
-			<AllRoutes />
-		</div>
-	);
+  return (
+    <div>
+      <AllRoutes />
+    </div>
+  );
 }
 
 export default App;
