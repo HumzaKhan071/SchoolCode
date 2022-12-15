@@ -1,15 +1,15 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
-import HomeScreen from "../HomeScreen";
+import Home from "../Home/Home";
 const AllRoutes = () => {
-	let element = useRoutes([
-		{
-			path: "/",
-			element: <HomeScreen />,
-		},
-	]);
+  let element = useRoutes([
+    {
+      path: "/",
+      element: <Home />,
+    },
+  ]);
 
-	return element;
+  return element;
 };
 
 export default AllRoutes;
