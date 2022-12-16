@@ -39,6 +39,7 @@ const FormComp = () => {
 								<span>Your Role</span>
 								<br />
 								<select required>
+									<option id='select'>--select category--</option>
 									<option>Student</option>
 									<option>Pricipal</option>
 									<option>Teacher</option>
@@ -167,6 +168,10 @@ const InputHold = styled.div`
 `;
 const MainHold = styled.div`
 	display: block;
+
+	#select {
+		display: none;
+	}
 `;
 const Second = styled.div`
 	height: 350px;
