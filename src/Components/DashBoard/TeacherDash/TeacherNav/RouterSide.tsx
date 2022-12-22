@@ -16,32 +16,32 @@ export const SideBarItem: NavCon[] = [
 	{
 		name: "Dashboard",
 		icon: (prop: IconBaseProps) => <MdDashboard />,
-		to: "/admin-dashboard",
+		to: "/teacher-dashboard",
 	},
 	{
-		name: "Create Teacher",
+		name: "Attendance",
 		icon: (prop: IconBaseProps) => <SiMicrosoftacademic />,
-		to: "/admin-dashboard/createteacher",
+		to: "/",
 	},
 	{
-		name: "Create Student",
+		name: "Test",
 		icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
-		to: "/admin-dashboard/createstudent",
+		to: "/",
 	},
 	{
-		name: "Expenses",
+		name: "Assignments",
 		icon: (prop: IconBaseProps) => <CgCommunity />,
-		to: "/admin-dashboard/expenses",
+		to: "/",
 	},
 	{
 		name: "Report",
 		icon: (prop: IconBaseProps) => <HiDocumentReport />,
-		to: "/admin-dashboard/report",
+		to: "/",
 	},
 
 	{
 		name: "Notification",
 		icon: (prop: IconBaseProps) => <IoIosNotifications />,
-		to: "/admin-dashboard/notifications",
+		to: "/",
 	},
 ];

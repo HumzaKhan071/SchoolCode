@@ -42,7 +42,7 @@ const StudentLogin = () => {
 				setLoading(false);
 				console.log(res);
 
-				Navigate("/admin-dashboard");
+				Navigate("/student-dashboard");
 			})
 			.catch((err) => {
 				Swal.fire({

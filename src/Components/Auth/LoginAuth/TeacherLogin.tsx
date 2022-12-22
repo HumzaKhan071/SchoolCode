@@ -47,7 +47,7 @@ const TeacherLogin = () => {
 				console.log(res);
 				setUserData(res.data.data);
 
-				Navigate("/admin-dashboard");
+				Navigate("/teacher-dashboard");
 			})
 			.catch((err) => {
 				Swal.fire({

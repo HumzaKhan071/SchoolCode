@@ -22,12 +22,17 @@ import SchoolSignUp from "../Auth/SchoolSignUp";
 import ConfirmSchool from "../Auth/ConfirmSchool";
 import SchoolLogin from "../Auth/LoginAuth/SchoolLogin";
 import SchoolConfirmVerify from "../Auth/SchoolConfirmVerify";
+import TeacherHeader from "../DashBoard/TeacherDash/TeacherNav/TeacherHeader";
+import TeacherDashboard from "../DashBoard/TeacherDash/TeacherDashboard";
+import StudentHeader from "../DashBoard/StudentDash/StudentNav/StudenHeader";
+import StudentDashboard from "../DashBoard/StudentDash/StudentDashboard";
+import PrivateRoute from "../Global/PrivateRoute";
 
 const AllRoutes = () => {
 	let element = useRoutes([
 		{
 			path: "/",
-			element: <Home />,
+			element: <PrivateRoute />,
 		},
 
 		{
@@ -76,6 +81,8 @@ const AllRoutes = () => {
 			],
 		},
 
+		//Admin/School Route
+
 		{
 			path: "/admin-dashboard",
 			children: [
@@ -83,8 +90,7 @@ const AllRoutes = () => {
 					index: true,
 					element: (
 						<>
-							<Header />
-							<Dashboard />
+							<PrivateRoute />
 						</>
 					),
 				},
@@ -130,6 +136,37 @@ const AllRoutes = () => {
 						<>
 							<Header />
 							<Notification />
+						</>
+					),
+				},
+			],
+		},
+
+		//Teachers Route
+		{
+			path: "/teacher-dashboard",
+			children: [
+				{
+					index: true,
+					element: (
+						<>
+							<PrivateRoute />
+						</>
+					),
+				},
+			],
+		},
+
+		//Student Route
+		{
+			path: "/student-dashboard",
+			children: [
+				{
+					index: true,
+					element: (
+						<>
+							<StudentHeader />
+							<StudentDashboard />
 						</>
 					),
 				},

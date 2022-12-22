@@ -1,5 +1,7 @@
 import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
 
+const { persistAtom } = recoilPersist();
 interface iData {
 	_id?: string;
 	name?: string;
@@ -11,9 +13,11 @@ interface iData {
 	teachers?: [];
 	students?: [];
 	verified?: boolean;
+	status?: string;
 }
 
 export const User = atom({
 	key: "user",
 	default: {} as iData | null,
+	effects_UNSTABLE: [persistAtom],
 });

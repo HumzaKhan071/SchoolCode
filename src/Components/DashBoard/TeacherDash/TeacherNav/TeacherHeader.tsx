@@ -14,12 +14,12 @@ import { SideBarItem } from "./RouterSide";
 import { NavLink } from "react-router-dom";
 import img from "./1.jpg";
 import SideBar from "./SideBar";
-import { User } from "../../Global/RecoilState";
+import { User } from "../../../Global/RecoilState";
 import { useRecoilValue } from "recoil";
 
-const Header = () => {
-	const user = useRecoilValue(User);
+const TeacherHeader = () => {
 	const [change, setChange] = React.useState(false);
+	const user = useRecoilValue(User);
 
 	const myRef = React.useRef<HTMLDivElement>(null!);
 	const backRef = React.useRef<HTMLDivElement>(null!);
@@ -56,7 +56,7 @@ const Header = () => {
 						</MyIcon>
 						<AdminDetails>
 							<SchoolName>
-								<Title>{user?.schoolName}</Title>
+								<Title>{user?.name}</Title>
 								<SubTitle>
 									<RiArrowDropDownLine
 										style={{
@@ -139,17 +139,13 @@ const Header = () => {
 					{SideBarItem.map((props, index) => (
 						<NavLink
 							to={props.to}
-							style={({ isActive }) => {
-								return {
-									color: isActive ? "#1DA1F2" : "black",
-									textDecoration: isActive ? "none" : " none",
+							style={{
+								color: "black",
+								textDecoration: " none",
 
-									borderLeft: isActive
-										? "4px solid #1DA1F2"
-										: "4px solid black",
-									display: isActive ? "flex" : "flex",
-									marginTop: isActive ? "8px" : "8px",
-								};
+								borderLeft: "4px solid black",
+								display: "flex",
+								marginTop: "8px",
 							}}>
 							<NavCon>
 								&nbsp;&nbsp;&nbsp;
@@ -175,7 +171,7 @@ const Header = () => {
 	);
 };
 
-export default Header;
+export default TeacherHeader;
 
 const Back = styled.div`
 	display: none;

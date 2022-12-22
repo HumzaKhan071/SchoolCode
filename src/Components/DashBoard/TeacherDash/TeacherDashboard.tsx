@@ -1,15 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
-const Dashboard = () => {
-  return (
-    <Container>
-sfvsd
-    </Container>
-  )
-}
+const TeacherDashboard = () => {
+	return <Container>sfvsd</Container>;
+};
 
-export default Dashboard
+export default TeacherDashboard;
 
 const Container = styled.div`
 	/* width: 100%; */
@@ -18,7 +14,7 @@ const Container = styled.div`
 	display: flex;
 	justify-content: center;
 
-	background-color: #F7F9FC;
+	background-color: #f7f9fc;
 	/* background-color: gold; */
 	overflow: hidden;
 	position: absolute;
