@@ -16,40 +16,40 @@ const MainLogin = () => {
 					<p>Sign in your account now.</p>
 
 					<Holded>
-						<Card to='/login/teacher'>
+						<Card to='/login/school'>
 							<Hol>
 								<Images>
 									<Img1 bg='#71A0F0' src='/Img/o.png' />
 								</Images>
 
 								<TitleHold>
-									<Title>Log In as a Teacher</Title>
-									<span>I'm a school teacher</span>
+									<Title>Log In as a School</Title>
+									<span>I'm a school admin</span>
 								</TitleHold>
 							</Hol>
 						</Card>
 
-						<Card to='/login/student'>
+						<Card to='/login/teacher'>
 							<Hol>
 								<Images>
 									<Img1 bg='#FFF2E4' src='/Img/ooo.png' />
 								</Images>
 
 								<TitleHold>
-									<Title>Log In as a Student</Title>
-									<span>I'm a student in a school</span>
+									<Title>Log In as a Teacher</Title>
+									<span>I'm a Teacher in a school</span>
 								</TitleHold>
 							</Hol>
 						</Card>
-						<Card to='/login/parent'>
+						<Card to='/login/student'>
 							<Hol>
 								<Images>
 									<Img1 bg='#D38FFC' src='/Img/oo.png' />
 								</Images>
 
 								<TitleHold>
-									<Title>Log In as a Parent</Title>
-									<span>I'm a gurdian of a student </span>
+									<Title>Log In as a Student/Parent</Title>
+									<span>I'm a student in a school </span>
 								</TitleHold>
 							</Hol>
 						</Card>

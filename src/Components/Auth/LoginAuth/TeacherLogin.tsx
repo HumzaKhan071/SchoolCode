@@ -1,29 +1,89 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
 
+import styled from "styled-components";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import Loading from "../Loading";
+import Swal from "sweetalert2";
+import { User } from "../../Global/RecoilState";
+import { useRecoilState } from "recoil";
+
+interface iData {
+	schoolName: string;
+	email: string;
+	password: string;
+	confirm: string;
+}
 const TeacherLogin = () => {
+	const [userData, setUserData] = useRecoilState(User);
+	const Navigate = useNavigate();
+	const schema = yup.object().shape({
+		email: yup.string().email().required("This field has to be filled"),
+		password: yup.string().required("This field has to be filled"),
+	});
+
+	const [loading, setLoading] = React.useState(false);
+
+	const {
+		handleSubmit,
+		formState: { errors },
+		register,
+		reset,
+	} = useForm<iData>({
+		resolver: yupResolver(schema),
+	});
+
+	const onSubmit: SubmitHandler<iData> = async (data) => {
+		setLoading(true);
+
+		await axios
+			.post("https://school-code.onrender.com/api/teacher/login", data)
+			.then((res) => {
+				setLoading(false);
+				console.log(res);
+				setUserData(res.data.data);
+
+				Navigate("/admin-dashboard");
+			})
+			.catch((err) => {
+				Swal.fire({
+					title: "Error Occured",
+					text: `${err.response?.data?.message}`,
+					icon: "error",
+					showConfirmButton: false,
+					timer: 3500,
+				}).then(() => {
+					setLoading(false);
+				});
+			});
+	};
 	return (
 		<Container>
+			{loading ? <Loading /> : null}
 			<First>
 				<Logo>
 					<img src='/Img/kod.png' alt='' />
 				</Logo>
 
 				<HeadHold>
-					<Cont>
+					<Cont onSubmit={handleSubmit(onSubmit)}>
 						<Head>Welcome Back to SchoolKod</Head>
 
 						<p> Sign in your Teacher account </p>
 
 						<InputHold>
-							<Input placeholder='Enter Email' />
-							<Input placeholder='Enter schoolName' />
-							<Input placeholder='Enter password' />
+							<Input {...register("email")} placeholder='Enter Email' />
+							<Error>{errors.email && "Email is required"}</Error>
+							<Input {...register("password")} placeholder='Enter password' />
+							<Error>{errors.password && "password is required"}</Error>
 							{/* <Input placeholder='Enter your name' /> */}
 						</InputHold>
 
-						<ButHold>
+						<ButHold type='submit'>
 							<Button>Log In Now</Button>
 						</ButHold>
 						<span>
@@ -60,6 +120,11 @@ const TeacherLogin = () => {
 
 export default TeacherLogin;
 
+const Error = styled.div`
+	font-size: 10px;
+	color: red;
+`;
+
 const HeadHold = styled.div`
 	display: flex;
 	justify-content: center;
@@ -67,7 +132,9 @@ const HeadHold = styled.div`
 	height: 100%;
 `;
 
-const ButHold = styled.div`
+const ButHold = styled.button`
+	border: none;
+	background-color: transparent;
 	/* padding-left: 30px; */
 `;
 
@@ -118,7 +185,7 @@ const Head = styled.div`
 	/* padding-left: 30px; */
 `;
 
-const Cont = styled.div`
+const Cont = styled.form`
 	display: flex;
 	justify-content: center;
 	/* background-color: red; */
