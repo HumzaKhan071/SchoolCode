@@ -1,5 +1,6 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
+
 import Home from "../Home/Home";
 const AllRoutes = () => {
   let element = useRoutes([
@@ -7,6 +8,7 @@ const AllRoutes = () => {
       path: "/",
       element: <Home />,
     },
+   
   ]);
 
   return element;
