@@ -75,7 +75,7 @@ const TeachersSignUp = () => {
 
 						<InputHold>
 							<Input {...register("name")} placeholder='Enter Your Name' />
-							<Error>{errors.name && " Name is required"}</Error>
+							<Error>{errors.name && " Names is required"}</Error>
 							<Input
 								{...register("schoolName")}
 								placeholder='Enter School Name'
