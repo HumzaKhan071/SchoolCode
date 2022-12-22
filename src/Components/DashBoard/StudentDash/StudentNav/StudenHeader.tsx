@@ -9,17 +9,17 @@ import {
 	AiFillDashboard,
 	AiOutlineCalendar,
 } from "react-icons/ai";
+import { useRecoilValue } from "recoil";
 // import { BsCalendarCheck } from 'react-icons/bs';
 import { SideBarItem } from "./RouterSide";
 import { NavLink } from "react-router-dom";
 import img from "./1.jpg";
 import SideBar from "./SideBar";
-import { User } from "../../Global/RecoilState";
-import { useRecoilValue } from "recoil";
+import { User } from "../../../Global/RecoilState";
 
-const Header = () => {
-	const user = useRecoilValue(User);
+const StudentHeader = () => {
 	const [change, setChange] = React.useState(false);
+	const user = useRecoilValue(User);
 
 	const myRef = React.useRef<HTMLDivElement>(null!);
 	const backRef = React.useRef<HTMLDivElement>(null!);
@@ -56,7 +56,7 @@ const Header = () => {
 						</MyIcon>
 						<AdminDetails>
 							<SchoolName>
-								<Title>{user?.schoolName}</Title>
+								<Title>Randle care</Title>
 								<SubTitle>
 									<RiArrowDropDownLine
 										style={{
@@ -175,7 +175,7 @@ const Header = () => {
 	);
 };
 
-export default Header;
+export default StudentHeader;
 
 const Back = styled.div`
 	display: none;

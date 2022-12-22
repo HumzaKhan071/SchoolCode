@@ -1,8 +1,55 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import styled from "styled-components";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import Loading from "./Loading";
+
+interface iData {
+	schoolName: string;
+	email: string;
+	password: string;
+	confirm: string;
+}
 
 const StudentSignUp = () => {
+	const Navigate = useNavigate();
+	const schema = yup.object().shape({
+		schoolName: yup.string().required("This field has to be filled"),
+		email: yup.string().email().required("This field has to be filled"),
+		password: yup.string().required("This field has to be filled"),
+		confirmPassword: yup.string().oneOf([yup.ref("password")], null!),
+	});
+
+	const [loading, setLoading] = React.useState(false);
+
+	const {
+		handleSubmit,
+		formState: { errors },
+		register,
+		reset,
+	} = useForm<iData>({
+		resolver: yupResolver(schema),
+	});
+
+	const onSubmit: SubmitHandler<iData> = async (data) => {
+		setLoading(true);
+
+		await axios
+			.post("https://school-code.onrender.com/api/student/create", data)
+			.then((res) => {
+				setLoading(false);
+				Navigate("/confirm");
+			})
+			.catch((err) => {
+				return err;
+			});
+	};
+
 	return (
 		<Container>
 			<First>
@@ -11,20 +58,25 @@ const StudentSignUp = () => {
 				</Logo>
 
 				<HeadHold>
-					<Cont>
+					<Cont onSubmit={handleSubmit(onSubmit)}>
 						<Head>Sign Up to SchoolKod</Head>
 
 						<p> Sign up and create a free Student account </p>
 
 						<InputHold>
-							<Input placeholder='Enter your name' />
-							<Input placeholder='Enter Email' />
-							<Input placeholder='Enter schoolCode' />
-							<Input placeholder='Enter schoolName' />
-							{/* <Input placeholder='Enter your name' /> */}
+							<Input
+								{...register("schoolName")}
+								placeholder='Enter School Name'
+							/>
+							<Error>{errors.schoolName && "School Name is required"}</Error>
+							<Input {...register("email")} placeholder='Enter Email' />
+							<Error>{errors.email && "Email is required"}</Error>
+							<Input {...register("password")} placeholder='Enter password' />
+							<Error>{errors.password && "Password is required"}</Error>
+							<Input {...register("confirm")} placeholder='Confirm password' />
+							<Error>{errors.confirm && "Confirm Passwod is required"}</Error>
 						</InputHold>
-
-						<ButHold>
+						<ButHold type='submit'>
 							<Button>Create account</Button>
 						</ButHold>
 
@@ -62,6 +114,11 @@ const StudentSignUp = () => {
 
 export default StudentSignUp;
 
+const Error = styled.div`
+	font-size: 10px;
+	color: red;
+`;
+
 const HeadHold = styled.div`
 	display: flex;
 	justify-content: center;
@@ -69,8 +126,10 @@ const HeadHold = styled.div`
 	height: 100%;
 `;
 
-const ButHold = styled.div`
+const ButHold = styled.button`
 	/* padding-left: 30px; */
+	border: none;
+	background-color: transparent;
 `;
 
 const Button = styled.div`
@@ -120,7 +179,7 @@ const Head = styled.div`
 	/* padding-left: 30px; */
 `;
 
-const Cont = styled.div`
+const Cont = styled.form`
 	display: flex;
 	justify-content: center;
 	/* background-color: red; */

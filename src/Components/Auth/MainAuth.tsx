@@ -16,43 +16,43 @@ const MainAuth = () => {
 					<p>Sign up now and create a free account</p>
 
 					<Holded>
-						<Card to='/get-started/teacher-signup'>
+						<Card to='/get-started/school-signup'>
 							<Hol>
 								<Images>
 									<Img1 bg='#71A0F0' src='/Img/o.png' />
 								</Images>
 
 								<TitleHold>
-									<Title>Sign up as a Teacher</Title>
-									<span>I'm a school teacher</span>
+									<Title>Sign up as a School</Title>
+									<span>I'm a school school admin</span>
 								</TitleHold>
 							</Hol>
 						</Card>
 
-						<Card to='/get-started/student-signup'>
+						<Card to='/get-started/teacher-signup'>
 							<Hol>
 								<Images>
 									<Img1 bg='#FFF2E4' src='/Img/ooo.png' />
 								</Images>
 
 								<TitleHold>
-									<Title>Sign up as a Student</Title>
-									<span>I'm a student in a school</span>
+									<Title>Sign up as a Teacher</Title>
+									<span>I'm a Teacher in a School </span>
 								</TitleHold>
 							</Hol>
 						</Card>
-						<Card to='/get-started/parent-signup'>
+						{/* <Card to='/get-started/student-signup'>
 							<Hol>
 								<Images>
 									<Img1 bg='#D38FFC' src='/Img/oo.png' />
 								</Images>
 
 								<TitleHold>
-									<Title>Sign up as a Parent</Title>
-									<span>I'm a gurdian of a student </span>
+									<Title>Sign up as a Student/Parent</Title>
+									<span>I'm a student in a school. </span>
 								</TitleHold>
 							</Hol>
-						</Card>
+						</Card> */}
 						<span>
 							Already have an account?{" "}
 							<Link style={{ textDecoration: "none" }} to='/login'>
