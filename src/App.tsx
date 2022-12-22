@@ -1,9 +1,15 @@
 import AllRoutes from "./Components/AllRoutes/AllRoutes";
 
-function App() {
+import ShowDash from "./Components/AllRoutes/ShowDash";
+
+
+function App() {  
   return (
     <div>
+    
       <AllRoutes />
+      <ShowDash/>
+    
     </div>
   );
 }
