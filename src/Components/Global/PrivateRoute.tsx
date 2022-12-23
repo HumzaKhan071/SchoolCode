@@ -10,50 +10,50 @@ import Home from "../Home/Home";
 import { User } from "./RecoilState";
 
 interface Props {
-	children?: ReactNode;
-	// any props that come into the component
+  children?: ReactNode;
+  // any props that come into the component
 }
 const PrivateRoute = ({ children, ...props }: Props) => {
-	const userData = useRecoilValue(User);
+  const userData = useRecoilValue(User);
 
-	return (
-		<div>
-			{userData?.status === "School" ? (
-				<>
-					<div>
-						<Header />
-						<Dashboard />
-					</div>
-				</>
-			) : (
-				<>
-					{userData?.status === "Teacher" ? (
-						<>
-							<div>
-								<TeacherHeader />
-								<TeacherDashboard />
-							</div>
-						</>
-					) : (
-						<>
-							{userData?.status === "Student" ? (
-								<>
-									<div>
-										<StudentHeader />
-										<StudentDashboard />
-									</div>
-								</>
-							) : (
-								<div>
-									<Home />
-								</div>
-							)}
-						</>
-					)}
-				</>
-			)}
-		</div>
-	);
+  return (
+    <div>
+      {userData?.status === "School" ? (
+        <>
+          <div>
+            <Header />
+            <Dashboard />
+          </div>
+        </>
+      ) : (
+        <>
+          {userData?.status === "Teacher" ? (
+            <>
+              <div>
+                <TeacherHeader />
+                <TeacherDashboard />
+              </div>
+            </>
+          ) : (
+            <>
+              {userData?.status === "Student" ? (
+                <>
+                  <div>
+                    <StudentHeader />
+                    <StudentDashboard />
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <Home />
+                </div>
+              )}
+            </>
+          )}
+        </>
+      )}
+    </div>
+  );
 };
 
 export default PrivateRoute;
