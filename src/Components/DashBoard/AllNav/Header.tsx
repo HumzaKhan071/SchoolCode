@@ -57,6 +57,8 @@ const Header = () => {
 
   useEffect(() => {
     getSession();
+
+    axios.get(url);
   }, []);
 
   return (
