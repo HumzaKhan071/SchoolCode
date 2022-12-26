@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaSchool, FaBars } from "react-icons/fa";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -11,168 +11,212 @@ import {
 } from "react-icons/ai";
 // import { BsCalendarCheck } from 'react-icons/bs';
 import { SideBarItem } from "./RouterSide";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import img from "./1.jpg";
 import SideBar from "./SideBar";
 import { User } from "../../Global/RecoilState";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
+interface iSession {
+  sessionCode: string;
+  academicSession: string;
+  academicTerm: string;
+}
+
+const url: string = "https://school-code.onrender.com";
 const Header = () => {
-	const user = useRecoilValue(User);
-	const [change, setChange] = React.useState(false);
+  
+  const navigate = useNavigate();
+  const [userState, setUserState] = useRecoilState(User);
+  const [academic, setAcademic] = useState({} as iSession);
+  const user = useRecoilValue(User);
+  const [change, setChange] = React.useState(false);
 
-	const myRef = React.useRef<HTMLDivElement>(null!);
-	const backRef = React.useRef<HTMLDivElement>(null!);
+  const myRef = React.useRef<HTMLDivElement>(null!);
+  const backRef = React.useRef<HTMLDivElement>(null!);
 
-	const changeTrue = () => {
-		setChange(true);
-		myRef.current.style.left = "0px";
-		backRef.current.style.left = "0px";
-	};
-	const changeFalse = () => {
-		setChange(false);
-		myRef.current.style.left = "-300px";
-		backRef.current.style.left = "-2000px";
-	};
-	return (
-		<div>
-			<HeaderDash>
-				<HolderCon>
-					<MenuHold>
-						{change ? (
-							<FaBars fontSize='20px' cursor='pointer' onClick={changeFalse} />
-						) : (
-							<FaBars fontSize='20px' cursor='pointer' onClick={changeTrue} />
-						)}
-					</MenuHold>
-					<LogoName>
-						<MyIcon>
-							<FaSchool
-								style={{
-									color: "white",
-									fontSize: "25px",
-								}}
-							/>
-						</MyIcon>
-						<AdminDetails>
-							<SchoolName>
-								<Title>{user?.schoolName}</Title>
-								<SubTitle>
-									<RiArrowDropDownLine
-										style={{
-											fontSize: "30px",
-											fontWeight: "500",
-											marginTop: "5px",
-										}}
-									/>
-								</SubTitle>
-							</SchoolName>
-							<SchoolId>
-								<div>ID: {user?.schoolCode}</div>
+  const changeTrue = () => {
+    setChange(true);
+    myRef.current.style.left = "0px";
+    backRef.current.style.left = "0px";
+  };
+  const changeFalse = () => {
+    setChange(false);
+    myRef.current.style.left = "-300px";
+    backRef.current.style.left = "-2000px";
+  };
 
-								<span>
-									<AiOutlineCopy
-										style={{
-											fontSize: "15px",
-											fontWeight: "500",
-											color: "blue",
-											marginTop: "2px",
-										}}
-									/>
-								</span>
-							</SchoolId>
-						</AdminDetails>
-					</LogoName>
+  const getSession = async () => {
+    await axios
+      .get(`${url}/api/academic/${user._id}/viewing-present-academic-session`)
+      .then((res) => {
+        setAcademic(res.data.data.academicSession[0]);
+      });
+  };
 
-					<RightCon>
-						<One>
-							<div>
-								<AiOutlineCalendar
-									style={{
-										fontSize: "15px",
-										marginTop: "5px",
-									}}
-								/>
-							</div>
-							<span>Session 2022</span>
-							<div>
-								<RiArrowDropDownLine
-									style={{
-										color: "gray",
-										fontSize: "25px",
-										marginTop: "5px",
-									}}
-								/>
-							</div>
-						</One>
-						<Two>
-							<div>
-								<AiFillQuestionCircle
-									style={{
-										fontSize: "20px",
-										marginTop: "8px",
-									}}
-								/>
-							</div>
-							<span>Help</span>
-						</Two>
-						<Three>
-							<AiFillBell />
-						</Three>
-						<Four>
-							<img src={img} />
-						</Four>
-						<div>
-							<RiArrowDropDownLine
-								style={{
-									color: "gray",
-									fontSize: "25px",
-									marginTop: "5px",
-								}}
-							/>
-						</div>
-					</RightCon>
-				</HolderCon>
-			</HeaderDash>
-			<Side>
-				<ContentDash>
-					{SideBarItem.map((props, index) => (
-						<NavLink
-							to={props.to}
-							style={({ isActive }) => {
-								return {
-									color: isActive ? "#1DA1F2" : "black",
-									textDecoration: isActive ? "none" : " none",
+  useEffect(() => {
+    getSession();
+  }, []);
 
-									borderLeft: isActive
-										? "4px solid #1DA1F2"
-										: "4px solid black",
-									display: isActive ? "flex" : "flex",
-									marginTop: isActive ? "8px" : "8px",
-								};
-							}}>
-							<NavCon>
-								&nbsp;&nbsp;&nbsp;
-								<div> {props.icon(props)}</div>
-								&nbsp;&nbsp;&nbsp;
-								<span> {props.name}</span>
-							</NavCon>
-						</NavLink>
-					))}
-				</ContentDash>
+  return (
+    <div>
+      <HeaderDash>
+        <HolderCon>
+          <MenuHold>
+            {change ? (
+              <FaBars fontSize="20px" cursor="pointer" onClick={changeFalse} />
+            ) : (
+              <FaBars fontSize="20px" cursor="pointer" onClick={changeTrue} />
+            )}
+          </MenuHold>
+          <LogoName>
+            <MyIcon>
+              <FaSchool
+                style={{
+                  color: "white",
+                  fontSize: "25px",
+                }}
+              />
+            </MyIcon>
+            <AdminDetails>
+              <SchoolName>
+                <Title>{user?.schoolName}</Title>
+                <SubTitle>
+                  <RiArrowDropDownLine
+                    style={{
+                      fontSize: "30px",
+                      fontWeight: "500",
+                      marginTop: "5px",
+                    }}
+                  />
+                </SubTitle>
+              </SchoolName>
+              <SchoolId>
+                <div>SCH ID: {user?.schoolCode}</div>
 
-				<LogSide>
-					<Dimge src='/Img/kod.png' />
-				</LogSide>
-			</Side>
+                <span>
+                  <AiOutlineCopy
+                    style={{
+                      fontSize: "15px",
+                      fontWeight: "500",
+                      color: "blue",
+                      marginTop: "2px",
+                    }}
+                  />
+                </span>
+              </SchoolId>
+              <SchoolId>
+                <div>Session Code: {academic?.sessionCode}</div>
+              </SchoolId>
+            </AdminDetails>
+          </LogoName>
 
-			<Back ref={backRef}>
-				<SideHold ref={myRef}>
-					<SideBar changeFalse={changeFalse} />
-				</SideHold>
-			</Back>
-		</div>
-	);
+          <RightCon>
+            <One>
+              <div>
+                <AiOutlineCalendar
+                  style={{
+                    fontSize: "15px",
+                    marginTop: "5px",
+                  }}
+                />
+              </div>
+              <span>Session {academic?.academicSession}</span>
+              <div>
+                <RiArrowDropDownLine
+                  style={{
+                    color: "gray",
+                    fontSize: "25px",
+                    marginTop: "5px",
+                  }}
+                />
+              </div>
+            </One>
+            <Two>
+              <div>
+                <AiFillQuestionCircle
+                  style={{
+                    fontSize: "20px",
+                    marginTop: "8px",
+                  }}
+                />
+              </div>
+              <span>Help</span>
+            </Two>
+            <Three>
+              <AiFillBell />
+            </Three>
+            <Four>
+              <img src={img} />
+            </Four>
+            <div>
+              <RiArrowDropDownLine
+                style={{
+                  color: "gray",
+                  fontSize: "25px",
+                  marginTop: "5px",
+                }}
+              />
+            </div>
+          </RightCon>
+        </HolderCon>
+      </HeaderDash>
+      <Side>
+        <ContentDash>
+          {SideBarItem.map((props: any, index) => (
+            <NavLink
+              to={props.to}
+              style={({ isActive }) => {
+                return {
+                  color: isActive ? "#1DA1F2" : "black",
+                  textDecoration: isActive ? "none" : " none",
+
+                  borderLeft: isActive
+                    ? "4px solid #1DA1F2"
+                    : "4px solid black",
+                  display: isActive ? "flex" : "flex",
+                  marginTop: isActive ? "8px" : "8px",
+                };
+              }}
+            >
+              <NavCon>
+                &nbsp;&nbsp;&nbsp;
+                <div> {props.icon(props)}</div>
+                &nbsp;&nbsp;&nbsp;
+                <span> {props.name}</span>
+              </NavCon>
+            </NavLink>
+          ))}
+        </ContentDash>
+
+        <LogSide
+          onClick={() => {
+            setUserState(null);
+            navigate("/");
+          }}
+        >
+          <Dimge src="/Img/kod.png" />
+          <div
+            style={{
+              fontSize: "14px",
+              fontWeight: "bold",
+              textTransform: "uppercase",
+            }}
+          >
+            Log Out
+          </div>
+        </LogSide>
+      </Side>
+
+      <Back ref={backRef}>
+        <SideHold ref={myRef}>
+          <SideBar changeFalse={changeFalse} />
+        </SideHold>
+      </Back>
+    </div>
+  );
 };
 
 export default Header;
@@ -230,11 +274,16 @@ const Dimge = styled.img`
 `;
 
 const LogSide = styled.div`
-	height: 100px;
-	width: 100%;
-	justify-content: center;
 
-	display: flex;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  height: 100px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
 `;
 
 const NavCon = styled.div`
@@ -327,22 +376,25 @@ const Four = styled.div`
 `;
 
 const Title = styled.div`
-	width: 90px;
-	height: 20px;
-	display: flex;
-	align-items: flex-end;
-	overflow: hidden;
-	font-size: 15px;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+
+  //   width: 90px;
+  height: 20px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  font-size: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
 `;
 const SubTitle = styled.div``;
 
 const SchoolName = styled.div`
-	height: 25px;
-	width: 150px;
-	display: flex;
-	align-items: center;
+
+  height: 25px;
+  //   width: 150px;
+  display: flex;
+  align-items: center;
 `;
 const SchoolId = styled.div`
 	margin-top: -7px;
@@ -356,13 +408,15 @@ const SchoolId = styled.div`
 `;
 
 const MyIcon = styled.div`
-	width: 48px;
-	height: 48px;
-	border-radius: 50%;
-	background-color: #1da1f2;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #1da1f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
 `;
 const AdminDetails = styled.div`
 	height: 70%;
@@ -402,6 +456,7 @@ const HolderCon = styled.div`
 `;
 
 const HeaderDash = styled.div`
+
 	width: 100%;
 	height: 60px;
 	display: flex;
@@ -413,6 +468,7 @@ const HeaderDash = styled.div`
 	box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
 		rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
 		rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+
 `;
 
 const Side = styled.div`
