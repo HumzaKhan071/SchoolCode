@@ -13,284 +13,332 @@ function Academics() {
 					<Button>Create Teacher</Button>
 				</Hols>
 				<br />
-				<BoxHold>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-					<TeaqcherCard>
-						<TeachHold>
-							<TeacherImage src='/img/prof.png' />
-							<Main>
-								<Div>Gideon ekeke</Div>
-								<P>Gideonekeke64@gmail.com</P>
-								<div
-									style={{
-										fontSize: "10px",
-										display: "flex",
-										alignItems: "center",
-									}}>
-									<div>Position </div> : Teacher
-								</div>
-
-								<Cal>Class : Nursery2</Cal>
-							</Main>
-						</TeachHold>
-					</TeaqcherCard>
-				</BoxHold>
-
 				{/* <BoxHold>
-					<BoxImag  />
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
+					<TeaqcherCard>
+						<TeachHold>
+							<TeacherImage src='/img/prof.png' />
+							<Main>
+								<Div>Gideon ekeke</Div>
+								<P>Gideonekeke64@gmail.com</P>
+								<div
+									style={{
+										fontSize: "10px",
+										display: "flex",
+										alignItems: "center",
+									}}>
+									<div>Position </div> : Teacher
+								</div>
+
+								<Cal>Class : Nursery2</Cal>
+							</Main>
+						</TeachHold>
+					</TeaqcherCard>
 				</BoxHold> */}
+
+				<BoxHold1>
+					<BoxImag src='/img/emp.gif' />
+					<h3>Add Teacher to your institute.</h3>
+					<p>
+						Your institute has no teacher yet. Added classrooms will appear
+						here.
+					</p>
+					<Button2>Create Teacher</Button2>
+				</BoxHold1>
 			</Holder>
 		</Container>
 	);
 }
 
 export default Academics;
+
+const Button2 = styled.div`
+	height: 40px;
+	width: 200px;
+	background-color: none;
+	color: #1da1f2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	border: 1px solid #1da1f2;
+	cursor: pointer;
+	transition: all 350ms;
+
+	:hover {
+		transform: scale(0.97);
+	}
+`;
+
+const BoxHold1 = styled.div`
+	min-height: 70vh;
+	width: 100%;
+	background-color: white;
+	border-radius: 5px;
+	display: flex;
+
+	justify-content: center;
+	max-height: 70vh;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+
+	h3 {
+		margin: 0;
+	}
+
+	/* align-items: center; */
+`;
+
+const BoxImag = styled.img`
+	height: 200px;
+`;
 
 const Cal = styled.div``;
 const P = styled.div`
@@ -349,6 +397,12 @@ const Button = styled.div`
 	align-items: center;
 	border-radius: 5px;
 	cursor: pointer;
+
+	transition: all 350ms;
+
+	:hover {
+		transform: scale(0.97);
+	}
 
 	@media screen and (max-width: 760px) {
 		width: 120px;
