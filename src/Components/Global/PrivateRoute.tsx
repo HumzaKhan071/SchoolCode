@@ -4,7 +4,7 @@ import Dashboard from "../DashBoard/AdminDash/Screen/Dashboard";
 import Header from "../DashBoard/AllNav/Header";
 import StudentDashboard from "../DashBoard/StudentDash/StudentDashboard";
 import StudentHeader from "../DashBoard/StudentDash/StudentNav/StudenHeader";
-import TeacherDashboard from "../DashBoard/TeacherDash/TeacherDashboard";
+import TeacherDashboard from "../DashBoard/TeacherDash/TeacherComp/TeacherDashboard";
 import TeacherHeader from "../DashBoard/TeacherDash/TeacherNav/TeacherHeader";
 import Home from "../Home/Home";
 import { User } from "./RecoilState";
