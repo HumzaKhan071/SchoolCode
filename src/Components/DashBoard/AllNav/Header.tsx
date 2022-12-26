@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaSchool, FaBars } from "react-icons/fa";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -11,13 +11,25 @@ import {
 } from "react-icons/ai";
 // import { BsCalendarCheck } from 'react-icons/bs';
 import { SideBarItem } from "./RouterSide";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import img from "./1.jpg";
 import SideBar from "./SideBar";
 import { User } from "../../Global/RecoilState";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
+interface iSession {
+  sessionCode: string;
+  academicSession: string;
+  academicTerm: string;
+}
+
+const url: string = "https://school-code.onrender.com";
 const Header = () => {
+  const navigate = useNavigate();
+  const [userState, setUserState] = useRecoilState(User);
+  const [academic, setAcademic] = useState({} as iSession);
   const user = useRecoilValue(User);
   const [change, setChange] = React.useState(false);
 
@@ -34,6 +46,19 @@ const Header = () => {
     myRef.current.style.left = "-300px";
     backRef.current.style.left = "-2000px";
   };
+
+  const getSession = async () => {
+    await axios
+      .get(`${url}/api/academic/${user._id}/viewing-present-academic-session`)
+      .then((res) => {
+        setAcademic(res.data.data.academicSession[0]);
+      });
+  };
+
+  useEffect(() => {
+    getSession();
+  }, []);
+
   return (
     <div>
       <HeaderDash>
@@ -81,6 +106,9 @@ const Header = () => {
                   />
                 </span>
               </SchoolId>
+              <SchoolId>
+                <div>Session Code: {academic?.sessionCode}</div>
+              </SchoolId>
             </AdminDetails>
           </LogoName>
 
@@ -94,7 +122,7 @@ const Header = () => {
                   }}
                 />
               </div>
-              <span>Session 2022</span>
+              <span>Session {academic?.academicSession}</span>
               <div>
                 <RiArrowDropDownLine
                   style={{
@@ -136,7 +164,7 @@ const Header = () => {
       </HeaderDash>
       <Side>
         <ContentDash>
-          {SideBarItem.map((props, index) => (
+          {SideBarItem.map((props: any, index) => (
             <NavLink
               to={props.to}
               style={({ isActive }) => {
@@ -162,8 +190,22 @@ const Header = () => {
           ))}
         </ContentDash>
 
-        <LogSide>
+        <LogSide
+          onClick={() => {
+            setUserState(null);
+            navigate("/");
+          }}
+        >
           <Dimge src="/Img/kod.png" />
+          <div
+            style={{
+              fontSize: "14px",
+              fontWeight: "bold",
+              textTransform: "uppercase",
+            }}
+          >
+            Log Out
+          </div>
         </LogSide>
       </Side>
 
@@ -231,10 +273,14 @@ const Dimge = styled.img`
 `;
 
 const LogSide = styled.div`
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
   height: 100px;
   width: 100%;
   justify-content: center;
-
+  align-items: center;
+  flex-direction: column;
   display: flex;
 `;
 
@@ -328,7 +374,7 @@ const Four = styled.div`
 `;
 
 const Title = styled.div`
-  width: 90px;
+  //   width: 90px;
   height: 20px;
   display: flex;
   align-items: flex-end;
@@ -341,7 +387,7 @@ const SubTitle = styled.div``;
 
 const SchoolName = styled.div`
   height: 25px;
-  width: 150px;
+  //   width: 150px;
   display: flex;
   align-items: center;
 `;
@@ -364,6 +410,7 @@ const MyIcon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 5px;
 `;
 const AdminDetails = styled.div`
   height: 70%;
@@ -404,7 +451,7 @@ const HolderCon = styled.div`
 
 const HeaderDash = styled.div`
   swidth: 100%;
-  height: 60px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
