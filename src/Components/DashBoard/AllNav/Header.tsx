@@ -93,7 +93,7 @@ const Header = () => {
                 </SubTitle>
               </SchoolName>
               <SchoolId>
-                <div>ID: {user?.schoolCode}</div>
+                <div>SCH ID: {user?.schoolCode}</div>
 
                 <span>
                   <AiOutlineCopy

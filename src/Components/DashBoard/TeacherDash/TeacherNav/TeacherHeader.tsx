@@ -93,8 +93,8 @@ const TeacherHeader = () => {
                   />
                 </SubTitle>
               </SchoolName>
-              <SchoolId>
-                <div>SCH: {user?.schoolName}</div>
+              <SchoolId style={{ marginTop: "2px" }}>
+                <div>Session Code: {academic?.sessionCode}</div>
 
                 <span>
                   <AiOutlineCopy
@@ -108,18 +108,7 @@ const TeacherHeader = () => {
                 </span>
               </SchoolId>
               <SchoolId>
-                <div>Session Code: {academic?.sessionCode}</div>
-                {/* 
-                <span>
-                  <AiOutlineCopy
-                    style={{
-                      fontSize: "15px",
-                      fontWeight: "500",
-                      color: "blue",
-                      marginTop: "2px",
-                    }}
-                  />
-                </span> */}
+                <div>SCH: {user?.schoolName}</div>
               </SchoolId>
             </AdminDetails>
           </LogoName>
