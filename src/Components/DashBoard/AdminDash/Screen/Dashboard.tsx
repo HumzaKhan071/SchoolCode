@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { GrFormNext } from "react-icons/gr";
 import { FaMoneyBillAlt } from "react-icons/fa";
 import { BsPersonSquare } from "react-icons/bs";
+import { useRecoilValue } from "recoil";
+import { User } from "../../../Global/RecoilState";
+import axios from "axios";
+
+const url: string = "https://school-code.onrender.com";
+
+interface iData {
+	teachers: [];
+	students: [];
+	classes: [];
+}
 
 const Dashboard = () => {
+	const [schoolData, setSchoolData] = useState({} as iData);
+	const user = useRecoilValue(User);
+
+	const getCount = async () => {
+		await axios.get(`${url}/api/school/${user._id}`).then((res) => {
+			setSchoolData(res.data.data);
+			console.log(res.data.data.teachers.length);
+		});
+	};
+	useEffect(() => {
+		getCount();
+	}, []);
 	return (
 		<Container>
 			<Content>
@@ -13,7 +36,7 @@ const Dashboard = () => {
 					<MainHold>
 						<OverCard>
 							<CountHold>
-								<Cont>0</Cont>
+								<Cont>{schoolData?.teachers?.length}</Cont>
 								<Text>Teachers</Text>
 							</CountHold>
 							<IconHold bg='#fdf4e6'>
@@ -22,7 +45,7 @@ const Dashboard = () => {
 						</OverCard>
 						<OverCard>
 							<CountHold>
-								<Cont>0</Cont>
+								<Cont>{schoolData?.classes?.length}</Cont>
 								<Text>Classrooms</Text>
 							</CountHold>
 							<IconHold bg='#EAF9FF'>
@@ -31,7 +54,7 @@ const Dashboard = () => {
 						</OverCard>
 						<OverCard>
 							<CountHold>
-								<Cont>0</Cont>
+								<Cont>{schoolData?.students?.length}</Cont>
 								<Text>Students</Text>
 							</CountHold>
 							<IconHold bg='#EDE8FF'>

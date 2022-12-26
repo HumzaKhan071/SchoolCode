@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { User } from "../../../Global/RecoilState";
+import CreateStudent from "../CreateStudent";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -13,91 +14,107 @@ interface iTeacher {
 	image: string;
 }
 
-function Academics() {
+function Students() {
+	const [show, setShow] = React.useState(false);
 	const user = useRecoilValue(User);
-	const [teacher, setTeacher] = useState([] as iTeacher[]);
+	const [student, setStudent] = useState([] as iTeacher[]);
 
 	const getTeacher = async () => {
-		const newURL = `${url}/api/school/${user._id}/teachers`;
+		const newURL = `${url}/api/school/${user._id}/students`;
 		await axios.get(newURL).then((res) => {
-			setTeacher(res.data.data.teachers);
+			setStudent(res.data.data.students);
 		});
+	};
+
+	const toggleShow = () => {
+		setShow(!show);
 	};
 
 	useEffect(() => {
 		getTeacher();
 	}, []);
+
+	React.useEffect(() => {
+		if (show) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "unset";
+		}
+	}, [show]);
 	return (
-		<Container>
-			<Holder>
-				<Hols>
-					<Hold>
-						<h3>Teachers</h3>
-						<Span>Dashboard / Teachers</Span>
-					</Hold>
-					<Input placeholder='Enter teacher name....' />
-				</Hols>
-				<br />
+		<>
+			{show ? <CreateStudent toggleShow={toggleShow} /> : null}
 
-				{teacher?.length >= 1 ? (
-					<BoxHold>
-						{teacher?.map((props) => (
-							<TeaqcherCard>
-								<TeachHold>
-									<TeacherImage src='/img/prof.png' />
-									<Main>
-										<Div>{props.name}</Div>
-										<P>{props.email}</P>
-										<div
-											style={{
-												fontSize: "10px",
-												display: "flex",
-												alignItems: "center",
-											}}>
-											<div>Position </div> : Teacher
-										</div>
+			<Container>
+				<Holder>
+					<Hols>
+						<Hold>
+							<h3>Students</h3>
+							<Span>Dashboard / Students</Span>
+						</Hold>
+						<Button onClick={toggleShow}>Create Student</Button>
+					</Hols>
+					<br />
 
-										<Cal>Class : {props.classes}</Cal>
-									</Main>
-								</TeachHold>
-							</TeaqcherCard>
-						))}
-					</BoxHold>
-				) : (
-					<BoxHold1>
-						<BoxImag src='/img/emp.gif' />
-						<h3>Add Teacher to your institute.</h3>
-						<p>
-							Your institute has no teacher yet. Added classrooms will appear
-							here.
-						</p>
-					</BoxHold1>
-				)}
+					{student?.length >= 1 ? (
+						<BoxHold>
+							{student?.map((props) => (
+								<TeaqcherCard>
+									<TeachHold>
+										<TeacherImage src='/img/prof.png' />
+										<Main>
+											<Div>{props.name}</Div>
+											<P>{props.email}</P>
+											<div
+												style={{
+													fontSize: "10px",
+													display: "flex",
+													alignItems: "center",
+												}}>
+												<div>Position </div> : Student
+											</div>
 
-				{/* <BoxHold>
-				
+											<Cal>Class : {props.classes}</Cal>
+										</Main>
+									</TeachHold>
+								</TeaqcherCard>
+							))}
+						</BoxHold>
+					) : (
+						<BoxHold1>
+							<BoxImag src='/img/emp.gif' />
+							<h3>Add Student to your institute.</h3>
+							<p>
+								Your institute has no Students yet. Added classrooms will appear
+								here.
+							</p>
+							<Button2 onClick={toggleShow}>Create Student</Button2>
+						</BoxHold1>
+					)}
+
+					{/* <BoxHold>
 					<BoxImag  />
 				</BoxHold> */}
-			</Holder>
-		</Container>
+				</Holder>
+			</Container>
+		</>
 	);
 }
 
-export default Academics;
+export default Students;
 
-const Input = styled.input`
+const Button2 = styled.div`
 	height: 40px;
 	width: 200px;
 	background-color: none;
-	color: black;
+	color: #1da1f2;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-radius: 5px;
-	padding-left: 10px;
 	border: 1px solid #1da1f2;
+	cursor: pointer;
 	transition: all 350ms;
-	outline: none;
 
 	:hover {
 		transform: scale(0.97);
