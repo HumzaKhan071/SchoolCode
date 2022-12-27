@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaChalkboardTeacher, FaSchool } from "react-icons/fa";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { IoQrCode } from "react-icons/io5";
@@ -6,10 +6,36 @@ import styled from "styled-components";
 import { BsFillDisplayFill } from "react-icons/bs";
 import { VscSymbolClass } from "react-icons/vsc";
 import { IoIosPeople } from "react-icons/io";
-import DoughnutChart from "./DoughnutChart";
-import PieChart from "./PieChart";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { User } from "../../../Global/RecoilState";
+import { useNavigate } from "react-router";
+import axios from "axios";
+// import DoughnutChart from "./DoughnutChart";
+// import PieChart from "./PieChart";
+
+interface iTeacher {
+  name: string;
+  schoolName: string;
+  email: string;
+}
+const url: string = "https://school-code.onrender.com";
 
 const TeacherDashboard = () => {
+  const navigate = useNavigate();
+  const [userState, setUserState] = useRecoilState(User);
+  const [change, setChange] = React.useState(false);
+  const user = useRecoilValue(User);
+  const [teacher, setTeacher] = useState({} as iTeacher);
+
+  const getSession = async () => {
+    await axios.get(`${url}/api/teacher/${user._id}/`).then((res) => {
+      setTeacher(res.data.data);
+    });
+  };
+
+  useEffect(() => {
+    getSession();
+  }, []);
   return (
     <Container>
       <Wrapper>
@@ -21,7 +47,7 @@ const TeacherDashboard = () => {
               <FaSchool />{" "}
             </BoxOneIconHold>
             <span>
-              School Name: <strong> Full Page </strong>{" "}
+              School Name: <strong> {teacher.schoolName} </strong>{" "}
             </span>
           </Boxes>
           <Boxes>
@@ -30,7 +56,7 @@ const TeacherDashboard = () => {
               <MdAdminPanelSettings />{" "}
             </BoxOneIconHold>
             <span>
-              Teacher's Name: <strong> Mr Ubani </strong>
+              Teacher's Name: <strong> {teacher.name} </strong>
             </span>
           </Boxes>
           <Boxes>
@@ -39,7 +65,7 @@ const TeacherDashboard = () => {
               <IoQrCode />{" "}
             </BoxOneIconHold>
             <span>
-              School Code: <strong> 45266s556fs65w </strong>
+              School Code: <strong> {teacher.email} </strong>
             </span>
           </Boxes>
         </RowOne>
@@ -74,12 +100,8 @@ const TeacherDashboard = () => {
               <small>Total Students</small>
             </InnerBox>
           </FirstBox>
-          <SecondBox>
-            <DoughnutChart />
-          </SecondBox>
-          <ThirdBox>
-            <PieChart />
-          </ThirdBox>
+          <SecondBox>{/* <DoughnutChart /> */}</SecondBox>
+          <ThirdBox>{/* <PieChart /> */}</ThirdBox>
         </RowTwo>
       </Wrapper>
     </Container>
@@ -199,6 +221,8 @@ const InnerBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+
   span {
     font-weight: 700;
   }
