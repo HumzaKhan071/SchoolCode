@@ -12,6 +12,7 @@ interface iTeacher {
   name: string;
   email: string;
   image: string;
+  subjectTaken: any[];
 }
 
 function Academics() {
@@ -23,11 +24,10 @@ function Academics() {
     const newURL = `${url}/api/school/${user._id}/teachers`;
     await axios.get(newURL).then((res) => {
       setTeacher(res.data.data.teachers);
+
       setLoad(false);
     });
   };
-
-  console.log("this is user", user);
 
   useEffect(() => {
     getTeacher();
@@ -63,7 +63,46 @@ function Academics() {
                       <div>Position </div> : Teacher
                     </div>
 
-                    <Cal>Class : {props.classes}</Cal>
+                    <Cal>
+                      Class :{" "}
+                      <div style={{ display: "flex" }}>
+                        {props.classes ? (
+                          <div
+                            style={{
+                              marginTop: "2px",
+                              marginLeft: "5px",
+                              fontWeight: "500",
+                            }}
+                          >
+                            {" "}
+                            {props.classes}
+                          </div>
+                        ) : (
+                          <div
+                            style={{
+                              fontSize: "12px",
+                              marginTop: "2px",
+                              marginLeft: "5px",
+                            }}
+                          >
+                            Not yet assigned
+                          </div>
+                        )}
+                      </div>
+                    </Cal>
+
+                    <Cal>
+                      Subject Taken:
+                      {props.subjectTaken.length < 1 ? (
+                        <div>
+                          {props.subjectTaken.map((props, i) => (
+                            <Curve key={i}>{props}</Curve>
+                          ))}
+                        </div>
+                      ) : (
+                        <Curve>Not yet Assigned</Curve>
+                      )}
+                    </Cal>
                   </Main>
                 </TeachHold>
               </TeaqcherCard>
@@ -101,6 +140,15 @@ function Academics() {
 }
 
 export default Academics;
+
+const Curve = styled.input`
+padding: 2px 8px;
+font-size: 12px,
+font-weight: bold
+color:white;
+background-color: #000269;
+border-radius: 30px
+`;
 
 const Input = styled.input`
   height: 40px;
@@ -145,7 +193,12 @@ const BoxImag = styled.img`
   height: 200px;
 `;
 
-const Cal = styled.div``;
+const Cal = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+`;
 const P = styled.div`
   font-size: 10px;
 `;
@@ -156,6 +209,7 @@ const TeaqcherCard = styled.div`
   border-radius: 5px;
   margin: 10px;
   box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+  padding: 10px 0;
 `;
 const TeachHold = styled.div`
   display: flex;
@@ -172,6 +226,7 @@ const TeacherImage = styled.img`
 const Main = styled.div``;
 const Div = styled.div`
   font-weight: bold;
+  text-transform: uppercase;
 `;
 
 const BoxHold = styled.div`

@@ -26,7 +26,6 @@ const SessionDrop: React.FC<Iprops> = ({ toggleDrop, academic }) => {
   const viewSession = async () => {
     const newUrl = `${url}/api/academic/${user._id}/view-academic-sessions`;
     await axios.get(newUrl).then((res) => {
-      console.log("viewing session:: ", res);
       setMySession(res.data.data.academicSession);
     });
   };

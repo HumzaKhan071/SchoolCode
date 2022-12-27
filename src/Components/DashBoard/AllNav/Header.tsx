@@ -36,13 +36,20 @@ const Header = () => {
   const user = useRecoilValue(User);
   const [change, setChange] = React.useState(false);
   const [showSession, setShowSession] = React.useState(false);
+  const [showMySession, setShowMySession] = React.useState(false);
   const [showDrop, setShowDrop] = React.useState(false);
 
   const myRef = React.useRef<HTMLDivElement>(null!);
   const backRef = React.useRef<HTMLDivElement>(null!);
+
   const toggleSession = () => {
     setShowSession(!showSession);
   };
+
+  const toggleShowSession = () => {
+    setShowMySession(!showMySession);
+  };
+
   const toggleDrop = () => {
     setShowDrop(!showDrop);
   };
@@ -141,7 +148,7 @@ const Header = () => {
           </LogoName>
 
           <RightCon>
-            <One onClick={toggleSession}>
+            <One onClick={toggleShowSession}>
               <div>
                 <AiOutlineCalendar
                   style={{
@@ -162,7 +169,7 @@ const Header = () => {
                   }}
                 />
               </div>
-              {showSession ? (
+              {showMySession ? (
                 <SessionDrop academic={academic} toggleDrop={toggleDrop} />
               ) : null}
             </One>

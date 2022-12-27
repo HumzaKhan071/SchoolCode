@@ -22,7 +22,6 @@ const Dashboard = () => {
   const getCount = async () => {
     await axios.get(`${url}/api/school/${user._id}`).then((res) => {
       setSchoolData(res.data.data);
-      console.log(res.data.data.teachers.length);
     });
   };
   useEffect(() => {
