@@ -129,11 +129,6 @@ function Academics() {
             )}
           </BoxHold1>
         )}
-
-        {/* <BoxHold>
-
-					<BoxImag  />
-				</BoxHold> */}
       </Holder>
     </Container>
   );

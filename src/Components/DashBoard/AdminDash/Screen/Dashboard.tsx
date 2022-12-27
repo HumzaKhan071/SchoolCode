@@ -6,6 +6,8 @@ import { BsPersonSquare } from "react-icons/bs";
 import { useRecoilValue } from "recoil";
 import { User } from "../../../Global/RecoilState";
 import axios from "axios";
+import CreateClassRoom from "./Homeforms/CreateClassRoom";
+import MyForm from "./Homeforms/MyForm";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -24,6 +26,54 @@ const Dashboard = () => {
       setSchoolData(res.data.data);
     });
   };
+
+  const [announcement, setAnnouncement] = useState(false);
+  const [classRoom, setClassRoom] = useState(false);
+  const [event, setEvent] = useState(false);
+  const [subject, setSubject] = useState(false);
+  const [show, setShow] = useState(false);
+  const [name, setName] = useState("");
+
+  const toggleAnnouncement = () => {
+    setAnnouncement(!announcement);
+  };
+
+  const toggleClassRoom = () => {
+    setClassRoom(!classRoom);
+  };
+
+  const toggleEvent = () => {
+    setEvent(!event);
+  };
+
+  const toggleSubject = () => {
+    setSubject(!subject);
+  };
+
+  const createClassRoom = async () => {
+    setShow(true);
+    const newUrl = `${url}/api/class/${user._id}/create-class`;
+    await axios
+      .post(newUrl, {
+        className: name,
+      })
+      .then((res) => {
+        setShow(false);
+      });
+  };
+
+  const createSubject = async () => {
+    setShow(true);
+    const newUrl = `${url}/api/class/${user._id}/create-class`;
+    await axios
+      .post(newUrl, {
+        className: name,
+      })
+      .then((res) => {
+        setShow(false);
+      });
+  };
+
   useEffect(() => {
     getCount();
   }, []);
@@ -207,7 +257,84 @@ const Dashboard = () => {
           <span>Quick Actions</span>
           <Card>
             <MyDiv>Share information with teachers and students</MyDiv>
-            <Button>Create Announcement</Button>
+            <Button bg="black" col="black" onClick={toggleAnnouncement}>
+              Create Announcement
+            </Button>
+            {announcement ? (
+              <MyForm
+                title1="Enter The Announcement to be made"
+                holder="Enter the class Name: eg SS3A"
+                toggle={toggleAnnouncement}
+                title="Make Annonucement"
+                subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+                mainAction={createClassRoom}
+                show={show}
+                setName={setName}
+                one={false}
+                two={false}
+              />
+            ) : null}
+
+            <Button bg="#ED931A" col="black" onClick={toggleEvent}>
+              Create Event
+            </Button>
+
+            {event ? (
+              <MyForm
+                title1="Create an Event"
+                holder="Enter Event title:EG Inner house Sport"
+                toggle={toggleEvent}
+                title="create new Event"
+                subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+                mainAction={createClassRoom}
+                show={show}
+                setName={setName}
+                one={false}
+                two={false}
+              />
+            ) : null}
+
+            <Button bg="#0FBBFE" col="" onClick={toggleClassRoom}>
+              Create ClassRoom
+            </Button>
+            {classRoom ? (
+              <MyForm
+                title1="Name the Class"
+                holder="Enter the class Name: eg SS3A"
+                toggle={toggleClassRoom}
+                title="Create ClassRoom"
+                subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+                mainAction={createClassRoom}
+                show={show}
+                setName={setName}
+                one={false}
+                two={false}
+              />
+            ) : null}
+
+            <Button bg="#8E6AFF" col="" onClick={toggleSubject}>
+              Create Subject
+            </Button>
+            {subject ? (
+              <MyForm
+                holder="Enter the class Name: eg SS3A"
+                toggle={toggleSubject}
+                title="Create Subject"
+                title1="Subject Name"
+                title2="Class Code"
+                title3="subject Teacher"
+                subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+                mainAction={createSubject}
+                show={show}
+                setName={setName}
+                one={true}
+                two={true}
+              />
+            ) : null}
           </Card>
           <AnnounceCard>anouncements list</AnnounceCard>
         </Second>
@@ -364,12 +491,15 @@ const IconHold = styled.div<{ bg: string }>`
   }
 `;
 
-const Button = styled.button`
+const Button = styled.button<{
+  bg: string;
+  col: string;
+}>`
+  background-color: ${({ bg }) => bg};
+  color: ${({ col }) => col};
   height: 40px;
   width: 100%;
   margin-top: 10px;
-  /* padding: 25px 50px; */
-  background-color: #1da1f2;
   color: white;
   border: none;
   outline: none;
@@ -379,8 +509,10 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  font-family: Poppins;
   margin-bottom: 10px;
+  text-transform: uppercase;
+  font-size: 13px;
 
   :hover {
     transform: scale(0.95);
