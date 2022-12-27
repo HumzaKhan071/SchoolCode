@@ -17,6 +17,7 @@ interface iTeacher {
   name: string;
   schoolName: string;
   email: string;
+  classes: string;
 }
 const url: string = "https://school-code.onrender.com";
 
@@ -30,6 +31,7 @@ const TeacherDashboard = () => {
   const getSession = async () => {
     await axios.get(`${url}/api/teacher/${user._id}/`).then((res) => {
       setTeacher(res.data.data);
+      console.log(teacher);
     });
   };
 
@@ -65,7 +67,7 @@ const TeacherDashboard = () => {
               <IoQrCode />{" "}
             </BoxOneIconHold>
             <span>
-              School Code: <strong> {teacher.email} </strong>
+              Class Teacher of: <strong> {teacher.classes} </strong>
             </span>
           </Boxes>
         </RowOne>
