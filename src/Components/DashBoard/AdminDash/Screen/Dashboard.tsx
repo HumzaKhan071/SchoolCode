@@ -32,7 +32,14 @@ const Dashboard = () => {
   const [event, setEvent] = useState(false);
   const [subject, setSubject] = useState(false);
   const [show, setShow] = useState(false);
+
   const [name, setName] = useState("");
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
+
+  const [name3, setName3] = useState("");
+  const [name4, setName4] = useState("");
+  const [name5, setName5] = useState("");
 
   const toggleAnnouncement = () => {
     setAnnouncement(!announcement);
@@ -56,6 +63,7 @@ const Dashboard = () => {
     await axios
       .post(newUrl, {
         className: name,
+        classCode: name2,
       })
       .then((res) => {
         setShow(false);
@@ -64,10 +72,43 @@ const Dashboard = () => {
 
   const createSubject = async () => {
     setShow(true);
-    const newUrl = `${url}/api/class/${user._id}/create-class`;
+    const newUrl = `${url}/api/subject/${user._id}/create-class-subject`;
     await axios
       .post(newUrl, {
-        className: name,
+        subjectName: name,
+        classCode: name1,
+        subjectTeacher: name2,
+      })
+      .then((res) => {
+        setShow(false);
+      });
+  };
+
+  const createAnnouncement = async () => {
+    setShow(true);
+    const newUrl = `${url}/api/announcement/${user._id}/create-announcement`;
+    await axios
+      .post(newUrl, {
+        title: name,
+        code: name1,
+        detail: name2,
+      })
+      .then((res) => {
+        setShow(false);
+      });
+  };
+
+  const createEvent = async () => {
+    setShow(true);
+    const newUrl = `${url}/api/announcement/${user._id}/create-announcement`;
+    await axios
+      .post(newUrl, {
+        title: name,
+        desc: name1,
+        month: name2,
+        time: name3,
+        year: name4,
+        fixedData: name5,
       })
       .then((res) => {
         setShow(false);
@@ -263,16 +304,28 @@ const Dashboard = () => {
             {announcement ? (
               <MyForm
                 title1="Enter The Announcement to be made"
-                holder="Enter the class Name: eg SS3A"
+                holder="Enter Annonucement"
+                holder1="Enter session code"
+                holder2="Enter Annonucement Details"
                 toggle={toggleAnnouncement}
                 title="Make Annonucement"
+                title2="Enter session code"
+                title3="Enter Annonucement details"
                 subTitle=" By creating a class room, this new class will be added to your list
                 of class rooms."
-                mainAction={createClassRoom}
+                mainAction={createAnnouncement}
                 show={show}
                 setName={setName}
-                one={false}
-                two={false}
+                setName2={setName2}
+                setName1={setName1}
+                setName3={setName3}
+                setName4={setName4}
+                setName5={setName5}
+                one={true}
+                two={true}
+                three={false}
+                four={false}
+                five={false}
               />
             ) : null}
 
@@ -282,17 +335,35 @@ const Dashboard = () => {
 
             {event ? (
               <MyForm
-                title1="Create an Event"
-                holder="Enter Event title:EG Inner house Sport"
+                holder="Enter Event title:EG Football Match"
+                holder1="A time to wine and dine with the Football pitch"
+                holder2="Enter Event title:EG Inner house Sport"
+                holder3="Enter Event title:EG Inner house Sport"
+                holder4="Enter Event title:EG Inner house Sport"
+                holder5="Enter Event title:EG Inner house Sport"
+                mainAction={createEvent}
                 toggle={toggleEvent}
                 title="create new Event"
+                title1="Enter event description"
+                title2="Month of Event"
+                title3="create new Event"
+                title4="create new Event"
+                title5="create new Event"
+                title6="create new Event"
                 subTitle=" By creating a class room, this new class will be added to your list
                 of class rooms."
-                mainAction={createClassRoom}
                 show={show}
                 setName={setName}
-                one={false}
-                two={false}
+                setName1={setName1}
+                setName2={setName2}
+                setName3={setName3}
+                setName4={setName4}
+                setName5={setName5}
+                one={true}
+                two={true}
+                three={true}
+                four={true}
+                five={true}
               />
             ) : null}
 
@@ -302,7 +373,9 @@ const Dashboard = () => {
             {classRoom ? (
               <MyForm
                 title1="Name the Class"
+                title2="class school Fee"
                 holder="Enter the class Name: eg SS3A"
+                holder1="Enter class School Fee"
                 toggle={toggleClassRoom}
                 title="Create ClassRoom"
                 subTitle=" By creating a class room, this new class will be added to your list
@@ -310,8 +383,16 @@ const Dashboard = () => {
                 mainAction={createClassRoom}
                 show={show}
                 setName={setName}
-                one={false}
+                setName1={setName1}
+                setName2={setName2}
+                setName3={setName3}
+                setName4={setName4}
+                setName5={setName5}
+                one={true}
                 two={false}
+                three={false}
+                four={false}
+                five={false}
               />
             ) : null}
 
@@ -331,8 +412,16 @@ const Dashboard = () => {
                 mainAction={createSubject}
                 show={show}
                 setName={setName}
+                setName1={setName1}
+                setName2={setName2}
+                setName3={setName3}
+                setName4={setName4}
+                setName5={setName5}
                 one={true}
                 two={true}
+                three={false}
+                four={false}
+                five={false}
               />
             ) : null}
           </Card>

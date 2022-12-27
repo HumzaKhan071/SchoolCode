@@ -16,12 +16,28 @@ interface iProps {
   title1?: string;
   title2?: string;
   title3?: string;
+  title4?: string;
+  title5?: string;
+  title6?: string;
   subTitle?: string;
   holder?: string;
+  holder1?: string;
+  holder2?: string;
+  holder3?: string;
+  holder4?: string;
+  holder5?: string;
   show: boolean;
   setName: React.Dispatch<React.SetStateAction<string>>;
+  setName3: React.Dispatch<React.SetStateAction<string>>;
+  setName4: React.Dispatch<React.SetStateAction<string>>;
+  setName5: React.Dispatch<React.SetStateAction<string>>;
+  setName1: React.Dispatch<React.SetStateAction<string>>;
+  setName2: React.Dispatch<React.SetStateAction<string>>;
   one: boolean;
   two: boolean;
+  three: boolean;
+  four: boolean;
+  five: boolean;
 }
 
 const url: string = "https://school-code.onrender.com";
@@ -33,15 +49,31 @@ const MyForm: React.FC<iProps> = ({
   mainAction,
   one,
   two,
+  three,
+  four,
+  five,
   show,
   title1,
   title2,
   title3,
+  title4,
+  title5,
+  title6,
   holder,
+  holder1,
+  holder2,
+  holder3,
+  holder4,
+  holder5,
 }) => {
   const [term, setTerm] = useState("");
   //   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
+  const [name5, setName5] = useState("");
+  const [name3, setName4] = useState("");
+  const [name4, setName3] = useState("");
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
   const user = useRecoilValue(User);
 
   return (
@@ -73,9 +105,9 @@ const MyForm: React.FC<iProps> = ({
               <>
                 <Title>{title2}:</Title>
                 <Input
-                  placeholder={`${holder}`}
+                  placeholder={`${holder1}`}
                   onChange={(e) => {
-                    setName(e.target.value);
+                    setName1(e.target.value);
                   }}
                   required
                 />
@@ -84,11 +116,50 @@ const MyForm: React.FC<iProps> = ({
             <br />
             {two ? (
               <>
-                <Title>{title2}:</Title>
+                <Title>{title3}:</Title>
                 <Input
-                  placeholder={`${holder}`}
+                  placeholder={`${holder2}`}
                   onChange={(e) => {
-                    setName(e.target.value);
+                    setName2(e.target.value);
+                  }}
+                  required
+                />
+              </>
+            ) : null}{" "}
+            <br />
+            {three ? (
+              <>
+                <Title>{title4}:</Title>
+                <Input
+                  placeholder={`${holder3}`}
+                  onChange={(e) => {
+                    setName3(e.target.value);
+                  }}
+                  required
+                />
+              </>
+            ) : null}{" "}
+            <br />
+            {four ? (
+              <>
+                <Title>{title5}:</Title>
+                <Input
+                  placeholder={`${holder4}`}
+                  onChange={(e) => {
+                    setName4(e.target.value);
+                  }}
+                  required
+                />
+              </>
+            ) : null}{" "}
+            <br />
+            {five ? (
+              <>
+                <Title>{title6}:</Title>
+                <Input
+                  placeholder={`${holder5}`}
+                  onChange={(e) => {
+                    setName5(e.target.value);
                   }}
                   required
                 />
@@ -202,6 +273,9 @@ const Input = styled.input`
   border: 1px solid #f4f4f4;
   transition: all 350ms;
   outline: none;
+  ::placeholder {
+    font-family: Poppins;
+  }
 `;
 
 const Cancel = styled.div`
@@ -222,6 +296,8 @@ const FirstHold = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid silver;
+
+  margin-bottom: 5px;
 `;
 const Text = styled.div`
   font-weight: bold;
