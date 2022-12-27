@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { SideBarItem } from "./RouterSide";
+import { AiOutlineDown } from "react-icons/ai";
 
 interface Iprops {
 	changeFalse: () => void;
@@ -65,8 +66,15 @@ const NavCon = styled.div`
 
 	display: flex;
 	align-items: center;
+	overflow: hidden;
 
 	span {
 		font-weight: 500;
+		display: flex;
+		align-items: center;
+		/* padding-right: 100px; */
+		width: 70%;
+
+		justify-content: space-between;
 	}
 `;

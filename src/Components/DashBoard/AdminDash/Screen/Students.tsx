@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { User } from "../../../Global/RecoilState";
@@ -18,11 +19,13 @@ function Students() {
 	const [show, setShow] = React.useState(false);
 	const user = useRecoilValue(User);
 	const [student, setStudent] = useState([] as iTeacher[]);
+	const [load, setLoad] = useState(true);
 
 	const getTeacher = async () => {
 		const newURL = `${url}/api/school/${user._id}/students`;
 		await axios.get(newURL).then((res) => {
 			setStudent(res.data.data.students);
+			setLoad(false);
 		});
 	};
 
@@ -82,13 +85,25 @@ function Students() {
 						</BoxHold>
 					) : (
 						<BoxHold1>
-							<BoxImag src='/img/emp.gif' />
-							<h3>Add Student to your institute.</h3>
-							<p>
-								Your institute has no Students yet. Added classrooms will appear
-								here.
-							</p>
-							<Button2 onClick={toggleShow}>Create Student</Button2>
+							{load ? (
+								<div>
+									<div>
+										<ClipLoader color='#36d7b7' />
+									</div>
+									<div> Fetching data...</div>
+								</div>
+							) : (
+								<>
+									{" "}
+									<BoxImag src='/img/emp.gif' />
+									<h3>Add Student to your institute.</h3>
+									<p>
+										Your institute has no Students yet. Added classrooms will
+										appear here.
+									</p>
+									<Button2 onClick={toggleShow}>Create Student</Button2>
+								</>
+							)}
 						</BoxHold1>
 					)}
 

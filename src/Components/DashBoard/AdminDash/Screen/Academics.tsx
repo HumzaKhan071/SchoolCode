@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { User } from "../../../Global/RecoilState";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -16,13 +17,17 @@ interface iTeacher {
 function Academics() {
 	const user = useRecoilValue(User);
 	const [teacher, setTeacher] = useState([] as iTeacher[]);
+	const [load, setLoad] = useState(true);
 
 	const getTeacher = async () => {
 		const newURL = `${url}/api/school/${user._id}/teachers`;
 		await axios.get(newURL).then((res) => {
 			setTeacher(res.data.data.teachers);
+			setLoad(false);
 		});
 	};
+
+	console.log("this is user", user);
 
 	useEffect(() => {
 		getTeacher();
@@ -65,17 +70,28 @@ function Academics() {
 					</BoxHold>
 				) : (
 					<BoxHold1>
-						<BoxImag src='/img/emp.gif' />
-						<h3>Add Teacher to your institute.</h3>
-						<p>
-							Your institute has no teacher yet. Added classrooms will appear
-							here.
-						</p>
+						{load ? (
+							<div>
+								<div>
+									<ClipLoader color='#36d7b7' />
+								</div>
+								<div> Fetching data...</div>
+							</div>
+						) : (
+							<>
+								<BoxImag src='/img/emp.gif' />
+								<h3>Add Teacher to your institute.</h3>
+								<p>
+									Your institute has no teacher yet. Added classrooms will
+									appear here.
+								</p>
+							</>
+						)}
 					</BoxHold1>
 				)}
 
 				{/* <BoxHold>
-				
+
 					<BoxImag  />
 				</BoxHold> */}
 			</Holder>
