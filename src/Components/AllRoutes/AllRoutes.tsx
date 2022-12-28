@@ -27,6 +27,7 @@ import TeacherDashboard from "../DashBoard/TeacherDash/TeacherDashboard";
 import StudentHeader from "../DashBoard/StudentDash/StudentNav/StudenHeader";
 import StudentDashboard from "../DashBoard/StudentDash/StudentDashboard";
 import PrivateRoute from "../Global/PrivateRoute";
+import AssignmentScreen from "../DashBoard/StudentDash/AssignmentScreen";
 
 const AllRoutes = () => {
 	let element = useRoutes([
@@ -170,6 +171,17 @@ const AllRoutes = () => {
 						</>
 					),
 				},
+
+				{
+                  path:"assignment",
+				  element:(
+					<>
+					 <StudentHeader />
+					  <AssignmentScreen/>
+					</>
+				  )
+				},
+
 			],
 		},
 
