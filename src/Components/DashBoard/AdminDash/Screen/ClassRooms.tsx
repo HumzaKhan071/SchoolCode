@@ -10,6 +10,7 @@ const url: string = "https://school-code.onrender.com";
 
 interface iTeacher {
 	classes: string;
+	className: string;
 	name: string;
 	email: string;
 	image: string;
@@ -53,7 +54,7 @@ function ClassRooms() {
 								<TeachHold>
 									<Main>
 										<Div>{props.name}</Div>
-										<Div>SS3B</Div>
+										<Div>{props.className}</Div>
 										<div
 											style={{
 												display: "flex",
@@ -100,7 +101,7 @@ function ClassRooms() {
 												</Cal>
 											</div>
 
-											<Link style={{ color: "#1DA1F2" }} to='/'>
+											<Link to='/'>
 												<div style={{ fontSize: "12px" }}>View Details</div>
 											</Link>
 										</div>
