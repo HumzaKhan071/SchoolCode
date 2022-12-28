@@ -9,16 +9,13 @@ import { Link } from "react-router-dom";
 const url: string = "https://school-code.onrender.com";
 
 interface iTeacher {
-  _id?: string;
-  classes?: string;
-  classToken?: string;
-  className?: string;
-  name?: string;
-  email?: string;
-  image?: string;
-  subjectTaken?: any[];
-  students?: any[];
-  subject?: any[];
+  classes: string;
+  className: string;
+  name: string;
+  email: string;
+  image: string;
+  subjectTaken: any[];
+  _id: string;
 }
 
 function ClassRooms() {
@@ -30,7 +27,8 @@ function ClassRooms() {
     const newURL = `${url}/api/class/${user._id}/viewing-school-class`;
     await axios.get(newURL).then((res) => {
       setTeacher(res.data.data.classes);
-      console.log("reading: ", res);
+
+      console.log(res);
       setLoad(false);
     });
   };
@@ -75,35 +73,18 @@ function ClassRooms() {
                             display: "flex",
                             alignItems: "center",
                           }}
-                        ></div>
-                        <div
-                          style={{
-                            fontSize: "10px",
-                            display: "flex",
-                            alignItems: "center",
-                          }}
                         >
-                          <div>Class Code</div> :<br />{" "}
-                          <div
-                            style={{ marginLeft: "10px", fontWeight: "bold" }}
-                          >
-                            {props.classToken}
-                          </div>
+                          <div>Teacher Assigned </div> : Teacher
                         </div>
 
                         <Cal>
-                          <div
-                            style={{
-                              marginTop: "2px",
-                            }}
-                          >
-                            Class Teacher :{" "}
-                          </div>
+                          Class :{" "}
                           <div style={{ display: "flex" }}>
                             {props.classes ? (
                               <div
                                 style={{
                                   marginTop: "2px",
+                                  marginLeft: "5px",
                                   fontWeight: "500",
                                 }}
                               >
@@ -123,65 +104,18 @@ function ClassRooms() {
                             )}
                           </div>
                         </Cal>
-                        <Cal>
-                          No. of Students :{" "}
-                          <div style={{ display: "flex" }}>
-                            {props.classes ? (
-                              <div
-                                style={{
-                                  marginTop: "2px",
-                                  fontWeight: "500",
-                                }}
-                              >
-                                {" "}
-                                {props?.students?.length}
-                              </div>
-                            ) : (
-                              <div
-                                style={{
-                                  fontSize: "12px",
-                                  marginLeft: "5px",
-                                }}
-                              >
-                                No student in class yet
-                              </div>
-                            )}
-                          </div>
-                        </Cal>
-                        <Cal>
-                          No. of class subject :{" "}
-                          <div style={{ display: "flex" }}>
-                            {props.classes ? (
-                              <div
-                                style={{
-                                  marginTop: "2px",
-                                  fontWeight: "500",
-                                }}
-                              >
-                                {" "}
-                                {props?.subject?.length}
-                              </div>
-                            ) : (
-                              <div
-                                style={{
-                                  fontSize: "12px",
-                                  marginTop: "2px",
-                                  marginLeft: "5px",
-                                }}
-                              >
-                                No subject in class yet
-                              </div>
-                            )}
-                          </div>
-                        </Cal>
                       </div>
 
-                      <Link style={{ color: "#1DA1F2" }} to="/">
+                      <Link
+                        style={{ color: "#1DA1F2" }}
+                        to={`/admin-dashboard/classrooms/view-class-details/${props._id}`}
+                      >
                         <div style={{ fontSize: "12px" }}>View Details</div>
                       </Link>
                     </div>
 
                     {/* <Cal>
+
 
 											Subject Taken:
 											{props.subjectTaken.length < 1 ? (
@@ -283,15 +217,13 @@ const Cal = styled.div`
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 13px;
-  line-height: 15px;
-  margin-bottom: 10px;
+  font-size: 14px;
 `;
 const P = styled.div`
   font-size: 10px;
 `;
 const TeaqcherCard = styled.div`
-  min-height: 100px;
+  height: 100px;
   width: 320px;
   background-color: #f4f4f4;
   border-radius: 5px;

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { User } from "../../../Global/RecoilState";
 import ClipLoader from "react-spinners/ClipLoader";
 import MyForm from "./Homeforms/MyForm";
+import Swal from "sweetalert2";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -49,7 +50,15 @@ function Academics() {
       setTeacher(res.data.data.teachers);
 
       setLoad(false);
-    });
+    }).catch((res)=>{
+			setLoad(false);
+				Swal.fire({
+					icon: "error",
+					title: "An error occured",
+					text: "Class can't be found",
+				});
+			});
+	
   };
   const createSubject = async (id: string) => {
     const newURL = `${url}/api/subject/${user._id}/assign-teacher`;
