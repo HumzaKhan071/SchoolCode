@@ -46,23 +46,26 @@ function Academics() {
   const createClassRoom = async (id: string) => {
     const newURL = `${url}/api/class/${user._id}/${id}/assign-teacher`;
 
-    await axios.post(newURL, {}).then((res) => {
-      setTeacher(res.data.data.teachers);
+    await axios
+      .post(newURL, {})
+      .then((res) => {
+        setTeacher(res.data.data.teachers);
 
-      setLoad(false);
-    }).catch((res)=>{
-			setLoad(false);
-				Swal.fire({
-					icon: "error",
-					title: "An error occured",
-					text: "Class can't be found",
-				});
-			});
-	
+        setLoad(false);
+      })
+      .catch((res) => {
+        setLoad(false);
+        Swal.fire({
+          icon: "error",
+          title: "An error occured",
+          text: "Class can't be found",
+        });
+      });
   };
   const createSubject = async (id: string) => {
-    const newURL = `${url}/api/subject/${user._id}/assign-teacher`;
+    const newURL = `${url}/api/class/${user._id}/assign-teacher`;
     console.log(id);
+
     // await axios.get(newURL).then((res) => {
     //   setTeacher(res.data.data.teachers);
 
@@ -143,8 +146,8 @@ function Academics() {
 
                     <CalD>
                       Subject Taken:
-                      {props.subjectTaken.length < 1 ? (
-                        <div>
+                      {props.subjectTaken.length > 0 ? (
+                        <div style={{ marginLeft: "5px" }}>
                           {props.subjectTaken.map((props, i) => (
                             <Curve key={i}>{props}</Curve>
                           ))}
@@ -270,13 +273,14 @@ function Academics() {
 
 export default Academics;
 
-const Curve = styled.input`
+const Curve = styled.div`
   padding: 2px 8px;
   font-size: 12px;
   font-weight: bold;
   color: white;
   background-color: #000269;
   border-radius: 30px;
+  margin-left: 5px;
 `;
 
 const Input = styled.input`

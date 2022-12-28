@@ -9,13 +9,17 @@ import { Link } from "react-router-dom";
 const url: string = "https://school-code.onrender.com";
 
 interface iTeacher {
-  classes: string;
-  className: string;
-  name: string;
-  email: string;
-  image: string;
-  subjectTaken: any[];
-  _id: string;
+  classTeacher?: string;
+  classToken?: string;
+  classes?: string;
+  className?: string;
+  name?: string;
+  email?: string;
+  image?: string;
+  subjectTaken?: any[];
+  students?: any[];
+  subject?: any[];
+  _id?: string;
 }
 
 function ClassRooms() {
@@ -74,22 +78,76 @@ function ClassRooms() {
                             alignItems: "center",
                           }}
                         >
-                          <div>Teacher Assigned </div> : Teacher
+                          <div>class code </div> : {props.classToken}
                         </div>
 
                         <Cal>
-                          Class :{" "}
+                          Class Teacher:{" "}
                           <div style={{ display: "flex" }}>
-                            {props.classes ? (
+                            {props.classTeacher ? (
                               <div
                                 style={{
                                   marginTop: "2px",
                                   marginLeft: "5px",
-                                  fontWeight: "500",
+                                  fontWeight: "bold",
                                 }}
                               >
                                 {" "}
-                                {props.classes}
+                                {props.classTeacher}
+                              </div>
+                            ) : (
+                              <div
+                                style={{
+                                  fontSize: "12px",
+                                  marginTop: "2px",
+                                  marginLeft: "5px",
+                                }}
+                              >
+                                Not yet assigned
+                              </div>
+                            )}
+                          </div>
+                        </Cal>
+                        <Cal>
+                          No of Students:{" "}
+                          <div style={{ display: "flex", fontWeight: "bold" }}>
+                            {props.students ? (
+                              <div
+                                style={{
+                                  marginTop: "2px",
+                                  marginLeft: "5px",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                {" "}
+                                {props.students.length}
+                              </div>
+                            ) : (
+                              <div
+                                style={{
+                                  fontSize: "12px",
+                                  marginTop: "2px",
+                                  marginLeft: "5px",
+                                }}
+                              >
+                                Not yet assigned
+                              </div>
+                            )}
+                          </div>
+                        </Cal>
+                        <Cal>
+                          No of subject:{" "}
+                          <div style={{ display: "flex" }}>
+                            {props.subject ? (
+                              <div
+                                style={{
+                                  marginTop: "2px",
+                                  marginLeft: "5px",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                {" "}
+                                {props.subject.length}
                               </div>
                             ) : (
                               <div
@@ -217,13 +275,15 @@ const Cal = styled.div`
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 12px;
+  line-height: 1.2;
+  margin-top: 5px;
 `;
 const P = styled.div`
   font-size: 10px;
 `;
 const TeaqcherCard = styled.div`
-  height: 100px;
+  min-height: 100px;
   width: 320px;
   background-color: #f4f4f4;
   border-radius: 5px;
