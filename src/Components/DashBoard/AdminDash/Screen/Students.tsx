@@ -9,7 +9,7 @@ import CreateStudent from "../CreateStudent";
 const url: string = "https://school-code.onrender.com";
 
 interface iTeacher {
-  classes: string;
+  className: string;
   name: string;
   email: string;
   image: string;
@@ -78,7 +78,7 @@ function Students() {
                         <div>Position </div> : Student
                       </div>
 
-                      <Cal>Class : {props.classes}</Cal>
+                      <Cal>Class : {props.className}</Cal>
                     </Main>
                   </TeachHold>
                 </TeaqcherCard>

@@ -22,6 +22,7 @@ const CreateStudent: React.FC<Iprops> = ({ toggleShow }) => {
   const user = useRecoilValue(User);
 
   const [name, setName] = useState("");
+  const [name1, setName1] = useState("");
 
   const [show, setShow] = useState(false);
 
@@ -31,6 +32,7 @@ const CreateStudent: React.FC<Iprops> = ({ toggleShow }) => {
     await axios
       .post(newURL, {
         name,
+        className: name1,
         schoolName: user?.schoolName,
       })
       .then((res) => {
@@ -60,13 +62,26 @@ const CreateStudent: React.FC<Iprops> = ({ toggleShow }) => {
               Student Name <div style={{ color: "red" }}>*</div>
             </Title>
             <Input
-              disabled={show === true}
               placeholder="e.g Gideon ekeke"
               onChange={(e) => {
                 setName(e.target.value);
               }}
+              required
+            />
+            <br />
+            <Title>
+              Assign student to Class <div style={{ color: "red" }}>*</div>
+            </Title>
+            <Input
+              disabled={show === true}
+              placeholder="e.g SS1 A"
+              onChange={(e) => {
+                setName1(e.target.value);
+              }}
+              required
             />
           </InpHold>
+          <br />
           <InpHold>
             <Title>School Name</Title>
             <Input
@@ -212,7 +227,8 @@ const Cont = styled.div`
 `;
 
 const Card = styled.div`
-  height: 300px;
+  height: 390px;
+  padding-bottom: 0px;
   width: 500px;
   background-color: white;
   margin-top: 50px;

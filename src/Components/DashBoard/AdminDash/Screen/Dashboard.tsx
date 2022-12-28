@@ -12,13 +12,12 @@ import MyForm from "./Homeforms/MyForm";
 const url: string = "https://school-code.onrender.com";
 
 interface iData {
-	teachers: [];
-	students: [];
-	classes: [];
+  teachers: [];
+  students: [];
+  classes: [];
 }
 
 const Dashboard = () => {
-
   const [schoolData, setSchoolData] = useState({} as iData);
   const user = useRecoilValue(User);
 
@@ -66,7 +65,7 @@ const Dashboard = () => {
     await axios
       .post(newUrl, {
         className: name.toUpperCase(),
-        classCode: parseInt(name1),
+        termFee: parseInt(name1),
       })
       .then((res) => {
         setShow(false);
@@ -463,266 +462,265 @@ const Dashboard = () => {
       </Content>
     </Container>
   );
-
 };
 
 export default Dashboard;
 
 const CircleH = styled.div``;
 const Title1 = styled.div`
-	font-weight: bold;
-	font-size: 20px;
+  font-weight: bold;
+  font-size: 20px;
 
-	/* @media screen and (max-width: 760px) {
+  /* @media screen and (max-width: 760px) {
 		font-size: 13px;
 	} */
 `;
 
 const FeeCard = styled.div`
-	/* height: 40px; */
-	width: 96%;
-	background-color: white;
-	/* margin-top: 50px; */
-	border-radius: 5px;
-	margin-bottom: 30px;
-	padding: 10px;
-	display: flex;
-	justify-content: space-between;
+  /* height: 40px; */
+  width: 96%;
+  background-color: white;
+  /* margin-top: 50px; */
+  border-radius: 5px;
+  margin-bottom: 30px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
 
-	@media screen and (max-width: 760px) {
-		font-size: 10px;
-		flex-wrap: wrap;
-	}
+  @media screen and (max-width: 760px) {
+    font-size: 10px;
+    flex-wrap: wrap;
+  }
 `;
 
 const CircleHold = styled.div`
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 `;
 const Circle = styled.div`
-	height: 50px;
-	width: 50px;
-	background-color: #eaf9ff;
-	border-radius: 50%;
-	margin-right: 20px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 20px;
+  height: 50px;
+  width: 50px;
+  background-color: #eaf9ff;
+  border-radius: 50%;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
 `;
 const TitLeHold = styled.div``;
 const Title = styled.div``;
 
 const StudRep = styled.div`
-	width: 45%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
+  width: 45%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 
-	@media screen and (max-width: 760px) {
-		width: 100%;
-	}
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
 `;
 const TeachRep = styled.div`
-	width: 45%;
-	/* background-color: green; */
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
+  width: 45%;
+  /* background-color: green; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 
-	@media screen and (max-width: 760px) {
-		width: 100%;
-	}
-	/* padding: 10px; */
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
+  /* padding: 10px; */
 `;
 const ReportsHold = styled.div`
-	width: 98%;
-	background-color: white;
-	/* height: 50px; */
-	border-radius: 5px;
-	display: flex;
-	justify-content: space-around;
-	margin-top: 10px;
+  width: 98%;
+  background-color: white;
+  /* height: 50px; */
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
 
-	@media screen and (max-width: 760px) {
-		flex-wrap: wrap;
-	}
+  @media screen and (max-width: 760px) {
+    flex-wrap: wrap;
+  }
 `;
 
 const MainHold = styled.div`
-	display: flex;
+  display: flex;
 
-	@media screen and (max-width: 1030px) {
-		flex-wrap: wrap;
-	}
+  @media screen and (max-width: 1030px) {
+    flex-wrap: wrap;
+  }
 `;
 const CountHold = styled.div`
-	min-height: 40px;
+  min-height: 40px;
 `;
 const OverCard = styled.div`
-	display: flex;
-	justify-content: space-between;
-	width: 230px;
-	background-color: white;
-	border-radius: 5px;
-	margin-top: 5px;
-	position: relative;
-	padding: 10px;
-	overflow: hidden;
-	margin-right: 10px;
-	margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 230px;
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 5px;
+  position: relative;
+  padding: 10px;
+  overflow: hidden;
+  margin-right: 10px;
+  margin-bottom: 10px;
 
-	@media screen and (max-width: 600px) {
-		width: 100%;
-	}
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 const Cont = styled.div`
-	font-size: 20px;
-	font-weight: bold;
+  font-size: 20px;
+  font-weight: bold;
 `;
 const Text = styled.div`
-	font-size: 17px;
-	font-weight: 300;
+  font-size: 17px;
+  font-weight: 300;
 `;
 const IconHold = styled.div<{ bg: string }>`
-	height: 70px;
-	width: 70px;
-	border-radius: 50%;
-	background-color: ${(props) => props.bg};
-	margin-top: 5px;
-	position: absolute;
-	margin-left: 10px;
-	right: 0;
-	left: 180px;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  background-color: ${(props) => props.bg};
+  margin-top: 5px;
+  position: absolute;
+  margin-left: 10px;
+  right: 0;
+  left: 180px;
 
-	@media screen and (min-width: 310px) and (max-width: 325px) {
-		left: 210px;
-	}
-	@media screen and (min-width: 375px) and (max-width: 400px) {
-		left: 260px;
-	}
-	@media screen and (min-width: 410px) and (max-width: 427px) {
-		left: 310px;
-	}
+  @media screen and (min-width: 310px) and (max-width: 325px) {
+    left: 210px;
+  }
+  @media screen and (min-width: 375px) and (max-width: 400px) {
+    left: 260px;
+  }
+  @media screen and (min-width: 410px) and (max-width: 427px) {
+    left: 310px;
+  }
 
-	img {
-		height: 50px;
-		margin-left: 5px;
-		margin-top: 5px;
-	}
+  img {
+    height: 50px;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
 `;
 
 const Button = styled.button<{
-	bg: string;
-	col: string;
+  bg: string;
+  col: string;
 }>`
-	background-color: ${({ bg }) => bg};
-	color: ${({ col }) => col};
-	height: 40px;
-	width: 100%;
-	margin-top: 10px;
-	color: white;
-	border: none;
-	outline: none;
-	border-radius: 5px;
-	transition: all 350ms;
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-family: Poppins;
-	margin-bottom: 10px;
-	text-transform: uppercase;
-	font-size: 13px;
+  background-color: ${({ bg }) => bg};
+  color: ${({ col }) => col};
+  height: 40px;
+  width: 100%;
+  margin-top: 10px;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  transition: all 350ms;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Poppins;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-size: 13px;
 
-	:hover {
-		transform: scale(0.95);
-	}
+  :hover {
+    transform: scale(0.95);
+  }
 `;
 
 const MyDiv = styled.div`
-	font-size: 14px;
+  font-size: 14px;
 `;
 
 const AnnounceCard = styled.div`
-	/* margin-right: 30px; */
-	height: 50vh;
-	width: 250px;
-	background-color: white;
-	border-radius: 5px;
-	margin-top: 5px;
-	padding: 10px;
+  /* margin-right: 30px; */
+  height: 50vh;
+  width: 250px;
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 5px;
+  padding: 10px;
 
-	@media screen and (max-width: 768px) {
-		width: 90%;
-	}
+  @media screen and (max-width: 768px) {
+    width: 90%;
+  }
 `;
 const Card = styled.div`
-	/* margin-right: 30px; */
-	/* height: 100px; */
-	width: 250px;
-	background-color: white;
-	border-radius: 5px;
-	margin-top: 5px;
-	padding: 10px;
+  /* margin-right: 30px; */
+  /* height: 100px; */
+  width: 250px;
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 5px;
+  padding: 10px;
 
-	@media screen and (max-width: 768px) {
-		width: 90%;
-	}
+  @media screen and (max-width: 768px) {
+    width: 90%;
+  }
 `;
 
 const First = styled.div`
-	flex: 1;
+  flex: 1;
 
-	@media screen and (max-width: 768px) {
-		margin-top: 30px;
-	}
+  @media screen and (max-width: 768px) {
+    margin-top: 30px;
+  }
 
-	span {
-		font-weight: 500;
-	}
+  span {
+    font-weight: 500;
+  }
 `;
 const Second = styled.div`
-	span {
-		font-weight: 500;
-	}
+  span {
+    font-weight: 500;
+  }
 `;
 
 const Content = styled.div`
-	/* background-color: red; */
-	width: 100%;
-	/* margin-left: 20px; */
-	display: flex;
-	margin-top: 30px;
-	width: 90%;
-	/* flex-wrap: wrap; */
+  /* background-color: red; */
+  width: 100%;
+  /* margin-left: 20px; */
+  display: flex;
+  margin-top: 30px;
+  width: 90%;
+  /* flex-wrap: wrap; */
 
-	@media screen and (max-width: 768px) {
-		flex-wrap: wrap;
-		flex-direction: column-reverse;
-		margin-left: 0;
-	}
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+    margin-left: 0;
+  }
 `;
 
 const Container = styled.div`
-	width: calc(100vw - 230px);
-	min-height: calc(100vh - 60px);
-	display: flex;
-	justify-content: center;
+  width: calc(100vw - 230px);
+  min-height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
 
-	background-color: #f7f9fc;
-	/* background-color: gold; */
-	overflow: hidden;
-	position: absolute;
-	right: 0px;
-	// top: 50px;
+  background-color: #f7f9fc;
+  /* background-color: gold; */
+  overflow: hidden;
+  position: absolute;
+  right: 0px;
+  // top: 50px;
 
-	@media screen and (max-width: 1100px) {
-		width: 95%;
-	}
-	@media screen and (max-width: 1005px) {
-		width: 100%;
-	}
+  @media screen and (max-width: 1100px) {
+    width: 95%;
+  }
+  @media screen and (max-width: 1005px) {
+    width: 100%;
+  }
 `;
