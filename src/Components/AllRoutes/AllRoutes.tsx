@@ -28,62 +28,62 @@ import StudentHeader from "../DashBoard/StudentDash/StudentNav/StudenHeader";
 import StudentDashboard from "../DashBoard/StudentDash/StudentDashboard";
 import PrivateRoute from "../Global/PrivateRoute";
 import Students from "../DashBoard/AdminDash/Screen/Students";
+import ClassRooms from "../DashBoard/AdminDash/Screen/ClassRooms";
 
 const AllRoutes = () => {
-  let element = useRoutes([
-    {
-      path: "/",
-      element: <PrivateRoute />,
-    },
+	let element = useRoutes([
+		{
+			path: "/",
+			element: <PrivateRoute />,
+		},
 
-    {
-      path: "/get-started",
-      children: [
-        {
-          index: true,
-          element: <MainAuth />,
-        },
+		{
+			path: "/get-started",
+			children: [
+				{
+					index: true,
+					element: <MainAuth />,
+				},
 
-        {
-          path: "teacher-signup",
-          element: <TeachersSignUp />,
-        },
-        // {
-        // 	path: "student-signup",
-        // 	element: <StudentSignup />,
-        // },
-        {
-          path: "school-signup",
-          element: <SchoolSignUp />,
-        },
-      ],
-    },
+				{
+					path: "teacher-signup",
+					element: <TeachersSignUp />,
+				},
+				// {
+				// 	path: "student-signup",
+				// 	element: <StudentSignup />,
+				// },
+				{
+					path: "school-signup",
+					element: <SchoolSignUp />,
+				},
+			],
+		},
 
-    {
-      path: "/login",
-      children: [
-        {
-          index: true,
-          element: <MainLogin />,
-        },
+		{
+			path: "/login",
+			children: [
+				{
+					index: true,
+					element: <MainLogin />,
+				},
 
-        {
-          path: "teacher",
-          element: <TeacherLogin />,
-        },
-        {
-          path: "student",
-          element: <StudentLogin />,
-        },
-        {
-          path: "school",
-          element: <SchoolLogin />,
-        },
-      ],
-    },
+				{
+					path: "teacher",
+					element: <TeacherLogin />,
+				},
+				{
+					path: "student",
+					element: <StudentLogin />,
+				},
+				{
+					path: "school",
+					element: <SchoolLogin />,
+				},
+			],
+		},
 
-    //Admin/School Route
-
+		//Admin/School Route
 
 		{
 			path: "/admin-dashboard",
@@ -111,6 +111,15 @@ const AllRoutes = () => {
 						<>
 							<Header />
 							<Students />
+						</>
+					),
+				},
+				{
+					path: "classrooms",
+					element: (
+						<>
+							<Header />
+							<ClassRooms />
 						</>
 					),
 				},
@@ -144,54 +153,53 @@ const AllRoutes = () => {
 			],
 		},
 
+		//Teachers Route
+		{
+			path: "/teacher-dashboard",
+			children: [
+				{
+					index: true,
+					element: (
+						<>
+							<PrivateRoute />
+						</>
+					),
+				},
+			],
+		},
 
-    //Teachers Route
-    {
-      path: "/teacher-dashboard",
-      children: [
-        {
-          index: true,
-          element: (
-            <>
-              <PrivateRoute />
-            </>
-          ),
-        },
-      ],
-    },
+		//Student Route
+		{
+			path: "/student-dashboard",
+			children: [
+				{
+					index: true,
+					element: (
+						<>
+							<StudentHeader />
+							<StudentDashboard />
+						</>
+					),
+				},
+			],
+		},
 
-    //Student Route
-    {
-      path: "/student-dashboard",
-      children: [
-        {
-          index: true,
-          element: (
-            <>
-              <StudentHeader />
-              <StudentDashboard />
-            </>
-          ),
-        },
-      ],
-    },
+		{
+			path: "/confirm",
+			element: <ConfirmSchool />,
+		},
+		{
+			path: "/api/school/verified/:id",
+			element: <SchoolConfirmVerify />,
+		},
 
-    {
-      path: "/confirm",
-      element: <ConfirmSchool />,
-    },
-    {
-      path: "/api/school/verified/:id",
-      element: <SchoolConfirmVerify />,
-    },
+		{
+			path: "*",
+			element: <NotFound />,
+		},
+	]);
 
-    {
-      path: "*",
-      element: <NotFound />,
-    },
-  ]);
-
-  return element;
+	return element;
 };
 
 export default AllRoutes;
