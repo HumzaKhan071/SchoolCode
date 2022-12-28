@@ -18,6 +18,7 @@ interface iTeacher {
 }
 
 function ClassRooms() {
+
   const user = useRecoilValue(User);
   const [teacher, setTeacher] = useState([] as iTeacher[]);
   const [load, setLoad] = useState(true);
@@ -105,12 +106,13 @@ function ClassRooms() {
                         </Cal>
                       </div>
 
-                      <Link to="/">
+                      <Link style={{ color: "#1DA1F2" }} to="/">
                         <div style={{ fontSize: "12px" }}>View Details</div>
                       </Link>
                     </div>
 
                     {/* <Cal>
+
 											Subject Taken:
 											{props.subjectTaken.length < 1 ? (
 												<div>
