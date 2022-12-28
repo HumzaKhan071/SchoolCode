@@ -30,8 +30,7 @@ function ClassRooms() {
     const newURL = `${url}/api/class/${user._id}/viewing-school-class`;
     await axios.get(newURL).then((res) => {
       setTeacher(res.data.data.classes);
-
-      console.log(res);
+      console.log("reading: ", res);
       setLoad(false);
     });
   };
