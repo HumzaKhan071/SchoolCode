@@ -38,6 +38,13 @@ interface iProps {
   three: boolean;
   four: boolean;
   five: boolean;
+
+  name?: string;
+  name1?: string;
+  name2?: string;
+  name3?: string;
+  name4?: string;
+  name5?: string;
 }
 
 const url: string = "https://school-code.onrender.com";
@@ -65,17 +72,21 @@ const MyForm: React.FC<iProps> = ({
   holder3,
   holder4,
   holder5,
-}) => {
-  const [term, setTerm] = useState("");
-  //   const [show, setShow] = useState(false);
-  const [name, setName] = useState("");
-  const [name5, setName5] = useState("");
-  const [name3, setName4] = useState("");
-  const [name4, setName3] = useState("");
-  const [name1, setName1] = useState("");
-  const [name2, setName2] = useState("");
-  const user = useRecoilValue(User);
 
+  setName,
+  setName1,
+  setName2,
+  setName3,
+  setName4,
+  setName5,
+
+  name,
+  name1,
+  name2,
+  name3,
+  name4,
+  name5,
+}) => {
   return (
     <Container>
       <Card>
@@ -338,10 +349,10 @@ const Container = styled.div`
   color: black;
   display: flex;
   justify-content: center;
-  //   align-items: center;
+  align-items: center;
   backdrop-filter: blur(5px);
   z-index: 10;
   left: 0;
   top: 0;
-  padding-top: 200px;
+  //   padding-top: 100px;
 `;

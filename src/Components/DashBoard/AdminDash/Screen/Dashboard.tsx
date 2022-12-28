@@ -60,13 +60,16 @@ const Dashboard = () => {
   const createClassRoom = async () => {
     setShow(true);
     const newUrl = `${url}/api/class/${user._id}/create-class`;
+    console.log(name);
+    console.log(name1);
     await axios
       .post(newUrl, {
-        className: name,
-        classCode: name2,
+        className: name.toUpperCase(),
+        classCode: parseInt(name1),
       })
       .then((res) => {
         setShow(false);
+        toggleClassRoom();
       });
   };
 
@@ -87,6 +90,8 @@ const Dashboard = () => {
   const createAnnouncement = async () => {
     setShow(true);
     const newUrl = `${url}/api/announcement/${user._id}/create-announcement`;
+    const newUrl2 = `https://school-code.onrender.com/api/announcement/63a36581bf7b831106518d5d/create-announcement`;
+
     await axios
       .post(newUrl, {
         title: name,
@@ -95,6 +100,7 @@ const Dashboard = () => {
       })
       .then((res) => {
         setShow(false);
+        setAnnouncement(!announcement);
       });
   };
 
@@ -326,6 +332,12 @@ const Dashboard = () => {
                 three={false}
                 four={false}
                 five={false}
+                name={name}
+                name1={name1}
+                name2={name2}
+                name3={name3}
+                name4={name4}
+                name5={name5}
               />
             ) : null}
 
@@ -364,6 +376,12 @@ const Dashboard = () => {
                 three={true}
                 four={true}
                 five={true}
+                name={name}
+                name1={name1}
+                name2={name2}
+                name3={name3}
+                name4={name4}
+                name5={name5}
               />
             ) : null}
 
@@ -393,6 +411,12 @@ const Dashboard = () => {
                 three={false}
                 four={false}
                 five={false}
+                name={name}
+                name1={name1}
+                name2={name2}
+                name3={name3}
+                name4={name4}
+                name5={name5}
               />
             ) : null}
 
@@ -402,6 +426,8 @@ const Dashboard = () => {
             {subject ? (
               <MyForm
                 holder="Enter the class Name: eg SS3A"
+                holder1="session code: 8b309d"
+                holder2="Teacher to take this subject"
                 toggle={toggleSubject}
                 title="Create Subject"
                 title1="Subject Name"
@@ -422,6 +448,12 @@ const Dashboard = () => {
                 three={false}
                 four={false}
                 five={false}
+                name={name}
+                name1={name1}
+                name2={name2}
+                name3={name3}
+                name4={name4}
+                name5={name5}
               />
             ) : null}
           </Card>
