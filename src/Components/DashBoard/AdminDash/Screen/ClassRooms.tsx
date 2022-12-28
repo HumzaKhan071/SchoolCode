@@ -15,6 +15,7 @@ interface iTeacher {
 	email: string;
 	image: string;
 	subjectTaken: any[];
+	_id: string;
 }
 
 function ClassRooms() {
@@ -50,7 +51,7 @@ function ClassRooms() {
 				{teacher?.length >= 1 ? (
 					<BoxHold>
 						{teacher?.map((props) => (
-							<TeaqcherCard>
+							<TeaqcherCard key={props._id}>
 								<TeachHold>
 									<Main>
 										<Div>{props.name}</Div>
@@ -101,12 +102,15 @@ function ClassRooms() {
 												</Cal>
 											</div>
 
-											<Link to='/'>
+											<Link
+												style={{ color: "#1DA1F2" }}
+												to={`/admin-dashboard/classrooms/view-class-details/${props._id}`}>
 												<div style={{ fontSize: "12px" }}>View Details</div>
 											</Link>
 										</div>
 
 										{/* <Cal>
+
 											Subject Taken:
 											{props.subjectTaken.length < 1 ? (
 												<div>
