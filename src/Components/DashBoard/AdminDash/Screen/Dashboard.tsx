@@ -338,6 +338,7 @@ const Dashboard = () => {
                 name3={name3}
                 name4={name4}
                 name5={name5}
+                check={true}
               />
             ) : null}
 
@@ -382,6 +383,7 @@ const Dashboard = () => {
                 name3={name3}
                 name4={name4}
                 name5={name5}
+                check={true}
               />
             ) : null}
 
@@ -411,6 +413,7 @@ const Dashboard = () => {
                 three={false}
                 four={false}
                 five={false}
+                check={true}
                 name={name}
                 name1={name1}
                 name2={name2}
@@ -454,6 +457,7 @@ const Dashboard = () => {
                 name3={name3}
                 name4={name4}
                 name5={name5}
+                check={true}
               />
             ) : null}
           </Card>
