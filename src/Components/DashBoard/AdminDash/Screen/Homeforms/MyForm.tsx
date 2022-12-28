@@ -9,83 +9,97 @@ import "react-datepicker/dist/react-datepicker.css";
 import { User } from "../../../../Global/RecoilState";
 
 interface iProps {
-	toggle?: () => void;
-	//   toggleSubject?: () => void;
-	mainAction?: () => void;
-	title?: string;
-	title1?: string;
-	title2?: string;
-	title3?: string;
-	title4?: string;
-	title5?: string;
-	title6?: string;
-	subTitle?: string;
-	holder?: string;
-	holder1?: string;
-	holder2?: string;
-	holder3?: string;
-	holder4?: string;
-	holder5?: string;
-	show: boolean;
-	setName: React.Dispatch<React.SetStateAction<string>>;
-	setName3: React.Dispatch<React.SetStateAction<string>>;
-	setName4: React.Dispatch<React.SetStateAction<string>>;
-	setName5: React.Dispatch<React.SetStateAction<string>>;
-	setName1: React.Dispatch<React.SetStateAction<string>>;
-	setName2: React.Dispatch<React.SetStateAction<string>>;
-	one: boolean;
-	two: boolean;
-	three: boolean;
-	four: boolean;
-	five: boolean;
+
+  toggle?: () => void;
+  //   toggleSubject?: () => void;
+  mainAction?: () => void;
+  title?: string;
+  title1?: string;
+  title2?: string;
+  title3?: string;
+  title4?: string;
+  title5?: string;
+  title6?: string;
+  subTitle?: string;
+  holder?: string;
+  holder1?: string;
+  holder2?: string;
+  holder3?: string;
+  holder4?: string;
+  holder5?: string;
+  show: boolean;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setName3: React.Dispatch<React.SetStateAction<string>>;
+  setName4: React.Dispatch<React.SetStateAction<string>>;
+  setName5: React.Dispatch<React.SetStateAction<string>>;
+  setName1: React.Dispatch<React.SetStateAction<string>>;
+  setName2: React.Dispatch<React.SetStateAction<string>>;
+  one: boolean;
+  two: boolean;
+  three: boolean;
+  four: boolean;
+  five: boolean;
+
+  name?: string;
+  name1?: string;
+  name2?: string;
+  name3?: string;
+  name4?: string;
+  name5?: string;
 }
 
 const url: string = "https://school-code.onrender.com";
 
 const MyForm: React.FC<iProps> = ({
-	toggle,
-	title,
-	subTitle,
-	mainAction,
-	one,
-	two,
-	three,
-	four,
-	five,
-	show,
-	title1,
-	title2,
-	title3,
-	title4,
-	title5,
-	title6,
-	holder,
-	holder1,
-	holder2,
-	holder3,
-	holder4,
-	holder5,
-}) => {
-	const [term, setTerm] = useState("");
-	//   const [show, setShow] = useState(false);
-	const [name, setName] = useState("");
-	const [name5, setName5] = useState("");
-	const [name3, setName4] = useState("");
-	const [name4, setName3] = useState("");
-	const [name1, setName1] = useState("");
-	const [name2, setName2] = useState("");
-	const user = useRecoilValue(User);
 
-	return (
-		<Container>
-			<Card>
-				<Cont>
-					<FirstHold>
-						<Text>{title}</Text>
-						<Cancel onClick={toggle}>
-							<MdOutlineClose />
-						</Cancel>
-					</FirstHold>
+  toggle,
+  title,
+  subTitle,
+  mainAction,
+  one,
+  two,
+  three,
+  four,
+  five,
+  show,
+  title1,
+  title2,
+  title3,
+  title4,
+  title5,
+  title6,
+  holder,
+  holder1,
+  holder2,
+  holder3,
+  holder4,
+  holder5,
+
+  setName,
+  setName1,
+  setName2,
+  setName3,
+  setName4,
+  setName5,
+
+  name,
+  name1,
+  name2,
+  name3,
+  name4,
+  name5,
+}) => {
+  return (
+    <Container>
+      <Card>
+        <Cont>
+          <FirstHold>
+            <Text>{title}</Text>
+            <Cancel onClick={toggle}>
+              <MdOutlineClose />
+            </Cancel>
+          </FirstHold>
+
 
 					<span>{subTitle}</span>
 					<br />
@@ -330,17 +344,18 @@ const Card = styled.div`
 `;
 
 const Container = styled.div`
-	position: absolute;
-	background-color: rgba(30, 145, 243, 0.3);
-	height: 100%;
-	width: 100%;
-	color: black;
-	display: flex;
-	justify-content: center;
-	//   align-items: center;
-	backdrop-filter: blur(5px);
-	z-index: 10;
-	left: 0;
-	top: 0;
-	padding-top: 60px;
+
+  position: absolute;
+  background-color: rgba(30, 145, 243, 0.3);
+  height: 100%;
+  width: 100%;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  z-index: 10;
+  left: 0;
+  top: 0;
+  //   padding-top: 100px;
 `;
