@@ -32,6 +32,7 @@ import AssignmentScreen from "../DashBoard/StudentDash/AssignmentScreen";
 import Students from "../DashBoard/AdminDash/Screen/Students";
 import ClassRooms from "../DashBoard/AdminDash/Screen/ClassRooms";
 import ConfirmTeacherMessage from "../Auth/ConfirmTeachersMessage";
+import ClassRoomDetails from "../DashBoard/AdminDash/ClassRoomDetails";
 
 
 const AllRoutes = () => {
@@ -120,12 +121,26 @@ const AllRoutes = () => {
 				},
 				{
 					path: "classrooms",
-					element: (
-						<>
-							<Header />
-							<ClassRooms />
-						</>
-					),
+					children: [
+						{
+							index: true,
+							element: (
+								<>
+									<Header />
+									<ClassRooms />
+								</>
+							),
+						},
+						{
+							path: "view-class-details/:id",
+							element: (
+								<>
+									<Header />
+									<ClassRoomDetails />
+								</>
+							),
+						},
+					],
 				},
 				{
 					path: "expenses",
