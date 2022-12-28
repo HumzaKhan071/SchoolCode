@@ -111,6 +111,7 @@ function ClassRooms() {
 
 										{/* <Cal>
 
+
 											Subject Taken:
 											{props.subjectTaken.length < 1 ? (
 												<div>
@@ -208,15 +209,18 @@ const BoxImag = styled.img`
 `;
 
 const Cal = styled.div`
+
 	display: flex;
 	align-items: center;
 	font-weight: 500;
 	font-size: 14px;
+
 `;
 const P = styled.div`
 	font-size: 10px;
 `;
 const TeaqcherCard = styled.div`
+
 	height: 100px;
 	width: 320px;
 	background-color: #f4f4f4;
@@ -224,6 +228,7 @@ const TeaqcherCard = styled.div`
 	margin: 10px;
 	box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
 	padding: 10px 0;
+
 `;
 const TeachHold = styled.div`
 	display: flex;

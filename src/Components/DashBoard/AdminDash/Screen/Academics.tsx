@@ -110,7 +110,7 @@ function Academics() {
                         alignItems: "center",
                       }}
                     >
-                      <div>Position </div> : Teacher data
+                      <div>Position </div> : Teacher
                     </div>
 
                     <Cal>
