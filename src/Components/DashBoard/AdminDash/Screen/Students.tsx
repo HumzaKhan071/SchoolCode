@@ -9,6 +9,7 @@ import CreateStudent from "../CreateStudent";
 const url: string = "https://school-code.onrender.com";
 
 interface iTeacher {
+  _id: string;
   className: string;
   name: string;
   email: string;
@@ -62,7 +63,7 @@ function Students() {
           {student?.length >= 1 ? (
             <BoxHold>
               {student?.map((props) => (
-                <TeaqcherCard>
+                <TeaqcherCard key={props._id}>
                   <TeachHold>
                     <TeacherImage src="/img/prof.png" />
                     <Main>

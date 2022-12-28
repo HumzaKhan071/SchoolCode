@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { User } from "../../../Global/RecoilState";
+import { Navigate, useNavigate } from "react-router";
 
 interface Iprops {
   toggleDrop: () => void;
@@ -15,6 +16,7 @@ interface Iprops {
 const url: string = "https://school-code.onrender.com";
 
 const CreatingSessionModal: React.FC<Iprops> = ({ toggleDrop }) => {
+  const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
   const user = useRecoilValue(User);
   const [endDate, setEndDate] = useState(new Date());
@@ -31,6 +33,8 @@ const CreatingSessionModal: React.FC<Iprops> = ({ toggleDrop }) => {
       })
       .then((res) => {
         setShow(false);
+        navigate("/");
+        window.location.reload();
       });
   };
 

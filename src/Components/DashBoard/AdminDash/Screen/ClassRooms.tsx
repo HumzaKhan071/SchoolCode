@@ -9,16 +9,19 @@ import { Link } from "react-router-dom";
 const url: string = "https://school-code.onrender.com";
 
 interface iTeacher {
-  classes: string;
-  className: string;
-  name: string;
-  email: string;
-  image: string;
-  subjectTaken: any[];
+  _id?: string;
+  classes?: string;
+  classToken?: string;
+  className?: string;
+  name?: string;
+  email?: string;
+  image?: string;
+  subjectTaken?: any[];
+  students?: any[];
+  subject?: any[];
 }
 
 function ClassRooms() {
-
   const user = useRecoilValue(User);
   const [teacher, setTeacher] = useState([] as iTeacher[]);
   const [load, setLoad] = useState(true);
@@ -51,7 +54,7 @@ function ClassRooms() {
         {teacher?.length >= 1 ? (
           <BoxHold>
             {teacher?.map((props) => (
-              <TeaqcherCard>
+              <TeaqcherCard key={props._id}>
                 <TeachHold>
                   <Main>
                     <Div>{props.name}</Div>
@@ -73,18 +76,35 @@ function ClassRooms() {
                             display: "flex",
                             alignItems: "center",
                           }}
+                        ></div>
+                        <div
+                          style={{
+                            fontSize: "10px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
                         >
-                          <div>Teacher Assigned </div> : Teacher
+                          <div>Class Code</div> :<br />{" "}
+                          <div
+                            style={{ marginLeft: "10px", fontWeight: "bold" }}
+                          >
+                            {props.classToken}
+                          </div>
                         </div>
 
                         <Cal>
-                          Class :{" "}
+                          <div
+                            style={{
+                              marginTop: "2px",
+                            }}
+                          >
+                            Class Teacher :{" "}
+                          </div>
                           <div style={{ display: "flex" }}>
                             {props.classes ? (
                               <div
                                 style={{
                                   marginTop: "2px",
-                                  marginLeft: "5px",
                                   fontWeight: "500",
                                 }}
                               >
@@ -100,6 +120,57 @@ function ClassRooms() {
                                 }}
                               >
                                 Not yet assigned
+                              </div>
+                            )}
+                          </div>
+                        </Cal>
+                        <Cal>
+                          No. of Students :{" "}
+                          <div style={{ display: "flex" }}>
+                            {props.classes ? (
+                              <div
+                                style={{
+                                  marginTop: "2px",
+                                  fontWeight: "500",
+                                }}
+                              >
+                                {" "}
+                                {props?.students?.length}
+                              </div>
+                            ) : (
+                              <div
+                                style={{
+                                  fontSize: "12px",
+                                  marginLeft: "5px",
+                                }}
+                              >
+                                No student in class yet
+                              </div>
+                            )}
+                          </div>
+                        </Cal>
+                        <Cal>
+                          No. of class subject :{" "}
+                          <div style={{ display: "flex" }}>
+                            {props.classes ? (
+                              <div
+                                style={{
+                                  marginTop: "2px",
+                                  fontWeight: "500",
+                                }}
+                              >
+                                {" "}
+                                {props?.subject?.length}
+                              </div>
+                            ) : (
+                              <div
+                                style={{
+                                  fontSize: "12px",
+                                  marginTop: "2px",
+                                  marginLeft: "5px",
+                                }}
+                              >
+                                No subject in class yet
                               </div>
                             )}
                           </div>
@@ -213,13 +284,15 @@ const Cal = styled.div`
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 15px;
+  margin-bottom: 10px;
 `;
 const P = styled.div`
   font-size: 10px;
 `;
 const TeaqcherCard = styled.div`
-  height: 100px;
+  min-height: 100px;
   width: 320px;
   background-color: #f4f4f4;
   border-radius: 5px;
