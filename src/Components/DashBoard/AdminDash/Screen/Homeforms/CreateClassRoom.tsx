@@ -1,89 +1,107 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { MdOutlineClose } from "react-icons/md";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { User } from "../../Global/RecoilState";
-import { MdOutlineClose } from "react-icons/md";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import { User } from "../../../../Global/RecoilState";
+
+interface iProps {
+  toggleAnnonucement?: () => void;
+}
 
 const url: string = "https://school-code.onrender.com";
 
-interface iData {
-  classes?: string;
-  name?: string;
-  email?: string;
-  image?: string;
-  schoolName: string;
-}
-
-interface Iprops {
-  toggleShow: () => void;
-}
-const CreateStudent: React.FC<Iprops> = ({ toggleShow }) => {
+const CreateClassRoom: React.FC<iProps> = ({ toggleAnnonucement }) => {
+  const [startDate, setStartDate] = useState(new Date());
   const user = useRecoilValue(User);
-
-  const [name, setName] = useState("");
-
+  const [endDate, setEndDate] = useState(new Date());
+  const [term, setTerm] = useState("");
   const [show, setShow] = useState(false);
 
-  const createStudents = async () => {
-    const newURL = `${url}/api/student/${user._id}/create-student`;
+  const createSession = async () => {
     setShow(true);
+    const newUrl = `${url}/api/academic/${user._id}/create-academic-session`;
     await axios
-      .post(newURL, {
-        name,
-        schoolName: user?.schoolName,
+      .post(newUrl, {
+        academicSession: `${startDate?.getFullYear()}/${endDate?.getFullYear()}`,
+        academicTerm: term,
       })
       .then((res) => {
         setShow(false);
-
-        window.location.reload();
       });
   };
 
   return (
-    <Container>
+    <Container onClick={toggleAnnonucement}>
       <Card>
         <Cont>
           <FirstHold>
-            <Text>Add New Student</Text>
-            <Cancel onClick={toggleShow}>
+            <Text>Add New Session</Text>
+            <Cancel onClick={toggleAnnonucement}>
               <MdOutlineClose />
             </Cancel>
           </FirstHold>
 
           <span>
-            Please make sure you fill in the correct name of the student.
+            Please note that each session you create, holds records of that
+            particular session.
           </span>
 
+          <Holden>
+            <InpHold>
+              <Title>
+                Session Start <div style={{ color: "red" }}>*</div>
+              </Title>
+              <DatePickerStyle
+                required
+                selected={startDate}
+                onChange={(date: any) => setStartDate(date)}
+                showYearPicker
+                dateFormat="yyyy"
+                yearItemNumber={9}
+                // disabled
+              />
+            </InpHold>
+            <InpHold>
+              <Title>
+                Session Ends <div style={{ color: "red" }}>*</div>
+              </Title>
+              <DatePickerStyle
+                required
+                selected={endDate}
+                onChange={(date: any) => setEndDate(date)}
+                showYearPicker
+                dateFormat="yyyy"
+                yearItemNumber={9}
+              />
+            </InpHold>
+          </Holden>
           <InpHold>
-            <Title>
-              Student Name <div style={{ color: "red" }}>*</div>
-            </Title>
+            <Title>Session Term</Title>
             <Input
-              disabled={show === true}
-              placeholder="e.g Gideon ekeke"
               onChange={(e) => {
-                setName(e.target.value);
+                setTerm(e.target.value);
               }}
-            />
+              required
+            >
+              <option selected disabled>
+                select term
+              </option>
+              <option value="1st Term">First Term</option>
+              <option value="2nd Term">Second Term</option>
+              <option value="3rd Term">Third Term</option>
+            </Input>
           </InpHold>
-          <InpHold>
-            <Title>School Name</Title>
-            <Input
-              style={{ color: "silver" }}
-              disabled
-              value={user?.schoolName}
-            />
-          </InpHold>
-
           <ButtonHold>
-            <Button3 onClick={toggleShow}>Cancel</Button3>
-            {name !== "" ? (
+            {term !== "" ? (
               <Button2
-                onClick={createStudents}
+                onClick={createSession}
                 style={{ backgroundColor: "#1da1f2", color: "white" }}
               >
-                {show ? <>Loading...</> : <>Procceed</>}
+                {show ? <>Loading...</> : <>Create Session</>}
               </Button2>
             ) : (
               <>
@@ -107,7 +125,24 @@ const CreateStudent: React.FC<Iprops> = ({ toggleShow }) => {
   );
 };
 
-export default CreateStudent;
+export default CreateClassRoom;
+
+const DatePickerStyle = styled(DatePicker)`
+  height: 30px;
+  width: 200px;
+  border: 1px solid #f4f4f4;
+  outline: none;
+  border-radius: 5px;
+  margin-right: 10px;
+
+  @media screen and (max-width: 960px) {
+    width: 90%;
+  }
+`;
+
+const Holden = styled.div`
+  display: flex;
+`;
 
 const ButtonHold = styled.div`
   margin-top: 20px;
@@ -145,6 +180,7 @@ const Button2 = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 5px;
+  font-size: 13px;
 
   /* border: 1px solid #1da1f2; */
   cursor: pointer;
@@ -164,7 +200,7 @@ const Title = styled.div`
   align-items: center;
 `;
 
-const Input = styled.input`
+const Input = styled.select`
   height: 35px;
   width: 97%;
   background-color: none;
@@ -212,6 +248,7 @@ const Cont = styled.div`
 `;
 
 const Card = styled.div`
+  position: absolute;
   height: 300px;
   width: 500px;
   background-color: white;
@@ -220,7 +257,7 @@ const Card = styled.div`
   transition: all 350ms;
   display: flex;
   justify-content: center;
-
+  z-index: 20;
   @media screen and (max-width: 768px) {
     width: 97%;
   }
@@ -228,15 +265,16 @@ const Card = styled.div`
 
 const Container = styled.div`
   position: absolute;
-
   background-color: rgba(30, 145, 243, 0.3);
-
   height: 100%;
   width: 100%;
   color: black;
   display: flex;
   justify-content: center;
-  /* align-items: center; */
+  //   align-items: center;
   backdrop-filter: blur(5px);
   z-index: 10;
+  left: 0;
+  top: 0;
+  padding-top: 200px;
 `;

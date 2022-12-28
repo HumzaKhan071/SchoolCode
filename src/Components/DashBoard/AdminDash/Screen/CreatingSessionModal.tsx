@@ -21,8 +21,6 @@ const CreatingSessionModal: React.FC<Iprops> = ({ toggleDrop }) => {
   const [term, setTerm] = useState("");
   const [show, setShow] = useState(false);
 
-  // console.log(endDate.getFullYear());
-
   const createSession = async () => {
     setShow(true);
     const newUrl = `${url}/api/academic/${user._id}/create-academic-session`;
@@ -33,7 +31,6 @@ const CreatingSessionModal: React.FC<Iprops> = ({ toggleDrop }) => {
       })
       .then((res) => {
         setShow(false);
-        console.log(res);
       });
   };
 
