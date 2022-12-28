@@ -31,11 +31,10 @@ const TeacherHeader = () => {
   const [userState, setUserState] = useRecoilState(User);
   const [change, setChange] = React.useState(false);
   const user = useRecoilValue(User);
+  const [academic, setAcademic] = useState({} as iSession);
 
   const myRef = React.useRef<HTMLDivElement>(null!);
   const backRef = React.useRef<HTMLDivElement>(null!);
-
-  const [academic, setAcademic] = useState({} as iSession);
 
   const changeTrue = () => {
     setChange(true);

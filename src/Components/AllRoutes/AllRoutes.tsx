@@ -12,7 +12,7 @@ import ParentSignup from "../Auth/SchoolSignUp";
 import StudentSignup from "../Auth/StudentSignup";
 import TeachersSignUp from "../Auth/TeachersSignUp";
 import FeeMangement from "../DashBoard/AdminDash/Screen/FeeMangement";
-import Commubication from "../DashBoard/AdminDash/Screen/Commubication";
+
 import Academics from "../DashBoard/AdminDash/Screen/Academics";
 import Dashboard from "../DashBoard/AdminDash/Screen/Dashboard";
 import Header from "../DashBoard/AllNav/Header";
@@ -23,11 +23,16 @@ import ConfirmSchool from "../Auth/ConfirmSchool";
 import SchoolLogin from "../Auth/LoginAuth/SchoolLogin";
 import SchoolConfirmVerify from "../Auth/SchoolConfirmVerify";
 import TeacherHeader from "../DashBoard/TeacherDash/TeacherNav/TeacherHeader";
-import TeacherDashboard from "../DashBoard/TeacherDash/TeacherDashboard";
+import TeacherDashboard from "../DashBoard/TeacherDash/TeacherComp/TeacherDashboard";
 import StudentHeader from "../DashBoard/StudentDash/StudentNav/StudenHeader";
 import StudentDashboard from "../DashBoard/StudentDash/StudentDashboard";
 import PrivateRoute from "../Global/PrivateRoute";
 import AssignmentScreen from "../DashBoard/StudentDash/AssignmentScreen";
+
+import Students from "../DashBoard/AdminDash/Screen/Students";
+import ClassRooms from "../DashBoard/AdminDash/Screen/ClassRooms";
+import ConfirmTeacherMessage from "../Auth/ConfirmTeachersMessage";
+
 
 const AllRoutes = () => {
 	let element = useRoutes([
@@ -109,7 +114,16 @@ const AllRoutes = () => {
 					element: (
 						<>
 							<Header />
-							<Commubication />
+							<Students />
+						</>
+					),
+				},
+				{
+					path: "classrooms",
+					element: (
+						<>
+							<Header />
+							<ClassRooms />
 						</>
 					),
 				},
@@ -192,6 +206,10 @@ const AllRoutes = () => {
 		{
 			path: "/api/school/verified/:id",
 			element: <SchoolConfirmVerify />,
+		},
+		{
+			path: "/api/teacher/verified/:id",
+			element: <ConfirmTeacherMessage />,
 		},
 
 		{

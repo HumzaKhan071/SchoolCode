@@ -1,189 +1,473 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { GrFormNext } from "react-icons/gr";
 import { FaMoneyBillAlt } from "react-icons/fa";
 import { BsPersonSquare } from "react-icons/bs";
+import { useRecoilValue } from "recoil";
+import { User } from "../../../Global/RecoilState";
+import axios from "axios";
+import CreateClassRoom from "./Homeforms/CreateClassRoom";
+import MyForm from "./Homeforms/MyForm";
+
+const url: string = "https://school-code.onrender.com";
+
+interface iData {
+	teachers: [];
+	students: [];
+	classes: [];
+}
 
 const Dashboard = () => {
-	return (
-		<Container>
-			<Content>
-				<First>
-					<span>OverView</span>
-					<MainHold>
-						<OverCard>
-							<CountHold>
-								<Cont>0</Cont>
-								<Text>Teachers</Text>
-							</CountHold>
-							<IconHold bg='#fdf4e6'>
-								<img src='/img/tea.svg' />
-							</IconHold>
-						</OverCard>
-						<OverCard>
-							<CountHold>
-								<Cont>0</Cont>
-								<Text>Classrooms</Text>
-							</CountHold>
-							<IconHold bg='#EAF9FF'>
-								<img src='/img/cl.svg' />
-							</IconHold>
-						</OverCard>
-						<OverCard>
-							<CountHold>
-								<Cont>0</Cont>
-								<Text>Students</Text>
-							</CountHold>
-							<IconHold bg='#EDE8FF'>
-								<img src='/img/st.svg' />
-							</IconHold>
-						</OverCard>
-					</MainHold>
-					<br />
-					<span>Reports</span>
-					<ReportsHold>
-						<StudRep>
-							<CircleHold>
-								<Circle>
-									<FaMoneyBillAlt />
-								</Circle>
-								<TitLeHold>
-									<Title>Fee</Title>
-									<span>Reports</span>
-								</TitLeHold>
-							</CircleHold>
-							<GrFormNext />
-						</StudRep>
-						<TeachRep>
-							<CircleHold>
-								<Circle style={{ backgroundColor: "#fdf4e6" }}>
-									<BsPersonSquare />
-								</Circle>
-								<TitLeHold>
-									<Title>Students Attendance</Title>
-									<span>Reports</span>
-								</TitLeHold>
-							</CircleHold>
-							<GrFormNext />
-						</TeachRep>
-					</ReportsHold>
-					<br />
 
-					<span>Fee</span>
-					<FeeCard>
-						<CircleH>
-							<TitLeHold>
-								<Title1>#0.00</Title1>
-								<span
-									style={{
-										color: "silver",
-										fontSize: "13px",
-									}}>
-									Applied Fee
-								</span>
-							</TitLeHold>
-						</CircleH>
-						<CircleH>
-							<TitLeHold>
-								<Title1>#0.00</Title1>
-								<span
-									style={{
-										color: "silver",
-										fontSize: "13px",
-									}}>
-									Discounts
-								</span>
-							</TitLeHold>
-						</CircleH>
-						<CircleH>
-							<TitLeHold>
-								<Title1>#0.00</Title1>
-								<span
-									style={{
-										color: "silver",
-										fontSize: "13px",
-									}}>
-									Paid Fee
-								</span>
-							</TitLeHold>
-						</CircleH>
-						<CircleH>
-							<TitLeHold>
-								<Title1>#0.00</Title1>
-								<span
-									style={{
-										color: "silver",
-										fontSize: "13px",
-									}}>
-									Due Fee
-								</span>
-							</TitLeHold>
-						</CircleH>
-					</FeeCard>
+  const [schoolData, setSchoolData] = useState({} as iData);
+  const user = useRecoilValue(User);
 
-					<span>Student Attendance</span>
-					<FeeCard>
-						<CircleH>
-							<TitLeHold>
-								<Title1>0/46</Title1>
-								<span
-									style={{
-										color: "silver",
-										fontSize: "13px",
-									}}>
-									Class Mark
-								</span>
-							</TitLeHold>
-						</CircleH>
-						<CircleH>
-							<TitLeHold>
-								<Title1>-</Title1>
-								<span
-									style={{
-										color: "silver",
-										fontSize: "13px",
-									}}>
-									Total Present
-								</span>
-							</TitLeHold>
-						</CircleH>
-						<CircleH>
-							<TitLeHold>
-								<Title1>-</Title1>
-								<span
-									style={{
-										color: "silver",
-										fontSize: "13px",
-									}}>
-									Total Absent
-								</span>
-							</TitLeHold>
-						</CircleH>
-						<CircleH>
-							<TitLeHold>
-								<Title1>-</Title1>
-								<span
-									style={{
-										color: "silver",
-										fontSize: "13px",
-									}}>
-									Overall Attendance
-								</span>
-							</TitLeHold>
-						</CircleH>
-					</FeeCard>
-				</First>
-				<Second>
-					<span>Quick Actions</span>
-					<Card>
-						<MyDiv>Share information with teachers and students</MyDiv>
-						<Button>Create Announcement</Button>
-					</Card>
-					<AnnounceCard>anouncements list</AnnounceCard>
-				</Second>
-			</Content>
-		</Container>
-	);
+  const getCount = async () => {
+    await axios.get(`${url}/api/school/${user._id}`).then((res) => {
+      setSchoolData(res.data.data);
+    });
+  };
+
+  const [announcement, setAnnouncement] = useState(false);
+  const [classRoom, setClassRoom] = useState(false);
+  const [event, setEvent] = useState(false);
+  const [subject, setSubject] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const [name, setName] = useState("");
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
+
+  const [name3, setName3] = useState("");
+  const [name4, setName4] = useState("");
+  const [name5, setName5] = useState("");
+
+  const toggleAnnouncement = () => {
+    setAnnouncement(!announcement);
+  };
+
+  const toggleClassRoom = () => {
+    setClassRoom(!classRoom);
+  };
+
+  const toggleEvent = () => {
+    setEvent(!event);
+  };
+
+  const toggleSubject = () => {
+    setSubject(!subject);
+  };
+
+  const createClassRoom = async () => {
+    setShow(true);
+    const newUrl = `${url}/api/class/${user._id}/create-class`;
+    console.log(name);
+    console.log(name1);
+    await axios
+      .post(newUrl, {
+        className: name.toUpperCase(),
+        termFee: parseInt(name1),
+      })
+      .then((res) => {
+        setShow(false);
+        toggleClassRoom();
+      });
+  };
+
+  const createSubject = async () => {
+    setShow(true);
+    const newUrl = `${url}/api/subject/${user._id}/create-class-subject`;
+    await axios
+      .post(newUrl, {
+        subjectName: name,
+        classCode: name1,
+        subjectTeacher: name2,
+      })
+      .then((res) => {
+        setShow(false);
+      });
+  };
+
+  const createAnnouncement = async () => {
+    setShow(true);
+    const newUrl = `${url}/api/announcement/${user._id}/create-announcement`;
+    const newUrl2 = `https://school-code.onrender.com/api/announcement/63a36581bf7b831106518d5d/create-announcement`;
+
+    await axios
+      .post(newUrl, {
+        title: name,
+        code: name1,
+        detail: name2,
+      })
+      .then((res) => {
+        setShow(false);
+        setAnnouncement(!announcement);
+      });
+  };
+
+  const createEvent = async () => {
+    setShow(true);
+    const newUrl = `${url}/api/announcement/${user._id}/create-announcement`;
+    await axios
+      .post(newUrl, {
+        title: name,
+        desc: name1,
+        month: name2,
+        time: name3,
+        year: name4,
+        fixedData: name5,
+      })
+      .then((res) => {
+        setShow(false);
+      });
+  };
+
+  useEffect(() => {
+    getCount();
+  }, []);
+  return (
+    <Container>
+      <Content>
+        <First>
+          <span>OverView</span>
+          <MainHold>
+            <OverCard>
+              <CountHold>
+                <Cont>{schoolData?.teachers?.length}</Cont>
+                <Text>Teachers</Text>
+              </CountHold>
+              <IconHold bg="#fdf4e6">
+                <img src="/img/tea.svg" />
+              </IconHold>
+            </OverCard>
+            <OverCard>
+              <CountHold>
+                <Cont>{schoolData?.classes?.length}</Cont>
+                <Text>Classrooms</Text>
+              </CountHold>
+              <IconHold bg="#EAF9FF">
+                <img src="/img/cl.svg" />
+              </IconHold>
+            </OverCard>
+            <OverCard>
+              <CountHold>
+                <Cont>{schoolData?.students?.length}</Cont>
+                <Text>Students</Text>
+              </CountHold>
+              <IconHold bg="#EDE8FF">
+                <img src="/img/st.svg" />
+              </IconHold>
+            </OverCard>
+          </MainHold>
+          <br />
+          <span>Reports</span>
+          <ReportsHold>
+            <StudRep>
+              <CircleHold>
+                <Circle>
+                  <FaMoneyBillAlt />
+                </Circle>
+                <TitLeHold>
+                  <Title>Fee</Title>
+                  <span>Reports</span>
+                </TitLeHold>
+              </CircleHold>
+              <GrFormNext />
+            </StudRep>
+            <TeachRep>
+              <CircleHold>
+                <Circle style={{ backgroundColor: "#fdf4e6" }}>
+                  <BsPersonSquare />
+                </Circle>
+                <TitLeHold>
+                  <Title>Students Attendance</Title>
+                  <span>Reports</span>
+                </TitLeHold>
+              </CircleHold>
+              <GrFormNext />
+            </TeachRep>
+          </ReportsHold>
+          <br />
+
+          <span>Fee</span>
+          <FeeCard>
+            <CircleH>
+              <TitLeHold>
+                <Title1>#0.00</Title1>
+                <span
+                  style={{
+                    color: "silver",
+                    fontSize: "13px",
+                  }}
+                >
+                  Applied Fee
+                </span>
+              </TitLeHold>
+            </CircleH>
+            <CircleH>
+              <TitLeHold>
+                <Title1>#0.00</Title1>
+                <span
+                  style={{
+                    color: "silver",
+                    fontSize: "13px",
+                  }}
+                >
+                  Discounts
+                </span>
+              </TitLeHold>
+            </CircleH>
+            <CircleH>
+              <TitLeHold>
+                <Title1>#0.00</Title1>
+                <span
+                  style={{
+                    color: "silver",
+                    fontSize: "13px",
+                  }}
+                >
+                  Paid Fee
+                </span>
+              </TitLeHold>
+            </CircleH>
+            <CircleH>
+              <TitLeHold>
+                <Title1>#0.00</Title1>
+                <span
+                  style={{
+                    color: "silver",
+                    fontSize: "13px",
+                  }}
+                >
+                  Due Fee
+                </span>
+              </TitLeHold>
+            </CircleH>
+          </FeeCard>
+
+          <span>Student Attendance</span>
+          <FeeCard>
+            <CircleH>
+              <TitLeHold>
+                <Title1>0/46</Title1>
+                <span
+                  style={{
+                    color: "silver",
+                    fontSize: "13px",
+                  }}
+                >
+                  Class Mark
+                </span>
+              </TitLeHold>
+            </CircleH>
+            <CircleH>
+              <TitLeHold>
+                <Title1>-</Title1>
+                <span
+                  style={{
+                    color: "silver",
+                    fontSize: "13px",
+                  }}
+                >
+                  Total Present
+                </span>
+              </TitLeHold>
+            </CircleH>
+            <CircleH>
+              <TitLeHold>
+                <Title1>-</Title1>
+                <span
+                  style={{
+                    color: "silver",
+                    fontSize: "13px",
+                  }}
+                >
+                  Total Absent
+                </span>
+              </TitLeHold>
+            </CircleH>
+            <CircleH>
+              <TitLeHold>
+                <Title1>-</Title1>
+                <span
+                  style={{
+                    color: "silver",
+                    fontSize: "13px",
+                  }}
+                >
+                  Overall Attendance
+                </span>
+              </TitLeHold>
+            </CircleH>
+          </FeeCard>
+        </First>
+        <Second>
+          <span>Quick Actions</span>
+          <Card>
+            <MyDiv>Share information with teachers and students</MyDiv>
+            <Button bg="black" col="black" onClick={toggleAnnouncement}>
+              Create Announcement
+            </Button>
+            {announcement ? (
+              <MyForm
+                title1="Enter The Announcement to be made"
+                holder="Enter Annonucement"
+                holder1="Enter session code"
+                holder2="Enter Annonucement Details"
+                toggle={toggleAnnouncement}
+                title="Make Annonucement"
+                title2="Enter session code"
+                title3="Enter Annonucement details"
+                subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+                mainAction={createAnnouncement}
+                show={show}
+                setName={setName}
+                setName2={setName2}
+                setName1={setName1}
+                setName3={setName3}
+                setName4={setName4}
+                setName5={setName5}
+                one={true}
+                two={true}
+                three={false}
+                four={false}
+                five={false}
+                name={name}
+                name1={name1}
+                name2={name2}
+                name3={name3}
+                name4={name4}
+                name5={name5}
+                check={true}
+              />
+            ) : null}
+
+            <Button bg="#ED931A" col="black" onClick={toggleEvent}>
+              Create Event
+            </Button>
+
+            {event ? (
+              <MyForm
+                holder="Enter Event title:EG Football Match"
+                holder1="A time to wine and dine with the Football pitch"
+                holder2="Enter Event title:EG Inner house Sport"
+                holder3="Enter Event title:EG Inner house Sport"
+                holder4="Enter Event title:EG Inner house Sport"
+                holder5="Enter Event title:EG Inner house Sport"
+                mainAction={createEvent}
+                toggle={toggleEvent}
+                title="create new Event"
+                title1="Enter event description"
+                title2="Month of Event"
+                title3="create new Event"
+                title4="create new Event"
+                title5="create new Event"
+                title6="create new Event"
+                subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+                show={show}
+                setName={setName}
+                setName1={setName1}
+                setName2={setName2}
+                setName3={setName3}
+                setName4={setName4}
+                setName5={setName5}
+                one={true}
+                two={true}
+                three={true}
+                four={true}
+                five={true}
+                name={name}
+                name1={name1}
+                name2={name2}
+                name3={name3}
+                name4={name4}
+                name5={name5}
+                check={true}
+              />
+            ) : null}
+
+            <Button bg="#0FBBFE" col="" onClick={toggleClassRoom}>
+              Create ClassRoom
+            </Button>
+            {classRoom ? (
+              <MyForm
+                title1="Name the Class"
+                title2="class school Fee"
+                holder="Enter the class Name: eg SS3A"
+                holder1="Enter class School Fee"
+                toggle={toggleClassRoom}
+                title="Create ClassRoom"
+                subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+                mainAction={createClassRoom}
+                show={show}
+                setName={setName}
+                setName1={setName1}
+                setName2={setName2}
+                setName3={setName3}
+                setName4={setName4}
+                setName5={setName5}
+                one={true}
+                two={false}
+                three={false}
+                four={false}
+                five={false}
+                check={true}
+                name={name}
+                name1={name1}
+                name2={name2}
+                name3={name3}
+                name4={name4}
+                name5={name5}
+              />
+            ) : null}
+
+            <Button bg="#8E6AFF" col="" onClick={toggleSubject}>
+              Create Subject
+            </Button>
+            {subject ? (
+              <MyForm
+                holder="Enter the class Name: eg SS3A"
+                holder1="session code: 8b309d"
+                holder2="Teacher to take this subject"
+                toggle={toggleSubject}
+                title="Create Subject"
+                title1="Subject Name"
+                title2="Class Code"
+                title3="subject Teacher"
+                subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+                mainAction={createSubject}
+                show={show}
+                setName={setName}
+                setName1={setName1}
+                setName2={setName2}
+                setName3={setName3}
+                setName4={setName4}
+                setName5={setName5}
+                one={true}
+                two={true}
+                three={false}
+                four={false}
+                five={false}
+                name={name}
+                name1={name1}
+                name2={name2}
+                name3={name3}
+                name4={name4}
+                name5={name5}
+                check={true}
+              />
+            ) : null}
+          </Card>
+          <AnnounceCard>anouncements list</AnnounceCard>
+        </Second>
+      </Content>
+    </Container>
+  );
+
 };
 
 export default Dashboard;
@@ -278,7 +562,9 @@ const MainHold = styled.div`
 		flex-wrap: wrap;
 	}
 `;
-const CountHold = styled.div``;
+const CountHold = styled.div`
+	min-height: 40px;
+`;
 const OverCard = styled.div`
 	display: flex;
 	justify-content: space-between;
@@ -332,12 +618,15 @@ const IconHold = styled.div<{ bg: string }>`
 	}
 `;
 
-const Button = styled.button`
+const Button = styled.button<{
+	bg: string;
+	col: string;
+}>`
+	background-color: ${({ bg }) => bg};
+	color: ${({ col }) => col};
 	height: 40px;
 	width: 100%;
 	margin-top: 10px;
-	/* padding: 25px 50px; */
-	background-color: #1da1f2;
 	color: white;
 	border: none;
 	outline: none;
@@ -347,8 +636,10 @@ const Button = styled.button`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
+	font-family: Poppins;
 	margin-bottom: 10px;
+	text-transform: uppercase;
+	font-size: 13px;
 
 	:hover {
 		transform: scale(0.95);
