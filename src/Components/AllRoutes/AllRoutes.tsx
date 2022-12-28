@@ -27,9 +27,12 @@ import TeacherDashboard from "../DashBoard/TeacherDash/TeacherComp/TeacherDashbo
 import StudentHeader from "../DashBoard/StudentDash/StudentNav/StudenHeader";
 import StudentDashboard from "../DashBoard/StudentDash/StudentDashboard";
 import PrivateRoute from "../Global/PrivateRoute";
+import AssignmentScreen from "../DashBoard/StudentDash/AssignmentScreen";
+
 import Students from "../DashBoard/AdminDash/Screen/Students";
 import ClassRooms from "../DashBoard/AdminDash/Screen/ClassRooms";
 import ConfirmTeacherMessage from "../Auth/ConfirmTeachersMessage";
+
 
 const AllRoutes = () => {
 	let element = useRoutes([
@@ -182,6 +185,17 @@ const AllRoutes = () => {
 						</>
 					),
 				},
+
+				{
+                  path:"assignment",
+				  element:(
+					<>
+					 <StudentHeader />
+					  <AssignmentScreen/>
+					</>
+				  )
+				},
+
 			],
 		},
 
