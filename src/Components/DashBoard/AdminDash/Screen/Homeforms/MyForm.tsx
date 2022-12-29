@@ -44,6 +44,7 @@ interface iProps {
   five: boolean;
   check: boolean;
 
+  buttonCall?: string;
   name?: string;
   name1?: string;
   name2?: string;
@@ -81,6 +82,7 @@ const MyForm: React.FC<iProps> = ({
   holder3,
   holder4,
   holder5,
+  buttonCall,
 
   setName,
   setName1,
@@ -225,7 +227,7 @@ const MyForm: React.FC<iProps> = ({
                   }}
                   style={{ backgroundColor: "#1da1f2", color: "white" }}
                 >
-                  {show ? <>Loading...</> : <>Create Class Room</>}
+                  {show ? <>Loading...</> : <>{buttonCall}</>}
                 </Button2>
               ) : (
                 <>
@@ -284,6 +286,7 @@ const Button3 = styled.div`
   }
 `;
 const Button2 = styled.div`
+  text-align: center;
   height: 40px;
   width: 150px;
   background-color: #dcdada;
@@ -295,7 +298,8 @@ const Button2 = styled.div`
   font-size: 13px;
   font-family: Poppins;
   text-transform: uppercase;
-
+  line-height: 1.1;
+  font-weight: 700;
   /* border: 1px solid #1da1f2; */
   cursor: pointer;
   transition: all 350ms;

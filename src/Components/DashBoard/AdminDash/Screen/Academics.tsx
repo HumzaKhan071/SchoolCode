@@ -50,10 +50,9 @@ function Academics() {
     const newURL = `${url}/api/class/${user._id}/${id}/assign-teacher`;
 
     await axios
-      .post(newURL, {})
-      .then((res) => {
-        setTeacher(res.data.data.teachers);
+      .post(newURL, { classToken: name })
 
+      .then(() => {
         setLoad(false);
       })
       .catch((res) => {
@@ -157,7 +156,15 @@ function Academics() {
                     <CalD>
                       Subject Taken:
                       {props.subjectTaken.length > 0 ? (
-                        <div style={{ marginLeft: "5px" }}>
+                        <div
+                          style={{
+                            margin: "5px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            padding: "2px 4px",
+                          }}
+                        >
                           {props.subjectTaken.map((props, i) => (
                             <Curve key={i}>{props}</Curve>
                           ))}
@@ -166,7 +173,7 @@ function Academics() {
                         <Curve>Not yet Assigned</Curve>
                       )}
                     </CalD>
-
+                    <br />
                     <div
                       style={{
                         display: "flex",
@@ -174,22 +181,21 @@ function Academics() {
                         width: "110%",
                       }}
                     >
-                      <ButtonB bg="#000269" onClick={toggleClassRoom}>
-                        Assign to Class
+                      <ButtonB bg="black" onClick={toggleClassRoom}>
+                        Reassign to another Class
                       </ButtonB>
                       {classRoom ? (
                         <MyForm
                           check={false}
-                          title1="Enter the class name teacher should be assigned to"
+                          title1="Enter the class token to help find the class fast"
                           title2="class school Fee"
-                          holder="Enter the class Name: eg SS3A"
+                          holder="Enter the Class token: eb 445t"
                           holder1="Enter class School Fee"
                           toggle={toggleClassRoom}
-                          title="Create ClassRoom"
-                          subTitle=" By creating a class room, this new class will be added to your list
-                of class rooms."
+                          title="Reassign to another Class"
+                          subTitle="By filling this form, you will automatically reassign teacher to the new choice class."
                           mainActionAdmin={() => {
-                            createSubject(props._id);
+                            createClassRoom(props._id);
                           }}
                           show={show}
                           setShow={setShow}
@@ -211,10 +217,13 @@ function Academics() {
                           name3={name3}
                           name4={name4}
                           name5={name5}
+                          buttonCall="Change Teacher's class"
                         />
                       ) : null}
                       <br />
-                      <ButtonB bg="black" onClick={toggleSubject}>
+                      <br />
+
+                      {/* <ButtonB bg="black" onClick={toggleSubject}>
                         Assign for Subject
                       </ButtonB>
                       {subject ? (
@@ -253,7 +262,7 @@ function Academics() {
                           name4={name4}
                           name5={name5}
                         />
-                      ) : null}
+                      ) : null} */}
                     </div>
                   </Main>
                 </TeachHold>
@@ -382,7 +391,7 @@ const TeacherImage = styled.img`
 const Main = styled.div``;
 const Div = styled.div`
   font-weight: bold;
-  text-transform: uppercase;
+  //   text-transform: uppercase;
 `;
 
 const BoxHold = styled.div`
@@ -405,8 +414,8 @@ const Hols = styled.div`
 `;
 
 const ButtonB = styled.div<{ bg: string }>`
-  height: 40px;
-  width: 100px;
+  height: 45px;
+  width: 150px;
   //   padding: 0 5px;
   background-color: ${({ bg }) => bg};
   color: white;
@@ -420,6 +429,7 @@ const ButtonB = styled.div<{ bg: string }>`
   transition: all 350ms;
   margin-top: 10px;
   text-align: center;
+  font-weight: 500;
 
   :hover {
     transform: scale(0.97);
