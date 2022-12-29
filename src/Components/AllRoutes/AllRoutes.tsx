@@ -12,7 +12,6 @@ import ParentSignup from "../Auth/SchoolSignUp";
 import StudentSignup from "../Auth/StudentSignup";
 import TeachersSignUp from "../Auth/TeachersSignUp";
 import FeeMangement from "../DashBoard/AdminDash/Screen/FeeMangement";
-
 import Academics from "../DashBoard/AdminDash/Screen/Academics";
 import Dashboard from "../DashBoard/AdminDash/Screen/Dashboard";
 import Header from "../DashBoard/AllNav/Header";
@@ -27,7 +26,9 @@ import TeacherDashboard from "../DashBoard/TeacherDash/TeacherComp/TeacherDashbo
 import StudentHeader from "../DashBoard/StudentDash/StudentNav/StudenHeader";
 import StudentDashboard from "../DashBoard/StudentDash/StudentDashboard";
 import PrivateRoute from "../Global/PrivateRoute";
-import Students from "../DashBoard/AdminDash/Screen/Students";
+import Attendance from "../DashBoard/TeacherDash/TeacherComp/Attendance/Attendance";
+import Test from "../DashBoard/TeacherDash/TeacherComp/Test/Test";
+import NoticeBoard from "../DashBoard/TeacherDash/TeacherComp/NoticeBoard/NoticeBoard";
 
 const AllRoutes = () => {
   let element = useRoutes([
@@ -84,66 +85,56 @@ const AllRoutes = () => {
 
     //Admin/School Route
 
+    {
+      path: "/admin-dashboard",
+      children: [
+        {
+          index: true,
+          element: (
+            <>
+              <PrivateRoute />
+            </>
+          ),
+        },
+        {
+          path: "createteacher",
+          element: (
+            <>
+              <Header />
+              <Academics />
+            </>
+          ),
+        },
 
-		{
-			path: "/admin-dashboard",
-			children: [
-				{
-					index: true,
-					element: (
-						<>
-							<PrivateRoute />
-						</>
-					),
-				},
-				{
-					path: "createteacher",
-					element: (
-						<>
-							<Header />
-							<Academics />
-						</>
-					),
-				},
-				{
-					path: "createstudent",
-					element: (
-						<>
-							<Header />
-							<Students />
-						</>
-					),
-				},
-				{
-					path: "expenses",
-					element: (
-						<>
-							<Header />
-							<FeeMangement />
-						</>
-					),
-				},
-				{
-					path: "report",
-					element: (
-						<>
-							<Header />
-							<Report />
-						</>
-					),
-				},
-				{
-					path: "notifications",
-					element: (
-						<>
-							<Header />
-							<Notification />
-						</>
-					),
-				},
-			],
-		},
-
+        {
+          path: "expenses",
+          element: (
+            <>
+              <Header />
+              <FeeMangement />
+            </>
+          ),
+        },
+        {
+          path: "report",
+          element: (
+            <>
+              <Header />
+              <Report />
+            </>
+          ),
+        },
+        {
+          path: "notifications",
+          element: (
+            <>
+              <Header />
+              <Notification />
+            </>
+          ),
+        },
+      ],
+    },
 
     //Teachers Route
     {
@@ -154,6 +145,34 @@ const AllRoutes = () => {
           element: (
             <>
               <PrivateRoute />
+            </>
+          ),
+        },
+
+        {
+          path: "attendance",
+          element: (
+            <>
+              <TeacherHeader />
+              <Attendance />
+            </>
+          ),
+        },
+        {
+          path: "test",
+          element: (
+            <>
+              <TeacherHeader />
+              <Test />
+            </>
+          ),
+        },
+        {
+          path: "noticeboard",
+          element: (
+            <>
+              <TeacherHeader />
+              <NoticeBoard />
             </>
           ),
         },
