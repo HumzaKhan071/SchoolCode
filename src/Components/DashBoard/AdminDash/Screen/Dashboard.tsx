@@ -8,6 +8,7 @@ import { User } from "../../../Global/RecoilState";
 import axios from "axios";
 import CreateClassRoom from "./Homeforms/CreateClassRoom";
 import MyForm from "./Homeforms/MyForm";
+import { Navigate, useNavigate } from "react-router";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -18,6 +19,7 @@ interface iData {
 }
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [schoolData, setSchoolData] = useState({} as iData);
   const user = useRecoilValue(User);
 
@@ -79,11 +81,12 @@ const Dashboard = () => {
     await axios
       .post(newUrl, {
         subjectName: name,
-        classCode: name1,
+        classToken: name1,
         subjectTeacher: name2,
       })
       .then((res) => {
         setShow(false);
+        navigate("/");
       });
   };
 
@@ -338,6 +341,7 @@ const Dashboard = () => {
                 name3={name3}
                 name4={name4}
                 name5={name5}
+                check={true}
               />
             ) : null}
 
@@ -382,6 +386,7 @@ const Dashboard = () => {
                 name3={name3}
                 name4={name4}
                 name5={name5}
+                check={true}
               />
             ) : null}
 
@@ -411,6 +416,7 @@ const Dashboard = () => {
                 three={false}
                 four={false}
                 five={false}
+                check={true}
                 name={name}
                 name1={name1}
                 name2={name2}
@@ -454,6 +460,7 @@ const Dashboard = () => {
                 name3={name3}
                 name4={name4}
                 name5={name5}
+                check={true}
               />
             ) : null}
           </Card>
@@ -705,6 +712,7 @@ const Content = styled.div`
 `;
 
 const Container = styled.div`
+  margin-top: 80px;
   width: calc(100vw - 230px);
   min-height: calc(100vh - 60px);
   display: flex;

@@ -159,7 +159,7 @@ const Header = () => {
                   }}
                 />
               </div>
-              <span>Session: {academic.academicSession} </span>
+              <span>Session: {academic?.academicSession} </span>
               <div>
                 <RiArrowDropDownLine
                   style={{
@@ -544,15 +544,15 @@ const HolderCon = styled.div`
 `;
 
 const HeaderDash = styled.div`
+  background-color: white;
+  position: fixed;
   width: 100%;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  z-index: 100001;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-  position: sticky;
-  top: 0;
 
   /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
   /* box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
@@ -561,6 +561,7 @@ const HeaderDash = styled.div`
 `;
 
 const Side = styled.div`
+  margin-top: 80px;
   width: 230px;
   min-height: calc(100vh - 60px);
   overflow: hidden;

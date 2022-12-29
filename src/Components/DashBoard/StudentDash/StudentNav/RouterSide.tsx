@@ -21,7 +21,7 @@ export const SideBarItem: NavCon[] = [
 	{
 		name: "Assignemt",
 		icon: (prop: IconBaseProps) => <SiMicrosoftacademic />,
-		to: "/",
+		to: "/student-dashboard/assignment",
 	},
 	{
 		name: "Time-Table",

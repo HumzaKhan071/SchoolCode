@@ -1,5 +1,5 @@
 import { IconBaseProps, IconType } from "react-icons";
-import { SiMicrosoftacademic } from "react-icons/si";
+import { SiGoogleclassroom, SiMicrosoftacademic } from "react-icons/si";
 import { FaChalkboardTeacher, FaMoneyBillAlt } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { CgCommunity } from "react-icons/cg";
@@ -33,6 +33,11 @@ export const SideBarItem: NavCon[] = [
 		name: "Students",
 		icon: (prop: IconBaseProps) => <BsFillPeopleFill />,
 		to: "/admin-dashboard/createstudent",
+	},
+	{
+		name: "ClassRooms",
+		icon: (prop: IconBaseProps) => <SiGoogleclassroom />,
+		to: "/admin-dashboard/classrooms",
 	},
 	{
 		name: "Expenses",
