@@ -12,7 +12,6 @@ import ParentSignup from "../Auth/SchoolSignUp";
 import StudentSignup from "../Auth/StudentSignup";
 import TeachersSignUp from "../Auth/TeachersSignUp";
 import FeeMangement from "../DashBoard/AdminDash/Screen/FeeMangement";
-
 import Academics from "../DashBoard/AdminDash/Screen/Academics";
 import Dashboard from "../DashBoard/AdminDash/Screen/Dashboard";
 import Header from "../DashBoard/AllNav/Header";
@@ -27,6 +26,11 @@ import TeacherDashboard from "../DashBoard/TeacherDash/TeacherComp/TeacherDashbo
 import StudentHeader from "../DashBoard/StudentDash/StudentNav/StudenHeader";
 import StudentDashboard from "../DashBoard/StudentDash/StudentDashboard";
 import PrivateRoute from "../Global/PrivateRoute";
+
+import Attendance from "../DashBoard/TeacherDash/TeacherComp/Attendance/Attendance";
+import Test from "../DashBoard/TeacherDash/TeacherComp/Test/Test";
+import NoticeBoard from "../DashBoard/TeacherDash/TeacherComp/NoticeBoard/NoticeBoard";
+
 import AssignmentScreen from "../DashBoard/StudentDash/AssignmentScreen";
 
 import Students from "../DashBoard/AdminDash/Screen/Students";
@@ -87,6 +91,7 @@ const AllRoutes = () => {
 				},
 			],
 		},
+
 
 		//Admin/School Route
 
@@ -173,19 +178,47 @@ const AllRoutes = () => {
 		},
 
 		//Teachers Route
-		{
-			path: "/teacher-dashboard",
-			children: [
-				{
-					index: true,
-					element: (
-						<>
-							<PrivateRoute />
-						</>
-					),
-				},
-			],
-		},
+	   {
+      path: "/teacher-dashboard",
+      children: [
+        {
+          index: true,
+          element: (
+            <>
+              <PrivateRoute />
+            </>
+          ),
+        },
+
+        {
+          path: "attendance",
+          element: (
+            <>
+              <TeacherHeader />
+              <Attendance />
+            </>
+          ),
+        },
+        {
+          path: "test",
+          element: (
+            <>
+              <TeacherHeader />
+              <Test />
+            </>
+          ),
+        },
+        {
+          path: "noticeboard",
+          element: (
+            <>
+              <TeacherHeader />
+              <NoticeBoard />
+            </>
+          ),
+        },
+      ],
+    },
 
 		//Student Route
 		{
@@ -234,6 +267,7 @@ const AllRoutes = () => {
 	]);
 
 	return element;
+
 };
 
 export default AllRoutes;
