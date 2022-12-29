@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router";
 // import ClipLoader from "react-spinners/BounceLoader";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
@@ -19,6 +20,7 @@ interface iTeacher {
 }
 
 function Students() {
+  const navigate = useNavigate();
   const user = useRecoilValue(User);
   const [student, setStudent] = useState([] as iTeacher[]);
   const [load, setLoad] = useState(true);
@@ -49,12 +51,13 @@ function Students() {
   const createClassRoom = async (id: string) => {
     // class/63a36378c190ef0a78afc083/63a3fbffd1df903e7ffa03e2/assign-student
     const newURL = `${url}/api/class/${user._id}/${id}/assign-student`;
-
+    console.log(newURL);
     await axios
       .post(newURL, { classToken: name })
 
       .then(() => {
         setLoad(false);
+        navigate("/admin-dashboard/createstudent");
       })
       .catch((res) => {
         setLoad(false);
@@ -374,6 +377,7 @@ const Hold = styled.div`
 `;
 
 const Container = styled.div`
+  margin-top: 80px;
   /* width: 100%; */
   width: calc(100vw - 230px);
   min-height: calc(100vh - 60px);
