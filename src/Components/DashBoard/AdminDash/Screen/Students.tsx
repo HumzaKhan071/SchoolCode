@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
+
 import { Navigate, useNavigate } from "react-router";
 
 // import ClipLoader from "react-spinners/BounceLoader";
@@ -23,7 +23,6 @@ interface iTeacher {
 }
 
 function Students() {
-
 	const user = useRecoilValue(User);
 	const [student, setStudent] = useState([] as iTeacher[]);
 	const [load, setLoad] = useState(true);
@@ -409,5 +408,4 @@ const Container = styled.div`
 	}
 
 	/* background-color: #352b1e; */
-
 `;
