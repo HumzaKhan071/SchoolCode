@@ -358,7 +358,7 @@ function ClassRoomDetails() {
 									/>
 
 									<ButHold2 onClick={createNewSubject}>
-										<Button>+ Create Subject</Button>
+										<Button>+ Create Subjects</Button>
 									</ButHold2>
 								</Conta2>
 							) : null}
