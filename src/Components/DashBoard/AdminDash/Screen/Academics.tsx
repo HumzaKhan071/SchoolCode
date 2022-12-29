@@ -163,6 +163,9 @@ function Academics() {
                             alignItems: "center",
                             justifyContent: "center",
                             padding: "2px 4px",
+                            width: "160px",
+                            minHeight: "100px",
+                            flexWrap: "wrap",
                           }}
                         >
                           {props.subjectTaken.map((props, i) => (
