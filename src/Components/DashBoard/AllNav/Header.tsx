@@ -159,7 +159,7 @@ const Header = () => {
                   }}
                 />
               </div>
-              <span>Session: {academic.academicSession} </span>
+              <span>Session: {academic?.academicSession} </span>
               <div>
                 <RiArrowDropDownLine
                   style={{
@@ -549,10 +549,8 @@ const HeaderDash = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  z-index: 100001;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-  position: sticky;
-  top: 0;
 
   /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
   /* box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,

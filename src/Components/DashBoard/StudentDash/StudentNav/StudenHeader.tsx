@@ -35,7 +35,7 @@ const StudentHeader = () => {
 		backRef.current.style.left = "-2000px";
 	};
 	return (
-		<div>
+		<div >
 			<HeaderDash>
 				<HolderCon>
 					<MenuHold>
@@ -250,7 +250,7 @@ const NavCon = styled.div`
 `;
 
 const ContentDash = styled.div`
-	padding-top: 30px;
+	padding-top: 60px;
 `;
 
 const One = styled.div`
@@ -399,26 +399,36 @@ const HolderCon = styled.div`
 	height: 100%;
 	display: flex;
 	justify-content: space-between;
+	
 `;
 
 const HeaderDash = styled.div`
-	swidth: 100%;
+	width: 100%;
 	height: 60px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+	
+	background-color:white;
+	position: fixed;
+	top: 0;
+	z-index:999;
+	
+	
+	
+	
+	
 `;
 
 const Side = styled.div`
 	width: 230px;
-	min-height: calc(100vh - 60px);
+	min-height: calc(100vh - 0px);
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	background-color: #ffffff;
-	box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
-		rgba(0, 0, 0, 0.22) 0px 10px 10px;
+
 	position: fixed;
 	justify-content: space-between;
 
