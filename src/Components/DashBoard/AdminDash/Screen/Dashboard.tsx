@@ -77,11 +77,11 @@ const Dashboard = () => {
 
   const createSubject = async () => {
     setShow(true);
-    const newUrl = `${url}/api/class/${user._id}/assign-teacher`;
+    const newUrl = `${url}/api/subject/${user._id}/create-class-subject`;
     await axios
       .post(newUrl, {
         subjectName: name,
-        classCode: name1,
+        classToken: name1,
         subjectTeacher: name2,
       })
       .then((res) => {

@@ -11,6 +11,7 @@ import { string } from "yargs";
 
 interface iProps {
   toggle?: () => void;
+  toggleShow?: () => void;
   //   toggleSubject?: () => void;
   mainAction?: () => void;
   mainActionAdmin?: (id: any) => void;
@@ -29,6 +30,7 @@ interface iProps {
   holder4?: string;
   holder5?: string;
   show: boolean;
+  setShow?: React.Dispatch<React.SetStateAction<boolean>>;
   setName: React.Dispatch<React.SetStateAction<string>>;
   setName3: React.Dispatch<React.SetStateAction<string>>;
   setName4: React.Dispatch<React.SetStateAction<string>>;
@@ -93,6 +95,9 @@ const MyForm: React.FC<iProps> = ({
   name3,
   name4,
   name5,
+
+  toggleShow,
+  setShow,
 }) => {
   return (
     <Container>
@@ -213,9 +218,10 @@ const MyForm: React.FC<iProps> = ({
             <ButtonHold>
               {name !== "" ? (
                 <Button2
-                  onClick={(id) => {
+                  onClick={(id: any) => {
                     mainActionAdmin!(id);
-                    console.log("changes...");
+
+                    // toggle!();
                   }}
                   style={{ backgroundColor: "#1da1f2", color: "white" }}
                 >

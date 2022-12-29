@@ -42,6 +42,9 @@ function Academics() {
   const toggleSubject = () => {
     setSubject(!subject);
   };
+  const toggle = () => {
+    setShow(!show);
+  };
 
   const createClassRoom = async (id: string) => {
     const newURL = `${url}/api/class/${user._id}/${id}/assign-teacher`;
@@ -62,15 +65,22 @@ function Academics() {
         });
       });
   };
+
   const createSubject = async (id: string) => {
-    const newURL = `${url}/api/class/${user._id}/assign-teacher`;
-    console.log(id);
+    const newURL = `${url}/api/subject/${user._id}/${id}/assign-subject-teacher`;
+    console.log("id:", id, show);
 
-    // await axios.get(newURL).then((res) => {
-    //   setTeacher(res.data.data.teachers);
-
-    //   setLoad(false);
+    // await axios.post(newURL, {
+    //   subjectName: name,
+    //   classToken: name1,
+    //   subjectTeacher: name2,
     // });
+    //   .then((res) => {
+    //     setTeacher(res.data.data.teachers);
+
+    //     setLoad(false);
+    //     setShow(false);
+    //   });
   };
 
   const getTeacher = async () => {
@@ -179,9 +189,11 @@ function Academics() {
                           subTitle=" By creating a class room, this new class will be added to your list
                 of class rooms."
                           mainActionAdmin={() => {
-                            createClassRoom(props._id);
+                            createSubject(props._id);
                           }}
                           show={show}
+                          setShow={setShow}
+                          toggleShow={toggle}
                           setName={setName}
                           setName1={setName1}
                           setName2={setName2}
@@ -218,8 +230,11 @@ function Academics() {
                           title3="subject Teacher"
                           subTitle=" By creating a class room, this new class will be added to your list
                 of class rooms."
-                          mainActionAdmin={createSubject}
+                          mainActionAdmin={() => {
+                            createSubject(props._id);
+                          }}
                           show={show}
+                          setShow={setShow}
                           setName={setName}
                           setName1={setName1}
                           setName2={setName2}
