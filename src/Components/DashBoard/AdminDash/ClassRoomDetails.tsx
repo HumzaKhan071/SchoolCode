@@ -121,14 +121,14 @@ function ClassRoomDetails() {
 
 	const assignTeacherToSubject = async (props: any) => {
 		setLoad(true);
-		console.log("propssss", props);
+
 		await axios
 			.post(`${url}/api/subject/${user?._id}/assign-subject-to-teacher`, {
 				subjectToken: props?.subjectToken,
 				subjectTeacher: subTeacher,
 			})
 			.then((res) => {
-				console.log("this is the teacher student", res);
+				window.location.reload();
 				setLoad(false);
 			})
 			.catch((res) => {

@@ -535,6 +535,7 @@ const Container = styled.div`
 	overflow: hidden;
 	position: absolute;
 	right: 0px;
+	margin-top: 80px;
 	// top: 50px;
 
 	@media screen and (max-width: 1100px) {
@@ -542,6 +543,10 @@ const Container = styled.div`
 	}
 	@media screen and (max-width: 1005px) {
 		width: 100%;
+	}
+
+	@media screen and (max-width: 960px) {
+		margin-top: 0;
 	}
 
 	/* background-color: #352b1e; */
