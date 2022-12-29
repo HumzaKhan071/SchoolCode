@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import { Navigate, useNavigate } from "react-router";
+
 // import ClipLoader from "react-spinners/BounceLoader";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
@@ -210,6 +213,7 @@ function Students() {
 					)}
 
 					{/* <BoxHold>
+
 					<BoxImag  />
 				</BoxHold> */}
 				</Holder>
