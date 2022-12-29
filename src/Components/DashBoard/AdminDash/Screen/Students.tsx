@@ -47,7 +47,8 @@ function Students() {
   };
 
   const createClassRoom = async (id: string) => {
-    const newURL = `${url}/api/class/${user._id}/${id}/assign-teacher`;
+    // class/63a36378c190ef0a78afc083/63a3fbffd1df903e7ffa03e2/assign-student
+    const newURL = `${url}/api/class/${user._id}/${id}/assign-student`;
 
     await axios
       .post(newURL, { classToken: name })
