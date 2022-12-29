@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 // import ClipLoader from "react-spinners/BounceLoader";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 import { User } from "../../../Global/RecoilState";
 import CreateStudent from "../CreateStudent";
+import MyForm from "./Homeforms/MyForm";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -17,10 +19,51 @@ interface iTeacher {
 }
 
 function Students() {
-  const [show, setShow] = React.useState(false);
   const user = useRecoilValue(User);
   const [student, setStudent] = useState([] as iTeacher[]);
   const [load, setLoad] = useState(true);
+
+  const [classRoom, setClassRoom] = useState(false);
+  const [subject, setSubject] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const [name, setName] = useState("");
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
+
+  const [name3, setName3] = useState("");
+  const [name4, setName4] = useState("");
+  const [name5, setName5] = useState("");
+
+  const toggleClassRoom = () => {
+    setClassRoom(!classRoom);
+  };
+
+  const toggleSubject = () => {
+    setSubject(!subject);
+  };
+  const toggle = () => {
+    setShow(!show);
+  };
+
+  const createClassRoom = async (id: string) => {
+    const newURL = `${url}/api/class/${user._id}/${id}/assign-teacher`;
+
+    await axios
+      .post(newURL, { classToken: name })
+
+      .then(() => {
+        setLoad(false);
+      })
+      .catch((res) => {
+        setLoad(false);
+        Swal.fire({
+          icon: "error",
+          title: "An error occured",
+          text: "Class can't be found",
+        });
+      });
+  };
 
   const getTeacher = async () => {
     const newURL = `${url}/api/school/${user._id}/students`;
@@ -80,6 +123,57 @@ function Students() {
                       </div>
 
                       <Cal>Class : {props.className}</Cal>
+                      <br />
+
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          width: "110%",
+                        }}
+                      >
+                        <ButtonB bg="#4A148C" onClick={toggleClassRoom}>
+                          Change class
+                        </ButtonB>
+                        {classRoom ? (
+                          <MyForm
+                            check={false}
+                            title1="Enter the class token to help us find the class faster"
+                            title2="class school Fee"
+                            holder="Enter the Class token: eb 445t"
+                            holder1="Enter class School Fee"
+                            toggle={toggleClassRoom}
+                            title="Reassign to another Class"
+                            subTitle="By filling this form, you will automatically reassign teacher to the new choice class."
+                            mainActionAdmin={() => {
+                              createClassRoom(props._id);
+                            }}
+                            show={show}
+                            setShow={setShow}
+                            toggleShow={toggle}
+                            setName={setName}
+                            setName1={setName1}
+                            setName2={setName2}
+                            setName3={setName3}
+                            setName4={setName4}
+                            setName5={setName5}
+                            one={false}
+                            two={false}
+                            three={false}
+                            four={false}
+                            five={false}
+                            name={name}
+                            name1={name1}
+                            name2={name2}
+                            name3={name3}
+                            name4={name4}
+                            name5={name5}
+                            buttonCall="Change student's class"
+                          />
+                        ) : null}
+                        <br />
+                        <br />
+                      </div>
                     </Main>
                   </TeachHold>
                 </TeaqcherCard>
@@ -117,6 +211,34 @@ function Students() {
 }
 
 export default Students;
+
+const ButtonB = styled.div<{ bg: string }>`
+  height: 45px;
+  width: 150px;
+  //   padding: 0 5px;
+  background-color: ${({ bg }) => bg};
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 12px;
+  transition: all 350ms;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 500;
+
+  :hover {
+    transform: scale(0.97);
+  }
+
+  @media screen and (max-width: 760px) {
+    width: 120px;
+    font-size: 10px;
+  }
+`;
 
 const Button2 = styled.div`
   height: 40px;
@@ -165,7 +287,7 @@ const P = styled.div`
   font-size: 10px;
 `;
 const TeaqcherCard = styled.div`
-  height: 100px;
+  min-height: 100px;
   width: 320px;
   background-color: #f4f4f4;
   border-radius: 5px;
@@ -210,7 +332,7 @@ const Hols = styled.div`
 const Button = styled.div`
   height: 40px;
   width: 150px;
-  background-color: #1da1f2;
+  background-color: #4a148c;
   color: white;
   display: flex;
   justify-content: center;
