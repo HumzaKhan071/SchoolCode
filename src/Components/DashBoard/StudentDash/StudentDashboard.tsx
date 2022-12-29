@@ -1,8 +1,24 @@
 import React from "react";
 import { FaUserNinja } from "react-icons/fa";
+import { SiGoogleclassroom } from "react-icons/si";
+import { GoBook } from "react-icons/go";
+import { MdOutlineAssignmentLate } from "react-icons/md";
+import { BiTimeFive } from "react-icons/bi";
+import { MdOutlinePlayLesson} from "react-icons/md";
+import { CgProfile } from "react-icons/cg";
 import styled from "styled-components";
+import { CircularProgressbar,buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import TimeLine from "./TimeLine";
+
+interface iProps {
+	pathTransitionDuration:number
+}
 
 const StudentDashboard = () => {
+
+	const [percentage, setPercentage] = React.useState(80)
+	
 	return <Container>
 		<MyContent>
 			<UserName>
@@ -77,26 +93,152 @@ const StudentDashboard = () => {
 
 			<MainDisplay>
 				<FirstPart>
+					
 					<TodadyLesson>
+					<ViewToday>
+						<p>Today Class</p>
+						<span>View All</span>
+					</ViewToday>
+						<Holder>
 						<TodayClass>
-							<div><span>Today Lesson</span></div>
-							
 							<Circle>
+
+								<div style={{width:"50%", marginTop:"-10px"}}>
+								<CircularProgressbar 
+								
+								value={percentage} 
+								text={`${percentage}%`}
+								styles={buildStyles({
+									pathTransitionDuration: 5.5,
+									textSize: '16px',
+								})}
+								/>
+
+								</div>
+
+							
 							</Circle>
 						</TodayClass>
 
 						<DetailsClass>
+							<Details1>
+									<Box1>
+										<Boxchild>
+											<SiGoogleclassroom
+											style={{
+												color:"grey",
+												fontSize:"20px",
+												marginTop:"5px",
+											}}
+											/>
+										</Boxchild>
+										<Boxchild2>
+											class
+											<span>Primary 5</span>
+										</Boxchild2>
+									</Box1>
+									<Box2>
+									<Boxchild>
+											<MdOutlineAssignmentLate
+											style={{
+												color:"grey",
+												fontSize:"20px",
+												marginTop:"5px",
+											}}
+											/>
+										</Boxchild>
+										<Boxchild2>
+											Assignment
+											<span>4 Assignment</span>
+										</Boxchild2>
+									</Box2>
+									
+							</Details1>
+							<Details2>
+							<Box1>
+										<Boxchild>
+											<GoBook
+											style={{
+												color:"grey",
+												fontSize:"20px",
+												marginTop:"5px",
+											}}
+											/>
+										</Boxchild>
+										<Boxchild2>
+											Lesson
+											<span>1 Lessons</span>
+										</Boxchild2>
+									</Box1>
+									<Box2>
+									<Boxchild>
+											<CgProfile
+											style={{
+												color:"grey",
+												fontSize:"20px",
+												marginTop:"5px",
+											}}
+											/>
+										</Boxchild>
+										<Boxchild2>
+											Teacher
+											<span>Peter Obi</span>
+										</Boxchild2>
+									</Box2>
+
+							</Details2>
+							<Details3>
+							<Box1>
+										<Boxchild>
+											<BiTimeFive
+											style={{
+												color:"grey",
+												fontSize:"20px",
+												marginTop:"5px",
+											}}
+											/>
+										</Boxchild>
+										<Boxchild2>
+											Time
+											<span>2 hours</span>
+										</Boxchild2>
+									</Box1>
+									<Box2>
+									<Boxchild>
+											<MdOutlinePlayLesson
+											style={{
+												color:"grey",
+												fontSize:"20px",
+												marginTop:"5px",
+											}}
+											/>
+										</Boxchild>
+										<Boxchild2>
+											Lesson Learned
+											<span>10/50</span>
+										</Boxchild2>
+									</Box2>
+							</Details3>
 
 						</DetailsClass>
 
 						<ViewAll>
 
+							<ConBottum>
+								Skip
+							</ConBottum>
+							<ConBottum>
+								Next
+							</ConBottum>
+
 						</ViewAll>
+						</Holder>
 						
 					</TodadyLesson>
 
 					<History>
-						2
+						<Histitle>Teacher history</Histitle>
+						<TimeLine/>
 					</History>
 					
 
@@ -125,21 +267,150 @@ const StudentDashboard = () => {
 
 export default StudentDashboard;
 
+const Histitle = styled.div`
+height:40px;
+`
+
+const ConBottum = styled.div`
+ width: 100px;
+ background-color:blue;
+ height:30px;
+ color: white;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ margin-top:15px;
+ border-radius: 10px;
+ cursor:pointer;
+`
+
+const ViewToday = styled.div`
+padding-left:40px;
+padding-right:30px;
+display: flex;
+justify-content: space-between;
+
+p{
+	font-weight:600;
+	
+}
+span{
+	margin-top:20px;
+}
+
+@media screen and (max-width:600px){
+	padding-left:0px;
+	padding-right:0px;
+}
+`
+const Holder = styled.div`
+
+width:720px;
+height:170px;
+
+border-radius: 5px;
+display: flex;
+
+flex-wrap: wrap;
+
+@media screen and (max-width: 600px) {
+	width:100%;
+	height:auto;
+	flex-wrap:wrap;
+
+}
+`
+
+const Boxchild = styled.div`
+width:40px;
+height:100%;
+
+`
+const Boxchild2 = styled.div`
+width:160px;
+height:100%;
+color:grey;
+display:flex;
+flex-direction:column;
+line-height: 20px;
+overflow:hidden;
+white-space:nowrap;
+text-overflow:ellipsis;
+
+span{
+	color:black;
+	font-width:600;
+	
+}
+`
+
+const Box1 = styled.div`
+width:130px;
+height:100%;
+
+display: flex;
+`
+const Box2 = styled.div`
+width:150px;
+height:100%;
+display: flex;
+
+
+
+`
+
+
+const Details1 = styled.div`
+width:100%;
+height:50px;
+display: flex;
+
+justify-content:space-between;
+
+
+`
+const Details2 = styled.div`
+width:100%;
+height:50px;
+display: flex;
+
+justify-content:space-between;
+
+
+`
+const Details3 = styled.div`
+width:100%;
+height:50px;
+display: flex;
+
+justify-content:space-between;
+
+
+`
+
 const Circle = styled.div`
 width:100%;
 height:150px;
 
+display: flex;
+justify-content:center;
+
+
+@media screen and (max-width:600px){
+	height:180px;
+}
 `
 
 const TodayClass = styled.div`
 width:190px;
-height:240px;
+height:100%;
 display: flex;
-flex-direction: column;
+
+
 
 div{
     
-	margin-top:20px;
+	margin-top:15px;
 	span{
 		margin-left:20px;
 		font-size:20px;
@@ -154,12 +425,15 @@ div{
 
 @media screen and (max-width:600px){
 	width:100%;
+	height:auto;
 }
 
 `
 const DetailsClass = styled.div`
-width:320px;
+width:350px;
 height:230px;
+display: flex;
+flex-direction: column;
 
 
 @media screen and (max-width:600px){
@@ -167,8 +441,13 @@ height:230px;
 }
 `
 const ViewAll = styled.div`
-width:200px;
-height:230px;
+width:150px;
+height:130px;
+display: flex;
+flex-direction: column;
+justify-content:center;
+align-items: center;
+
 
 
 @media screen and (max-width:600px){
@@ -182,7 +461,8 @@ height:230px;
 background-color:white;
 border-radius: 5px;
 display: flex;
-flex-wrap: wrap;
+flex-direction: column;
+
 
 @media screen and (max-width: 600px) {
 	width:100%;
@@ -197,10 +477,13 @@ height:250px;
 background-color:white;
 border-radius: 5px;
 margin-top:30px;
+display: flex;
+flex-direction: column;
 
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
 	width:100%;
+	height:auto;
 }
 
 `
