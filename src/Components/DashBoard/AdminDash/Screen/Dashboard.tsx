@@ -712,6 +712,7 @@ const Content = styled.div`
 `;
 
 const Container = styled.div`
+  margin-top: 80px;
   width: calc(100vw - 230px);
   min-height: calc(100vh - 60px);
   display: flex;

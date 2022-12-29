@@ -19,15 +19,6 @@ interface IData {
 	schoolName: string;
 	classTeacher: string;
 	subject: [];
-	classToken: string;
-}
-interface IDataSubject {
-	_id: string;
-	className: string;
-	test: [];
-	subjectName: string;
-	lecture: [];
-	subjectTeacher?: string;
 }
 
 function ClassRoomDetails() {
@@ -38,13 +29,9 @@ function ClassRoomDetails() {
 	const [showSubjects, setShowSubjects] = React.useState(false);
 	const [classData, setClassData] = React.useState({} as IData);
 	const [showDelete, setShowDelete] = React.useState(false);
-	const [subjectData, setSubjectData] = React.useState([] as IDataSubject[]);
 	const [teacherName, setTeacherName] = React.useState("");
-	const [subjectName, setSubjectName] = React.useState("");
-	const [subTeacher, setSubTeacher] = React.useState("");
-	const [subjectID, setSubjectID] = React.useState("");
 	const [showAssignSubject, setShowAssignSubject] = React.useState(false);
-	console.log(user._id);
+
 	const toggleShow = () => {
 		setShow(!show);
 	};
@@ -55,25 +42,16 @@ function ClassRoomDetails() {
 		setShowDelete(!showDelete);
 	};
 	const toggleShowAssignSubject = (id: any) => {
-		setShowAssignSubject(!showAssignSubject);
-	};
-
-	const changeId = (id: any) => {
-		setSubjectID(id);
+		if (id) {
+			setShowAssignSubject(!showAssignSubject);
+		}
 	};
 
 	const getClassDetails = async () => {
 		await axios.get(`${url}/api/class/${id}/viewing-class`).then((res) => {
 			setClassData(res.data.data);
-			// console.log("thisdbff", res.data.data);
+			console.log("thisdb", res.data.data);
 		});
-	};
-	const getClassDetailsSubject = async () => {
-		await axios
-			.get(`${url}/api/subject/${id}/view-class-subject`)
-			.then((res) => {
-				setSubjectData(res?.data?.data?.subject);
-			});
 	};
 
 	const AssiningClassTeacher = async () => {
@@ -83,53 +61,9 @@ function ClassRoomDetails() {
 				teacherName,
 			})
 			.then((res) => {
+				console.log(res);
 				setLoad(false);
 				window.location.reload();
-			})
-			.catch((res) => {
-				setLoad(false);
-				Swal.fire({
-					icon: "error",
-					title: "An error occured",
-					text: "Teacher can't be found",
-				});
-			});
-	};
-
-	const createNewSubject = async () => {
-		setLoad(true);
-		await axios
-			.post(`${url}/api/subject/${user?._id}/create-class-single-subject`, {
-				classToken: classData?.classToken,
-				subjectName,
-			})
-			.then((res) => {
-				setLoad(false);
-				window.location.reload();
-			})
-			.catch(() => {
-				setLoad(false);
-				Swal.fire({
-					icon: "error",
-					title: "An error occured",
-					text: "Subject can't be found",
-				});
-			});
-	};
-
-	console.log("all subject", subjectData);
-
-	const assignTeacherToSubject = async (props: any) => {
-		setLoad(true);
-		console.log("propssss", props);
-		await axios
-			.post(`${url}/api/subject/${user?._id}/assign-subject-to-teacher`, {
-				subjectToken: props?.subjectToken,
-				subjectTeacher: subTeacher,
-			})
-			.then((res) => {
-				console.log("this is the teacher student", res);
-				setLoad(false);
 			})
 			.catch((res) => {
 				setLoad(false);
@@ -143,8 +77,7 @@ function ClassRoomDetails() {
 
 	useEffect(() => {
 		getClassDetails();
-		getClassDetailsSubject();
-	}, [subjectID]);
+	}, []);
 
 	return (
 		<>
@@ -240,101 +173,75 @@ function ClassRoomDetails() {
 								</span>
 							</Tog>
 							<But onClick={toggleShowSubject}>+ Add Subject</But>
-							{subjectData?.map((props, i) => (
-								<AllSubBox key={props._id}>
-									<Main>
-										<First>
-											<Title>{props?.subjectName?.toUpperCase()}</Title>
-											<IconHold onClick={toggleShowDelete}>
-												<FiMoreVertical />
-											</IconHold>
-											{showDelete ? (
-												<Conta3>
-													<div
-														style={{
-															display: "flex",
-															justifyContent: "space-between",
-															alignItems: "center",
-														}}>
-														<div style={{ fontSize: "10px" }}></div>
-														<Cancel onClick={toggleShowDelete}>
-															<AiOutlineClose />
-														</Cancel>
-													</div>
-
-													<ButHold3>
-														<Button style={{ color: "red" }}>
-															<MdDeleteForever /> Delete Subject
-														</Button>
-													</ButHold3>
-												</Conta3>
-											) : null}
-										</First>
-										<span>Compulsory</span>
-
-										<But
-											onClick={() => {
-												toggleShowAssignSubject(props._id);
-												changeId(props._id);
-											}}>
-											+ Assign Teacher
-										</But>
-
-										{props.subjectTeacher ? (
-											<div
-												style={{
-													marginTop: "5px",
-												}}>
-												{" "}
+							<AllSubBox>
+								<Main>
+									<First>
+										<Title>AGRICULTURAL SCIENCE</Title>
+										<IconHold onClick={toggleShowDelete}>
+											<FiMoreVertical />
+										</IconHold>
+										{showDelete ? (
+											<Conta3>
 												<div
 													style={{
-														color: "#F8C46B",
-														fontSize: "11px",
+														display: "flex",
+														justifyContent: "space-between",
+														alignItems: "center",
 													}}>
-													SubjectTeacher Assigned :{" "}
+													<div style={{ fontSize: "10px" }}></div>
+													<Cancel onClick={toggleShowDelete}>
+														<AiOutlineClose />
+													</Cancel>
 												</div>
-												<div style={{ display: "flex", alignItems: "center" }}>
-													{" "}
-													<TeacherImage src='/img/prof.png' />
-													{props?.subjectTeacher}
-												</div>
-											</div>
+
+												<ButHold3>
+													<Button style={{ color: "red" }}>
+														<MdDeleteForever /> Delete Subject
+													</Button>
+												</ButHold3>
+											</Conta3>
 										) : null}
-									</Main>
-									{showAssignSubject && props._id === subjectID ? (
-										<Conta4>
-											<div
-												style={{
-													display: "flex",
-													justifyContent: "space-between",
-													alignItems: "center",
-												}}>
-												<span>Select Teacher</span>
-												<Cancel
-													onClick={() => {
-														toggleShowAssignSubject(props._id);
-													}}>
-													<AiOutlineClose />
-												</Cancel>
-											</div>
+									</First>
+									<span>Compulsory</span>
 
-											<Iput
-												onChange={(e) => {
-													setSubTeacher(e.target.value);
-												}}
-												placeholder='Teacher Name'
-											/>
+									<But onClick={toggleShowAssignSubject}>+ Assign Teacher</But>
+									<div
+										style={{
+											marginTop: "5px",
+										}}>
+										{" "}
+										<div
+											style={{
+												color: "#F8C46B",
+												fontSize: "11px",
+											}}>
+											SubjectTeacher Assigned :{" "}
+										</div>
+										Mr Daramola
+									</div>
+								</Main>
+								{showAssignSubject ? (
+									<Conta4>
+										<div
+											style={{
+												display: "flex",
+												justifyContent: "space-between",
+												alignItems: "center",
+											}}>
+											<span>Select Teacher</span>
+											<Cancel onClick={toggleShowAssignSubject}>
+												<AiOutlineClose />
+											</Cancel>
+										</div>
 
-											<ButHold2
-												onClick={() => {
-													assignTeacherToSubject(props);
-												}}>
-												<Button>+ Assign Teacher</Button>
-											</ButHold2>
-										</Conta4>
-									) : null}
-								</AllSubBox>
-							))}
+										<Iput placeholder='Teacher Name' />
+
+										<ButHold2>
+											<Button>+ Assign Teacher</Button>
+										</ButHold2>
+									</Conta4>
+								) : null}
+							</AllSubBox>
 
 							{showSubjects ? (
 								<Conta2>
@@ -350,14 +257,9 @@ function ClassRoomDetails() {
 										</Cancel>
 									</div>
 
-									<Iput
-										onChange={(e) => {
-											setSubjectName(e.target.value);
-										}}
-										placeholder='Subject Name'
-									/>
+									<Iput placeholder='Subject Name' />
 
-									<ButHold2 onClick={createNewSubject}>
+									<ButHold2>
 										<Button>+ Create Subject</Button>
 									</ButHold2>
 								</Conta2>
@@ -692,6 +594,7 @@ const Content = styled.div`
 `;
 
 const Container = styled.div`
+	margin-top: 80px;
 	width: calc(100vw - 230px);
 	min-height: calc(100vh - 60px);
 	display: flex;
