@@ -544,6 +544,8 @@ const HolderCon = styled.div`
 `;
 
 const HeaderDash = styled.div`
+  background-color: white;
+  position: fixed;
   width: 100%;
   height: 80px;
   display: flex;
@@ -559,6 +561,7 @@ const HeaderDash = styled.div`
 `;
 
 const Side = styled.div`
+  margin-top: 80px;
   width: 230px;
   min-height: calc(100vh - 60px);
   overflow: hidden;
