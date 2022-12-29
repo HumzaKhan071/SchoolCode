@@ -391,6 +391,7 @@ const Container = styled.div`
 	min-height: calc(100vh - 60px);
 	display: flex;
 	justify-content: center;
+	margin-top: 80px;
 	/* flex-direction: column; */
 
 	background-color: #f7f9fc;
@@ -405,6 +406,10 @@ const Container = styled.div`
 	}
 	@media screen and (max-width: 1005px) {
 		width: 100%;
+	}
+
+	@media screen and (max-width: 960px) {
+		margin-top: 0;
 	}
 
 	/* background-color: #352b1e; */

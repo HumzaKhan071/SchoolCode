@@ -528,25 +528,31 @@ const Content = styled.div`
 `;
 
 const Container = styled.div`
-  margin-top: 80px;
-  width: calc(100vw - 230px);
-  min-height: calc(100vh - 60px);
-  display: flex;
-  justify-content: center;
 
-  background-color: #f7f9fc;
+	width: calc(100vw - 230px);
+	min-height: calc(100vh - 60px);
+	display: flex;
+	justify-content: center;
 
-  overflow: hidden;
-  position: absolute;
-  right: 0px;
-  // top: 50px;
+	background-color: #f7f9fc;
 
-  @media screen and (max-width: 1100px) {
-    width: 95%;
-  }
-  @media screen and (max-width: 1005px) {
-    width: 100%;
-  }
+	overflow: hidden;
+	position: absolute;
+	right: 0px;
+	margin-top: 80px;
+	// top: 50px;
 
-  /* background-color: #352b1e; */
+	@media screen and (max-width: 1100px) {
+		width: 95%;
+	}
+	@media screen and (max-width: 1005px) {
+		width: 100%;
+	}
+
+	@media screen and (max-width: 960px) {
+		margin-top: 0;
+	}
+
+	/* background-color: #352b1e; */
+
 `;
