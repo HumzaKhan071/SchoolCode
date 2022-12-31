@@ -9,6 +9,8 @@ import axios from "axios";
 import CreateClassRoom from "./Homeforms/CreateClassRoom";
 import MyForm from "./Homeforms/MyForm";
 import { Navigate, useNavigate } from "react-router";
+import Notice from "./Notice";
+import NewNotice from "./NewNotice";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -494,7 +496,11 @@ const Dashboard = () => {
               />
             ) : null}
           </Card>
-          <AnnounceCard>anouncements list</AnnounceCard>
+          <AnnounceCard>
+            <div>anouncements list</div>
+
+            <NewNotice />
+          </AnnounceCard>
         </Second>
       </Content>
     </Container>
@@ -683,7 +689,7 @@ const MyDiv = styled.div`
 
 const AnnounceCard = styled.div`
   /* margin-right: 30px; */
-  height: 50vh;
+  // height: 50vh;
   width: 250px;
   background-color: white;
   border-radius: 5px;
