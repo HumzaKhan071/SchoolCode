@@ -1,10 +1,44 @@
-import React from "react";
+import axios from "axios";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { SiMomenteo } from "react-icons/si";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { User } from "../../../Global/RecoilState";
 
+const url: string = "https://school-code.onrender.com";
 const NewNotice = () => {
+  const user = useRecoilValue(User);
   const data = [
     {
-      id: 1,
+      id: 3,
+      createdAt: "22 June 2022",
+      message:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      createdBy: "Olorunda Samuel",
+      createdAtTime: "5 months ago",
+      bg: "#40dfcd",
+    },
+    {
+      id: 2,
+      createdAt: "22 June 2022",
+      message:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      createdBy: "Olorunda Samuel",
+      createdAtTime: "5 months ago",
+      bg: "#40dfcd",
+    },
+    {
+      id: 4,
+      createdAt: "22 June 2022",
+      message:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      createdBy: "Olorunda Samuel",
+      createdAtTime: "5 months ago",
+      bg: "#40dfcd",
+    },
+    {
+      id: 5,
       createdAt: "22 June 2022",
       message:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -14,29 +48,47 @@ const NewNotice = () => {
     },
   ];
 
+  const [viewData, setViewData] = useState([] as any[]);
+
+  const viewAnnonucement = async () => {
+    const newURL = `${url}/api/announcement/${user?._id}/viewing-announcement-school`;
+
+    await axios.post(newURL, { code: "a2d51a" }).then((res: any) => {
+      setViewData(res.data.data.notification);
+
+      console.log("data:: ", viewData);
+    });
+  };
+
+  useEffect(() => {
+    viewAnnonucement();
+  }, []);
+
   return (
     <div>
       <BoardHold>
-        <Title>Notice Board</Title>
+        {/* <Title>Top Recent Notice</Title> */}
 
         <NoticeHold>
-          {data?.map((props) => (
-            <NoticeData key={props.id}>
-              <NoticeDate
-                style={{
-                  backgroundColor: `${props.bg}`,
-                }}
-              >
-                {" "}
-                {props.createdAt}{" "}
-              </NoticeDate>
-              <NoticeMessage> {props.message} </NoticeMessage>
-              <SenderDate>
-                <small> {props.createdBy} </small> /{" "}
-                <small> {props.createdAtTime} </small>
-              </SenderDate>
-            </NoticeData>
-          ))}
+          <div>
+            {viewData?.map((props, i) => (
+              <div>
+                {i <= 1 ? (
+                  <div>
+                    {" "}
+                    <NoticeData key={props.id}>
+                      <Div>{props.title}</Div>
+                      <NoticeMessage> {props.detail} </NoticeMessage>
+                      <SenderDate>
+                        <small> {moment(props.createdAt).fromNow()} </small> /{" "}
+                        {/* <small> {props.createdAtTime} </small> */}
+                      </SenderDate>
+                    </NoticeData>
+                  </div>
+                ) : null}
+              </div>
+            ))}
+          </div>
         </NoticeHold>
       </BoardHold>
     </div>
@@ -44,6 +96,21 @@ const NewNotice = () => {
 };
 
 export default NewNotice;
+
+const Div = styled.div`
+  height: 30px;
+  //   width: 120px;
+  padding: 0 10px;
+  background-color: #40dfcd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
+  font-size: 10px;
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 15px;
+`;
 
 const Container = styled.div`
   //   wifth: 100%;
@@ -83,6 +150,7 @@ const BoardHold = styled.div`
 `;
 const Title = styled.div`
   font-weight: bold;
+  margin-bottom: 10px;
 `;
 const Serarch = styled.div`
   display: flex;

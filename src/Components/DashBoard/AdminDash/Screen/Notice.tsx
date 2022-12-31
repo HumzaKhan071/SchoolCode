@@ -12,6 +12,33 @@ const Notice = () => {
       createdAtTime: "5 months ago",
       bg: "#40dfcd",
     },
+    {
+      id: 2,
+      createdAt: "22 June 2022",
+      message:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      createdBy: "Olorunda Samuel",
+      createdAtTime: "5 months ago",
+      bg: "#40dfcd",
+    },
+    {
+      id: 4,
+      createdAt: "22 June 2022",
+      message:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      createdBy: "Olorunda Samuel",
+      createdAtTime: "5 months ago",
+      bg: "#40dfcd",
+    },
+    {
+      id: 5,
+      createdAt: "22 June 2022",
+      message:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      createdBy: "Olorunda Samuel",
+      createdAtTime: "5 months ago",
+      bg: "#40dfcd",
+    },
   ];
 
   return (
@@ -50,7 +77,7 @@ const Notice = () => {
 export default Notice;
 
 const Container = styled.div`
-  wifth: 100%;
+  //   wifth: 100%;
   min-height: calc(100vh - 60px);
   display: flex;
   justify-content: center;

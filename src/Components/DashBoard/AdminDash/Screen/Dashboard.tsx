@@ -497,7 +497,7 @@ const Dashboard = () => {
             ) : null}
           </Card>
           <AnnounceCard>
-            <div>anouncements list</div>
+            <div>Top Recent Notice</div>
 
             <NewNotice />
           </AnnounceCard>
