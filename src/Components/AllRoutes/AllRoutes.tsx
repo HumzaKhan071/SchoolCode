@@ -11,7 +11,7 @@ import MainAuth from "../Auth/MainAuth";
 import ParentSignup from "../Auth/SchoolSignUp";
 import StudentSignup from "../Auth/StudentSignup";
 import TeachersSignUp from "../Auth/TeachersSignUp";
-import FeeMangement from "../DashBoard/AdminDash/Screen/FeeMangement";
+import FeeMangement from "../DashBoard/AdminDash/Screen/Expenses";
 import Academics from "../DashBoard/AdminDash/Screen/Academics";
 import Dashboard from "../DashBoard/AdminDash/Screen/Dashboard";
 import Header from "../DashBoard/AllNav/Header";
@@ -38,6 +38,7 @@ import ClassRooms from "../DashBoard/AdminDash/Screen/ClassRooms";
 import ConfirmTeacherMessage from "../Auth/ConfirmTeachersMessage";
 import ClassRoomDetails from "../DashBoard/AdminDash/ClassRoomDetails";
 import StudentDetails from "../DashBoard/AdminDash/StudentDetails";
+import Expenses from "../DashBoard/AdminDash/Screen/Expenses";
 
 const AllRoutes = () => {
 	let element = useRoutes([
@@ -166,7 +167,7 @@ const AllRoutes = () => {
 					element: (
 						<>
 							<Header />
-							<FeeMangement />
+							<Expenses />
 						</>
 					),
 				},
