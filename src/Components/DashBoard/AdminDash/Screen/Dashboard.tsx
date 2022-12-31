@@ -17,10 +17,18 @@ interface iData {
   students: [];
   classes: [];
 }
+interface iNotice {
+  date?: string;
+  title?: string;
+  detail?: string;
+  dateTime?: string;
+}
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [schoolData, setSchoolData] = useState({} as iData);
+  const [newNotice, setNewNotice] = useState({} as iNotice);
+  const [newNotices, setNewNotices] = useState([] as iNotice[]);
   const user = useRecoilValue(User);
 
   const getCount = async () => {
@@ -124,8 +132,30 @@ const Dashboard = () => {
       });
   };
 
+  const getNotice = async () => {
+    // {{url}}/announcement/63a5a3ad444f6ada937d4ef4/viewing-announcement-school-one
+    const uri = `${url}/api/announcement/${user._id}/viewing-announcement-school-one`;
+    await axios.post(uri, { code: "a2d51a" }).then((res: any) => {
+      setNewNotice(res.data.data.notification[0]);
+      console.log("new Notice: ", newNotice);
+      // console.log("new Notice/Announcement: ", res);
+    });
+  };
+
+  const getNotices = async () => {
+    // {{url}}/announcement/63a5a3ad444f6ada937d4ef4/viewing-announcement-school-one
+    const uri = `${url}/api/announcement/${user._id}/viewing-announcement-school`;
+    await axios.post(uri, { code: "a2d51a" }).then((res: any) => {
+      setNewNotices(res.data.data.notification);
+      console.log("new Notices/Announcement: ", newNotices);
+      // console.log("new Notice/Announcement: ", res);
+    });
+  };
+
   useEffect(() => {
     getCount();
+    getNotice();
+    getNotices();
   }, []);
   return (
     <Container>

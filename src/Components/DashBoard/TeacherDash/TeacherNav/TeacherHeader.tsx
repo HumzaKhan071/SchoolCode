@@ -46,13 +46,13 @@ const TeacherHeader = () => {
     myRef.current.style.left = "-300px";
     backRef.current.style.left = "-2000px";
   };
-
+  console.log(user._id);
   const getSession = async () => {
     await axios
       .get(`${url}/api/academic/${user._id}/get-academic-session-teacher`)
-      .then((res) => {
-        setAcademic(res.data.data);
-        console.log(academic);
+      .then((res: any) => {
+        setAcademic(res.data.data[0]);
+        // console.log(academic);
       });
   };
 
@@ -60,7 +60,7 @@ const TeacherHeader = () => {
     getSession();
   }, []);
   return (
-    <div>
+    <MainDown>
       <HeaderDash>
         <HolderCon>
           <MenuHold>
@@ -210,11 +210,21 @@ const TeacherHeader = () => {
           <SideBar changeFalse={changeFalse} />
         </SideHold>
       </Back>
-    </div>
+    </MainDown>
   );
 };
 
 export default TeacherHeader;
+
+const MainDown = styled.div`
+  br {
+    display: none;
+
+    @media screen and (max-width: 960px) {
+      display: flex;
+    }
+  }
+`;
 
 const Back = styled.div`
   display: none;
@@ -447,7 +457,9 @@ const HolderCon = styled.div`
 `;
 
 const HeaderDash = styled.div`
-  swidth: 100%;
+  background-color: white;
+  // position: fixed;
+  width: 100%;
   height: 80px;
   display: flex;
   align-items: center;
