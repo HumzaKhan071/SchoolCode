@@ -71,15 +71,13 @@ function StudentDetails() {
 
     await axios.get(newURL).then((res) => {
       setStudentDataFee(res.data.data.schoolFee);
-      console.log("show:: ", studentDataFee);
-      console.log("show:: ", res.data.data.schoolFee);
     });
   };
 
   useEffect(() => {
     getStudentDetails();
     viewSchoolFeeDetail();
-  }, []);
+  }, [studentDataFee, studentData]);
 
   return (
     <>
@@ -99,74 +97,7 @@ function StudentDetails() {
               <Ad>{studentData?.email}</Ad>
             </NextRec>
           </MainHold>
-          <MainHold2>
-            {/* <MainHold2>
-						<Cont>
-							{!classData?.classTeacher ? (
-								<ButtonH>Pending</ButtonH>
-							) : (
-								<ButtonH>Completed</ButtonH>
-							)}
-							<Tog>
-								<h5>Manage class teacher, attendance for 12 - B</h5>
-								<span>
-									Class teacher is responsible for day to day activities of the
-									class
-								</span>
-							</Tog>
-							<But onClick={toggleShow}>+ Assign Class Teacher</But>
-							{!classData?.classTeacher ? (
-								<></>
-							) : (
-								<div
-									style={{
-										marginTop: "5px",
-									}}>
-									{" "}
-									<div
-										style={{
-											color: "#F8C46B",
-											fontSize: "11px",
-										}}>
-										ClassTeacher Assigned :{" "}
-									</div>
-									<div style={{ display: "flex", alignItems: "center" }}>
-										{" "}
-										<TeacherImage src='/img/prof.png' />
-										{classData?.classTeacher}
-									</div>
-								</div>
-							)}
-							{show ? (
-								<Conta>
-									<div
-										style={{
-											display: "flex",
-											justifyContent: "space-between",
-											alignItems: "center",
-										}}>
-										<span>Select Teacher</span>
-										<Cancel onClick={toggleShow}>
-											<AiOutlineClose />
-										</Cancel>
-									</div>
 
-									<Iput
-										value={teacherName}
-										onChange={(e) => {
-											setTeacherName(e.target.value);
-										}}
-										placeholder='Teacher Name'
-									/>
-
-									<ButHold2 onClick={AssiningClassTeacher}>
-										<Button>+ Assign Teacher</Button>
-									</ButHold2>
-								</Conta>
-							) : null}
-						</Cont>
-					</MainHold2> */}
-          </MainHold2>
           <MainHold2>
             <Cont>
               <Tog>

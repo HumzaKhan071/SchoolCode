@@ -135,22 +135,16 @@ const Dashboard = () => {
   };
 
   const getNotice = async () => {
-    // {{url}}/announcement/63a5a3ad444f6ada937d4ef4/viewing-announcement-school-one
     const uri = `${url}/api/announcement/${user._id}/viewing-announcement-school-one`;
     await axios.post(uri, { code: "a2d51a" }).then((res: any) => {
       setNewNotice(res.data.data.notification[0]);
-      console.log("new Notice: ", newNotice);
-      // console.log("new Notice/Announcement: ", res);
     });
   };
 
   const getNotices = async () => {
-    // {{url}}/announcement/63a5a3ad444f6ada937d4ef4/viewing-announcement-school-one
     const uri = `${url}/api/announcement/${user._id}/viewing-announcement-school`;
     await axios.post(uri, { code: "a2d51a" }).then((res: any) => {
       setNewNotices(res.data.data.notification);
-      console.log("new Notices/Announcement: ", newNotices);
-      // console.log("new Notice/Announcement: ", res);
     });
   };
 

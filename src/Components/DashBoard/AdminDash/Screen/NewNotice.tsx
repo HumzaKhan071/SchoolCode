@@ -1,7 +1,6 @@
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { SiMomenteo } from "react-icons/si";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { User } from "../../../Global/RecoilState";
@@ -9,44 +8,6 @@ import { User } from "../../../Global/RecoilState";
 const url: string = "https://school-code.onrender.com";
 const NewNotice = () => {
   const user = useRecoilValue(User);
-  const data = [
-    {
-      id: 3,
-      createdAt: "22 June 2022",
-      message:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      createdBy: "Olorunda Samuel",
-      createdAtTime: "5 months ago",
-      bg: "#40dfcd",
-    },
-    {
-      id: 2,
-      createdAt: "22 June 2022",
-      message:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      createdBy: "Olorunda Samuel",
-      createdAtTime: "5 months ago",
-      bg: "#40dfcd",
-    },
-    {
-      id: 4,
-      createdAt: "22 June 2022",
-      message:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      createdBy: "Olorunda Samuel",
-      createdAtTime: "5 months ago",
-      bg: "#40dfcd",
-    },
-    {
-      id: 5,
-      createdAt: "22 June 2022",
-      message:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      createdBy: "Olorunda Samuel",
-      createdAtTime: "5 months ago",
-      bg: "#40dfcd",
-    },
-  ];
 
   const [viewData, setViewData] = useState([] as any[]);
 
@@ -55,8 +16,6 @@ const NewNotice = () => {
 
     await axios.post(newURL, { code: "a2d51a" }).then((res: any) => {
       setViewData(res.data.data.notification);
-
-      console.log("data:: ", viewData);
     });
   };
 
@@ -67,12 +26,10 @@ const NewNotice = () => {
   return (
     <div>
       <BoardHold>
-        {/* <Title>Top Recent Notice</Title> */}
-
         <NoticeHold>
           <div>
             {viewData?.map((props, i) => (
-              <div>
+              <div key={i}>
                 {i <= 1 ? (
                   <div>
                     {" "}
@@ -81,7 +38,6 @@ const NewNotice = () => {
                       <NoticeMessage> {props.detail} </NoticeMessage>
                       <SenderDate>
                         <small> {moment(props.createdAt).fromNow()} </small> /{" "}
-                        {/* <small> {props.createdAtTime} </small> */}
                       </SenderDate>
                     </NoticeData>
                   </div>
