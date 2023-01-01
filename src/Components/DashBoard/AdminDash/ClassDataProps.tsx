@@ -28,7 +28,7 @@ const ClassDataProps: React.FC<iData> = ({ props }) => {
       }}
     >
       {subjectHolder.map((props) => (
-        <AllSubBox>
+        <AllSubBox key={props._id}>
           <Main>
             <First>
               <Title>{props.subjectName}</Title>
