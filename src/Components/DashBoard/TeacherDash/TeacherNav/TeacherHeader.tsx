@@ -148,7 +148,8 @@ const TeacherHeader = () => {
               <AiFillBell />
             </Three>
             <Four>
-              <img src={img} />
+              {/* <img src={img} /> */}
+              <div>{user.name.charAt(0)}</div>
             </Four>
             <div>
               <RiArrowDropDownLine
@@ -362,6 +363,11 @@ const Four = styled.div`
   justify-content: space-evenly;
   background-color: #f4f4f4;
   align-items: center;
+
+  div {
+    font-weight: 500;
+    font-size: 25px;
+  }
 
   img {
     width: 100%;
