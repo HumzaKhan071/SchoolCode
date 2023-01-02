@@ -15,7 +15,7 @@ import { SideBarItem } from "./RouterSide";
 import { NavLink } from "react-router-dom";
 import img from "./1.jpg";
 import SideBar from "./SideBar";
-import { User } from "../../Global/RecoilState";
+import { Session, User } from "../../Global/RecoilState";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -32,6 +32,8 @@ const url: string = "https://school-code.onrender.com";
 const Header = () => {
   // const navigate = useNavigate();
   const [userState, setUserState] = useRecoilState(User);
+  const [sessionState, setSessionState] = useRecoilState(Session);
+
   const [academic, setAcademic] = useState({} as iSession);
   const user = useRecoilValue(User);
   const [change, setChange] = React.useState(false);
@@ -70,14 +72,13 @@ const Header = () => {
       .get(`${url}/api/academic/${user._id}/viewing-present-academic-session`)
       .then((res) => {
         setAcademic(res.data.data);
+        setSessionState(academic);
       });
   };
-
   useEffect(() => {
     getSession();
-
     axios.get(url);
-  }, []);
+  }, [academic]);
 
   React.useEffect(() => {
     if (change) {

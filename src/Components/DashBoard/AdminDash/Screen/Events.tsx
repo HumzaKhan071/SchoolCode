@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { BsFillCalendar2EventFill } from "react-icons/bs";
 import axios from "axios";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { Session, User } from "../../../Global/RecoilState";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -21,11 +23,20 @@ const EventScreen = () => {
 
   const [holderData, setHolderData] = useState([] as any[]);
 
+  const session = useRecoilValue(Session);
+
+  console.log(session);
+
   const fetchData = async () => {
+    const loc = "http://localhost:2244";
+    const loc24 =
+      "localhost:2244/api/event/63adc6fdc57e31550c003c9d/viewing-event-school";
     await axios
-      .get(`${url}/api/event/`)
+      // .get(`${loc}/api/event/${session?._id}/viewing-event-school`)
+      .get(loc24)
       .then((res) => {
-        setHolderData(res.data.data);
+        // setHolderData(res.data.data);
+        console.log("viewing Event: ", res);
       })
       .catch((err) => {
         console.log(err.message);
