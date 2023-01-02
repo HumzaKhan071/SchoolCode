@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiMoreVertical } from "react-icons/fi";
@@ -40,6 +40,8 @@ function StudentDetails() {
   const [name1, setName1] = useState("");
   const [name2, setName2] = useState("");
 
+  const [subjectHolder, setSubjectHolder] = useState([] as any[]);
+
   const toggleFee = () => {
     setFee(!fee);
   };
@@ -74,17 +76,24 @@ function StudentDetails() {
     });
   };
 
+  const getClassSuject = async () => {
+    const newURL = `${url}/api/subject/${studentData.classID}/view-class-subject`;
+    await axios.get(newURL).then((res) => {
+      setSubjectHolder(res.data!.data!.subject);
+    });
+  };
+
   useEffect(() => {
     getStudentDetails();
     viewSchoolFeeDetail();
-  }, [studentDataFee, studentData]);
+    getClassSuject();
+  }, [subjectHolder, studentDataFee, studentData]);
 
   return (
     <>
       <Container>
         <Content>
           <span>{studentData?.name}</span>
-
           <MainHold>
             <LoaderHold>
               <Holding>
@@ -107,9 +116,50 @@ function StudentDetails() {
                 </span>
               </Tog>
 
-              <ClassDataProps props={studentData.classID} />
+              {/* <ClassDataProps props={studentData.classID} />
+              
+              */}
+
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                }}
+              >
+                {subjectHolder.map((props) => (
+                  <AllSubBox1 key={props._id}>
+                    <Main>
+                      <First>
+                        <Title>{props.subjectName}</Title>
+                        <IconHold>
+                          <FiMoreVertical />
+                        </IconHold>
+                      </First>
+                      <span>Compulsory</span>
+
+                      <div
+                        style={{
+                          marginTop: "5px",
+                        }}
+                      >
+                        {" "}
+                        <div
+                          style={{
+                            color: "#F8C46B",
+                            fontSize: "11px",
+                          }}
+                        >
+                          SubjectTeacher :{" "}
+                        </div>
+                        {props.subjectTeacher}
+                      </div>
+                    </Main>
+                  </AllSubBox1>
+                ))}
+              </div>
             </Cont>
           </MainHold2>
+
           <MainHold2>
             <Cont>
               <div
@@ -352,6 +402,23 @@ const IconHold = styled.div`
   margin-right: 10px;
 `;
 
+const AllSubBox1 = styled.div`
+  width: 300px;
+  border: 1px solid #f4f4f4;
+  position: relative;
+  /* height: 100px; */
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  transition: all 350ms;
+  cursor: pointer;
+
+  :hover {
+    border: 1px solid #c3c3c3;
+  }
+`;
+
 const AllSubBox = styled.div`
   width: 100%;
   border: 1px solid #f4f4f4;
@@ -360,7 +427,7 @@ const AllSubBox = styled.div`
   padding-top: 20px;
   padding-bottom: 20px;
   border-radius: 10px;
-  margin-top: 10px;
+  margin: 10px;
   transition: all 350ms;
   cursor: pointer;
 

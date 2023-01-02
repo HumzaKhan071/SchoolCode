@@ -19,7 +19,8 @@ const ClassDataProps: React.FC<iData> = ({ props }) => {
 
   useEffect(() => {
     getClassSuject();
-  }, [subjectHolder]);
+  }, []);
+
   return (
     <div
       style={{
