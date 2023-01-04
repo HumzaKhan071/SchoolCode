@@ -11,6 +11,7 @@ import MyForm from "./Homeforms/MyForm";
 import { Navigate, useNavigate } from "react-router";
 import Notice from "./Notice";
 import NewNotice from "./NewNotice";
+import SliderComp from "./Homeforms/SliderComp";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -24,6 +25,7 @@ interface iNotice {
   title?: string;
   detail?: string;
   dateTime?: string;
+  _id?: string;
 }
 
 const Dashboard = () => {
@@ -191,6 +193,9 @@ const Dashboard = () => {
               </IconHold>
             </OverCard>
           </MainHold>
+          <br />
+          <SliderComp notice={newNotices} />
+          <br />
           <br />
           <span>Reports</span>
           <ReportsHold>
