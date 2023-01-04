@@ -51,7 +51,7 @@ const TeacherHeader = () => {
     await axios
       .get(`${url}/api/academic/${user._id}/get-academic-session-teacher`)
       .then((res) => {
-        setAcademic(res.data.data);
+        setAcademic(res.data.data.academicSession[0]);
         console.log(academic);
       });
   };

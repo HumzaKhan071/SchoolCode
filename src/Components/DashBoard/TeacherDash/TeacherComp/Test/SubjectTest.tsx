@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { User } from "../../../../Global/RecoilState";
 
-const Test = () => {
+const SubjectTest = () => {
   const URL: string = "https://school-code.onrender.com";
 
   interface iTeacher {
@@ -20,7 +20,7 @@ const Test = () => {
     const myURI = `${URL}/api/teacher/${user._id}/`;
 
     await axios.get(myURI).then((res) => {
-      console.log("For Subject", res.data.data.subjectTaken);
+      console.log("For Subject", res.data.data);
       setGetSubjects(res.data.data.subjectTaken);
       setTeacherInfo(res.data.data);
     });
@@ -51,7 +51,7 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default SubjectTest;
 
 const Container = styled.div`
   /* width: 100%; */
