@@ -25,7 +25,7 @@ const EventScreen = () => {
 
   const session = useRecoilValue(Session);
 
-  console.log(session);
+  // console.log(session);
 
   const fetchData = async () => {
     const loc = "http://localhost:2244";
@@ -33,7 +33,9 @@ const EventScreen = () => {
       "localhost:2244/api/event/63adc6fdc57e31550c003c9d/viewing-event-school";
     await axios
       // .get(`${loc}/api/event/${session?._id}/viewing-event-school`)
-      .get(loc24)
+      .get(
+        "localhost:2244/api/event/63adc6fdc57e31550c003c9d/viewing-event-school"
+      )
       .then((res) => {
         // setHolderData(res.data.data);
         console.log("viewing Event: ", res);

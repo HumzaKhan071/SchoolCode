@@ -19,9 +19,18 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
 
 interface iSession {
-  sessionCode: string;
-  academicSession: string;
-  academicTerm: string;
+  sessionCode?: string;
+  academicSession?: string;
+  academicTerm?: string;
+
+  _id?: string;
+
+  schoolName?: string;
+  date?: string;
+  dateTime?: string;
+  schoolFees?: string;
+  notification?: {}[];
+  event?: {}[];
 }
 
 const url: string = "https://school-code.onrender.com";
@@ -31,7 +40,7 @@ const TeacherHeader = () => {
   const [userState, setUserState] = useRecoilState(User);
   const [change, setChange] = React.useState(false);
   const user = useRecoilValue(User);
-  const [academic, setAcademic] = useState({} as iSession);
+  const [academic, setAcademic] = useState({} as iSession | null);
 
   const myRef = React.useRef<HTMLDivElement>(null!);
   const backRef = React.useRef<HTMLDivElement>(null!);
@@ -46,13 +55,12 @@ const TeacherHeader = () => {
     myRef.current.style.left = "-300px";
     backRef.current.style.left = "-2000px";
   };
-  console.log(user._id);
+
   const getSession = async () => {
     await axios
       .get(`${url}/api/academic/${user._id}/get-academic-session-teacher`)
       .then((res) => {
         setAcademic(res.data.data.academicSession[0]);
-        console.log(academic);
       });
   };
 

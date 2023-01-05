@@ -201,7 +201,7 @@ const OtherForm: React.FC<iProps> = ({
                 onClick={mainAction}
                 style={{ backgroundColor: "#1da1f2", color: "white" }}
               >
-                {show ? <>Loading...</> : <>Create Class Room</>}
+                {show ? <>Loading...</> : <>{buttonCall}</>}
               </Button2>
             ) : (
               <>
