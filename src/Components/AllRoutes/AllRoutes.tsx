@@ -26,7 +26,7 @@ import TeacherDashboard from "../DashBoard/TeacherDash/TeacherComp/TeacherDashbo
 import StudentHeader from "../DashBoard/StudentDash/StudentNav/StudenHeader";
 import StudentDashboard from "../DashBoard/StudentDash/StudentDashboard";
 import PrivateRoute from "../Global/PrivateRoute";
-
+import StudentTest from "../DashBoard/StudentDash/StudentTest";
 import Attendance from "../DashBoard/TeacherDash/TeacherComp/Attendance/Attendance";
 import Test from "../DashBoard/TeacherDash/TeacherComp/Test/Test";
 import NoticeBoard from "../DashBoard/TeacherDash/TeacherComp/NoticeBoard/NoticeBoard";
@@ -38,6 +38,9 @@ import ClassRooms from "../DashBoard/AdminDash/Screen/ClassRooms";
 import ConfirmTeacherMessage from "../Auth/ConfirmTeachersMessage";
 import ClassRoomDetails from "../DashBoard/AdminDash/ClassRoomDetails";
 import StudentDetails from "../DashBoard/AdminDash/StudentDetails";
+import TimeTable from "../DashBoard/StudentDash/TimeTable";
+import StudentReport from "../DashBoard/StudentDash/StudentReport";
+import StudentNot from "../DashBoard/StudentDash/StudentNot";
 
 const AllRoutes = () => {
 	let element = useRoutes([
@@ -256,6 +259,43 @@ const AllRoutes = () => {
 							<AssignmentScreen />
 						</>
 					),
+				},
+
+				{
+					path:"timetable",
+					element:(
+						<>
+						 <StudentHeader />
+						  <TimeTable/>
+						</>
+					)
+				},
+				{
+					path:"student-test",
+					element:(
+						<>
+						 <StudentHeader />
+						  <StudentTest/>
+						</>
+					)
+				},
+				{
+					path:"student-report",
+					element:(
+						<>
+						 <StudentHeader />
+						  <StudentReport/>
+						</>
+					)
+				},
+				{
+					path:"student-notifications",
+					element:(
+						<>
+						<StudentHeader />
+						  <StudentNot/>
+						</>
+					)
 				},
 			],
 		},

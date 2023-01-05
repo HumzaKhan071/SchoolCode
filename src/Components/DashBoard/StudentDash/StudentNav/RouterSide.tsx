@@ -26,22 +26,22 @@ export const SideBarItem: NavCon[] = [
 	{
 		name: "Time-Table",
 		icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
-		to: "/",
+		to: "/student-dashboard/timetable",
 	},
 	{
 		name: "Tests",
 		icon: (prop: IconBaseProps) => <CgCommunity />,
-		to: "/",
+		to: "/student-dashboard/student-test",
 	},
 	{
 		name: "Report",
 		icon: (prop: IconBaseProps) => <HiDocumentReport />,
-		to: "/",
+		to: "/student-dashboard/student-report",
 	},
 
 	{
 		name: "Notification",
 		icon: (prop: IconBaseProps) => <IoIosNotifications />,
-		to: "/admin-dashboard/notifications",
+		to: "/admin-dashboard/student-notifications",
 	},
 ];
