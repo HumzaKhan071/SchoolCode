@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Report = () => {
+const TeacherReport = () => {
   return (
     <Container>
       <Wrapper>
@@ -11,7 +11,7 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default TeacherReport;
 
 const Container = styled.div`
   /* width: 100%; */

@@ -48,6 +48,7 @@ import StudentNot from "../DashBoard/StudentDash/StudentNot";
 
 import Expenses from "../DashBoard/AdminDash/Screen/Expenses";
 import Accessment from "../DashBoard/TeacherDash/Accessment";
+import TeacherReport from "../DashBoard/TeacherDash/TeacherComp/Report/TeacherReport";
 
 const AllRoutes = () => {
   let element = useRoutes([
@@ -278,7 +279,7 @@ const AllRoutes = () => {
           element: (
             <>
               <TeacherHeader />
-              <Report />
+              <TeacherReport />
             </>
           ),
         },
