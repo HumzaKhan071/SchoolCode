@@ -71,6 +71,13 @@ display: flex;
 justify-content: center;
 align-items: center;
 
+transition: all 350ms;
+
+:hover{
+    transform: scale(1.1)
+}
+
+
 
 `
 
@@ -136,12 +143,10 @@ box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0p
 display: flex;
 flex-direction:column;
 margin:10px;
-transition: all 300ms;
-
+transition: all 350ms;
 
 :hover{
-    transform: scale(1.0.7)
-   
+    transform: scale(1.1)
 }
 
 `

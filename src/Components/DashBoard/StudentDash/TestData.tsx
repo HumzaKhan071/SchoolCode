@@ -1,7 +1,15 @@
+interface demain  {
+    question:string,
+    answer:string,
+    options:{}[]
+
+
+}
+
 interface TestMap {
     subjectTest:string,
     time:"2hrs",
-    testDetails: {}[],
+    testDetails: any,
     gradeScore:number,
     id:number
 

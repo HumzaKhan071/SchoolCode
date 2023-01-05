@@ -48,8 +48,11 @@ import StudentNot from "../DashBoard/StudentDash/StudentNot";
 
 import Expenses from "../DashBoard/AdminDash/Screen/Expenses";
 import Accessment from "../DashBoard/TeacherDash/Accessment";
+
 import DetailsTest from "../DashBoard/StudentDash/DetailsTest";
 import TeacherReport from "../DashBoard/TeacherDash/TeacherComp/Report/TeacherReport";
+
+//  4b4b1a2eaa0a87dc574b3e44dd683eb8a1ad7649
 
 const AllRoutes = () => {
   let element = useRoutes([
@@ -320,6 +323,33 @@ const AllRoutes = () => {
           ),
         },
         {
+          path: "Time-Table",
+          element: (
+            <>
+              <StudentHeader />
+              <TimeTable />
+            </>
+          ),
+        },
+        {
+          path: "student-report",
+          element: (
+            <>
+              <StudentHeader />
+              <StudentReport />
+            </>
+          ),
+        },
+        {
+          path: "student-notifications",
+          element: (
+            <>
+              <StudentHeader />
+              <StudentNot />
+            </>
+          ),
+        },
+        {
           path: "student-test",
           children: [
             {
@@ -331,6 +361,7 @@ const AllRoutes = () => {
                 </>
               ),
             },
+
             {
               path: "student-test-details/:id",
               element: (
