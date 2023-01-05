@@ -1,5 +1,4 @@
 import React from "react";
-import { FaUserNinja } from "react-icons/fa";
 import { SiGoogleclassroom } from "react-icons/si";
 import { GoBook } from "react-icons/go";
 import { MdOutlineAssignmentLate } from "react-icons/md";
@@ -10,14 +9,14 @@ import styled from "styled-components";
 import { CircularProgressbar,buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import TimeLine from "./TimeLine";
+import 'react-calendar/dist/Calendar.css';
+import Calendar from 'react-calendar';
 
-interface iProps {
-	pathTransitionDuration:number
-}
 
 const StudentDashboard = () => {
 
 	const [percentage, setPercentage] = React.useState(80)
+	const [value, setValue] = React.useState(new Date())
 	
 	return <Container>
 		<MyContent>
@@ -237,7 +236,10 @@ const StudentDashboard = () => {
 					</TodadyLesson>
 
 					<History>
-						<Histitle>Teacher history</Histitle>
+						<Histitle>
+						<p>Teacher History</p>
+						<span>View All</span>
+						</Histitle>
 						<TimeLine/>
 					</History>
 					
@@ -247,10 +249,34 @@ const StudentDashboard = () => {
 				<SecondPart>
 					<ShowBox>
 						<DateBox>
-
+							<Calendar   value={value}/>
+                         
 						</DateBox>
 
 						<UpcomingEvent>
+							<TitleEvent>
+								<pre>Upcoming Events</pre>
+								<p>+</p>
+							</TitleEvent>
+
+							<EventCon>
+								<DateEvent>Jan 4</DateEvent>
+								<br/>
+								<ContentEvent>
+									<Fisrt>08:00 am</Fisrt>
+									<Second>
+										<SeconDiv></SeconDiv>
+										<SeconDiv2>
+											<span>&nbsp; New Year Party</span>
+										<pre>&nbsp; All student should Attennd</pre>
+										</SeconDiv2>
+									</Second>
+									<Third>
+									09:30am - 10:45am
+									</Third>
+								</ContentEvent>
+
+							</EventCon>
 
 						</UpcomingEvent>
 
@@ -267,8 +293,114 @@ const StudentDashboard = () => {
 
 export default StudentDashboard;
 
+const SeconDiv = styled.div`
+height:50px;
+width:3px;
+border-radius:3px;
+background-color:#028ee1;
+`
+const SeconDiv2 = styled.div`
+
+height:50px;
+
+font-size:12px;
+color:grey;
+span{
+	font-weight:600;
+	font-size:14px;
+	color:black;
+	width:120px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+pre{
+	width:120px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+`
+
+const Fisrt = styled.div`
+width:65px;
+height:50px;
+display: flex;
+justify-content:center;
+align-items: center;
+color:grey;
+font-size:11px;
+font-weight:700;
+
+`
+const Second = styled.div`
+width:150px;
+height:50px;
+display: flex;
+`
+const Third = styled.div`
+width:100px;
+height:50px;
+font-size:12px;
+display: flex;
+align-items: center;
+`
+
+const ContentEvent = styled.div`
+display: flex;
+`
+
+const DateEvent = styled.div`
+padding-left:20px;
+`
+
+const EventCon = styled.div`
+display: flex;
+justify-content:center;
+flex-direction: column;
+`
+
+const TitleEvent =  styled.div`
+display: flex;
+justify-content:space-between;
+width:100%;
+height:auto;
+
+
+pre{
+	font-width:900;
+	font-size:20px;
+}
+
+p{
+	font-weight:700;
+	font-size:20px;
+}
+
+
+`
+
 const Histitle = styled.div`
-height:40px;
+padding-left:20px;
+padding-right:30px;
+display: flex;
+justify-content: space-between;
+
+p{
+	font-weight:600;
+	
+}
+span{
+	margin-top:20px;
+}
+
+@media screen and (max-width:600px){
+	padding-left:0px;
+	padding-right:0px;
+}
+
 `
 
 const ConBottum = styled.div`
@@ -492,6 +624,10 @@ const UpcomingEvent = styled.div`
 width:310px;
 height:190px;
 background-color:white;
+display: flex;
+justify-content:center;
+align-items: center;
+flex-direction: column;
 
 @media screen and (max-width: 600px) {
 	
@@ -506,9 +642,10 @@ const DateBox = styled.div`
  background-color:white;
 
  @media screen and (max-width: 600px) {
-	
-
 	width:100%;
+	display: flex;
+	justify-content:center;
+	align-items: center;
 }
 `
 
@@ -540,6 +677,8 @@ height:auto;
 @media screen and (max-width: 768px) {
 	margin-top: 30px;
 	height:auto;
+	width:100%;
+	
 }
 
 span {
@@ -566,6 +705,7 @@ width: 97%;
 	flex-direction: column;
 	height:auto;
 	margin-left: 0;
+	width:100%
 }
 
 `
