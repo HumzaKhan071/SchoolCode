@@ -8,6 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import Loading from "../Loading";
 import Swal from "sweetalert2";
+import { useRecoilState } from "recoil";
+import { User } from "../../Global/RecoilState";
 
 interface iData {
 	schoolName: string;
@@ -17,6 +19,7 @@ interface iData {
 }
 const StudentLogin = () => {
 	const Navigate = useNavigate();
+	const [userData, setUserData] = useRecoilState(User);
 	const schema = yup.object().shape({
 		email: yup.string().email().required("This field has to be filled"),
 		password: yup.string().required("This field has to be filled"),
@@ -40,8 +43,8 @@ const StudentLogin = () => {
 			.post("https://school-code.onrender.com/api/student/login", data)
 			.then((res) => {
 				setLoading(false);
-				console.log(res);
 
+				setUserData(res.data.data);
 				Navigate("/student-dashboard");
 			})
 			.catch((err) => {
