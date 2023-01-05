@@ -26,12 +26,18 @@ flex-direction: column;
     content:"";
     background-color:#3D90E6;
     position:absolute;
-    width:3px;
+    width:1px;
     height: 200px;
-    left: calc(10% - 2px);
+    left: calc(10% - 5px);
 
     @media screen and (max-width:800px){
-        left: calc(23% - 2px);
+        left: calc(23% - 70px);
+        height:450px;
+
+    }
+    
+    @media screen and (max-width:600px){
+        left: calc(23% - -5px);
         height:450px;
 
     }

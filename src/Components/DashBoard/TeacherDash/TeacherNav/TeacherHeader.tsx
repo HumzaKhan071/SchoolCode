@@ -46,7 +46,7 @@ const TeacherHeader = () => {
     myRef.current.style.left = "-300px";
     backRef.current.style.left = "-2000px";
   };
-
+  console.log(user._id);
   const getSession = async () => {
     await axios
       .get(`${url}/api/academic/${user._id}/get-academic-session-teacher`)
@@ -60,7 +60,7 @@ const TeacherHeader = () => {
     getSession();
   }, []);
   return (
-    <div>
+    <MainDown>
       <HeaderDash>
         <HolderCon>
           <MenuHold>
@@ -148,7 +148,8 @@ const TeacherHeader = () => {
               <AiFillBell />
             </Three>
             <Four>
-              <img src={img} />
+              {/* <img src={img} /> */}
+              <div>{user.name.charAt(0)}</div>
             </Four>
             <div>
               <RiArrowDropDownLine
@@ -210,11 +211,21 @@ const TeacherHeader = () => {
           <SideBar changeFalse={changeFalse} />
         </SideHold>
       </Back>
-    </div>
+    </MainDown>
   );
 };
 
 export default TeacherHeader;
+
+const MainDown = styled.div`
+  br {
+    display: none;
+
+    @media screen and (max-width: 960px) {
+      display: flex;
+    }
+  }
+`;
 
 const Back = styled.div`
   display: none;
@@ -353,6 +364,11 @@ const Four = styled.div`
   background-color: #f4f4f4;
   align-items: center;
 
+  div {
+    font-weight: 500;
+    font-size: 25px;
+  }
+
   img {
     width: 100%;
     height: 100%;
@@ -447,7 +463,9 @@ const HolderCon = styled.div`
 `;
 
 const HeaderDash = styled.div`
-  swidth: 100%;
+  background-color: white;
+  // position: fixed;
+  width: 100%;
   height: 80px;
   display: flex;
   align-items: center;

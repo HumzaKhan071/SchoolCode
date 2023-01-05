@@ -31,7 +31,7 @@ const TeacherDashboard = () => {
   const getSession = async () => {
     await axios.get(`${url}/api/teacher/${user._id}/`).then((res) => {
       setTeacher(res.data.data);
-      console.log(teacher);
+      // console.log(teacher);
     });
   };
 
