@@ -34,6 +34,7 @@ function Academics() {
 	const [name3, setName3] = useState("");
 	const [name4, setName4] = useState("");
 	const [name5, setName5] = useState("");
+	const [hold, setHold] = useState("");
 
 	const toggleClassRoom = () => {
 		setClassRoom(!classRoom);
@@ -95,133 +96,140 @@ function Academics() {
 		getTeacher();
 	}, []);
 	return (
-		<Container>
-			<Holder>
-				<Hols>
-					<Hold>
-						<h3>Teachers</h3>
-						<Span>Dashboard / Teachers</Span>
-					</Hold>
-					<Input placeholder='Enter teacher name....' />
-				</Hols>
-				<br />
+		<>
+			{classRoom ? (
+				<MyForm
+					check={false}
+					title1='Enter the class token to help find the class fast'
+					title2='class school Fee'
+					holder='Enter the Class token: eb 445t'
+					holder1='Enter class School Fee'
+					toggle={toggleClassRoom}
+					title='Reassign to another Class'
+					subTitle='By filling this form, you will automatically reassign teacher to the new choice class.'
+					mainActionAdmin={() => {
+						createClassRoom(hold);
+					}}
+					show={show}
+					setShow={setShow}
+					toggleShow={toggle}
+					setName={setName}
+					setName1={setName1}
+					setName2={setName2}
+					setName3={setName3}
+					setName4={setName4}
+					setName5={setName5}
+					one={false}
+					two={false}
+					three={false}
+					four={false}
+					five={false}
+					name={name}
+					name1={name1}
+					name2={name2}
+					name3={name3}
+					name4={name4}
+					name5={name5}
+					buttonCall="Change Teacher's class"
+				/>
+			) : null}
+			<Container>
+				<Holder>
+					<Hols>
+						<Hold>
+							<h3>Teachers</h3>
+							<Span>Dashboard / Teachers</Span>
+						</Hold>
+						<Input placeholder='Enter teacher name....' />
+					</Hols>
+					<br />
 
-				{teacher?.length >= 1 ? (
-					<BoxHold>
-						{teacher?.map((props) => (
-							<TeaqcherCard key={props?._id}>
-								<TeachHold>
-									<TeacherImage src='/img/prof.png' />
-									<Main>
-										<Div>{props.name}</Div>
-										<P>{props.email}</P>
-										<div
-											style={{
-												fontSize: "10px",
-												display: "flex",
-												alignItems: "center",
-											}}>
-											<div>Position </div> : Teacher
-										</div>
+					{teacher?.length >= 1 ? (
+						<BoxHold>
+							{teacher?.map((props) => (
+								<TeaqcherCard key={props?._id}>
+									<TeachHold>
+										<TeacherImage src='/img/prof.png' />
+										<Main>
+											<Div>{props.name}</Div>
+											<P>{props.email}</P>
+											<div
+												style={{
+													fontSize: "10px",
+													display: "flex",
+													alignItems: "center",
+												}}>
+												<div>Position </div> : Teacher
+											</div>
 
-										<Cal>
-											Class :{" "}
-											<div style={{ display: "flex" }}>
-												{props.classes ? (
+											<Cal>
+												Class :{" "}
+												<div style={{ display: "flex" }}>
+													{props.classes ? (
+														<div
+															style={{
+																marginTop: "2px",
+																marginLeft: "5px",
+																fontWeight: "500",
+															}}>
+															{" "}
+															{props.classes}
+														</div>
+													) : (
+														<div
+															style={{
+																fontSize: "12px",
+																marginTop: "2px",
+																marginLeft: "5px",
+															}}>
+															Not yet assigned
+														</div>
+													)}
+												</div>
+											</Cal>
+
+											<CalD>
+												Subject Taken:
+												{props.subjectTaken.length > 0 ? (
 													<div
 														style={{
-															marginTop: "2px",
-															marginLeft: "5px",
-															fontWeight: "500",
+															margin: "5px",
+															display: "flex",
+															alignItems: "center",
+															justifyContent: "center",
+															padding: "2px 4px",
+															width: "160px",
+															minHeight: "100px",
+															flexWrap: "wrap",
 														}}>
-														{" "}
-														{props.classes}
+														{props.subjectTaken.map((props, i) => (
+															<Curve key={i}>{props}</Curve>
+														))}
 													</div>
 												) : (
-													<div
-														style={{
-															fontSize: "12px",
-															marginTop: "2px",
-															marginLeft: "5px",
-														}}>
-														Not yet assigned
-													</div>
+													<Curve>Not yet Assigned</Curve>
 												)}
-											</div>
-										</Cal>
-
-										<CalD>
-											Subject Taken:
-											{props.subjectTaken.length > 0 ? (
-												<div
-													style={{
-														margin: "5px",
-														display: "flex",
-														alignItems: "center",
-														justifyContent: "center",
-														padding: "2px 4px",
-														width: "160px",
-														minHeight: "100px",
-														flexWrap: "wrap",
+											</CalD>
+											<br />
+											<div
+												style={{
+													display: "flex",
+													justifyContent: "space-between",
+													width: "110%",
+												}}>
+												<ButtonB
+													bg='black'
+													onClick={() => {
+														toggleClassRoom();
+														setHold(props._id);
 													}}>
-													{props.subjectTaken.map((props, i) => (
-														<Curve key={i}>{props}</Curve>
-													))}
-												</div>
-											) : (
-												<Curve>Not yet Assigned</Curve>
-											)}
-										</CalD>
-										<br />
-										<div
-											style={{
-												display: "flex",
-												justifyContent: "space-between",
-												width: "110%",
-											}}>
-											<ButtonB bg='black' onClick={toggleClassRoom}>
-												Reassign to another Class
-											</ButtonB>
-											{classRoom ? (
-												<MyForm
-													check={false}
-													title1='Enter the class token to help find the class fast'
-													title2='class school Fee'
-													holder='Enter the Class token: eb 445t'
-													holder1='Enter class School Fee'
-													toggle={toggleClassRoom}
-													title='Reassign to another Class'
-													subTitle='By filling this form, you will automatically reassign teacher to the new choice class.'
-													mainActionAdmin={() => {
-														createClassRoom(props._id);
-													}}
-													show={show}
-													setShow={setShow}
-													toggleShow={toggle}
-													setName={setName}
-													setName1={setName1}
-													setName2={setName2}
-													setName3={setName3}
-													setName4={setName4}
-													setName5={setName5}
-													one={false}
-													two={false}
-													three={false}
-													four={false}
-													five={false}
-													name={name}
-													name1={name1}
-													name2={name2}
-													name3={name3}
-													name4={name4}
-													name5={name5}
-													buttonCall="Change Teacher's class"
-												/>
-											) : null}
-											<br />
-											<br />
+													Reassign to another Class
+												</ButtonB>
 
-											{/* <ButtonB bg="black" onClick={toggleSubject}>
+												<br />
+												<br />
+
+												{/* <ButtonB bg="black" onClick={toggleSubject}>
                         Assign for Subject
                       </ButtonB>
                       {subject ? (
@@ -261,35 +269,36 @@ function Academics() {
                           name5={name5}
                         />
                       ) : null} */}
-										</div>
-									</Main>
-								</TeachHold>
-							</TeaqcherCard>
-						))}
-					</BoxHold>
-				) : (
-					<BoxHold1>
-						{load ? (
-							<div>
+											</div>
+										</Main>
+									</TeachHold>
+								</TeaqcherCard>
+							))}
+						</BoxHold>
+					) : (
+						<BoxHold1>
+							{load ? (
 								<div>
-									<ClipLoader color='#36d7b7' />
+									<div>
+										<ClipLoader color='#36d7b7' />
+									</div>
+									<div> Fetching data...</div>
 								</div>
-								<div> Fetching data...</div>
-							</div>
-						) : (
-							<>
-								<BoxImag src='/img/emp.gif' />
-								<h3>Add Teacher to your institute.</h3>
-								<p>
-									Your institute has no teacher yet. Added classrooms will
-									appear here.
-								</p>
-							</>
-						)}
-					</BoxHold1>
-				)}
-			</Holder>
-		</Container>
+							) : (
+								<>
+									<BoxImag src='/img/emp.gif' />
+									<h3>Add Teacher to your institute.</h3>
+									<p>
+										Your institute has no teacher yet. Added classrooms will
+										appear here.
+									</p>
+								</>
+							)}
+						</BoxHold1>
+					)}
+				</Holder>
+			</Container>
+		</>
 	);
 }
 
