@@ -49,10 +49,13 @@ interface iProps {
 	name1?: string;
 	name2?: string;
 
-	name3?: string;
-	name4?: string;
-	name5?: string;
-	id?: string;
+
+  name3?: string;
+  name4?: string;
+  name5?: string;
+  id?: string;
+  hold?: string;
+
 }
 
 const url: string = "https://school-code.onrender.com";
@@ -98,8 +101,12 @@ const MyForm: React.FC<iProps> = ({
 	name4,
 	name5,
 
-	toggleShow,
-	setShow,
+
+  toggleShow,
+  setShow,
+  hold,
+  id,
+
 }) => {
 	return (
 		<Container>
@@ -112,114 +119,117 @@ const MyForm: React.FC<iProps> = ({
 						</Cancel>
 					</FirstHold>
 
-					<span>{subTitle}</span>
-					<br />
-					<br />
-					<Holden></Holden>
-					<InpHold>
-						<Title>{title1}:</Title>
-						<Input
-							placeholder={`${holder}`}
-							onChange={(e) => {
-								setName!(e.target.value);
-							}}
-							required
-						/>
-						<br />
-						{one ? (
-							<>
-								<Title>{title2}:</Title>
-								<Input
-									placeholder={`${holder1}`}
-									onChange={(e) => {
-										setName1!(e.target.value);
-									}}
-									required
-								/>
-							</>
-						) : null}
-						<br />
-						{two ? (
-							<>
-								<Title>{title3}:</Title>
-								<Input
-									placeholder={`${holder2}`}
-									onChange={(e) => {
-										setName2!(e.target.value);
-									}}
-									required
-								/>
-							</>
-						) : null}{" "}
-						<br />
-						{three ? (
-							<>
-								<Title>{title4}:</Title>
-								<Input
-									placeholder={`${holder3}`}
-									onChange={(e) => {
-										setName3!(e.target.value);
-									}}
-									required
-								/>
-							</>
-						) : null}{" "}
-						<br />
-						{four ? (
-							<>
-								<Title>{title5}:</Title>
-								<Input
-									placeholder={`${holder4}`}
-									onChange={(e) => {
-										setName4!(e.target.value);
-									}}
-									required
-								/>
-							</>
-						) : null}{" "}
-						<br />
-						{five ? (
-							<>
-								<Title>{title6}:</Title>
-								<Input
-									placeholder={`${holder5}`}
-									onChange={(e) => {
-										setName5!(e.target.value);
-									}}
-									required
-								/>
-							</>
-						) : null}
-					</InpHold>
-					{check ? (
-						<ButtonHold>
-							{name !== "" ? (
-								<Button2
-									onClick={mainAction}
-									style={{ backgroundColor: "#1da1f2", color: "white" }}>
-									{show ? <>Loading...</> : <>{buttonCall}</>}
-								</Button2>
-							) : (
-								<>
-									{show ? (
-										<Button2>Loading...</Button2>
-									) : (
-										<Button2
-											style={{
-												cursor: "not-allowed",
-											}}>
-											Proceed
-										</Button2>
-									)}
-								</>
-							)}
-						</ButtonHold>
-					) : (
-						<ButtonHold>
-							{name !== "" ? (
-								<Button2
-									onClick={(id: any) => {
-										mainActionAdmin!(id);
+          <span>{subTitle}</span>
+          <br />
+          <br />
+          <Holden></Holden>
+          <InpHold>
+            <Title>{title1}:</Title>
+            <Input
+              placeholder={`${holder}`}
+              onChange={(e) => {
+                setName!(e.target.value);
+              }}
+              required
+            />
+            <br />
+            {one ? (
+              <>
+                <Title>{title2}:</Title>
+                <Input
+                  placeholder={`${holder1}`}
+                  onChange={(e) => {
+                    setName1!(e.target.value);
+                  }}
+                  required
+                />
+              </>
+            ) : null}
+            <br />
+            {two ? (
+              <>
+                <Title>{title3}:</Title>
+                <Input
+                  placeholder={`${holder2}`}
+                  onChange={(e) => {
+                    setName2!(e.target.value);
+                  }}
+                  required
+                />
+              </>
+            ) : null}{" "}
+            <br />
+            {three ? (
+              <>
+                <Title>{title4}:</Title>
+                <Input
+                  placeholder={`${holder3}`}
+                  onChange={(e) => {
+                    setName3!(e.target.value);
+                  }}
+                  required
+                />
+              </>
+            ) : null}{" "}
+            <br />
+            {four ? (
+              <>
+                <Title>{title5}:</Title>
+                <Input
+                  placeholder={`${holder4}`}
+                  onChange={(e) => {
+                    setName4!(e.target.value);
+                  }}
+                  required
+                />
+              </>
+            ) : null}{" "}
+            <br />
+            {five ? (
+              <>
+                <Title>{title6}:</Title>
+                <Input
+                  placeholder={`${holder5}`}
+                  onChange={(e) => {
+                    setName5!(e.target.value);
+                  }}
+                  required
+                />
+              </>
+            ) : null}
+          </InpHold>
+          {check ? (
+            <ButtonHold>
+              {name !== "" ? (
+                <Button2
+                  onClick={mainAction}
+                  style={{ backgroundColor: "#1da1f2", color: "white" }}
+                >
+                  {show ? <>Loading...</> : <>{buttonCall}</>}
+                </Button2>
+              ) : (
+                <>
+                  {show ? (
+                    <Button2>Loading...</Button2>
+                  ) : (
+                    <Button2
+                      style={{
+                        cursor: "not-allowed",
+                      }}
+                    >
+                      Proceed
+                    </Button2>
+                  )}
+                </>
+              )}
+            </ButtonHold>
+          ) : (
+            <ButtonHold>
+              {name !== "" ? (
+                <Button2
+                  onClick={() => {
+                    mainActionAdmin!(hold);
+
 
 										// toggle!();
 									}}
