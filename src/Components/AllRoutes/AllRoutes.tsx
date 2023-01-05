@@ -51,6 +51,7 @@ import Accessment from "../DashBoard/TeacherDash/Accessment";
 
 import DetailsTest from "../DashBoard/StudentDash/DetailsTest";
 import TeacherReport from "../DashBoard/TeacherDash/TeacherComp/Report/TeacherReport";
+import Lecture from "../DashBoard/TeacherDash/TeacherComp/Lectures/Lecture";
 
 //  4b4b1a2eaa0a87dc574b3e44dd683eb8a1ad7649
 
@@ -284,6 +285,15 @@ const AllRoutes = () => {
             <>
               <TeacherHeader />
               <TeacherReport />
+            </>
+          ),
+        },
+        {
+          path: "lecture",
+          element: (
+            <>
+              <TeacherHeader />
+              <Lecture />
             </>
           ),
         },

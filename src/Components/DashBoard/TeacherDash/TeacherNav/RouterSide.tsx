@@ -2,7 +2,7 @@ import { IconBaseProps, IconType } from "react-icons";
 import { SiMicrosoftacademic } from "react-icons/si";
 import { FaMoneyBillAlt } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
-import { CgCommunity } from "react-icons/cg";
+import { TbBooks } from "react-icons/tb";
 import { HiDocumentReport } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 
@@ -22,6 +22,11 @@ export const SideBarItem: NavCon[] = [
     name: "Attendance",
     icon: (prop: IconBaseProps) => <SiMicrosoftacademic />,
     to: "/teacher-dashboard/attendance",
+  },
+  {
+    name: "Lectures",
+    icon: (prop: IconBaseProps) => <TbBooks />,
+    to: "/teacher-dashboard/lecture",
   },
   {
     name: "Test",
