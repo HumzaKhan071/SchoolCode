@@ -40,6 +40,8 @@ import ClassRoomDetails from "../DashBoard/AdminDash/ClassRoomDetails";
 import StudentDetails from "../DashBoard/AdminDash/StudentDetails";
 import AllTest from "../DashBoard/TeacherDash/TeacherComp/Test/AllTest";
 import TestDetail from "../DashBoard/TeacherDash/TeacherComp/Test/TestDetail";
+import CreateTest from "../DashBoard/TeacherDash/TeacherComp/Test/CreateTest";
+
 
 import TimeTable from "../DashBoard/StudentDash/TimeTable";
 import StudentReport from "../DashBoard/StudentDash/StudentReport";
@@ -48,6 +50,7 @@ import StudentNot from "../DashBoard/StudentDash/StudentNot";
 import Expenses from "../DashBoard/AdminDash/Screen/Expenses";
 import Accessment from "../DashBoard/TeacherDash/Accessment";
 import DetailsTest from "../DashBoard/StudentDash/DetailsTest";
+
 
 const AllRoutes = () => {
   let element = useRoutes([
@@ -238,6 +241,15 @@ const AllRoutes = () => {
             <>
               <TeacherHeader />
               <TestDetail />
+            </>
+          ),
+        },
+        {
+          path: "new_test",
+          element: (
+            <>
+              <TeacherHeader />
+              <CreateTest />
             </>
           ),
         },

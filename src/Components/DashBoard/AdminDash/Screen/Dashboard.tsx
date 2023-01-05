@@ -42,6 +42,7 @@ const Dashboard = () => {
     });
   };
 
+  console.log(newNotice);
   const [announcement, setAnnouncement] = useState(false);
   const [classRoom, setClassRoom] = useState(false);
   const [event, setEvent] = useState(false);
@@ -147,6 +148,8 @@ const Dashboard = () => {
     });
   };
 
+  console.log(session);
+
   const getNotices = async () => {
     const uri = `${url}/api/announcement/${user._id}/viewing-announcement-school`;
     await axios.post(uri, { code: session?.sessionCode }).then((res: any) => {
@@ -154,361 +157,379 @@ const Dashboard = () => {
     });
   };
 
+  React.useEffect(() => {
+    if (event) {
+      document.body.style.overflow = "hidden";
+    } else if (announcement) {
+      document.body.style.overflow = "hidden";
+    } else if (classRoom) {
+      document.body.style.overflow = "hidden";
+    } else if (subject) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [event, classRoom, subject, announcement]);
+
   useEffect(() => {
     getCount();
     getNotice();
     getNotices();
   }, []);
   return (
-    <Container>
-      <Content>
-        <First>
-          <span>OverView</span>
-          <MainHold>
-            <OverCard>
-              <CountHold>
-                <Cont>{schoolData?.teachers?.length}</Cont>
-                <Text>Teachers</Text>
-              </CountHold>
-              <IconHold bg="#fdf4e6">
-                <img src="/img/tea.svg" />
-              </IconHold>
-            </OverCard>
-            <OverCard>
-              <CountHold>
-                <Cont>{schoolData?.classes?.length}</Cont>
-                <Text>Classrooms</Text>
-              </CountHold>
-              <IconHold bg="#EAF9FF">
-                <img src="/img/cl.svg" />
-              </IconHold>
-            </OverCard>
-            <OverCard>
-              <CountHold>
-                <Cont>{schoolData?.students?.length}</Cont>
-                <Text>Students</Text>
-              </CountHold>
-              <IconHold bg="#EDE8FF">
-                <img src="/img/st.svg" />
-              </IconHold>
-            </OverCard>
-          </MainHold>
-          <br />
-          <SliderComp notice={newNotices} />
-          <br />
-          <br />
-          <span>Reports</span>
-          <ReportsHold>
-            <StudRep>
-              <CircleHold>
-                <Circle>
-                  <FaMoneyBillAlt />
-                </Circle>
+    <>
+      {event ? (
+        <MyForm
+          holder="Enter Event title:EG Football Match"
+          holder1="A time to wine and dine with the Football pitch"
+          holder2="Enter Event title:EG Inner house Sport"
+          holder3="Which Month:eg. Feburary"
+          holder4="Give a time: eg. 10:00AM "
+          holder5="what day: WEDNESDAY 12TH"
+          mainAction={createEvent}
+          toggle={toggleEvent}
+          title="create new Event"
+          title1="Title the Event"
+          title2="Enter event description"
+          title3="Enter Month"
+          title4="At what Time"
+          title5="I guess this year, right?"
+          title6="Give it a fixed date"
+          subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+          show={show}
+          setName={setName}
+          setName1={setName1}
+          setName2={setName2}
+          setName3={setName3}
+          setName4={setName4}
+          setName5={setName5}
+          one={true}
+          two={true}
+          three={true}
+          four={true}
+          five={true}
+          name={name}
+          name1={name1}
+          name2={name2}
+          name3={name3}
+          name4={name4}
+          name5={name5}
+          check={true}
+          buttonCall="Create Event"
+        />
+      ) : null}
+
+      {announcement ? (
+        <MyForm
+          title1="Enter The Announcement to be made"
+          holder="Enter Annonucement"
+          holder2="Enter Annonucement Details"
+          toggle={toggleAnnouncement}
+          title="Make Annonucement"
+          title3="Enter Annonucement details"
+          subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+          mainAction={createAnnouncement}
+          show={show}
+          setName={setName}
+          setName2={setName2}
+          setName1={setName1}
+          setName3={setName3}
+          setName4={setName4}
+          setName5={setName5}
+          one={false}
+          two={true}
+          three={false}
+          four={false}
+          five={false}
+          name={name}
+          name1={name1}
+          name2={name2}
+          name3={name3}
+          name4={name4}
+          name5={name5}
+          check={true}
+          buttonCall="Create Announcement"
+        />
+      ) : null}
+
+      {classRoom ? (
+        <MyForm
+          title1="Name the Class"
+          title2="class school Fee"
+          holder="Enter the class Name: eg SS3A"
+          holder1="Enter class School Fee"
+          toggle={toggleClassRoom}
+          title="Create ClassRoom"
+          subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+          mainAction={createClassRoom}
+          show={show}
+          setName={setName}
+          setName1={setName1}
+          setName2={setName2}
+          setName3={setName3}
+          setName4={setName4}
+          setName5={setName5}
+          one={true}
+          two={false}
+          three={false}
+          four={false}
+          five={false}
+          check={true}
+          name={name}
+          name1={name1}
+          name2={name2}
+          name3={name3}
+          name4={name4}
+          name5={name5}
+          buttonCall="Create Class Room"
+        />
+      ) : null}
+
+      {subject ? (
+        <MyForm
+          holder="Enter the class Name: eg SS3A"
+          holder1="session code: 8b309d"
+          holder2="Teacher to take this subject"
+          toggle={toggleSubject}
+          title="Create Subject"
+          title1="Subject Name"
+          title2="Class Code"
+          title3="subject Teacher"
+          subTitle=" By creating a class room, this new class will be added to your list
+                of class rooms."
+          mainAction={createSubject}
+          show={show}
+          setName={setName}
+          setName1={setName1}
+          setName2={setName2}
+          setName3={setName3}
+          setName4={setName4}
+          setName5={setName5}
+          one={true}
+          two={true}
+          three={false}
+          four={false}
+          five={false}
+          name={name}
+          name1={name1}
+          name2={name2}
+          name3={name3}
+          name4={name4}
+          name5={name5}
+          check={true}
+          buttonCall="Create Subject"
+        />
+      ) : null}
+
+      <Container>
+        <Content>
+          <First>
+            <span>OverView</span>
+            <MainHold>
+              <OverCard>
+                <CountHold>
+                  <Cont>{schoolData?.teachers?.length}</Cont>
+                  <Text>Teachers</Text>
+                </CountHold>
+                <IconHold bg="#fdf4e6">
+                  <img src="/img/tea.svg" />
+                </IconHold>
+              </OverCard>
+              <OverCard>
+                <CountHold>
+                  <Cont>{schoolData?.classes?.length}</Cont>
+                  <Text>Classrooms</Text>
+                </CountHold>
+                <IconHold bg="#EAF9FF">
+                  <img src="/img/cl.svg" />
+                </IconHold>
+              </OverCard>
+              <OverCard>
+                <CountHold>
+                  <Cont>{schoolData?.students?.length}</Cont>
+                  <Text>Students</Text>
+                </CountHold>
+                <IconHold bg="#EDE8FF">
+                  <img src="/img/st.svg" />
+                </IconHold>
+              </OverCard>
+            </MainHold>
+            <br />
+            <SliderComp notice={newNotices} />
+
+            <span>Reports</span>
+            <ReportsHold>
+              <StudRep>
+                <CircleHold>
+                  <Circle>
+                    <FaMoneyBillAlt />
+                  </Circle>
+                  <TitLeHold>
+                    <Title>Fee</Title>
+                    <span>Reports</span>
+                  </TitLeHold>
+                </CircleHold>
+                <GrFormNext />
+              </StudRep>
+              <TeachRep>
+                <CircleHold>
+                  <Circle style={{ backgroundColor: "#fdf4e6" }}>
+                    <BsPersonSquare />
+                  </Circle>
+                  <TitLeHold>
+                    <Title>Students Attendance</Title>
+                    <span>Reports</span>
+                  </TitLeHold>
+                </CircleHold>
+                <GrFormNext />
+              </TeachRep>
+            </ReportsHold>
+            <br />
+
+            <span>Fee</span>
+            <FeeCard>
+              <CircleH>
                 <TitLeHold>
-                  <Title>Fee</Title>
-                  <span>Reports</span>
+                  <Title1>#0.00</Title1>
+                  <span
+                    style={{
+                      color: "silver",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Applied Fee
+                  </span>
                 </TitLeHold>
-              </CircleHold>
-              <GrFormNext />
-            </StudRep>
-            <TeachRep>
-              <CircleHold>
-                <Circle style={{ backgroundColor: "#fdf4e6" }}>
-                  <BsPersonSquare />
-                </Circle>
+              </CircleH>
+              <CircleH>
                 <TitLeHold>
-                  <Title>Students Attendance</Title>
-                  <span>Reports</span>
+                  <Title1>#0.00</Title1>
+                  <span
+                    style={{
+                      color: "silver",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Discounts
+                  </span>
                 </TitLeHold>
-              </CircleHold>
-              <GrFormNext />
-            </TeachRep>
-          </ReportsHold>
-          <br />
+              </CircleH>
+              <CircleH>
+                <TitLeHold>
+                  <Title1>#0.00</Title1>
+                  <span
+                    style={{
+                      color: "silver",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Paid Fee
+                  </span>
+                </TitLeHold>
+              </CircleH>
+              <CircleH>
+                <TitLeHold>
+                  <Title1>#0.00</Title1>
+                  <span
+                    style={{
+                      color: "silver",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Due Fee
+                  </span>
+                </TitLeHold>
+              </CircleH>
+            </FeeCard>
 
-          <span>Fee</span>
-          <FeeCard>
-            <CircleH>
-              <TitLeHold>
-                <Title1>#0.00</Title1>
-                <span
-                  style={{
-                    color: "silver",
-                    fontSize: "13px",
-                  }}
-                >
-                  Applied Fee
-                </span>
-              </TitLeHold>
-            </CircleH>
-            <CircleH>
-              <TitLeHold>
-                <Title1>#0.00</Title1>
-                <span
-                  style={{
-                    color: "silver",
-                    fontSize: "13px",
-                  }}
-                >
-                  Discounts
-                </span>
-              </TitLeHold>
-            </CircleH>
-            <CircleH>
-              <TitLeHold>
-                <Title1>#0.00</Title1>
-                <span
-                  style={{
-                    color: "silver",
-                    fontSize: "13px",
-                  }}
-                >
-                  Paid Fee
-                </span>
-              </TitLeHold>
-            </CircleH>
-            <CircleH>
-              <TitLeHold>
-                <Title1>#0.00</Title1>
-                <span
-                  style={{
-                    color: "silver",
-                    fontSize: "13px",
-                  }}
-                >
-                  Due Fee
-                </span>
-              </TitLeHold>
-            </CircleH>
-          </FeeCard>
+            <span>Student Attendance</span>
+            <FeeCard>
+              <CircleH>
+                <TitLeHold>
+                  <Title1>0/46</Title1>
+                  <span
+                    style={{
+                      color: "silver",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Class Mark
+                  </span>
+                </TitLeHold>
+              </CircleH>
+              <CircleH>
+                <TitLeHold>
+                  <Title1>-</Title1>
+                  <span
+                    style={{
+                      color: "silver",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Total Present
+                  </span>
+                </TitLeHold>
+              </CircleH>
+              <CircleH>
+                <TitLeHold>
+                  <Title1>-</Title1>
+                  <span
+                    style={{
+                      color: "silver",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Total Absent
+                  </span>
+                </TitLeHold>
+              </CircleH>
+              <CircleH>
+                <TitLeHold>
+                  <Title1>-</Title1>
+                  <span
+                    style={{
+                      color: "silver",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Overall Attendance
+                  </span>
+                </TitLeHold>
+              </CircleH>
+            </FeeCard>
+          </First>
+          <Second>
+            <span>Quick Actions</span>
+            <Card>
+              <MyDiv>Share information with teachers and students</MyDiv>
+              <Button bg="black" col="black" onClick={toggleAnnouncement}>
+                Create Announcement
+              </Button>
 
-          <span>Student Attendance</span>
-          <FeeCard>
-            <CircleH>
-              <TitLeHold>
-                <Title1>0/46</Title1>
-                <span
-                  style={{
-                    color: "silver",
-                    fontSize: "13px",
-                  }}
-                >
-                  Class Mark
-                </span>
-              </TitLeHold>
-            </CircleH>
-            <CircleH>
-              <TitLeHold>
-                <Title1>-</Title1>
-                <span
-                  style={{
-                    color: "silver",
-                    fontSize: "13px",
-                  }}
-                >
-                  Total Present
-                </span>
-              </TitLeHold>
-            </CircleH>
-            <CircleH>
-              <TitLeHold>
-                <Title1>-</Title1>
-                <span
-                  style={{
-                    color: "silver",
-                    fontSize: "13px",
-                  }}
-                >
-                  Total Absent
-                </span>
-              </TitLeHold>
-            </CircleH>
-            <CircleH>
-              <TitLeHold>
-                <Title1>-</Title1>
-                <span
-                  style={{
-                    color: "silver",
-                    fontSize: "13px",
-                  }}
-                >
-                  Overall Attendance
-                </span>
-              </TitLeHold>
-            </CircleH>
-          </FeeCard>
-        </First>
-        <Second>
-          <span>Quick Actions</span>
-          <Card>
-            <MyDiv>Share information with teachers and students</MyDiv>
-            <Button bg="black" col="black" onClick={toggleAnnouncement}>
-              Create Announcement
-            </Button>
-            {announcement ? (
-              <MyForm
-                title1="Enter The Announcement to be made"
-                holder="Enter Annonucement"
-                holder2="Enter Annonucement Details"
-                toggle={toggleAnnouncement}
-                title="Make Annonucement"
-                title3="Enter Annonucement details"
-                subTitle=" By creating a class room, this new class will be added to your list
-                of class rooms."
-                mainAction={createAnnouncement}
-                show={show}
-                setName={setName}
-                setName2={setName2}
-                setName1={setName1}
-                setName3={setName3}
-                setName4={setName4}
-                setName5={setName5}
-                one={false}
-                two={true}
-                three={false}
-                four={false}
-                five={false}
-                name={name}
-                name1={name1}
-                name2={name2}
-                name3={name3}
-                name4={name4}
-                name5={name5}
-                check={true}
-                buttonCall="Create Announcement"
-              />
-            ) : null}
+              <Button bg="#ED931A" col="black" onClick={toggleEvent}>
+                Create Event
+              </Button>
 
-            <Button bg="#ED931A" col="black" onClick={toggleEvent}>
-              Create Event
-            </Button>
+              <Button bg="#0FBBFE" col="" onClick={toggleClassRoom}>
+                Create ClassRoom
+              </Button>
 
-            {event ? (
-              <MyForm
-                holder="Enter Event title:EG Football Match"
-                holder1="A time to wine and dine with the Football pitch"
-                holder2="Enter Event title:EG Inner house Sport"
-                holder3="Which Month:eg. Feburary"
-                holder4="Give a time: eg. 10:00AM "
-                holder5="what day: WEDNESDAY 12TH"
-                mainAction={createEvent}
-                toggle={toggleEvent}
-                title="create new Event"
-                title1="Title the Event"
-                title2="Enter event description"
-                title3="Enter Month"
-                title4="At what Time"
-                title5="I guess this year, right?"
-                title6="Give it a fixed date"
-                subTitle=" By creating a class room, this new class will be added to your list
-                of class rooms."
-                show={show}
-                setName={setName}
-                setName1={setName1}
-                setName2={setName2}
-                setName3={setName3}
-                setName4={setName4}
-                setName5={setName5}
-                one={true}
-                two={true}
-                three={true}
-                four={true}
-                five={true}
-                name={name}
-                name1={name1}
-                name2={name2}
-                name3={name3}
-                name4={name4}
-                name5={name5}
-                check={true}
-                buttonCall="Create Event"
-              />
-            ) : null}
+              <Button bg="#8E6AFF" col="" onClick={toggleSubject}>
+                Create Subject
+              </Button>
+            </Card>
+            <AnnounceCard>
+              <div>Top Recent Notice</div>
 
-            <Button bg="#0FBBFE" col="" onClick={toggleClassRoom}>
-              Create ClassRoom
-            </Button>
-            {classRoom ? (
-              <MyForm
-                title1="Name the Class"
-                title2="class school Fee"
-                holder="Enter the class Name: eg SS3A"
-                holder1="Enter class School Fee"
-                toggle={toggleClassRoom}
-                title="Create ClassRoom"
-                subTitle=" By creating a class room, this new class will be added to your list
-                of class rooms."
-                mainAction={createClassRoom}
-                show={show}
-                setName={setName}
-                setName1={setName1}
-                setName2={setName2}
-                setName3={setName3}
-                setName4={setName4}
-                setName5={setName5}
-                one={true}
-                two={false}
-                three={false}
-                four={false}
-                five={false}
-                check={true}
-                name={name}
-                name1={name1}
-                name2={name2}
-                name3={name3}
-                name4={name4}
-                name5={name5}
-                buttonCall="Create Class Room"
-              />
-            ) : null}
-
-            <Button bg="#8E6AFF" col="" onClick={toggleSubject}>
-              Create Subject
-            </Button>
-            {subject ? (
-              <MyForm
-                holder="Enter the class Name: eg SS3A"
-                holder1="session code: 8b309d"
-                holder2="Teacher to take this subject"
-                toggle={toggleSubject}
-                title="Create Subject"
-                title1="Subject Name"
-                title2="Class Code"
-                title3="subject Teacher"
-                subTitle=" By creating a class room, this new class will be added to your list
-                of class rooms."
-                mainAction={createSubject}
-                show={show}
-                setName={setName}
-                setName1={setName1}
-                setName2={setName2}
-                setName3={setName3}
-                setName4={setName4}
-                setName5={setName5}
-                one={true}
-                two={true}
-                three={false}
-                four={false}
-                five={false}
-                name={name}
-                name1={name1}
-                name2={name2}
-                name3={name3}
-                name4={name4}
-                name5={name5}
-                check={true}
-                buttonCall="Create Subject"
-              />
-            ) : null}
-          </Card>
-          <AnnounceCard>
-            <div>Top Recent Notice</div>
-
-            <NewNotice />
-          </AnnounceCard>
-        </Second>
-      </Content>
-    </Container>
+              <NewNotice />
+            </AnnounceCard>
+          </Second>
+        </Content>
+      </Container>
+    </>
   );
 };
 
