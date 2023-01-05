@@ -42,7 +42,6 @@ const Dashboard = () => {
     });
   };
 
-  console.log(newNotice);
   const [announcement, setAnnouncement] = useState(false);
   const [classRoom, setClassRoom] = useState(false);
   const [event, setEvent] = useState(false);
@@ -121,19 +120,18 @@ const Dashboard = () => {
   };
 
   const createEvent = async () => {
-    console.log("show");
     setShow(true);
     const locl = "http://localhost:2244";
     const newUrl = `${locl}/api/event/${user._id}/create-event`;
     await axios
-      .post(newUrl, {
+      .post(url, {
         title: name,
         desc: name1,
         month: name2,
         time: name3,
         year: name4,
         fixedData: name5,
-        sessionCode: session?.sessionCode,
+        code: session?.sessionCode,
       })
       .then((res) => {
         setShow(false);
@@ -148,7 +146,7 @@ const Dashboard = () => {
     });
   };
 
-  console.log(session);
+  // console.log(session);
 
   const getNotices = async () => {
     const uri = `${url}/api/announcement/${user._id}/viewing-announcement-school`;

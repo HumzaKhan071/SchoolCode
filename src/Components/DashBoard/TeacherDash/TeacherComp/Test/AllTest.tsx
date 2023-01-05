@@ -1,41 +1,60 @@
-import React from "react";
+import axios from "axios";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
 import styled from "styled-components";
 
+const URL = "https://school-code.onrender.com";
 const AllTest = () => {
+  const { id } = useParams();
+  const [test, setTest] = useState({} as any);
+  const [testData, setTestData] = useState([] as any[]);
+
+  const fetchTEst = async () => {
+    const url = `${URL}/api/test/${id}/view-class-test`;
+
+    await axios.get(url).then((res) => {
+      setTestData(res.data.data.test);
+      console.log(res.data.data);
+      setTest(res.data.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchTEst();
+  }, []);
+
   return (
     <Container>
       <Wrapper>
         <WrapperHold>
           <Top>
-            <TestNam>All Test</TestNam>
-            <TestButton>
+            <TestNam>All Test for {test?.subjectName} </TestNam>
+            <TestButton to={`/teacher-dashboard/test/new_test/${test._id}`}>
               <button>Create Test</button>
             </TestButton>
           </Top>
 
           <ViewTest>
-            <TestCard>
-              <Layer1>
-                <TestTitle>Mid-Term Test</TestTitle>
-                <TestSubject>Biology</TestSubject>
-                <TestQuestions>08 Questions Set</TestQuestions>
-                <TimeCreated>28/12/2022 11:38 AM</TimeCreated>
-              </Layer1>
-              <Layer2>
-                <button>View Test</button>
-              </Layer2>
-            </TestCard>
-            <TestCard>
-              <Layer1>
-                <TestTitle>Resumption Test</TestTitle>
-                <TestSubject>Computer</TestSubject>
-                <TestQuestions>20 Questions Set</TestQuestions>
-                <TimeCreated>28/12/2022 11:38 AM</TimeCreated>
-              </Layer1>
-              <Layer2>
-                <button>View Test</button>
-              </Layer2>
-            </TestCard>
+            {testData?.map((props, i) => (
+              <TestCard>
+                <Layer1>
+                  <TestTitle>Mid-Term Test</TestTitle>
+                  <TestSubject>{props.subjectTest}</TestSubject>
+                  <TestQuestions>
+                    {props.testDetails.length} Questions Set
+                  </TestQuestions>
+                  <TimeCreated>{moment(props.createdAt).fromNow()}</TimeCreated>
+                </Layer1>
+                <Layer2>
+                  <NavLink
+                    to={`/teacher-dashboard/test/alltest/${props._id}/preview_test`}
+                  >
+                    <button>View Test</button>
+                  </NavLink>
+                </Layer2>
+              </TestCard>
+            ))}
           </ViewTest>
         </WrapperHold>
       </Wrapper>
@@ -88,7 +107,8 @@ const TestNam = styled.div`
   font-weight: bold;
   font-size: 18px;
 `;
-const TestButton = styled.div`
+const TestButton = styled(NavLink)`
+  text-decoration: none;
   button {
     height: 35px;
     width: 120px;
@@ -101,6 +121,12 @@ const TestButton = styled.div`
     cursor: pointer;
     margin-right: 10px;
     border: none;
+
+    transition: all 350ms;
+
+    :hover {
+      transform: scale(0.96);
+    }
   }
 `;
 const ViewTest = styled.div`
@@ -150,5 +176,10 @@ const Layer2 = styled.div`
     margin-right: 10px;
     /* border: none; */
     cursor: pointer;
+    transition: all 350ms;
+
+    :hover {
+      transform: scale(0.96);
+    }
   }
 `;

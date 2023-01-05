@@ -24,22 +24,15 @@ export const SideBarItem: NavCon[] = [
     to: "/teacher-dashboard/attendance",
   },
   {
-    name: "Subject",
+    name: "Test",
     icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
-    to: "/teacher-dashboard/subject",
+    to: "/teacher-dashboard/test",
   },
-
-  {
-    name: "Accessment",
-    icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
-    to: "/teacher-dashboard/accessment",
-  },
-
 
   {
     name: "Report",
     icon: (prop: IconBaseProps) => <HiDocumentReport />,
-    to: "/",
+    to: "/teacher-dashboard/report",
   },
 
   {
