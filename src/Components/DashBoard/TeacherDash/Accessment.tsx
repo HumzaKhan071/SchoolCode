@@ -2,10 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { User } from "../../../../Global/RecoilState";
 import ClipLoader from "react-spinners/ClipLoader";
+import { User } from "../../Global/RecoilState";
 
-const Test = () => {
+const Accessment = () => {
   const URL: string = "https://school-code.onrender.com";
 
   interface iTeacher {
@@ -23,9 +23,9 @@ const Test = () => {
   }
 
   const user = useRecoilValue(User);
-  const [getSubjects, setGetSubjects] = useState([] as iSubject[]);
+  const [accessment, setAccessment] = useState([] as iSubject[]);
   const [teacherInfo, setTeacherInfo] = useState({} as iTeacher);
-  const [load, setLoad] = useState(true);
+  const [load, setLoad] = useState(false);
 
   const getSub = async () => {
     // Getting teacher subjects
@@ -33,8 +33,8 @@ const Test = () => {
     const uuri = `https://school-code.onrender.com/api/subject/63ac5573bed0fbc981b7ae08/viewing-subject-teacher`;
 
     await axios.get(uuri).then((res) => {
-      // setGetSubjects(res.data);
-      setGetSubjects(res.data.data);
+      // setAccessment(res.data);
+      //   setAccessment(res.data.data);
     });
   };
 
@@ -47,9 +47,9 @@ const Test = () => {
       <Wrapper>
         <TestSubjects>
           <AllSubjects>
-            {getSubjects.length >= 1 ? (
+            {accessment.length >= 1 ? (
               <div>
-                {getSubjects?.map((props) => (
+                {accessment?.map((props) => (
                   <SubjectCard key={props._id}>
                     <SubjectName> {props.className} </SubjectName>
                     <SubjectName> {props.subjectName} </SubjectName>
@@ -72,10 +72,10 @@ const Test = () => {
                 ) : (
                   <>
                     <BoxImag src="/img/emp.gif" />
-                    <h3>Add ClassRoom to your institute.</h3>
+                    <h3>You haven't assigned any form of Accessment yet.</h3>
                     <p>
-                      Your institute has no ClassRoom yet. Added classrooms will
-                      appear here.
+                      Your students are waiting to bw access by you... Then
+                      you're ready... then give it a shoot
                     </p>
                   </>
                 )}
@@ -88,7 +88,7 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default Accessment;
 
 const BoxImag = styled.img`
   height: 200px;

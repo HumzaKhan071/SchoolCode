@@ -1,8 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import EventScreen from "./Events";
 
 function Notification() {
-  return <Container>Notification</Container>;
+  return (
+    <Container>
+      <EventScreen />
+    </Container>
+  );
 }
 
 export default Notification;

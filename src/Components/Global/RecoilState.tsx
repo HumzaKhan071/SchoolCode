@@ -16,8 +16,19 @@ interface iData {
   status?: string;
 }
 
+interface iSession {
+  _id: string;
+  sessionCode: string;
+}
+
 export const User = atom({
   key: "user",
   default: {} as iData | null,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const Session = atom({
+  key: "session",
+  default: {} as iSession | null,
   effects_UNSTABLE: [persistAtom],
 });
