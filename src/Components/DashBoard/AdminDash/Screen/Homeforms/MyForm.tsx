@@ -53,6 +53,7 @@ interface iProps {
   name4?: string;
   name5?: string;
   id?: string;
+  hold?: string;
 }
 
 const url: string = "https://school-code.onrender.com";
@@ -100,6 +101,8 @@ const MyForm: React.FC<iProps> = ({
 
   toggleShow,
   setShow,
+  hold,
+  id,
 }) => {
   return (
     <Container>
@@ -220,8 +223,8 @@ const MyForm: React.FC<iProps> = ({
             <ButtonHold>
               {name !== "" ? (
                 <Button2
-                  onClick={(id: any) => {
-                    mainActionAdmin!(id);
+                  onClick={() => {
+                    mainActionAdmin!(hold);
 
                     // toggle!();
                   }}

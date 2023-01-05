@@ -24,6 +24,7 @@ interface iTeacher {
 }
 
 function Students() {
+  const navigate = useNavigate();
   const user = useRecoilValue(User);
   const [student, setStudent] = useState([] as iTeacher[]);
   const [load, setLoad] = useState(true);
@@ -40,6 +41,8 @@ function Students() {
   const [name4, setName4] = useState("");
   const [name5, setName5] = useState("");
 
+  const [hold, setHold] = useState("");
+
   const toggleClassRoom = () => {
     setClassRoom(!classRoom);
   };
@@ -52,13 +55,13 @@ function Students() {
   };
 
   const createClassRoom = async (id: string) => {
-    const newURL = `${url}/api/class/${user._id}/${id}/assign-teacher`;
+    const newURL = `${url}/api/class/${user._id}/${hold}/assign-student`;
 
     await axios
       .post(newURL, { classToken: name })
-
       .then(() => {
         setLoad(false);
+        navigate("/");
       })
       .catch((res) => {
         setLoad(false);
@@ -138,7 +141,13 @@ function Students() {
                           flexWrap: "wrap",
                         }}
                       >
-                        <ButtonB bg="#4A148C" onClick={toggleClassRoom}>
+                        <ButtonB
+                          bg="#4A148C"
+                          onClick={() => {
+                            toggleClassRoom();
+                            setHold(props._id);
+                          }}
+                        >
                           Change class
                         </ButtonB>
 
@@ -152,6 +161,8 @@ function Students() {
 
                         {classRoom ? (
                           <MyForm
+                            hold={hold}
+                            id={props._id}
                             check={false}
                             title1="Enter the class token to help us find the class faster"
                             title2="class school Fee"
