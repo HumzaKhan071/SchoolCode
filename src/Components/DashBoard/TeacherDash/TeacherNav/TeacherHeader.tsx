@@ -50,9 +50,9 @@ const TeacherHeader = () => {
   const getSession = async () => {
     await axios
       .get(`${url}/api/academic/${user._id}/get-academic-session-teacher`)
-      .then((res: any) => {
-        setAcademic(res.data.data[0]);
-        // console.log(academic);
+      .then((res) => {
+        setAcademic(res.data.data);
+        console.log(academic);
       });
   };
 

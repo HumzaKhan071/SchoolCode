@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { User } from "../../../../Global/RecoilState";
 import ClipLoader from "react-spinners/ClipLoader";
 
-const Test = () => {
+const SubjectTest = () => {
   const URL: string = "https://school-code.onrender.com";
 
   interface iTeacher {
@@ -32,9 +32,10 @@ const Test = () => {
     const myURI = `${URL}/api/subject/${user._id}/viewing-subject-teacher`;
     const uuri = `https://school-code.onrender.com/api/subject/63ac5573bed0fbc981b7ae08/viewing-subject-teacher`;
 
-    await axios.get(uuri).then((res) => {
-      // setGetSubjects(res.data);
-      setGetSubjects(res.data.data);
+    await axios.get(myURI).then((res) => {
+      console.log("For Subject", res.data.data);
+      setGetSubjects(res.data.data.subjectTaken);
+      setTeacherInfo(res.data.data);
     });
   };
 
@@ -88,7 +89,7 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default SubjectTest;
 
 const BoxImag = styled.img`
   height: 200px;

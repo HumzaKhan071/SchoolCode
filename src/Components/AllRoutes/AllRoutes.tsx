@@ -28,7 +28,7 @@ import StudentDashboard from "../DashBoard/StudentDash/StudentDashboard";
 import PrivateRoute from "../Global/PrivateRoute";
 import StudentTest from "../DashBoard/StudentDash/StudentTest";
 import Attendance from "../DashBoard/TeacherDash/TeacherComp/Attendance/Attendance";
-import Test from "../DashBoard/TeacherDash/TeacherComp/Test/Test";
+import SubjectTest from "../DashBoard/TeacherDash/TeacherComp/Test/SubjectTest";
 import NoticeBoard from "../DashBoard/TeacherDash/TeacherComp/NoticeBoard/NoticeBoard";
 
 import AssignmentScreen from "../DashBoard/StudentDash/AssignmentScreen";
@@ -38,6 +38,8 @@ import ClassRooms from "../DashBoard/AdminDash/Screen/ClassRooms";
 import ConfirmTeacherMessage from "../Auth/ConfirmTeachersMessage";
 import ClassRoomDetails from "../DashBoard/AdminDash/ClassRoomDetails";
 import StudentDetails from "../DashBoard/AdminDash/StudentDetails";
+import AllTest from "../DashBoard/TeacherDash/TeacherComp/Test/AllTest";
+import TestDetail from "../DashBoard/TeacherDash/TeacherComp/Test/TestDetail";
 
 import TimeTable from "../DashBoard/StudentDash/TimeTable";
 import StudentReport from "../DashBoard/StudentDash/StudentReport";
@@ -45,7 +47,6 @@ import StudentNot from "../DashBoard/StudentDash/StudentNot";
 
 import Expenses from "../DashBoard/AdminDash/Screen/Expenses";
 import Accessment from "../DashBoard/TeacherDash/Accessment";
-
 
 const AllRoutes = () => {
   let element = useRoutes([
@@ -174,7 +175,7 @@ const AllRoutes = () => {
           element: (
             <>
               <Header />
-              <Expenses />
+              <FeeMangement />
             </>
           ),
         },
@@ -222,20 +223,29 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "accessment",
+          path: "test",
           element: (
             <>
               <TeacherHeader />
-              <Accessment />
+              <SubjectTest />
             </>
           ),
         },
         {
-          path: "subject",
+          path: "test_preview",
           element: (
             <>
               <TeacherHeader />
-              <Test />
+              <TestDetail />
+            </>
+          ),
+        },
+        {
+          path: "alltest",
+          element: (
+            <>
+              <TeacherHeader />
+              <AllTest />
             </>
           ),
         },
@@ -265,56 +275,6 @@ const AllRoutes = () => {
           ),
         },
 
-
-				{
-					path: "assignment",
-					element: (
-						<>
-							<StudentHeader />
-							<AssignmentScreen />
-						</>
-					),
-				},
-
-				{
-					path:"timetable",
-					element:(
-						<>
-						 <StudentHeader />
-						  <TimeTable/>
-						</>
-					)
-				},
-				{
-					path:"student-test",
-					element:(
-						<>
-						 <StudentHeader />
-						  <StudentTest/>
-						</>
-					)
-				},
-				{
-					path:"student-report",
-					element:(
-						<>
-						 <StudentHeader />
-						  <StudentReport/>
-						</>
-					)
-				},
-				{
-					path:"student-notifications",
-					element:(
-						<>
-						<StudentHeader />
-						  <StudentNot/>
-						</>
-					)
-				},
-			],
-		},
-
         {
           path: "assignment",
           element: (
@@ -326,7 +286,6 @@ const AllRoutes = () => {
         },
       ],
     },
-
 
     {
       path: "/confirm",

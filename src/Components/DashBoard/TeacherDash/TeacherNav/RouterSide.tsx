@@ -33,11 +33,7 @@ export const SideBarItem: NavCon[] = [
     icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
     to: "/teacher-dashboard/accessment",
   },
-  {
-    name: "Assignments",
-    icon: (prop: IconBaseProps) => <CgCommunity />,
-    to: "/",
-  },
+
   {
     name: "Report",
     icon: (prop: IconBaseProps) => <HiDocumentReport />,
