@@ -41,12 +41,14 @@ import StudentDetails from "../DashBoard/AdminDash/StudentDetails";
 import AllTest from "../DashBoard/TeacherDash/TeacherComp/Test/AllTest";
 import TestDetail from "../DashBoard/TeacherDash/TeacherComp/Test/TestDetail";
 
+
 import TimeTable from "../DashBoard/StudentDash/TimeTable";
 import StudentReport from "../DashBoard/StudentDash/StudentReport";
 import StudentNot from "../DashBoard/StudentDash/StudentNot";
 
 import Expenses from "../DashBoard/AdminDash/Screen/Expenses";
 import Accessment from "../DashBoard/TeacherDash/Accessment";
+
 
 const AllRoutes = () => {
   let element = useRoutes([

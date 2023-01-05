@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { User } from "../../../../Global/RecoilState";
+
 import ClipLoader from "react-spinners/ClipLoader";
+
 
 const SubjectTest = () => {
   const URL: string = "https://school-code.onrender.com";
@@ -12,6 +14,7 @@ const SubjectTest = () => {
     _id: string;
     name: string;
   }
+
   interface iSubject {
     _id: string;
     className: string;
@@ -32,6 +35,7 @@ const SubjectTest = () => {
     const myURI = `${URL}/api/subject/${user._id}/viewing-subject-teacher`;
     const uuri = `https://school-code.onrender.com/api/subject/63ac5573bed0fbc981b7ae08/viewing-subject-teacher`;
 
+
     await axios.get(myURI).then((res) => {
       console.log("For Subject", res.data.data);
       setGetSubjects(res.data.data.subjectTaken);
@@ -48,6 +52,7 @@ const SubjectTest = () => {
       <Wrapper>
         <TestSubjects>
           <AllSubjects>
+
             {getSubjects.length >= 1 ? (
               <div>
                 {getSubjects?.map((props) => (
@@ -82,6 +87,7 @@ const SubjectTest = () => {
                 )}
               </BoxHold1>
             )}
+
           </AllSubjects>
         </TestSubjects>
       </Wrapper>
@@ -90,6 +96,7 @@ const SubjectTest = () => {
 };
 
 export default SubjectTest;
+
 
 const BoxImag = styled.img`
   height: 200px;
