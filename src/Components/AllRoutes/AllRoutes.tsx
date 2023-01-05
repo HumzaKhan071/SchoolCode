@@ -49,6 +49,7 @@ import StudentNot from "../DashBoard/StudentDash/StudentNot";
 
 import Expenses from "../DashBoard/AdminDash/Screen/Expenses";
 import Accessment from "../DashBoard/TeacherDash/Accessment";
+import DetailsTest from "../DashBoard/StudentDash/DetailsTest";
 
 
 const AllRoutes = () => {
@@ -295,6 +296,29 @@ const AllRoutes = () => {
               <AssignmentScreen />
             </>
           ),
+        },
+        {
+          path: "student-test",
+          children:[
+            {
+              index: true,
+              element:(
+                <>
+                <StudentHeader />
+                <StudentTest />
+              </>
+              )
+            },
+            {
+              path: "student-test-details/:id",
+              element: (
+                <>
+                  <StudentHeader />
+                  <DetailsTest />
+                </>
+              ),
+            },
+          ]
         },
       ],
     },
