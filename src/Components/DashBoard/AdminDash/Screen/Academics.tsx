@@ -307,7 +307,7 @@ const Curve = styled.div`
   color: white;
   background-color: #000269;
   border-radius: 30px;
-  margin-left: 5px;
+  margin: 3px;
 `;
 
 const Input = styled.input`
