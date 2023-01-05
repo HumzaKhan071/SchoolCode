@@ -27,6 +27,8 @@ const SliderComp: React.FC<iNotice> = ({ notice }) => {
     cssEase: "linear",
   };
 
+  console.log(notice);
+
   return (
     <Container>
       <Wrapper>
