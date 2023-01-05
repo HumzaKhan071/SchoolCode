@@ -6,7 +6,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { User } from "../../Global/RecoilState";
+import { Session, User } from "../../Global/RecoilState";
 import Swal from "sweetalert2";
 import Loading from "../../Auth/Loading";
 import ClassDataProps from "./ClassDataProps";
@@ -30,6 +30,7 @@ interface IData {
 function StudentDetails() {
 	const { id } = useParams();
 	const user = useRecoilValue(User);
+	const useSession = useRecoilValue(Session);
 
 	const [studentData, setStudentData] = React.useState({} as IData);
 	const [studentDataFee, setStudentDataFee] = React.useState([] as any[]);
@@ -39,11 +40,17 @@ function StudentDetails() {
 	const [name, setName] = useState("");
 	const [name1, setName1] = useState("");
 	const [name2, setName2] = useState("");
+	const [idState, setIdState] = useState("");
+	const [showEdit, setShowEdit] = useState(false);
+	const [amount, setAmount] = useState("");
 
 	const [subjectHolder, setSubjectHolder] = useState([] as any[]);
 
 	const toggleFee = () => {
 		setFee(!fee);
+	};
+	const toggleEdit = () => {
+		setShowEdit(!showEdit);
 	};
 
 	const getStudentDetails = async () => {
@@ -51,8 +58,8 @@ function StudentDetails() {
 			.get(`${url}/api/student/${user?._id}/${id}/view-student`)
 			.then((res) => {
 				setStudentData(res.data.data);
-				console.log("data: ", studentData);
-				console.log("id: ", id);
+				// console.log("data: ", studentData);
+				// console.log("id: ", id);
 			});
 	};
 
@@ -85,21 +92,60 @@ function StudentDetails() {
 		});
 	};
 
-	useEffect(
-		() => {
-			getStudentDetails();
-			viewSchoolFeeDetail();
-			getClassSuject();
-		},
-		[
-			// subjectHolder,
-			// studentDataFee,
-			// studentData
-		],
-	);
+	const updateFeeDetail = async () => {
+		const newUrl = `${url}/api/schoolfee/${user._id}/${id}/${idState}/update-student-school-fee-parent`;
+
+		await axios
+			.patch(newUrl, {
+				amountPaid: parseInt(amount),
+				sessionCode: useSession?.sessionCode,
+			})
+			.then((res) => {
+				Swal.fire({
+					icon: "success",
+					title: "Updated Successful",
+				});
+
+				window.location.reload();
+			});
+	};
+
+	useEffect(() => {
+		getStudentDetails();
+		viewSchoolFeeDetail();
+		getClassSuject();
+	}, [
+		// subjectHolder,
+		// studentDataFee,
+		studentData,
+	]);
 
 	return (
 		<>
+			{fee ? (
+				<OtherForm
+					check={true}
+					holder='Enter payment to pay on behave of student'
+					holder1='session code: 8b309d'
+					holder2='Teacher to take this subject'
+					toggle={toggleFee}
+					title={`Make payment for on behave of student`}
+					title1='Amount to pay'
+					title2='Session Code'
+					numb={true}
+					// mainAction={paySchoolFeeNow}
+					mainAction={paySchoolFeeNow}
+					show={show}
+					setShow={setShow}
+					setName={setName}
+					setName1={setName1}
+					setName2={setName2}
+					one={true}
+					name={name}
+					name1={name1}
+					buttonCall='Pay SchoolFee'
+				/>
+			) : null}
 			<Container>
 				<Content>
 					<span>{studentData?.name}</span>
@@ -180,30 +226,6 @@ function StudentDetails() {
 									</span>
 								</Tog>
 								<Button1 onClick={toggleFee}>Pay SchoolFee</Button1>
-								{fee ? (
-									<OtherForm
-										check={true}
-										holder='Enter payment to pay on behave of student'
-										holder1='session code: 8b309d'
-										holder2='Teacher to take this subject'
-										toggle={toggleFee}
-										title={`Make payment for on behave of student`}
-										title1='Amount to pay'
-										title2='Session Code'
-										numb={true}
-										// mainAction={paySchoolFeeNow}
-										mainAction={paySchoolFeeNow}
-										show={show}
-										setShow={setShow}
-										setName={setName}
-										setName1={setName1}
-										setName2={setName2}
-										one={true}
-										name={name}
-										name1={name1}
-										buttonCall='Pay SchoolFee'
-									/>
-								) : null}
 							</div>
 
 							{studentDataFee.map((props) => (
@@ -211,7 +233,11 @@ function StudentDetails() {
 									<Main>
 										<First>
 											<Title>School Fee Session: {props.academicSession}</Title>
-											<IconHold>
+											<IconHold
+												onClick={() => {
+													toggleEdit();
+													setIdState(props._id);
+												}}>
 												<FiMoreVertical />
 											</IconHold>
 										</First>
@@ -297,6 +323,48 @@ function StudentDetails() {
 											</div>
 										</div>
 									</Main>
+
+									{showEdit && idState === props._id ? (
+										<Conta4>
+											<div
+												style={{
+													display: "flex",
+													justifyContent: "space-between",
+													alignItems: "center",
+												}}>
+												<span>update Amout</span>
+
+												<Cancel
+													onClick={() => {
+														toggleEdit();
+													}}>
+													<AiOutlineClose />
+												</Cancel>
+											</div>
+
+											<Iput
+												type='number'
+												onChange={(e) => {
+													setAmount(e.target.value);
+												}}
+												placeholder='update this fee'
+											/>
+
+											{amount !== "" ? (
+												<ButHold2
+													onClick={() => {
+														updateFeeDetail();
+													}}>
+													<Button>+ Update Fee</Button>
+												</ButHold2>
+											) : (
+												<ButHold2
+													style={{ opacity: "0.2", cursor: "not-allowed" }}>
+													<Button>+ Update Fee</Button>
+												</ButHold2>
+											)}
+										</Conta4>
+									) : null}
 								</AllSubBox>
 							))}
 						</Cont>
@@ -325,9 +393,10 @@ const Conta4 = styled.div`
 	z-index: 1;
 	display: flex;
 	top: 0;
+	right: 0;
 	padding: 10px;
 	border-radius: 5px;
-	left: 20px;
+	/* left: 20px; */
 	flex-direction: column;
 
 	span {
