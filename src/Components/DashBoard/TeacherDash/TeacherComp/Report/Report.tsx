@@ -4,7 +4,9 @@ import styled from "styled-components";
 const Report = () => {
   return (
     <Container>
-      <Wrapper></Wrapper>
+      <Wrapper>
+        <h1>Your Report Here</h1>
+      </Wrapper>
     </Container>
   );
 };

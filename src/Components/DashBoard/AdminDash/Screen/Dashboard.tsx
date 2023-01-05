@@ -124,7 +124,7 @@ const Dashboard = () => {
     const locl = "http://localhost:2244";
     const newUrl = `${locl}/api/event/${user._id}/create-event`;
     await axios
-      .post(newUrl, {
+      .post(url, {
         title: name,
         desc: name1,
         month: name2,

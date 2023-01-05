@@ -42,7 +42,6 @@ import AllTest from "../DashBoard/TeacherDash/TeacherComp/Test/AllTest";
 import TestDetail from "../DashBoard/TeacherDash/TeacherComp/Test/TestDetail";
 import CreateTest from "../DashBoard/TeacherDash/TeacherComp/Test/CreateTest";
 
-
 import TimeTable from "../DashBoard/StudentDash/TimeTable";
 import StudentReport from "../DashBoard/StudentDash/StudentReport";
 import StudentNot from "../DashBoard/StudentDash/StudentNot";
@@ -50,7 +49,6 @@ import StudentNot from "../DashBoard/StudentDash/StudentNot";
 import Expenses from "../DashBoard/AdminDash/Screen/Expenses";
 import Accessment from "../DashBoard/TeacherDash/Accessment";
 import DetailsTest from "../DashBoard/StudentDash/DetailsTest";
-
 
 const AllRoutes = () => {
   let element = useRoutes([
@@ -228,37 +226,60 @@ const AllRoutes = () => {
         },
         {
           path: "test",
-          element: (
-            <>
-              <TeacherHeader />
-              <SubjectTest />
-            </>
-          ),
+          children: [
+            {
+              index: true,
+              element: (
+                <>
+                  <TeacherHeader />
+                  <SubjectTest />
+                </>
+              ),
+            },
+
+            {
+              path: "new_test",
+              element: (
+                <>
+                  <TeacherHeader />
+                  <CreateTest />
+                </>
+              ),
+            },
+
+            {
+              path: "alltest/:id",
+              children: [
+                {
+                  index: true,
+                  element: (
+                    <>
+                      <TeacherHeader />
+                      <AllTest />
+                    </>
+                  ),
+                },
+
+                {
+                  path: "preview_test",
+                  element: (
+                    <>
+                      <TeacherHeader />
+                      <TestDetail />
+                    </>
+                  ),
+                },
+              ],
+            },
+          ],
         },
+
         {
-          path: "test_preview",
+          path: "report",
           element: (
             <>
               <TeacherHeader />
-              <TestDetail />
-            </>
-          ),
-        },
-        {
-          path: "new_test",
-          element: (
-            <>
-              <TeacherHeader />
-              <CreateTest />
-            </>
-          ),
-        },
-        {
-          path: "alltest",
-          element: (
-            <>
-              <TeacherHeader />
-              <AllTest />
+              <Report />
             </>
           ),
         },
@@ -299,15 +320,15 @@ const AllRoutes = () => {
         },
         {
           path: "student-test",
-          children:[
+          children: [
             {
               index: true,
-              element:(
+              element: (
                 <>
-                <StudentHeader />
-                <StudentTest />
-              </>
-              )
+                  <StudentHeader />
+                  <StudentTest />
+                </>
+              ),
             },
             {
               path: "student-test-details/:id",
@@ -318,7 +339,7 @@ const AllRoutes = () => {
                 </>
               ),
             },
-          ]
+          ],
         },
       ],
     },
