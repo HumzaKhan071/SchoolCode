@@ -237,7 +237,7 @@ const StudentDashboard = () => {
 
 					<History>
 						<Histitle>
-						<p>Teacher History</p>
+						<p>Lecture History</p>
 						<span>View All</span>
 						</Histitle>
 						<TimeLine/>
