@@ -104,7 +104,7 @@ const StudentDashboard = () => {
 					<FirstPart>
 						<TodadyLesson>
 							<ViewToday>
-								<p>Today Class</p>
+								<p>Recenet Leacture</p>
 								<span>View All</span>
 							</ViewToday>
 							<Holder>
