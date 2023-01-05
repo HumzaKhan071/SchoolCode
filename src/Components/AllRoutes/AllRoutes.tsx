@@ -40,6 +40,7 @@ import ClassRoomDetails from "../DashBoard/AdminDash/ClassRoomDetails";
 import StudentDetails from "../DashBoard/AdminDash/StudentDetails";
 import AllTest from "../DashBoard/TeacherDash/TeacherComp/Test/AllTest";
 import TestDetail from "../DashBoard/TeacherDash/TeacherComp/Test/TestDetail";
+import CreateTest from "../DashBoard/TeacherDash/TeacherComp/Test/CreateTest";
 
 
 import TimeTable from "../DashBoard/StudentDash/TimeTable";
@@ -239,6 +240,15 @@ const AllRoutes = () => {
             <>
               <TeacherHeader />
               <TestDetail />
+            </>
+          ),
+        },
+        {
+          path: "new_test",
+          element: (
+            <>
+              <TeacherHeader />
+              <CreateTest />
             </>
           ),
         },
