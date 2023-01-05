@@ -158,7 +158,7 @@ function Academics() {
                       {props.subjectTaken.length > 0 ? (
                         <div
                           style={{
-                            margin: "5px",
+                            margin: " 5px",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -225,47 +225,6 @@ function Academics() {
                       ) : null}
                       <br />
                       <br />
-
-                      {/* <ButtonB bg="black" onClick={toggleSubject}>
-                        Assign for Subject
-                      </ButtonB>
-                      {subject ? (
-                        <MyForm
-                          check={false}
-                          holder="Enter the class Name: eg SS3A"
-                          holder1="session code: 8b309d"
-                          holder2="Teacher to take this subject"
-                          toggle={toggleSubject}
-                          title="Create Subject"
-                          title1="Subject Name"
-                          title2="Class Code"
-                          title3="subject Teacher"
-                          subTitle=" By creating a class room, this new class will be added to your list
-                of class rooms."
-                          mainActionAdmin={() => {
-                            createSubject(props._id);
-                          }}
-                          show={show}
-                          setShow={setShow}
-                          setName={setName}
-                          setName1={setName1}
-                          setName2={setName2}
-                          setName3={setName3}
-                          setName4={setName4}
-                          setName5={setName5}
-                          one={true}
-                          two={true}
-                          three={false}
-                          four={false}
-                          five={false}
-                          name={name}
-                          name1={name1}
-                          name2={name2}
-                          name3={name3}
-                          name4={name4}
-                          name5={name5}
-                        />
-                      ) : null} */}
                     </div>
                   </Main>
                 </TeachHold>
@@ -307,7 +266,7 @@ const Curve = styled.div`
   color: white;
   background-color: #000269;
   border-radius: 30px;
-  margin-left: 5px;
+  margin: 5px 3px;
 `;
 
 const Input = styled.input`

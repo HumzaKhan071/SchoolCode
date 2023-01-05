@@ -132,7 +132,7 @@ const Dashboard = () => {
         time: name3,
         year: name4,
         fixedData: name5,
-        sessionCode: session?.sessionCode,
+        code: session?.sessionCode,
       })
       .then((res) => {
         setShow(false);
