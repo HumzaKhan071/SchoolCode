@@ -40,6 +40,7 @@ import ClassRoomDetails from "../DashBoard/AdminDash/ClassRoomDetails";
 import StudentDetails from "../DashBoard/AdminDash/StudentDetails";
 import AllTest from "../DashBoard/TeacherDash/TeacherComp/Test/AllTest";
 import TestDetail from "../DashBoard/TeacherDash/TeacherComp/Test/TestDetail";
+import CreateTest from "../DashBoard/TeacherDash/TeacherComp/Test/CreateTest";
 
 const AllRoutes = () => {
   let element = useRoutes([
@@ -230,6 +231,15 @@ const AllRoutes = () => {
             <>
               <TeacherHeader />
               <TestDetail />
+            </>
+          ),
+        },
+        {
+          path: "new_test",
+          element: (
+            <>
+              <TeacherHeader />
+              <CreateTest />
             </>
           ),
         },
