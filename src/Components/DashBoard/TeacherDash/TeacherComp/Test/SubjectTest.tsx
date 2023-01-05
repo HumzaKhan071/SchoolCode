@@ -35,6 +35,7 @@ const SubjectTest = () => {
 
     await axios.get(uuri).then((res) => {
       setGetSubjects(res.data.data);
+      console.log(res.data);
       setTeacherInfo(res.data.data);
       setLoad(false);
     });
