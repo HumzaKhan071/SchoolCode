@@ -15,6 +15,7 @@ const AllTest = () => {
 
     await axios.get(url).then((res) => {
       setTestData(res.data.data.test);
+      console.log(res.data.data);
       setTest(res.data.data);
     });
   };
@@ -29,7 +30,7 @@ const AllTest = () => {
         <WrapperHold>
           <Top>
             <TestNam>All Test for {test?.subjectName} </TestNam>
-            <TestButton to="/teacher-dashboard/test/new_test">
+            <TestButton to={`/teacher-dashboard/test/new_test/${test._id}`}>
               <button>Create Test</button>
             </TestButton>
           </Top>
@@ -46,7 +47,9 @@ const AllTest = () => {
                   <TimeCreated>{moment(props.createdAt).fromNow()}</TimeCreated>
                 </Layer1>
                 <Layer2>
-                  <NavLink to="/teacher-dashboard/test/alltest/preview_test">
+                  <NavLink
+                    to={`/teacher-dashboard/test/alltest/${props._id}/preview_test`}
+                  >
                     <button>View Test</button>
                   </NavLink>
                 </Layer2>

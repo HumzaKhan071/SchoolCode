@@ -48,6 +48,8 @@ import StudentNot from "../DashBoard/StudentDash/StudentNot";
 
 import Expenses from "../DashBoard/AdminDash/Screen/Expenses";
 import Accessment from "../DashBoard/TeacherDash/Accessment";
+import DetailsTest from "../DashBoard/StudentDash/DetailsTest";
+import TeacherReport from "../DashBoard/TeacherDash/TeacherComp/Report/TeacherReport";
 
 const AllRoutes = () => {
   let element = useRoutes([
@@ -237,7 +239,7 @@ const AllRoutes = () => {
             },
 
             {
-              path: "new_test",
+              path: "new_test/:id",
               element: (
                 <>
                   <TeacherHeader />
