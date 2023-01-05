@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { User } from "../../../../Global/RecoilState";
 
 import ClipLoader from "react-spinners/ClipLoader";
-
+import { NavLink } from "react-router-dom";
 
 const SubjectTest = () => {
   const URL: string = "https://school-code.onrender.com";
@@ -35,11 +35,11 @@ const SubjectTest = () => {
     const myURI = `${URL}/api/subject/${user._id}/viewing-subject-teacher`;
     const uuri = `https://school-code.onrender.com/api/subject/63ac5573bed0fbc981b7ae08/viewing-subject-teacher`;
 
-
     await axios.get(myURI).then((res) => {
       console.log("For Subject", res.data.data);
       setGetSubjects(res.data.data.subjectTaken);
       setTeacherInfo(res.data.data);
+      setLoad(false);
     });
   };
 
@@ -52,8 +52,7 @@ const SubjectTest = () => {
       <Wrapper>
         <TestSubjects>
           <AllSubjects>
-
-            {getSubjects.length >= 1 ? (
+            {getSubjects?.length >= 1 ? (
               <div>
                 {getSubjects?.map((props) => (
                   <SubjectCard key={props._id}>
@@ -61,7 +60,9 @@ const SubjectTest = () => {
                     <SubjectName> {props.subjectName} </SubjectName>
                     <SubjectTeacher> {teacherInfo.name} </SubjectTeacher>
                     <ButtonHold>
-                      <button>View / Create Test</button>
+                      <NavLink to="/teacher-dashboard/test/allTest">
+                        <button>View / Create Test</button>
+                      </NavLink>
                     </ButtonHold>
                   </SubjectCard>
                 ))}
@@ -78,16 +79,20 @@ const SubjectTest = () => {
                 ) : (
                   <>
                     <BoxImag src="/img/emp.gif" />
-                    <h3>Add ClassRoom to your institute.</h3>
+                    <h3>Start Accessing Students by Creating Test</h3>
                     <p>
-                      Your institute has no ClassRoom yet. Added classrooms will
-                      appear here.
+                      Your Subject has no Test yet. Test Created will appear
+                      here.
                     </p>
+                    <ButtonHold>
+                      <NavLink to="/teacher-dashboard/test/allTest">
+                        <button>Create Test</button>
+                      </NavLink>
+                    </ButtonHold>
                   </>
                 )}
               </BoxHold1>
             )}
-
           </AllSubjects>
         </TestSubjects>
       </Wrapper>
@@ -96,7 +101,6 @@ const SubjectTest = () => {
 };
 
 export default SubjectTest;
-
 
 const BoxImag = styled.img`
   height: 200px;
