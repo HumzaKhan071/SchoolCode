@@ -25,17 +25,16 @@ const EventScreen = () => {
 
 	const session = useRecoilValue(Session);
 
-	console.log(session);
-
 	const fetchData = async () => {
+		const loc = "http://localhost:2244";
+		const loc24 =
+			"localhost:2244/api/event/63adc6fdc57e31550c003c9d/viewing-event-school";
+		console.log(session?._id);
 		await axios
-			.get(`${url}/api/event/${session?._id}/viewing-event-school`)
-			// .get(
-			//   "localhost:2244/api/event/63adc6fdc57e31550c003c9d/viewing-event-school"
-			// )
+			.get(`${url}/api/event/63adc6fdc57e31550c003c9d/viewing-event-school`)
+
 			.then((res) => {
 				setHolderData(res.data.data);
-				console.log("viewing Event: ", res);
 			})
 			.catch((err) => {
 				console.log(err.message);
@@ -188,6 +187,7 @@ const Card = styled.div`
 	flex-direction: column;
 	border-radius: 5px;
 	transition: all 350ms;
+	background-color: white;
 	:hover {
 		transform: scale(1.02);
 	}

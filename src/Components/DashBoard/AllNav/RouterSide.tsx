@@ -45,13 +45,13 @@ export const SideBarItem: NavCon[] = [
 		to: "/admin-dashboard/expenses",
 	},
 	{
-		name: "Report",
+		name: "Reports",
 		icon: (prop: IconBaseProps) => <HiDocumentReport />,
 		to: "/admin-dashboard/report",
 	},
 
 	{
-		name: "Notification",
+		name: "Events",
 		icon: (prop: IconBaseProps) => <IoIosNotifications />,
 		to: "/admin-dashboard/notifications",
 	},
