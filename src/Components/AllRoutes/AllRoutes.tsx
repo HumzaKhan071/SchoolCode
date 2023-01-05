@@ -248,7 +248,7 @@ const AllRoutes = () => {
             },
 
             {
-              path: "alltest",
+              path: "alltest/:id",
               children: [
                 {
                   index: true,
@@ -320,15 +320,15 @@ const AllRoutes = () => {
         },
         {
           path: "student-test",
-          children:[
+          children: [
             {
               index: true,
-              element:(
+              element: (
                 <>
-                <StudentHeader />
-                <StudentTest />
-              </>
-              )
+                  <StudentHeader />
+                  <StudentTest />
+                </>
+              ),
             },
             {
               path: "student-test-details/:id",
@@ -339,7 +339,7 @@ const AllRoutes = () => {
                 </>
               ),
             },
-          ]
+          ],
         },
       ],
     },
