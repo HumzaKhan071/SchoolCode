@@ -45,7 +45,7 @@ const StudentDashboard = () => {
 				<DisPlay>
 				<One>
 						<div>
-							All Project
+							NO. Of Present
 							<span>40/50</span>
 						</div>
 							
@@ -95,7 +95,7 @@ const StudentDashboard = () => {
 					
 					<TodadyLesson>
 					<ViewToday>
-						<p>Today Class</p>
+						<p>Today Lecture</p>
 						<span>View All</span>
 					</ViewToday>
 						<Holder>
@@ -224,7 +224,7 @@ const StudentDashboard = () => {
 						<ViewAll>
 
 							<ConBottum>
-								Skip
+								Rate
 							</ConBottum>
 							<ConBottum>
 								Next

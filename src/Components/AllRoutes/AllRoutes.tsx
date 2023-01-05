@@ -289,7 +289,7 @@ const AllRoutes = () => {
         },
 
         {
-          path: "assignment",
+          path: "profile",
           element: (
             <>
               <StudentHeader />
