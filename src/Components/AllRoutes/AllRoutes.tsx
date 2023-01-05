@@ -319,6 +319,33 @@ const AllRoutes = () => {
           ),
         },
         {
+          path: "Time-Table",
+          element:(
+            <>
+            <StudentHeader />
+            <TimeTable />
+          </>
+          )
+        },
+        {
+          path: "student-report",
+          element:(
+            <>
+            <StudentHeader />
+            <StudentReport />
+          </>
+          )
+        },
+        {
+          path: "student-notifications",
+          element:(
+            <>
+            <StudentHeader />
+            <StudentNot />
+          </>
+          )
+        },
+        {
           path: "student-test",
           children: [
             {
@@ -330,6 +357,7 @@ const AllRoutes = () => {
                 </>
               ),
             },
+           
             {
               path: "student-test-details/:id",
               element: (
