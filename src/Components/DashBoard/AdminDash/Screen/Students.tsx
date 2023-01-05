@@ -24,213 +24,209 @@ interface iTeacher {
 }
 
 function Students() {
+	const navigate = useNavigate();
+	const user = useRecoilValue(User);
+	const [student, setStudent] = useState([] as iTeacher[]);
+	const [load, setLoad] = useState(true);
 
-  const navigate = useNavigate();
-  const user = useRecoilValue(User);
-  const [student, setStudent] = useState([] as iTeacher[]);
-  const [load, setLoad] = useState(true);
+	const [classRoom, setClassRoom] = useState(false);
+	const [subject, setSubject] = useState(false);
+	const [show, setShow] = useState(false);
 
-  const [classRoom, setClassRoom] = useState(false);
-  const [subject, setSubject] = useState(false);
-  const [show, setShow] = useState(false);
+	const [name, setName] = useState("");
+	const [name1, setName1] = useState("");
+	const [name2, setName2] = useState("");
 
-  const [name, setName] = useState("");
-  const [name1, setName1] = useState("");
-  const [name2, setName2] = useState("");
+	const [name3, setName3] = useState("");
+	const [name4, setName4] = useState("");
+	const [name5, setName5] = useState("");
 
-  const [name3, setName3] = useState("");
-  const [name4, setName4] = useState("");
-  const [name5, setName5] = useState("");
+	const [hold, setHold] = useState("");
 
-  const [hold, setHold] = useState("");
+	const toggleClassRoom = () => {
+		setClassRoom(!classRoom);
+	};
 
-  const toggleClassRoom = () => {
-    setClassRoom(!classRoom);
-  };
+	const toggleSubject = () => {
+		setSubject(!subject);
+	};
+	const toggle = () => {
+		setShow(!show);
+	};
 
-  const toggleSubject = () => {
-    setSubject(!subject);
-  };
-  const toggle = () => {
-    setShow(!show);
-  };
+	const createClassRoom = async (id: string) => {
+		const newURL = `${url}/api/class/${user._id}/${hold}/assign-student`;
 
-  const createClassRoom = async (id: string) => {
-    const newURL = `${url}/api/class/${user._id}/${hold}/assign-student`;
+		await axios
+			.post(newURL, { classToken: name })
+			.then(() => {
+				setLoad(false);
+				navigate("/");
+			})
+			.catch((res) => {
+				setLoad(false);
+				Swal.fire({
+					icon: "error",
+					title: "An error occured",
+					text: "Class can't be found",
+				});
+			});
+	};
 
-    await axios
-      .post(newURL, { classToken: name })
-      .then(() => {
-        setLoad(false);
-        navigate("/");
-      })
-      .catch((res) => {
-        setLoad(false);
-        Swal.fire({
-          icon: "error",
-          title: "An error occured",
-          text: "Class can't be found",
-        });
-      });
-  };
+	const getTeacher = async () => {
+		const newURL = `${url}/api/school/${user._id}/students`;
+		await axios.get(newURL).then((res) => {
+			setStudent(res.data.data.students);
+			setLoad(false);
+		});
+	};
 
-  const getTeacher = async () => {
-    const newURL = `${url}/api/school/${user._id}/students`;
-    await axios.get(newURL).then((res) => {
-      setStudent(res.data.data.students);
-      setLoad(false);
-    });
-  };
+	const toggleShow = () => {
+		setShow(!show);
+	};
 
-  const toggleShow = () => {
-    setShow(!show);
-  };
+	useEffect(() => {
+		getTeacher();
+	}, []);
 
-  useEffect(() => {
-    getTeacher();
-  }, []);
+	React.useEffect(() => {
+		if (show) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "unset";
+		}
+	}, [show]);
+	return (
+		<>
+			{show ? <CreateStudent toggleShow={toggleShow} /> : null}
 
-  React.useEffect(() => {
-    if (show) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [show]);
-  return (
-    <>
-      {show ? <CreateStudent toggleShow={toggleShow} /> : null}
+			{classRoom ? (
+				<MyForm
+					hold={hold}
+					id={hold}
+					check={false}
+					title1='Enter the class token to help us find the class faster'
+					title2='class school Fee'
+					holder='Enter the Class token: eb 445t'
+					holder1='Enter class School Fee'
+					toggle={toggleClassRoom}
+					title='Reassign to another Class'
+					subTitle='By filling this form, you will automatically reassign teacher to the new choice class.'
+					mainActionAdmin={() => {
+						createClassRoom(hold);
+					}}
+					show={show}
+					setShow={setShow}
+					toggleShow={toggle}
+					setName={setName}
+					setName1={setName1}
+					setName2={setName2}
+					setName3={setName3}
+					setName4={setName4}
+					setName5={setName5}
+					one={false}
+					two={false}
+					three={false}
+					four={false}
+					five={false}
+					name={name}
+					name1={name1}
+					name2={name2}
+					name3={name3}
+					name4={name4}
+					name5={name5}
+					buttonCall="Change student's class"
+				/>
+			) : null}
 
-      <Container>
-        <Holder>
-          <Hols>
-            <Hold>
-              <h3>Students</h3>
-              <Span>Dashboard / Students</Span>
-            </Hold>
-            <Button onClick={toggleShow}>Register a Student</Button>
-          </Hols>
-          <br />
+			<Container>
+				<Holder>
+					<Hols>
+						<Hold>
+							<h3>Students</h3>
+							<Span>Dashboard / Students</Span>
+						</Hold>
+						<Button onClick={toggleShow}>Register a Student</Button>
+					</Hols>
+					<br />
 
-          {student?.length >= 1 ? (
-            <BoxHold>
-              {student?.map((props) => (
-                <TeaqcherCard key={props._id}>
-                  <TeachHold>
-                    <TeacherImage src="/img/prof.png" />
-                    <Main>
-                      <Div>{props.name}</Div>
-                      <P>{props.email}</P>
-                      <div
-                        style={{
-                          fontSize: "10px",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <div>Position </div> : Student
-                      </div>
+					{student?.length >= 1 ? (
+						<BoxHold>
+							{student?.map((props) => (
+								<TeaqcherCard key={props._id}>
+									<TeachHold>
+										<TeacherImage src='/img/prof.png' />
+										<Main>
+											<Div>{props.name}</Div>
+											<P>{props.email}</P>
+											<div
+												style={{
+													fontSize: "10px",
+													display: "flex",
+													alignItems: "center",
+												}}>
+												<div>Position </div> : Student
+											</div>
 
-                      <Cal>Class : {props.className}</Cal>
-                      <br />
+											<Cal>Class : {props.className}</Cal>
+											<br />
 
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          width: "100%",
-                          flexWrap: "wrap",
-                        }}
-                      >
-                        <ButtonB
-                          bg="#4A148C"
-                          onClick={() => {
-                            toggleClassRoom();
-                            setHold(props._id);
-                          }}
-                        >
-                          Change class
-                        </ButtonB>
+											<div
+												style={{
+													display: "flex",
+													justifyContent: "space-between",
+													width: "100%",
+													flexWrap: "wrap",
+												}}>
+												<ButtonB
+													bg='#4A148C'
+													onClick={() => {
+														toggleClassRoom();
+														setHold(props._id);
+													}}>
+													Change class
+												</ButtonB>
 
-                        <Link
-                          style={{ textDecoration: "none", color: "white" }}
-                          to={`/admin-dashboard/createstudent/view-student-detail/${props._id}`}
-                        >
-                          {" "}
-                          <ButtonB bg="#1DA1F2">View Details</ButtonB>
-                        </Link>
+												<Link
+													style={{ textDecoration: "none", color: "white" }}
+													to={`/admin-dashboard/createstudent/view-student-detail/${props._id}`}>
+													{" "}
+													<ButtonB bg='#1DA1F2'>View Details</ButtonB>
+												</Link>
 
-                        {classRoom ? (
-                          <MyForm
-                            hold={hold}
-                            id={props._id}
-                            check={false}
-                            title1="Enter the class token to help us find the class faster"
-                            title2="class school Fee"
-                            holder="Enter the Class token: eb 445t"
-                            holder1="Enter class School Fee"
-                            toggle={toggleClassRoom}
-                            title="Reassign to another Class"
-                            subTitle="By filling this form, you will automatically reassign teacher to the new choice class."
-                            mainActionAdmin={() => {
-                              createClassRoom(props._id);
-                            }}
-                            show={show}
-                            setShow={setShow}
-                            toggleShow={toggle}
-                            setName={setName}
-                            setName1={setName1}
-                            setName2={setName2}
-                            setName3={setName3}
-                            setName4={setName4}
-                            setName5={setName5}
-                            one={false}
-                            two={false}
-                            three={false}
-                            four={false}
-                            five={false}
-                            name={name}
-                            name1={name1}
-                            name2={name2}
-                            name3={name3}
-                            name4={name4}
-                            name5={name5}
-                            buttonCall="Change student's class"
-                          />
-                        ) : null}
-                        <br />
-                        <br />
-                      </div>
-                    </Main>
-                  </TeachHold>
-                </TeaqcherCard>
-              ))}
-            </BoxHold>
-          ) : (
-            <BoxHold1>
-              {load ? (
-                <div>
-                  <div>
-                    <ClipLoader color="#36d7b7" />
-                  </div>
-                  <div> Fetching data...</div>
-                </div>
-              ) : (
-                <>
-                  {" "}
-                  <BoxImag src="/img/emp.gif" />
-                  <h3>Add Student to your institute.</h3>
-                  <p>
-                    Your institute has no Students yet. Added classrooms will
-                    appear here.
-                  </p>
-                  <Button2 onClick={toggleShow}>Create Student</Button2>
-                </>
-              )}
-            </BoxHold1>
-          )}
+												<br />
+												<br />
+											</div>
+										</Main>
+									</TeachHold>
+								</TeaqcherCard>
+							))}
+						</BoxHold>
+					) : (
+						<BoxHold1>
+							{load ? (
+								<div>
+									<div>
+										<ClipLoader color='#36d7b7' />
+									</div>
+									<div> Fetching data...</div>
+								</div>
+							) : (
+								<>
+									{" "}
+									<BoxImag src='/img/emp.gif' />
+									<h3>Add Student to your institute.</h3>
+									<p>
+										Your institute has no Students yet. Added classrooms will
+										appear here.
+									</p>
+									<Button2 onClick={toggleShow}>Create Student</Button2>
+								</>
+							)}
+						</BoxHold1>
+					)}
 
-          {/* <BoxHold>
+					{/* <BoxHold>
 
 
 					<BoxImag  />

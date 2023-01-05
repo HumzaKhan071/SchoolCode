@@ -19,214 +19,219 @@ interface iTeacher {
 }
 
 function Academics() {
-  const user = useRecoilValue(User);
-  const [teacher, setTeacher] = useState([] as iTeacher[]);
-  const [load, setLoad] = useState(true);
 
-  const [classRoom, setClassRoom] = useState(false);
-  const [subject, setSubject] = useState(false);
-  const [show, setShow] = useState(false);
+	const user = useRecoilValue(User);
+	const [teacher, setTeacher] = useState([] as iTeacher[]);
+	const [load, setLoad] = useState(true);
 
-  const [name, setName] = useState("");
-  const [name1, setName1] = useState("");
-  const [name2, setName2] = useState("");
+	const [classRoom, setClassRoom] = useState(false);
+	const [subject, setSubject] = useState(false);
+	const [show, setShow] = useState(false);
 
-  const [name3, setName3] = useState("");
-  const [name4, setName4] = useState("");
-  const [name5, setName5] = useState("");
+	const [name, setName] = useState("");
+	const [name1, setName1] = useState("");
+	const [name2, setName2] = useState("");
 
-  const toggleClassRoom = () => {
-    setClassRoom(!classRoom);
-  };
+	const [name3, setName3] = useState("");
+	const [name4, setName4] = useState("");
+	const [name5, setName5] = useState("");
+	const [hold, setHold] = useState("");
 
-  const toggleSubject = () => {
-    setSubject(!subject);
-  };
-  const toggle = () => {
-    setShow(!show);
-  };
+	const toggleClassRoom = () => {
+		setClassRoom(!classRoom);
+	};
 
-  const createClassRoom = async (id: string) => {
-    const newURL = `${url}/api/class/${user._id}/${id}/assign-teacher`;
+	const toggleSubject = () => {
+		setSubject(!subject);
+	};
+	const toggle = () => {
+		setShow(!show);
+	};
 
-    await axios
-      .post(newURL, { classToken: name })
+	const createClassRoom = async (id: string) => {
+		const newURL = `${url}/api/class/${user._id}/${id}/assign-teacher`;
 
-      .then(() => {
-        setLoad(false);
-      })
-      .catch((res) => {
-        setLoad(false);
-        Swal.fire({
-          icon: "error",
-          title: "An error occured",
-          text: "Class can't be found",
-        });
-      });
-  };
+		await axios
+			.post(newURL, { classToken: name })
 
-  const createSubject = async (id: string) => {
-    const newURL = `${url}/api/subject/${user._id}/${id}/assign-subject-teacher`;
-    console.log("id:", id, show);
+			.then(() => {
+				setLoad(false);
+			})
+			.catch((res) => {
+				setLoad(false);
+				Swal.fire({
+					icon: "error",
+					title: "An error occured",
+					text: "Class can't be found",
+				});
+			});
+	};
 
-    // await axios.post(newURL, {
-    //   subjectName: name,
-    //   classToken: name1,
-    //   subjectTeacher: name2,
-    // });
-    //   .then((res) => {
-    //     setTeacher(res.data.data.teachers);
+	const createSubject = async (id: string) => {
+		const newURL = `${url}/api/subject/${user._id}/${id}/assign-subject-teacher`;
+		console.log("id:", id, show);
 
-    //     setLoad(false);
-    //     setShow(false);
-    //   });
-  };
+		// await axios.post(newURL, {
+		//   subjectName: name,
+		//   classToken: name1,
+		//   subjectTeacher: name2,
+		// });
+		//   .then((res) => {
+		//     setTeacher(res.data.data.teachers);
 
-  const getTeacher = async () => {
-    const newURL = `${url}/api/school/${user._id}/teachers`;
-    await axios.get(newURL).then((res) => {
-      setTeacher(res.data.data.teachers);
+		//     setLoad(false);
+		//     setShow(false);
+		//   });
+	};
 
-      setLoad(false);
-    });
-  };
+	const getTeacher = async () => {
+		const newURL = `${url}/api/school/${user._id}/teachers`;
+		await axios.get(newURL).then((res) => {
+			setTeacher(res.data.data.teachers);
 
-  useEffect(() => {
-    getTeacher();
-  }, []);
-  return (
-    <Container>
-      <Holder>
-        <Hols>
-          <Hold>
-            <h3>Teachers</h3>
-            <Span>Dashboard / Teachers</Span>
-          </Hold>
-          <Input placeholder="Enter teacher name...." />
-        </Hols>
-        <br />
+			setLoad(false);
+		});
+	};
 
-        {teacher?.length >= 1 ? (
-          <BoxHold>
-            {teacher?.map((props) => (
-              <TeaqcherCard key={props?._id}>
-                <TeachHold>
-                  <TeacherImage src="/img/prof.png" />
-                  <Main>
-                    <Div>{props.name}</Div>
-                    <P>{props.email}</P>
-                    <div
-                      style={{
-                        fontSize: "10px",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div>Position </div> : Teacher
-                    </div>
+	useEffect(() => {
+		getTeacher();
+	}, []);
+	return (
+		<>
+			{classRoom ? (
+				<MyForm
+					check={false}
+					title1='Enter the class token to help find the class fast'
+					title2='class school Fee'
+					holder='Enter the Class token: eb 445t'
+					holder1='Enter class School Fee'
+					toggle={toggleClassRoom}
+					title='Reassign to another Class'
+					subTitle='By filling this form, you will automatically reassign teacher to the new choice class.'
+					mainActionAdmin={() => {
+						createClassRoom(hold);
+					}}
+					show={show}
+					setShow={setShow}
+					toggleShow={toggle}
+					setName={setName}
+					setName1={setName1}
+					setName2={setName2}
+					setName3={setName3}
+					setName4={setName4}
+					setName5={setName5}
+					one={false}
+					two={false}
+					three={false}
+					four={false}
+					five={false}
+					name={name}
+					name1={name1}
+					name2={name2}
+					name3={name3}
+					name4={name4}
+					name5={name5}
+					buttonCall="Change Teacher's class"
+				/>
+			) : null}
+			<Container>
+				<Holder>
+					<Hols>
+						<Hold>
+							<h3>Teachers</h3>
+							<Span>Dashboard / Teachers</Span>
+						</Hold>
+						<Input placeholder='Enter teacher name....' />
+					</Hols>
+					<br />
 
-                    <Cal>
-                      Class :{" "}
-                      <div style={{ display: "flex" }}>
-                        {props.classes ? (
-                          <div
-                            style={{
-                              marginTop: "2px",
-                              marginLeft: "5px",
-                              fontWeight: "500",
-                            }}
-                          >
-                            {" "}
-                            {props.classes}
-                          </div>
-                        ) : (
-                          <div
-                            style={{
-                              fontSize: "12px",
-                              marginTop: "2px",
-                              marginLeft: "5px",
-                            }}
-                          >
-                            Not yet assigned
-                          </div>
-                        )}
-                      </div>
-                    </Cal>
+					{teacher?.length >= 1 ? (
+						<BoxHold>
+							{teacher?.map((props) => (
+								<TeaqcherCard key={props?._id}>
+									<TeachHold>
+										<TeacherImage src='/img/prof.png' />
+										<Main>
+											<Div>{props.name}</Div>
+											<P>{props.email}</P>
+											<div
+												style={{
+													fontSize: "10px",
+													display: "flex",
+													alignItems: "center",
+												}}>
+												<div>Position </div> : Teacher
+											</div>
 
-                    <CalD>
-                      Subject Taken:
-                      {props.subjectTaken.length > 0 ? (
-                        <div
-                          style={{
-                            margin: "5px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            padding: "2px 4px",
-                            width: "160px",
-                            minHeight: "100px",
-                            flexWrap: "wrap",
-                          }}
-                        >
-                          {props.subjectTaken.map((props, i) => (
-                            <Curve key={i}>{props}</Curve>
-                          ))}
-                        </div>
-                      ) : (
-                        <Curve>Not yet Assigned</Curve>
-                      )}
-                    </CalD>
-                    <br />
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        width: "110%",
-                      }}
-                    >
-                      <ButtonB bg="black" onClick={toggleClassRoom}>
-                        Reassign to another Class
-                      </ButtonB>
-                      {classRoom ? (
-                        <MyForm
-                          check={false}
-                          title1="Enter the class token to help find the class fast"
-                          title2="class school Fee"
-                          holder="Enter the Class token: eb 445t"
-                          holder1="Enter class School Fee"
-                          toggle={toggleClassRoom}
-                          title="Reassign to another Class"
-                          subTitle="By filling this form, you will automatically reassign teacher to the new choice class."
-                          mainActionAdmin={() => {
-                            createClassRoom(props._id);
-                          }}
-                          show={show}
-                          setShow={setShow}
-                          toggleShow={toggle}
-                          setName={setName}
-                          setName1={setName1}
-                          setName2={setName2}
-                          setName3={setName3}
-                          setName4={setName4}
-                          setName5={setName5}
-                          one={false}
-                          two={false}
-                          three={false}
-                          four={false}
-                          five={false}
-                          name={name}
-                          name1={name1}
-                          name2={name2}
-                          name3={name3}
-                          name4={name4}
-                          name5={name5}
-                          buttonCall="Change Teacher's class"
-                        />
-                      ) : null}
-                      <br />
-                      <br />
+											<Cal>
+												Class :{" "}
+												<div style={{ display: "flex" }}>
+													{props.classes ? (
+														<div
+															style={{
+																marginTop: "2px",
+																marginLeft: "5px",
+																fontWeight: "500",
+															}}>
+															{" "}
+															{props.classes}
+														</div>
+													) : (
+														<div
+															style={{
+																fontSize: "12px",
+																marginTop: "2px",
+																marginLeft: "5px",
+															}}>
+															Not yet assigned
+														</div>
+													)}
+												</div>
+											</Cal>
 
-                      {/* <ButtonB bg="black" onClick={toggleSubject}>
+											<CalD>
+												Subject Taken:
+												{props.subjectTaken.length > 0 ? (
+													<div
+														style={{
+															margin: "5px",
+															display: "flex",
+															alignItems: "center",
+															justifyContent: "center",
+															padding: "2px 4px",
+															width: "160px",
+															minHeight: "100px",
+															flexWrap: "wrap",
+														}}>
+														{props.subjectTaken.map((props, i) => (
+															<Curve key={i}>{props}</Curve>
+														))}
+													</div>
+												) : (
+													<Curve>Not yet Assigned</Curve>
+												)}
+											</CalD>
+											<br />
+											<div
+												style={{
+													display: "flex",
+													justifyContent: "space-between",
+													width: "110%",
+												}}>
+												<ButtonB
+													bg='black'
+													onClick={() => {
+														toggleClassRoom();
+														setHold(props._id);
+													}}>
+													Reassign to another Class
+												</ButtonB>
+
+												<br />
+												<br />
+
+												{/* <ButtonB bg="black" onClick={toggleSubject}>
+
                         Assign for Subject
                       </ButtonB>
                       {subject ? (
@@ -265,37 +270,40 @@ function Academics() {
                           name4={name4}
                           name5={name5}
                         />
-                      ) : null} */}
-                    </div>
-                  </Main>
-                </TeachHold>
-              </TeaqcherCard>
-            ))}
-          </BoxHold>
-        ) : (
-          <BoxHold1>
-            {load ? (
-              <div>
-                <div>
-                  <ClipLoader color="#36d7b7" />
-                </div>
-                <div> Fetching data...</div>
-              </div>
-            ) : (
-              <>
-                <BoxImag src="/img/emp.gif" />
-                <h3>Add Teacher to your institute.</h3>
-                <p>
-                  Your institute has no teacher yet. Added classrooms will
-                  appear here.
-                </p>
-              </>
-            )}
-          </BoxHold1>
-        )}
-      </Holder>
-    </Container>
-  );
+                     ) : null} */}
+
+											</div>
+										</Main>
+									</TeachHold>
+								</TeaqcherCard>
+							))}
+						</BoxHold>
+					) : (
+						<BoxHold1>
+							{load ? (
+								<div>
+									<div>
+										<ClipLoader color='#36d7b7' />
+									</div>
+									<div> Fetching data...</div>
+								</div>
+							) : (
+								<>
+									<BoxImag src='/img/emp.gif' />
+									<h3>Add Teacher to your institute.</h3>
+									<p>
+										Your institute has no teacher yet. Added classrooms will
+										appear here.
+									</p>
+								</>
+							)}
+						</BoxHold1>
+					)}
+				</Holder>
+			</Container>
+		</>
+	);
+
 }
 
 export default Academics;
