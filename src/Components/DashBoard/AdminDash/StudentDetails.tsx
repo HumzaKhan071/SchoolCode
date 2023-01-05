@@ -51,12 +51,14 @@ function StudentDetails() {
 			.get(`${url}/api/student/${user?._id}/${id}/view-student`)
 			.then((res) => {
 				setStudentData(res.data.data);
+				console.log("data: ", studentData);
+				console.log("id: ", id);
 			});
 	};
 
 	const paySchoolFeeNow = async () => {
 		const newURL = `${url}/api/schoolfee/${user._id}/${studentData._id}/student-school-fee`;
-
+		console.log(studentData._id);
 		await axios
 			.post(newURL, {
 				amountPaid: parseInt(name),
@@ -83,11 +85,18 @@ function StudentDetails() {
 		});
 	};
 
-	useEffect(() => {
-		getStudentDetails();
-		viewSchoolFeeDetail();
-		getClassSuject();
-	}, [subjectHolder, studentDataFee, studentData]);
+	useEffect(
+		() => {
+			getStudentDetails();
+			viewSchoolFeeDetail();
+			getClassSuject();
+		},
+		[
+			// subjectHolder,
+			// studentDataFee,
+			// studentData
+		],
+	);
 
 	return (
 		<>
@@ -192,6 +201,7 @@ function StudentDetails() {
 										one={true}
 										name={name}
 										name1={name1}
+										buttonCall='Pay SchoolFee'
 									/>
 								) : null}
 							</div>
