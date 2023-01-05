@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaSchool, FaBars } from "react-icons/fa";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -9,20 +9,45 @@ import {
 	AiFillDashboard,
 	AiOutlineCalendar,
 } from "react-icons/ai";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 // import { BsCalendarCheck } from 'react-icons/bs';
 import { SideBarItem } from "./RouterSide";
 import { NavLink } from "react-router-dom";
 import img from "./1.jpg";
 import SideBar from "./SideBar";
-import { User } from "../../../Global/RecoilState";
+import { Session, User } from "../../../Global/RecoilState";
+import axios from "axios";
 
+interface iSession {
+	sessionCode: string;
+	academicSession: string;
+	academicTerm: string;
+}
+const url: string = "https://school-code.onrender.com";
 const StudentHeader = () => {
 	const [change, setChange] = React.useState(false);
+	const [sessionState, setSessionState] = useRecoilState(Session);
+	const [academic, setAcademic] = useState({} as iSession);
+
 	const user = useRecoilValue(User);
 
 	const myRef = React.useRef<HTMLDivElement>(null!);
 	const backRef = React.useRef<HTMLDivElement>(null!);
+
+	const getSession = async () => {
+		await axios
+			.get(`${url}/api/academic/${user._id}/viewing-present-academic-session`)
+			.then((res) => {
+				setAcademic(res.data.data);
+				// setSessionState(academic);
+			});
+	};
+
+	console.log(academic);
+	useEffect(() => {
+		getSession();
+		axios.get(url);
+	}, [academic]);
 
 	const changeTrue = () => {
 		setChange(true);
@@ -35,7 +60,7 @@ const StudentHeader = () => {
 		backRef.current.style.left = "-2000px";
 	};
 	return (
-		<div >
+		<div>
 			<HeaderDash>
 				<HolderCon>
 					<MenuHold>
@@ -56,7 +81,7 @@ const StudentHeader = () => {
 						</MyIcon>
 						<AdminDetails>
 							<SchoolName>
-								<Title>Randle care</Title>
+								<Title>{user?.schoolName}</Title>
 								<SubTitle>
 									<RiArrowDropDownLine
 										style={{
@@ -68,7 +93,7 @@ const StudentHeader = () => {
 								</SubTitle>
 							</SchoolName>
 							<SchoolId>
-								<div>ID: RAN358</div>
+								<div>ID: {}</div>
 
 								<span>
 									<AiOutlineCopy
@@ -399,7 +424,6 @@ const HolderCon = styled.div`
 	height: 100%;
 	display: flex;
 	justify-content: space-between;
-	
 `;
 
 const HeaderDash = styled.div`
@@ -409,16 +433,11 @@ const HeaderDash = styled.div`
 	align-items: center;
 	justify-content: center;
 	box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-	
-	background-color:white;
+
+	background-color: white;
 	position: fixed;
 	top: 0;
-	z-index:999;
-	
-	
-	
-	
-	
+	z-index: 999;
 `;
 
 const Side = styled.div`
