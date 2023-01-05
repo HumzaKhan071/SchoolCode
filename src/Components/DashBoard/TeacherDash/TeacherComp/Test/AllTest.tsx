@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const AllTest = () => {
@@ -8,7 +9,7 @@ const AllTest = () => {
         <WrapperHold>
           <Top>
             <TestNam>All Test</TestNam>
-            <TestButton>
+            <TestButton to="/teacher-dashboard/test/new_test">
               <button>Create Test</button>
             </TestButton>
           </Top>
@@ -22,7 +23,9 @@ const AllTest = () => {
                 <TimeCreated>28/12/2022 11:38 AM</TimeCreated>
               </Layer1>
               <Layer2>
-                <button>View Test</button>
+                <NavLink to="/teacher-dashboard/test/alltest/preview_test">
+                  <button>View Test</button>
+                </NavLink>
               </Layer2>
             </TestCard>
             <TestCard>
@@ -88,7 +91,8 @@ const TestNam = styled.div`
   font-weight: bold;
   font-size: 18px;
 `;
-const TestButton = styled.div`
+const TestButton = styled(NavLink)`
+  text-decoration: none;
   button {
     height: 35px;
     width: 120px;
@@ -101,6 +105,12 @@ const TestButton = styled.div`
     cursor: pointer;
     margin-right: 10px;
     border: none;
+
+    transition: all 350ms;
+
+    :hover {
+      transform: scale(0.96);
+    }
   }
 `;
 const ViewTest = styled.div`
@@ -150,5 +160,10 @@ const Layer2 = styled.div`
     margin-right: 10px;
     /* border: none; */
     cursor: pointer;
+    transition: all 350ms;
+
+    :hover {
+      transform: scale(0.96);
+    }
   }
 `;
