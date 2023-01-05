@@ -43,6 +43,7 @@ interface iProps {
   four?: boolean;
   five?: boolean;
   check?: boolean;
+  numb?: boolean;
 
   buttonCall?: string;
   name?: string;
@@ -53,12 +54,11 @@ interface iProps {
   name4?: string;
   name5?: string;
   id?: string;
-  hold?: string;
 }
 
 const url: string = "https://school-code.onrender.com";
 
-const MyForm: React.FC<iProps> = ({
+const OtherForm: React.FC<iProps> = ({
   toggle,
   title,
   subTitle,
@@ -99,10 +99,10 @@ const MyForm: React.FC<iProps> = ({
   name4,
   name5,
 
+  numb,
+
   toggleShow,
   setShow,
-  hold,
-  id,
 }) => {
   return (
     <Container>
@@ -122,6 +122,7 @@ const MyForm: React.FC<iProps> = ({
           <InpHold>
             <Title>{title1}:</Title>
             <Input
+              type={numb ? "number" : ""}
               placeholder={`${holder}`}
               onChange={(e) => {
                 setName!(e.target.value);
@@ -194,37 +195,38 @@ const MyForm: React.FC<iProps> = ({
               </>
             ) : null}
           </InpHold>
-          {check ? (
-            <ButtonHold>
-              {name !== "" ? (
-                <Button2
-                  onClick={mainAction}
-                  style={{ backgroundColor: "#1da1f2", color: "white" }}
-                >
-                  {show ? <>Loading...</> : <>{buttonCall}</>}
-                </Button2>
-              ) : (
-                <>
-                  {show ? (
-                    <Button2>Loading...</Button2>
-                  ) : (
-                    <Button2
-                      style={{
-                        cursor: "not-allowed",
-                      }}
-                    >
-                      Proceed
-                    </Button2>
-                  )}
-                </>
-              )}
-            </ButtonHold>
+          <ButtonHold>
+            {name !== "" ? (
+              <Button2
+                onClick={mainAction}
+                style={{ backgroundColor: "#1da1f2", color: "white" }}
+              >
+                {show ? <>Loading...</> : <>{buttonCall}</>}
+              </Button2>
+            ) : (
+              <>
+                {show ? (
+                  <Button2>Loading...</Button2>
+                ) : (
+                  <Button2
+                    style={{
+                      cursor: "not-allowed",
+                    }}
+                  >
+                    Proceed
+                  </Button2>
+                )}
+              </>
+            )}
+          </ButtonHold>
+          {/* {check ? (
+           
           ) : (
             <ButtonHold>
               {name !== "" ? (
                 <Button2
-                  onClick={() => {
-                    mainActionAdmin!(hold);
+                  onClick={(id: any) => {
+                    mainActionAdmin!(id);
 
                     // toggle!();
                   }}
@@ -248,14 +250,14 @@ const MyForm: React.FC<iProps> = ({
                 </>
               )}
             </ButtonHold>
-          )}
+          )} */}
         </Cont>
       </Card>
     </Container>
   );
 };
 
-export default MyForm;
+export default OtherForm;
 
 const Holden = styled.div`
   display: flex;
@@ -386,6 +388,13 @@ const Card = styled.div`
   justify-content: center;
   z-index: 20;
   padding-bottom: 30px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   @media screen and (max-width: 768px) {
     width: 97%;
@@ -394,7 +403,7 @@ const Card = styled.div`
 
 const Container = styled.div`
   position: absolute;
-  background-color: rgba(30, 145, 243, 0.3);
+  //   background-color: rgba(30, 145, 243, 0.3);
   height: 100%;
   width: 100%;
   color: black;
@@ -404,6 +413,6 @@ const Container = styled.div`
   backdrop-filter: blur(5px);
   z-index: 10;
   left: 0;
-  top: 0;
+  //   top: -240px;
   //   padding-top: 100px;
 `;

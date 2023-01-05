@@ -11,7 +11,7 @@ import MainAuth from "../Auth/MainAuth";
 import ParentSignup from "../Auth/SchoolSignUp";
 import StudentSignup from "../Auth/StudentSignup";
 import TeachersSignUp from "../Auth/TeachersSignUp";
-import FeeMangement from "../DashBoard/AdminDash/Screen/FeeMangement";
+import FeeMangement from "../DashBoard/AdminDash/Screen/Expenses";
 import Academics from "../DashBoard/AdminDash/Screen/Academics";
 import Dashboard from "../DashBoard/AdminDash/Screen/Dashboard";
 import Header from "../DashBoard/AllNav/Header";
@@ -26,7 +26,7 @@ import TeacherDashboard from "../DashBoard/TeacherDash/TeacherComp/TeacherDashbo
 import StudentHeader from "../DashBoard/StudentDash/StudentNav/StudenHeader";
 import StudentDashboard from "../DashBoard/StudentDash/StudentDashboard";
 import PrivateRoute from "../Global/PrivateRoute";
-
+import StudentTest from "../DashBoard/StudentDash/StudentTest";
 import Attendance from "../DashBoard/TeacherDash/TeacherComp/Attendance/Attendance";
 import SubjectTest from "../DashBoard/TeacherDash/TeacherComp/Test/SubjectTest";
 import NoticeBoard from "../DashBoard/TeacherDash/TeacherComp/NoticeBoard/NoticeBoard";
@@ -41,6 +41,15 @@ import StudentDetails from "../DashBoard/AdminDash/StudentDetails";
 import AllTest from "../DashBoard/TeacherDash/TeacherComp/Test/AllTest";
 import TestDetail from "../DashBoard/TeacherDash/TeacherComp/Test/TestDetail";
 import CreateTest from "../DashBoard/TeacherDash/TeacherComp/Test/CreateTest";
+
+
+import TimeTable from "../DashBoard/StudentDash/TimeTable";
+import StudentReport from "../DashBoard/StudentDash/StudentReport";
+import StudentNot from "../DashBoard/StudentDash/StudentNot";
+
+import Expenses from "../DashBoard/AdminDash/Screen/Expenses";
+import Accessment from "../DashBoard/TeacherDash/Accessment";
+
 
 const AllRoutes = () => {
   let element = useRoutes([

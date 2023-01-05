@@ -19,9 +19,18 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
 
 interface iSession {
-  sessionCode: string;
-  academicSession: string;
-  academicTerm: string;
+  sessionCode?: string;
+  academicSession?: string;
+  academicTerm?: string;
+
+  _id?: string;
+
+  schoolName?: string;
+  date?: string;
+  dateTime?: string;
+  schoolFees?: string;
+  notification?: {}[];
+  event?: {}[];
 }
 
 const url: string = "https://school-code.onrender.com";
@@ -31,7 +40,7 @@ const TeacherHeader = () => {
   const [userState, setUserState] = useRecoilState(User);
   const [change, setChange] = React.useState(false);
   const user = useRecoilValue(User);
-  const [academic, setAcademic] = useState({} as iSession);
+  const [academic, setAcademic] = useState({} as iSession | null);
 
   const myRef = React.useRef<HTMLDivElement>(null!);
   const backRef = React.useRef<HTMLDivElement>(null!);
@@ -52,7 +61,6 @@ const TeacherHeader = () => {
       .get(`${url}/api/academic/${user._id}/get-academic-session-teacher`)
       .then((res) => {
         setAcademic(res.data.data.academicSession[0]);
-        console.log(academic);
       });
   };
 
@@ -60,7 +68,7 @@ const TeacherHeader = () => {
     getSession();
   }, []);
   return (
-    <div>
+    <MainDown>
       <HeaderDash>
         <HolderCon>
           <MenuHold>
@@ -148,7 +156,8 @@ const TeacherHeader = () => {
               <AiFillBell />
             </Three>
             <Four>
-              <img src={img} />
+              {/* <img src={img} /> */}
+              <div>{user.name.charAt(0)}</div>
             </Four>
             <div>
               <RiArrowDropDownLine
@@ -210,11 +219,21 @@ const TeacherHeader = () => {
           <SideBar changeFalse={changeFalse} />
         </SideHold>
       </Back>
-    </div>
+    </MainDown>
   );
 };
 
 export default TeacherHeader;
+
+const MainDown = styled.div`
+  br {
+    display: none;
+
+    @media screen and (max-width: 960px) {
+      display: flex;
+    }
+  }
+`;
 
 const Back = styled.div`
   display: none;
@@ -353,6 +372,11 @@ const Four = styled.div`
   background-color: #f4f4f4;
   align-items: center;
 
+  div {
+    font-weight: 500;
+    font-size: 25px;
+  }
+
   img {
     width: 100%;
     height: 100%;
@@ -447,7 +471,9 @@ const HolderCon = styled.div`
 `;
 
 const HeaderDash = styled.div`
-  swidth: 100%;
+  background-color: white;
+  // position: fixed;
+  width: 100%;
   height: 80px;
   display: flex;
   align-items: center;

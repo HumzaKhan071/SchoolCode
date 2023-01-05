@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiMoreVertical } from "react-icons/fi";
@@ -9,6 +9,9 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { User } from "../../Global/RecoilState";
 import Swal from "sweetalert2";
 import Loading from "../../Auth/Loading";
+import ClassDataProps from "./ClassDataProps";
+import MyForm from "./Screen/Homeforms/MyForm";
+import OtherForm from "./Screen/Homeforms/OtherForm";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -18,6 +21,9 @@ interface IData {
   attendance: [];
   schoolName: string;
   classTeacher: string;
+  name: string;
+  email: string;
+  classID: string;
   subject: [];
 }
 
@@ -25,24 +31,78 @@ function StudentDetails() {
   const { id } = useParams();
   const user = useRecoilValue(User);
 
-  const [classData, setClassData] = React.useState({} as IData);
+  const [studentData, setStudentData] = React.useState({} as IData);
+  const [studentDataFee, setStudentDataFee] = React.useState([] as any[]);
+  const [fee, setFee] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const [name, setName] = useState("");
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
+
+  const [subjectHolder, setSubjectHolder] = useState([] as any[]);
+
+  const toggleFee = () => {
+    setFee(!fee);
+  };
 
   const getStudentDetails = async () => {
-    await axios.get(`${url}/api/class/${id}/viewing-class`).then((res) => {
-      setClassData(res.data.data);
+    await axios
+      .get(`${url}/api/student/${user?._id}/${id}/view-student`)
+      .then((res) => {
+        setStudentData(res.data.data);
+        console.log("data: ", studentData);
+        console.log("id: ", id);
+      });
+  };
+
+  const paySchoolFeeNow = async () => {
+    const newURL = `${url}/api/schoolfee/${user._id}/${studentData._id}/student-school-fee`;
+    console.log(studentData._id);
+    await axios
+      .post(newURL, {
+        amountPaid: parseInt(name),
+        sessionCode: name1,
+      })
+      .then((res) => {
+        setShow(false);
+      });
+  };
+
+  const viewSchoolFeeDetail = async () => {
+    // const local = `http://localhost:2244`;
+    const newURL = `${url}/api/schoolfee/${user._id}/${studentData._id}/view-student-school-fee-detail`;
+
+    await axios.get(newURL).then((res) => {
+      setStudentDataFee(res.data.data.schoolFee);
     });
   };
 
-  useEffect(() => {
-    getStudentDetails();
-  }, []);
+  const getClassSuject = async () => {
+    const newURL = `${url}/api/subject/${studentData.classID}/view-class-subject`;
+    await axios.get(newURL).then((res) => {
+      setSubjectHolder(res.data!.data!.subject);
+    });
+  };
+
+  useEffect(
+    () => {
+      getStudentDetails();
+      viewSchoolFeeDetail();
+      getClassSuject();
+    },
+    [
+      // subjectHolder,
+      // studentDataFee,
+      // studentData
+    ]
+  );
 
   return (
     <>
       <Container>
         <Content>
-          <span>{classData?.className}</span>
-          <span>Gideon ekeke</span>
+          <span>{studentData?.name}</span>
           <MainHold>
             <LoaderHold>
               <Holding>
@@ -52,152 +112,207 @@ function StudentDetails() {
             </LoaderHold>
             <NextRec>
               <span>Next Recommended action:</span>
-              <Ad>StudentEmail@gmail.com</Ad>
+              <Ad>{studentData?.email}</Ad>
             </NextRec>
           </MainHold>
-          {/* <MainHold2>
-						<Cont>
-							{!classData?.classTeacher ? (
-								<ButtonH>Pending</ButtonH>
-							) : (
-								<ButtonH>Completed</ButtonH>
-							)}
-							<Tog>
-								<h5>Manage class teacher, attendance for 12 - B</h5>
-								<span>
-									Class teacher is responsible for day to day activities of the
-									class
-								</span>
-							</Tog>
-							<But onClick={toggleShow}>+ Assign Class Teacher</But>
-							{!classData?.classTeacher ? (
-								<></>
-							) : (
-								<div
-									style={{
-										marginTop: "5px",
-									}}>
-									{" "}
-									<div
-										style={{
-											color: "#F8C46B",
-											fontSize: "11px",
-										}}>
-										ClassTeacher Assigned :{" "}
-									</div>
-									<div style={{ display: "flex", alignItems: "center" }}>
-										{" "}
-										<TeacherImage src='/img/prof.png' />
-										{classData?.classTeacher}
-									</div>
-								</div>
-							)}
-							{show ? (
-								<Conta>
-									<div
-										style={{
-											display: "flex",
-											justifyContent: "space-between",
-											alignItems: "center",
-										}}>
-										<span>Select Teacher</span>
-										<Cancel onClick={toggleShow}>
-											<AiOutlineClose />
-										</Cancel>
-									</div>
 
-									<Iput
-										value={teacherName}
-										onChange={(e) => {
-											setTeacherName(e.target.value);
-										}}
-										placeholder='Teacher Name'
-									/>
-
-									<ButHold2 onClick={AssiningClassTeacher}>
-										<Button>+ Assign Teacher</Button>
-									</ButHold2>
-								</Conta>
-							) : null}
-						</Cont>
-					</MainHold2> */}
           <MainHold2>
             <Cont>
               <Tog>
-                <h5>Manage subjects for This Class</h5>
+                <h5>Detail data for {studentData?.name}</h5>
                 <span>
-                  This are all the subjects you are offering this class
+                  Present class: <strong>{studentData?.className}</strong>
                 </span>
               </Tog>
 
-              <AllSubBox>
-                <Main>
-                  <First>
-                    <Title>AGRICULTURAL SCIENCE</Title>
-                    <IconHold>
-                      <FiMoreVertical />
-                    </IconHold>
-                  </First>
-                  <span>Compulsory</span>
+              {/* <ClassDataProps props={studentData.classID} />
+              
+              */}
 
-                  <div
-                    style={{
-                      marginTop: "5px",
-                    }}
-                  >
-                    {" "}
-                    <div
-                      style={{
-                        color: "#F8C46B",
-                        fontSize: "11px",
-                      }}
-                    >
-                      SubjectTeacher Assigned :{" "}
-                    </div>
-                    Mr Daramola
-                  </div>
-                </Main>
-              </AllSubBox>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                }}
+              >
+                {subjectHolder.map((props) => (
+                  <AllSubBox1 key={props._id}>
+                    <Main>
+                      <First>
+                        <Title>{props.subjectName}</Title>
+                        <IconHold>
+                          <FiMoreVertical />
+                        </IconHold>
+                      </First>
+                      <span>Compulsory</span>
+
+                      <div
+                        style={{
+                          marginTop: "5px",
+                        }}
+                      >
+                        {" "}
+                        <div
+                          style={{
+                            color: "#F8C46B",
+                            fontSize: "11px",
+                          }}
+                        >
+                          SubjectTeacher :{" "}
+                        </div>
+                        {props.subjectTeacher}
+                      </div>
+                    </Main>
+                  </AllSubBox1>
+                ))}
+              </div>
             </Cont>
           </MainHold2>
+
           <MainHold2>
             <Cont>
-              <Tog>
-                <h5>All Expenses for this Class</h5>
-                <span>
-                  This are all the expenses/transaction you have made.
-                </span>
-              </Tog>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Tog>
+                  <h5>All time school fee record</h5>
+                  <span>
+                    This are all the expenses/transaction you have made.
+                  </span>
+                </Tog>
+                <Button1 onClick={toggleFee}>Pay SchoolFee</Button1>
+                {fee ? (
+                  <OtherForm
+                    check={true}
+                    holder="Enter payment to pay on behave of student"
+                    holder1="session code: 8b309d"
+                    holder2="Teacher to take this subject"
+                    toggle={toggleFee}
+                    title={`Make payment for on behave of student`}
+                    title1="Amount to pay"
+                    title2="Session Code"
+                    numb={true}
+                    // mainAction={paySchoolFeeNow}
+                    mainAction={paySchoolFeeNow}
+                    show={show}
+                    setShow={setShow}
+                    setName={setName}
+                    setName1={setName1}
+                    setName2={setName2}
+                    one={true}
+                    name={name}
+                    name1={name1}
+                    buttonCall="Pay SchoolFee"
+                  />
+                ) : null}
+              </div>
 
-              <AllSubBox>
-                <Main>
-                  <First>
-                    <Title>School Fees</Title>
-                    <IconHold>
-                      <FiMoreVertical />
-                    </IconHold>
-                  </First>
-                  <span>1st TERM</span>
+              {studentDataFee.map((props) => (
+                <AllSubBox key={props._id}>
+                  <Main>
+                    <First>
+                      <Title>School Fee Session: {props.academicSession}</Title>
+                      <IconHold>
+                        <FiMoreVertical />
+                      </IconHold>
+                    </First>
+                    <span>{props.academicTerm}</span>
 
-                  <div
-                    style={{
-                      marginTop: "5px",
-                    }}
-                  >
-                    {" "}
+                    <div
+                      style={{
+                        display: "flex",
+                        marginTop: "15px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <div
+                          style={{
+                            color: "green",
+                            fontSize: "11px",
+                            fontWeight: "bold",
+                            letterSpacing: "1.2px",
+                          }}
+                        >
+                          Amount Paid
+                        </div>
+                        <div
+                          style={{ marginRight: "60px", fontWeight: "bold" }}
+                        >
+                          ₦{props.amountPaid}
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <div
+                          style={{
+                            color: "red",
+                            fontSize: "11px",
+                            fontWeight: "bold",
+                            letterSpacing: "1.2px",
+                          }}
+                        >
+                          Amount to balance
+                        </div>
+                        <div
+                          style={{
+                            marginRight: "25px",
+                            fontWeight: "bold",
+                            fontSize: "13px",
+                          }}
+                        >
+                          ₦{props.toBalance}
+                        </div>
+                      </div>
+                    </div>
+
                     <div
                       style={{
                         color: "#F8C46B",
                         fontSize: "11px",
+                        marginTop: "10px",
                       }}
                     >
-                      Paid{" "}
+                      Payment Details{" "}
                     </div>
-                    #14000
-                  </div>
-                  <div>Transaction Refence : #4444hfh3444</div>
-                </Main>
-              </AllSubBox>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      Transaction Refence:{" "}
+                      <div
+                        style={{
+                          fontWeight: "bold",
+                          marginLeft: "10px",
+                          fontSize: "13px",
+                        }}
+                      >
+                        {props.receiptToken}
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      Paid Date :{" "}
+                      <div
+                        style={{
+                          fontWeight: "bold",
+                          marginLeft: "10px",
+                          fontSize: "13px",
+                        }}
+                      >
+                        {props.dateTime}
+                      </div>
+                    </div>
+                  </Main>
+                </AllSubBox>
+              ))}
             </Cont>
           </MainHold2>
         </Content>
@@ -268,7 +383,7 @@ const Main = styled.div`
   margin-left: 10px;
 
   span {
-    height: 20px;
+    height: 25px;
     width: 100px;
     display: flex;
     background-color: #f4f4f4;
@@ -277,11 +392,13 @@ const Main = styled.div`
     /* justify-content: center; */
     align-items: center;
     /* border: 3px solid #f4f4f4; */
-    border-radius: 10px;
+    border-radius: 4px;
+    font-weight: 500;
     color: #9e9e9e;
     margin-bottom: 5px;
   }
 `;
+
 const First = styled.div`
   display: flex;
   justify-content: space-between;
@@ -295,6 +412,23 @@ const IconHold = styled.div`
   margin-right: 10px;
 `;
 
+const AllSubBox1 = styled.div`
+  width: 300px;
+  border: 1px solid #f4f4f4;
+  position: relative;
+  /* height: 100px; */
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  transition: all 350ms;
+  cursor: pointer;
+
+  :hover {
+    border: 1px solid #c3c3c3;
+  }
+`;
+
 const AllSubBox = styled.div`
   width: 100%;
   border: 1px solid #f4f4f4;
@@ -303,7 +437,7 @@ const AllSubBox = styled.div`
   padding-top: 20px;
   padding-bottom: 20px;
   border-radius: 10px;
-  margin-top: 10px;
+  margin: 10px;
   transition: all 350ms;
   cursor: pointer;
 
@@ -350,6 +484,25 @@ const ButHold3 = styled.div`
 const ButHold = styled.div`
   margin-top: 50px;
 `;
+
+const Button1 = styled.div`
+  height: 45px;
+  width: 200px;
+  background-color: #1da1f2;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+
+  cursor: pointer;
+  transition: all 350ms;
+
+  :hover {
+    transform: scale(0.97);
+  }
+`;
+
 const Button = styled.div`
   height: 40px;
   width: 200px;
@@ -528,31 +681,29 @@ const Content = styled.div`
 `;
 
 const Container = styled.div`
+  width: calc(100vw - 230px);
+  min-height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
 
-	width: calc(100vw - 230px);
-	min-height: calc(100vh - 60px);
-	display: flex;
-	justify-content: center;
+  background-color: #f7f9fc;
 
-	background-color: #f7f9fc;
+  overflow: hidden;
+  position: absolute;
+  right: 0px;
+  margin-top: 80px;
+  // top: 50px;
 
-	overflow: hidden;
-	position: absolute;
-	right: 0px;
-	margin-top: 80px;
-	// top: 50px;
+  @media screen and (max-width: 1100px) {
+    width: 95%;
+  }
+  @media screen and (max-width: 1005px) {
+    width: 100%;
+  }
 
-	@media screen and (max-width: 1100px) {
-		width: 95%;
-	}
-	@media screen and (max-width: 1005px) {
-		width: 100%;
-	}
+  @media screen and (max-width: 960px) {
+    margin-top: 0;
+  }
 
-	@media screen and (max-width: 960px) {
-		margin-top: 0;
-	}
-
-	/* background-color: #352b1e; */
-
+  /* background-color: #352b1e; */
 `;

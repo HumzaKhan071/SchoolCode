@@ -39,8 +39,8 @@ const SessionDrop: React.FC<Iprops> = ({ toggleDrop, academic }) => {
       <Container>
         <span>Academic Session</span>
         {mySession?.map((props) => (
-          <AcBox>
-            <Sec key={props._id}>Session: {props!.academicSession} </Sec>
+          <AcBox key={props._id}>
+            <Sec>Session: {props!.academicSession} </Sec>
           </AcBox>
         ))}
 

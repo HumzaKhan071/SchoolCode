@@ -3,12 +3,15 @@ import styled from "styled-components";
 import { GrFormNext } from "react-icons/gr";
 import { FaMoneyBillAlt } from "react-icons/fa";
 import { BsPersonSquare } from "react-icons/bs";
-import { useRecoilValue } from "recoil";
-import { User } from "../../../Global/RecoilState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Session, User } from "../../../Global/RecoilState";
 import axios from "axios";
 import CreateClassRoom from "./Homeforms/CreateClassRoom";
 import MyForm from "./Homeforms/MyForm";
 import { Navigate, useNavigate } from "react-router";
+import Notice from "./Notice";
+import NewNotice from "./NewNotice";
+import SliderComp from "./Homeforms/SliderComp";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -17,10 +20,20 @@ interface iData {
   students: [];
   classes: [];
 }
+interface iNotice {
+  date?: string;
+  title?: string;
+  detail?: string;
+  dateTime?: string;
+  _id?: string;
+}
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const session = useRecoilValue(Session);
   const [schoolData, setSchoolData] = useState({} as iData);
+  const [newNotice, setNewNotice] = useState({} as iNotice);
+  const [newNotices, setNewNotices] = useState([] as iNotice[]);
   const user = useRecoilValue(User);
 
   const getCount = async () => {
@@ -93,12 +106,11 @@ const Dashboard = () => {
   const createAnnouncement = async () => {
     setShow(true);
     const newUrl = `${url}/api/announcement/${user._id}/create-announcement`;
-    const newUrl2 = `https://school-code.onrender.com/api/announcement/63a36581bf7b831106518d5d/create-announcement`;
 
     await axios
       .post(newUrl, {
         title: name,
-        code: name1,
+        code: session?.sessionCode,
         detail: name2,
       })
       .then((res) => {
@@ -108,8 +120,10 @@ const Dashboard = () => {
   };
 
   const createEvent = async () => {
+    console.log("show");
     setShow(true);
-    const newUrl = `${url}/api/announcement/${user._id}/create-announcement`;
+    const locl = "http://localhost:2244";
+    const newUrl = `${locl}/api/event/${user._id}/create-event`;
     await axios
       .post(newUrl, {
         title: name,
@@ -118,14 +132,32 @@ const Dashboard = () => {
         time: name3,
         year: name4,
         fixedData: name5,
+        sessionCode: session?.sessionCode,
       })
       .then((res) => {
         setShow(false);
+        navigate("/");
       });
+  };
+
+  const getNotice = async () => {
+    const uri = `${url}/api/announcement/${user._id}/viewing-announcement-school-one`;
+    await axios.post(uri, { code: session?.sessionCode }).then((res: any) => {
+      setNewNotice(res.data.data.notification[0]);
+    });
+  };
+
+  const getNotices = async () => {
+    const uri = `${url}/api/announcement/${user._id}/viewing-announcement-school`;
+    await axios.post(uri, { code: session?.sessionCode }).then((res: any) => {
+      setNewNotices(res.data.data.notification);
+    });
   };
 
   useEffect(() => {
     getCount();
+    getNotice();
+    getNotices();
   }, []);
   return (
     <Container>
@@ -161,6 +193,9 @@ const Dashboard = () => {
               </IconHold>
             </OverCard>
           </MainHold>
+          <br />
+          <SliderComp notice={newNotices} />
+          <br />
           <br />
           <span>Reports</span>
           <ReportsHold>
@@ -314,11 +349,9 @@ const Dashboard = () => {
               <MyForm
                 title1="Enter The Announcement to be made"
                 holder="Enter Annonucement"
-                holder1="Enter session code"
                 holder2="Enter Annonucement Details"
                 toggle={toggleAnnouncement}
                 title="Make Annonucement"
-                title2="Enter session code"
                 title3="Enter Annonucement details"
                 subTitle=" By creating a class room, this new class will be added to your list
                 of class rooms."
@@ -330,7 +363,7 @@ const Dashboard = () => {
                 setName3={setName3}
                 setName4={setName4}
                 setName5={setName5}
-                one={true}
+                one={false}
                 two={true}
                 three={false}
                 four={false}
@@ -342,6 +375,7 @@ const Dashboard = () => {
                 name4={name4}
                 name5={name5}
                 check={true}
+                buttonCall="Create Announcement"
               />
             ) : null}
 
@@ -354,18 +388,18 @@ const Dashboard = () => {
                 holder="Enter Event title:EG Football Match"
                 holder1="A time to wine and dine with the Football pitch"
                 holder2="Enter Event title:EG Inner house Sport"
-                holder3="Enter Event title:EG Inner house Sport"
-                holder4="Enter Event title:EG Inner house Sport"
-                holder5="Enter Event title:EG Inner house Sport"
+                holder3="Which Month:eg. Feburary"
+                holder4="Give a time: eg. 10:00AM "
+                holder5="what day: WEDNESDAY 12TH"
                 mainAction={createEvent}
                 toggle={toggleEvent}
                 title="create new Event"
-                title1="Enter event description"
-                title2="Month of Event"
-                title3="create new Event"
-                title4="create new Event"
-                title5="create new Event"
-                title6="create new Event"
+                title1="Title the Event"
+                title2="Enter event description"
+                title3="Enter Month"
+                title4="At what Time"
+                title5="I guess this year, right?"
+                title6="Give it a fixed date"
                 subTitle=" By creating a class room, this new class will be added to your list
                 of class rooms."
                 show={show}
@@ -387,6 +421,7 @@ const Dashboard = () => {
                 name4={name4}
                 name5={name5}
                 check={true}
+                buttonCall="Create Event"
               />
             ) : null}
 
@@ -423,6 +458,7 @@ const Dashboard = () => {
                 name3={name3}
                 name4={name4}
                 name5={name5}
+                buttonCall="Create Class Room"
               />
             ) : null}
 
@@ -461,10 +497,15 @@ const Dashboard = () => {
                 name4={name4}
                 name5={name5}
                 check={true}
+                buttonCall="Create Subject"
               />
             ) : null}
           </Card>
-          <AnnounceCard>anouncements list</AnnounceCard>
+          <AnnounceCard>
+            <div>Top Recent Notice</div>
+
+            <NewNotice />
+          </AnnounceCard>
         </Second>
       </Content>
     </Container>
@@ -653,7 +694,7 @@ const MyDiv = styled.div`
 
 const AnnounceCard = styled.div`
   /* margin-right: 30px; */
-  height: 50vh;
+  // height: 50vh;
   width: 250px;
   background-color: white;
   border-radius: 5px;
