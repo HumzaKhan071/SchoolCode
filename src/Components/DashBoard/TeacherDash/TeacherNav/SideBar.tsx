@@ -14,6 +14,7 @@ const SideBar: React.FC<Iprops> = ({ changeFalse }) => {
         {SideBarItem.map((props, index) => (
           <NavLink
             to={props.to}
+            key={index}
             onClick={changeFalse}
             style={({ isActive }) => {
               return {
