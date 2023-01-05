@@ -31,13 +31,10 @@ const SubjectTest = () => {
   const [load, setLoad] = useState(true);
 
   const getSub = async () => {
-    // Getting teacher subjects
-    const myURI = `${URL}/api/subject/${user._id}/viewing-subject-teacher`;
-    const uuri = `https://school-code.onrender.com/api/subject/63ac5573bed0fbc981b7ae08/viewing-subject-teacher`;
+    const uuri = `${URL}/api/subject/${user._id}/viewing-subject-teacher`;
 
-    await axios.get(myURI).then((res) => {
-      console.log("For Subject", res.data.data);
-      setGetSubjects(res.data.data.subjectTaken);
+    await axios.get(uuri).then((res) => {
+      setGetSubjects(res.data.data);
       setTeacherInfo(res.data.data);
       setLoad(false);
     });
@@ -53,14 +50,22 @@ const SubjectTest = () => {
         <TestSubjects>
           <AllSubjects>
             {getSubjects?.length >= 1 ? (
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                }}
+              >
                 {getSubjects?.map((props) => (
                   <SubjectCard key={props._id}>
                     <SubjectName> {props.className} </SubjectName>
                     <SubjectName> {props.subjectName} </SubjectName>
                     <SubjectTeacher> {teacherInfo.name} </SubjectTeacher>
                     <ButtonHold>
-                      <NavLink to="/teacher-dashboard/test/allTest">
+                      <NavLink
+                        to={`/teacher-dashboard/test/allTest/${props._id}`}
+                      >
                         <button>View / Create Test</button>
                       </NavLink>
                     </ButtonHold>

@@ -29,11 +29,10 @@ const EventScreen = () => {
     const loc = "http://localhost:2244";
     const loc24 =
       "localhost:2244/api/event/63adc6fdc57e31550c003c9d/viewing-event-school";
+    console.log(session?._id);
     await axios
-      .get(`${loc}/api/event/${session?._id}/viewing-event-school`)
-      // .get(
-      //   "http://localhost:2244/api/event/63adc6fdc57e31550c003c9d/viewing-event-school"
-      // )
+      .get(`${url}/api/event/63adc6fdc57e31550c003c9d/viewing-event-school`)
+
       .then((res) => {
         setHolderData(res.data.data);
       })
