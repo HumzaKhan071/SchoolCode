@@ -60,11 +60,16 @@ const StudentHeader = () => {
       });
   };
 
-  useEffect(() => {
-    getStudent();
-    getSession();
-    axios.get(url);
-  }, [academic]);
+  useEffect(
+    () => {
+      getStudent();
+      getSession();
+      axios.get(url);
+    },
+    [
+      //   academic
+    ]
+  );
 
   const changeTrue = () => {
     setChange(true);
