@@ -47,11 +47,11 @@ import StudentReport from "../DashBoard/StudentDash/StudentReport";
 import StudentNot from "../DashBoard/StudentDash/StudentNot";
 
 import Expenses from "../DashBoard/AdminDash/Screen/Expenses";
-import Accessment from "../DashBoard/TeacherDash/Accessment";
 
 import DetailsTest from "../DashBoard/StudentDash/DetailsTest";
 import TeacherReport from "../DashBoard/TeacherDash/TeacherComp/Report/TeacherReport";
 import Lecture from "../DashBoard/TeacherDash/TeacherComp/Lectures/Lecture";
+import LectureDetail from "../DashBoard/TeacherDash/TeacherComp/Lectures/LectureDetail";
 
 //  4b4b1a2eaa0a87dc574b3e44dd683eb8a1ad7649
 
@@ -294,6 +294,15 @@ const AllRoutes = () => {
             <>
               <TeacherHeader />
               <Lecture />
+            </>
+          ),
+        },
+        {
+          path: "lecture_detail",
+          element: (
+            <>
+              <TeacherHeader />
+              <LectureDetail />
             </>
           ),
         },
