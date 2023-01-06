@@ -24,11 +24,11 @@ export const SideBarItem: NavCon[] = [
 		icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
 		to: "/student-dashboard/status/:id",
 	},
-	{
-		name: "Time-Table",
-		icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
-		to: "/student-dashboard/Time-Table",
-	},
+	// {
+	// 	name: "Time-Table",
+	// 	icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
+	// 	to: "/student-dashboard/Time-Table",
+	// },
 	{
 		name: "Tests",
 		icon: (prop: IconBaseProps) => <CgCommunity />,
