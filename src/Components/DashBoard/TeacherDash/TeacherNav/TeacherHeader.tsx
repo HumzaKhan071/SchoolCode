@@ -100,7 +100,7 @@ const TeacherHeader = () => {
                   />
                 </SubTitle>
               </SchoolName>
-              <SchoolId style={{ marginTop: "2px" }}>
+              {/* <SchoolId style={{ marginTop: "2px" }}>
                 <div>Session Code: {academic?.sessionCode}</div>
 
                 <span>
@@ -113,7 +113,7 @@ const TeacherHeader = () => {
                     }}
                   />
                 </span>
-              </SchoolId>
+              </SchoolId> */}
               <SchoolId>
                 <div>SCH: {user?.schoolName}</div>
               </SchoolId>
@@ -176,10 +176,10 @@ const TeacherHeader = () => {
           {SideBarItem.map((props, index) => (
             <NavLink
               to={props.to}
+              key={index}
               style={{
                 color: "black",
                 textDecoration: " none",
-
                 borderLeft: "4px solid black",
                 display: "flex",
                 marginTop: "8px",
@@ -312,7 +312,7 @@ const NavCon = styled.div`
 `;
 
 const ContentDash = styled.div`
-  padding-top: 30px;
+  padding-top: 70px;
 `;
 
 const One = styled.div`
@@ -472,18 +472,23 @@ const HolderCon = styled.div`
 
 const HeaderDash = styled.div`
   background-color: white;
-  // position: fixed;
+  position: fixed;
   width: 100%;
-  height: 80px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-`;
+  z-index: 100001;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 
+  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
+  /* box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+		rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+		rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px; */
+`;
 const Side = styled.div`
-  width: 230px;
-  min-height: calc(100vh - 60px);
+  width: 220px;
+  min-height: calc(100vh - 0px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -492,7 +497,6 @@ const Side = styled.div`
     rgba(0, 0, 0, 0.22) 0px 10px 10px;
   position: fixed;
   justify-content: space-between;
-
   z-index: 1;
   @media (max-width: 1000px) {
     display: none;
