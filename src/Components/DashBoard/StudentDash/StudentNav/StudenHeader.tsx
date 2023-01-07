@@ -43,12 +43,13 @@ const StudentHeader = () => {
 
   const getStudent = async () => {
     const local = "http://localhost:2244";
-    const myURL = `${local}/api/student/${user._id}/student-detail-school`;
+    const myURL = `${url}/api/student/${user._id}/student-detail-school`;
     await axios.get(myURL).then((res) => {
+      console.log(res);
       setStudentData(res.data.data);
     });
   };
-
+  console.log(user);
   const getSession = async () => {
     await axios
       .get(

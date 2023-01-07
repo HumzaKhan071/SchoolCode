@@ -13,6 +13,8 @@ import ClassDataProps from "../AdminDash/ClassDataProps";
 import MyForm from "../AdminDash/Screen/Homeforms/MyForm";
 import OtherForm from "../AdminDash/Screen/Homeforms/MyForm";
 
+import numeral from "numeral";
+
 const url: string = "https://school-code.onrender.com";
 
 interface IData {
@@ -28,353 +30,375 @@ interface IData {
 }
 
 function StatusStudent() {
+  const { id } = useParams();
+  const user = useRecoilValue(User);
+  const useSession = useRecoilValue(Session);
 
-	const { id } = useParams();
-	const user = useRecoilValue(User);
-	const useSession = useRecoilValue(Session);
+  const [studentData, setStudentData] = React.useState({} as IData);
+  const [studentDataFee, setStudentDataFee] = React.useState([] as any[]);
+  const [fee, setFee] = useState(false);
+  const [show, setShow] = useState(false);
 
-	const [studentData, setStudentData] = React.useState({} as IData);
-	const [studentDataFee, setStudentDataFee] = React.useState([] as any[]);
-	const [fee, setFee] = useState(false);
-	const [show, setShow] = useState(false);
+  const [name, setName] = useState("");
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
+  const [idState, setIdState] = useState("");
+  const [showEdit, setShowEdit] = useState(false);
+  const [amount, setAmount] = useState("");
 
-	const [name, setName] = useState("");
-	const [name1, setName1] = useState("");
-	const [name2, setName2] = useState("");
-	const [idState, setIdState] = useState("");
-	const [showEdit, setShowEdit] = useState(false);
-	const [amount, setAmount] = useState("");
+  const [subjectHolder, setSubjectHolder] = useState([] as any[]);
+  const [classInfo, setClassInfo] = useState({} as any);
 
-	const [subjectHolder, setSubjectHolder] = useState([] as any[]);
+  const toggleFee = () => {
+    setFee(!fee);
+  };
+  const toggleEdit = () => {
+    setShowEdit(!showEdit);
+  };
 
-	const toggleFee = () => {
-		setFee(!fee);
-	};
-	const toggleEdit = () => {
-		setShowEdit(!showEdit);
-	};
+  const getStudentDetails = async () => {
+    await axios
+      .get(`${url}/api/student/${user?._id}/${id}/view-student`)
+      .then((res) => {
+        setStudentData(res.data.data);
+      });
+  };
 
-	const getStudentDetails = async () => {
-		await axios
-			.get(`${url}/api/student/${user?._id}/${id}/view-student`)
-			.then((res) => {
-				setStudentData(res.data.data);
-				// console.log("data: ", studentData);
-				// console.log("id: ", id);
-			});
-	};
+  const paySchoolFeeNow = async () => {
+    const newURL = `${url}/api/schoolfee/${user._id}/${studentData._id}/student-school-fee`;
+    await axios
+      .post(newURL, {
+        amountPaid: parseInt(name),
+        sessionCode: name1,
+      })
+      .then((res) => {
+        setShow(false);
+      });
+  };
 
-	const paySchoolFeeNow = async () => {
-		const newURL = `${url}/api/schoolfee/${user._id}/${studentData._id}/student-school-fee`;
-		console.log(studentData._id);
-		await axios
-			.post(newURL, {
-				amountPaid: parseInt(name),
-				sessionCode: name1,
-			})
-			.then((res) => {
-				setShow(false);
-			});
-	};
+  const viewSchoolFeeDetail = async () => {
+    const newURL = `${url}/api/schoolfee/${user._id}/view-student-school-fee-detail-by-student`;
 
-	const viewSchoolFeeDetail = async () => {
-		// const local = `http://localhost:2244`;
-		const newURL = `${url}/api/schoolfee/${user._id}/${studentData._id}/view-student-school-fee-detail`;
+    await axios.get(newURL).then((res) => {
+      setStudentDataFee(res.data.data.schoolFee);
+    });
+  };
 
-		await axios.get(newURL).then((res) => {
-			setStudentDataFee(res.data.data.schoolFee);
-		});
-	};
+  const getClassSuject = async () => {
+    const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;
+    await axios.get(newURL).then((res) => {
+      console.log("class details: ", classInfo);
+      setClassInfo(res.data!.data);
+      setSubjectHolder(res.data!.data!.subject);
+    });
+  };
 
-	const getClassSuject = async () => {
-		const newURL = `${url}/api/subject/${studentData.classID}/view-class-subject`;
-		await axios.get(newURL).then((res) => {
-			setSubjectHolder(res.data!.data!.subject);
-		});
-	};
+  const updateFeeDetail = async () => {
+    const newUrl = `${url}/api/schoolfee/${user._id}/${id}/${idState}/update-student-school-fee-parent`;
 
-	const updateFeeDetail = async () => {
-		const newUrl = `${url}/api/schoolfee/${user._id}/${id}/${idState}/update-student-school-fee-parent`;
+    await axios
+      .patch(newUrl, {
+        amountPaid: parseInt(amount),
+        sessionCode: useSession?.sessionCode,
+      })
+      .then((res) => {
+        Swal.fire({
+          icon: "success",
+          title: "Updated Successful",
+        });
 
-		await axios
-			.patch(newUrl, {
-				amountPaid: parseInt(amount),
-				sessionCode: useSession?.sessionCode,
-			})
-			.then((res) => {
-				Swal.fire({
-					icon: "success",
-					title: "Updated Successful",
-				});
+        window.location.reload();
+      });
+  };
 
-				window.location.reload();
-			});
-	};
+  useEffect(() => {
+    getStudentDetails();
+    viewSchoolFeeDetail();
+    getClassSuject();
+  }, [
+    // subjectHolder,
+    // studentDataFee,
+    // classInfo,
+    studentData,
+  ]);
 
-	useEffect(() => {
-		getStudentDetails();
-		viewSchoolFeeDetail();
-		getClassSuject();
-	}, [
-		// subjectHolder,
-		// studentDataFee,
-		studentData,
-	]);
+  return (
+    <>
+      {fee ? (
+        <OtherForm
+          check={true}
+          holder="Enter payment to pay on behave of student"
+          holder1="session code: 8b309d"
+          holder2="Teacher to take this subject"
+          toggle={toggleFee}
+          title={`Make payment for on behave of student`}
+          title1="Amount to pay"
+          title2="Session Code"
+          // numb={true}
+          // mainAction={paySchoolFeeNow}
+          mainAction={paySchoolFeeNow}
+          show={show}
+          setShow={setShow}
+          setName={setName}
+          setName1={setName1}
+          setName2={setName2}
+          one={true}
+          name={name}
+          name1={name1}
+          buttonCall="Pay SchoolFee"
+        />
+      ) : null}
+      <Container>
+        <Content>
+          <span>{user?.name}</span>
+          <MainHold>
+            <LoaderHold>
+              <Holding>
+                <span>Setup Completed</span>
+                <Div>100%</Div>
+              </Holding>
+            </LoaderHold>
+            <NextRec>
+              <span>Next Recommended action:</span>
+              <Ad>{user?.email}</Ad>
+            </NextRec>
+          </MainHold>
 
-	return (
-		<>
-			{fee ? (
-				<OtherForm
-					check={true}
-					holder='Enter payment to pay on behave of student'
-					holder1='session code: 8b309d'
-					holder2='Teacher to take this subject'
-					toggle={toggleFee}
-					title={`Make payment for on behave of student`}
-					title1='Amount to pay'
-					title2='Session Code'
-					// numb={true}
-					// mainAction={paySchoolFeeNow}
-					mainAction={paySchoolFeeNow}
-					show={show}
-					setShow={setShow}
-					setName={setName}
-					setName1={setName1}
-					setName2={setName2}
-					one={true}
-					name={name}
-					name1={name1}
-					buttonCall='Pay SchoolFee'
-				/>
-			) : null}
-			<Container>
-				<Content>
-					<span>{studentData?.name}</span>
-					<MainHold>
-						<LoaderHold>
-							<Holding>
-								<span>Setup Completed</span>
-								<Div>100%</Div>
-							</Holding>
-						</LoaderHold>
-						<NextRec>
-							<span>Next Recommended action:</span>
-							<Ad>{studentData?.email}</Ad>
-						</NextRec>
-					</MainHold>
+          <MainHold2>
+            <Cont>
+              <Tog>
+                <h5>Detail data for {user?.name} class</h5>
+                <span>
+                  Present class: <strong>{user?.className}</strong>
+                </span>
+                <br />
+                <span>
+                  class Teacher: <strong>{classInfo?.classTeacher}</strong>
+                </span>
+                <br />
+                <span>
+                  This term class school-fee:{" "}
+                  <strong>₦{numeral(classInfo?.termFee).format("0,0")}</strong>
+                </span>
+              </Tog>
 
-					<MainHold2>
-						<Cont>
-							<Tog>
-								<h5>Detail data for {studentData?.name}</h5>
-								<span>
-									Present class: <strong>{studentData?.className}</strong>
-								</span>
-							</Tog>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                }}
+              >
+                {subjectHolder.map((props) => (
+                  <AllSubBox1 key={props._id}>
+                    <Main>
+                      <First>
+                        <Title>{props.subjectName}</Title>
+                        <IconHold>
+                          <FiMoreVertical />
+                        </IconHold>
+                      </First>
+                      <span>Compulsory</span>
 
-							{/* <ClassDataProps props={studentData.classID} />
-              
-              */}
+                      <div
+                        style={{
+                          marginTop: "5px",
+                        }}
+                      >
+                        {" "}
+                        <div
+                          style={{
+                            color: "#F8C46B",
+                            fontSize: "11px",
+                          }}
+                        >
+                          SubjectTeacher :{" "}
+                        </div>
+                        {props.subjectTeacher}
+                      </div>
+                    </Main>
+                  </AllSubBox1>
+                ))}
+              </div>
+            </Cont>
+          </MainHold2>
 
-							<div
-								style={{
-									display: "flex",
-									flexWrap: "wrap",
-								}}>
-								{subjectHolder.map((props) => (
-									<AllSubBox1 key={props._id}>
-										<Main>
-											<First>
-												<Title>{props.subjectName}</Title>
-												<IconHold>
-													<FiMoreVertical />
-												</IconHold>
-											</First>
-											<span>Compulsory</span>
+          <MainHold2>
+            <Cont>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Tog>
+                  <h5>All time school fee record</h5>
+                  <span>
+                    This are all the expenses/transaction you have made.
+                  </span>
+                </Tog>
+                <Button1 onClick={toggleFee}>Pay SchoolFee</Button1>
+              </div>
 
-											<div
-												style={{
-													marginTop: "5px",
-												}}>
-												{" "}
-												<div
-													style={{
-														color: "#F8C46B",
-														fontSize: "11px",
-													}}>
-													SubjectTeacher :{" "}
-												</div>
-												{props.subjectTeacher}
-											</div>
-										</Main>
-									</AllSubBox1>
-								))}
-							</div>
-						</Cont>
-					</MainHold2>
+              {studentDataFee.map((props) => (
+                <AllSubBox key={props._id}>
+                  <Main>
+                    <First>
+                      <Title>School Fee Session: {props.academicSession}</Title>
+                      <IconHold
+                        onClick={() => {
+                          //   toggleEdit();
+                          setIdState(props._id);
+                        }}
+                      >
+                        <FiMoreVertical />
+                      </IconHold>
+                    </First>
+                    <span>{props.academicTerm}</span>
 
-					<MainHold2>
-						<Cont>
-							<div
-								style={{
-									display: "flex",
-									justifyContent: "space-between",
-								}}>
-								<Tog>
-									<h5>All time school fee record</h5>
-									<span>
-										This are all the expenses/transaction you have made.
-									</span>
-								</Tog>
-								<Button1 onClick={toggleFee}>Pay SchoolFee</Button1>
-							</div>
+                    <div
+                      style={{
+                        display: "flex",
+                        marginTop: "15px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <div
+                          style={{
+                            color: "green",
+                            fontSize: "11px",
+                            fontWeight: "bold",
+                            letterSpacing: "1.2px",
+                          }}
+                        >
+                          Amount Paid
+                        </div>
+                        <div
+                          style={{ marginRight: "60px", fontWeight: "bold" }}
+                        >
+                          ₦{numeral(props.amountPaid).format("0,0")}
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <div
+                          style={{
+                            color: "red",
+                            fontSize: "11px",
+                            fontWeight: "bold",
+                            letterSpacing: "1.2px",
+                          }}
+                        >
+                          Amount to balance
+                        </div>
+                        <div
+                          style={{
+                            marginRight: "25px",
+                            fontWeight: "bold",
+                            fontSize: "13px",
+                          }}
+                        >
+                          ₦{numeral(props.toBalance).format("0,0")}
+                        </div>
+                      </div>
+                    </div>
 
-							{studentDataFee.map((props) => (
-								<AllSubBox key={props._id}>
-									<Main>
-										<First>
-											<Title>School Fee Session: {props.academicSession}</Title>
-											<IconHold
-												onClick={() => {
-													toggleEdit();
-													setIdState(props._id);
-												}}>
-												<FiMoreVertical />
-											</IconHold>
-										</First>
-										<span>{props.academicTerm}</span>
+                    <div
+                      style={{
+                        color: "#F8C46B",
+                        fontSize: "11px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      Payment Details{" "}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      Transaction Refence:{" "}
+                      <div
+                        style={{
+                          fontWeight: "bold",
+                          marginLeft: "10px",
+                          fontSize: "13px",
+                        }}
+                      >
+                        {props.receiptToken}
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      Paid Date :{" "}
+                      <div
+                        style={{
+                          fontWeight: "bold",
+                          marginLeft: "10px",
+                          fontSize: "13px",
+                        }}
+                      >
+                        {props.dateTime}
+                      </div>
+                    </div>
+                  </Main>
 
-										<div
-											style={{
-												display: "flex",
-												marginTop: "15px",
-											}}>
-											<div
-												style={{
-													display: "flex",
-													flexDirection: "column",
-												}}>
-												<div
-													style={{
-														color: "green",
-														fontSize: "11px",
-														fontWeight: "bold",
-														letterSpacing: "1.2px",
-													}}>
-													Amount Paid
-												</div>
-												<div
-													style={{ marginRight: "60px", fontWeight: "bold" }}>
-													₦{props.amountPaid}
-												</div>
-											</div>
-											<div
-												style={{
-													display: "flex",
-													flexDirection: "column",
-												}}>
-												<div
-													style={{
-														color: "red",
-														fontSize: "11px",
-														fontWeight: "bold",
-														letterSpacing: "1.2px",
-													}}>
-													Amount to balance
-												</div>
-												<div
-													style={{
-														marginRight: "25px",
-														fontWeight: "bold",
-														fontSize: "13px",
-													}}>
-													₦{props.toBalance}
-												</div>
-											</div>
-										</div>
+                  {showEdit && idState === props._id ? (
+                    <Conta4>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <span>update Amout</span>
 
-										<div
-											style={{
-												color: "#F8C46B",
-												fontSize: "11px",
-												marginTop: "10px",
-											}}>
-											Payment Details{" "}
-										</div>
-										<div style={{ display: "flex", alignItems: "center" }}>
-											Transaction Refence:{" "}
-											<div
-												style={{
-													fontWeight: "bold",
-													marginLeft: "10px",
-													fontSize: "13px",
-												}}>
-												{props.receiptToken}
-											</div>
-										</div>
-										<div style={{ display: "flex", alignItems: "center" }}>
-											Paid Date :{" "}
-											<div
-												style={{
-													fontWeight: "bold",
-													marginLeft: "10px",
-													fontSize: "13px",
-												}}>
-												{props.dateTime}
-											</div>
-										</div>
-									</Main>
+                        <Cancel
+                          onClick={() => {
+                            toggleEdit();
+                          }}
+                        >
+                          <AiOutlineClose />
+                        </Cancel>
+                      </div>
 
-									{showEdit && idState === props._id ? (
-										<Conta4>
-											<div
-												style={{
-													display: "flex",
-													justifyContent: "space-between",
-													alignItems: "center",
-												}}>
-												<span>update Amout</span>
+                      <Iput
+                        type="number"
+                        onChange={(e) => {
+                          setAmount(e.target.value);
+                        }}
+                        placeholder="update this fee"
+                      />
 
-												<Cancel
-													onClick={() => {
-														toggleEdit();
-													}}>
-													<AiOutlineClose />
-												</Cancel>
-											</div>
-
-											<Iput
-												type='number'
-												onChange={(e) => {
-													setAmount(e.target.value);
-												}}
-												placeholder='update this fee'
-											/>
-
-											{amount !== "" ? (
-												<ButHold2
-													onClick={() => {
-														updateFeeDetail();
-													}}>
-													<Button>+ Update Fee</Button>
-												</ButHold2>
-											) : (
-												<ButHold2
-													style={{ opacity: "0.2", cursor: "not-allowed" }}>
-													<Button>+ Update Fee</Button>
-												</ButHold2>
-											)}
-										</Conta4>
-									) : null}
-								</AllSubBox>
-							))}
-						</Cont>
-					</MainHold2>
-				</Content>
-			</Container>
-		</>
-	);
-
+                      {amount !== "" ? (
+                        <ButHold2
+                          onClick={() => {
+                            updateFeeDetail();
+                          }}
+                        >
+                          <Button>+ Update Fee</Button>
+                        </ButHold2>
+                      ) : (
+                        <ButHold2
+                          style={{ opacity: "0.2", cursor: "not-allowed" }}
+                        >
+                          <Button>+ Update Fee</Button>
+                        </ButHold2>
+                      )}
+                    </Conta4>
+                  ) : null}
+                </AllSubBox>
+              ))}
+            </Cont>
+          </MainHold2>
+        </Content>
+      </Container>
+    </>
+  );
 }
 
 export default StatusStudent;
@@ -388,29 +412,27 @@ const TeacherImage = styled.img`
 `;
 
 const Conta4 = styled.div`
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  display: flex;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  border-radius: 5px;
+  /* left: 20px; */
+  flex-direction: column;
 
-	position: absolute;
-	background-color: white;
-	min-width: 200px;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-	z-index: 1;
-	display: flex;
-	top: 0;
-	right: 0;
-	padding: 10px;
-	border-radius: 5px;
-	/* left: 20px; */
-	flex-direction: column;
+  span {
+    font-size: 11px;
+    font-weight: 400;
+  }
 
-	span {
-		font-size: 11px;
-		font-weight: 400;
-	}
-
-	@media screen and (max-width: 768px) {
-		/* top: 150px; */
-	}
-
+  @media screen and (max-width: 768px) {
+    /* top: 150px; */
+  }
 `;
 
 const Conta3 = styled.div`
@@ -654,6 +676,10 @@ const ButtonH = styled.div`
 `;
 const Tog = styled.div`
   margin-bottom: 10px;
+
+  span {
+    font-size: 13px;
+  }
 `;
 const But = styled.div`
   color: #1da1f2;
