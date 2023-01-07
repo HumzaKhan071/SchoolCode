@@ -1,7 +1,42 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { User } from "../../Global/RecoilState";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import moment from "moment";
+
+import Swal from "sweetalert2";
+import { ClipLoader } from "react-spinners";
+
+const url: string = "https://school-code.onrender.com";
 
 const StudentReport = () => {
+  const schema = yup.object().shape({
+    message: yup.string().required("This field has to be filled"),
+  });
+
+  const {
+    register,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = handleSubmit(async (data: any) => {
+    const { message } = data;
+    console.log(data);
+
+    const newURL = `${url}/api/report/${user._id}/create-student-report`;
+    await axios.post(newURL, { message }).then((res) => {
+      console.log(res);
+    });
+  });
+
   const data = [
     {
       id: 1,
@@ -31,20 +66,45 @@ const StudentReport = () => {
       bg: "#F939A1",
     },
   ];
+  interface iReport {
+    message: string;
+    _id: string;
+    status: string;
+    // status: string,
+  }
+  const user = useRecoilValue(User);
+
+  const [viewReport, setViewReport] = useState([] as iReport[]);
+
+  const [load, setLoad] = useState(false);
+  const fetchReport = async () => {
+    const newURL = `${url}/api/report/${user._id}/view-student-report`;
+    await axios.get(newURL).then((res) => {
+      setViewReport(res.data.data.report);
+    });
+  };
+
+  useEffect(() => {
+    fetchReport();
+  }, []);
   return (
     <Container>
       <Wrapper>
         <MakeReport>
-          <MakeReportHold>
+          <MakeReportHold onSubmit={onSubmit}>
             <Title>Make A Report</Title>
             <InputHold>
               <Inputt>
                 <label>Make Report</label>
-                <textarea placeholder="Enter Your Report Here" />
+                <textarea
+                  placeholder="Enter Your Report Here"
+                  {...register("message")}
+                />
               </Inputt>
             </InputHold>
             <ButtonHold>
               <button
+                type="submit"
                 style={{
                   backgroundColor: "",
                 }}
@@ -59,20 +119,71 @@ const StudentReport = () => {
           <BoardHold>
             <ReportTitle>All Report</ReportTitle>
 
-            <NoticeHold>
-              {data?.map((props) => (
-                <NoticeData key={props.id}>
+            {/* <NoticeHold>
+              {data?.map((props: any) => (
+                <NoticeData key={props._id}>
                   <NoticeDate
                     style={{
                       backgroundColor: `${props.bg}`,
                     }}
                   >
                     {" "}
-                    {props.createdAt}{" "}
+                    {moment(props.createdAt).format()}{" "}
                   </NoticeDate>
                   <NoticeMessage> {props.message} </NoticeMessage>
                 </NoticeData>
               ))}
+            </NoticeHold> */}
+
+            <NoticeHold>
+              {viewReport?.length >= 1 ? (
+                <BoxHold>
+                  {viewReport?.map((props: any) => (
+                    <NoticeData key={props._id}>
+                      <NoticeDate
+                        style={{
+                          backgroundColor: `${props.bg}`,
+                        }}
+                      >
+                        {props.status} by School
+                      </NoticeDate>
+                      <NoticeMessage> {props.message} </NoticeMessage>
+                      <NoticeMessage>
+                        reported date:{" "}
+                        <strong>
+                          {" "}
+                          {moment(props.createdAt).format(
+                            "dddd, MMMM Do YYYY, h:mm:ss a"
+                          )}
+                        </strong>
+                      </NoticeMessage>
+                    </NoticeData>
+                  ))}
+                </BoxHold>
+              ) : (
+                <BoxHold1>
+                  {load ? (
+                    <div>
+                      <div>
+                        <ClipLoader color="#36d7b7" />
+                      </div>
+                      <div> Fetching data...</div>
+                    </div>
+                  ) : (
+                    <>
+                      {" "}
+                      <BoxImag src="/img/emp.gif" />
+                      <h3>You haven't made any report yet..</h3>
+                      <p>
+                        if you'd like to make any remake, complains and event
+                        report an action or what have view, please just do that
+                        here!.
+                      </p>
+                      {/* <Button2 onClick={toggleShow}>Create Student</Button2> */}
+                    </>
+                  )}
+                </BoxHold1>
+              )}
             </NoticeHold>
           </BoardHold>
         </BoardCard>
@@ -83,6 +194,42 @@ const StudentReport = () => {
 
 export default StudentReport;
 
+const BoxHold = styled.div`
+  /* min-height: 90vh; */
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  // display: flex;
+  // flex-wrap: wrap;
+  // justify-content: center;
+  max-height: 70vh;
+  overflow-y: scroll;
+  /* align-items: center; */
+`;
+
+const BoxHold1 = styled.div`
+  min-height: 70vh;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+
+  justify-content: center;
+  max-height: 70vh;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  h3 {
+    margin: 0;
+  }
+
+  /* align-items: center; */
+`;
+
+const BoxImag = styled.img`
+  height: 200px;
+`;
 const Container = styled.div`
   /* width: 100%; */
   width: calc(100vw - 230px);
@@ -123,7 +270,7 @@ const MakeReport = styled.div`
     height: 300px;
   }
 `;
-const MakeReportHold = styled.div`
+const MakeReportHold = styled.form`
   padding: 20px;
 `;
 const Title = styled.div`
@@ -218,7 +365,7 @@ const NoticeData = styled.div`
 const NoticeDate = styled.div`
   height: 30px;
   width: 120px;
-  /* background-color: #40dfcd; */
+  background-color: #40dfcd;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -231,6 +378,12 @@ const NoticeDate = styled.div`
 const NoticeMessage = styled.div`
   font-size: 13px;
   margin-bottom: 10px;
+  text-transform: uppercase;
+  strong {
+    font-size: 12px;
+    color: red;
+    text-transform: normal;
+  }
 `;
 const SenderDate = styled.div`
   font-size: 11px;
