@@ -1,8 +1,13 @@
 import React from 'react'
 import styled from "styled-components"
 import { IoNewspaper } from 'react-icons/io5';
+import ClipLoader from "react-spinners/ClipLoader";
 
 function AssignmentScreen() {
+
+	const dataLecture= []
+	const [load, setLoad] = React.useState(false);
+
   return (
     <Container>
 		<MyContent>
@@ -11,7 +16,11 @@ function AssignmentScreen() {
 			<span>Student&nbsp;/&nbsp;test</span>
 			</UserName>
 			<Mysubject>
-				<Card>
+
+				{
+					dataLecture?.length >= 1 ? (
+					<>
+					<Card>
 					<First>
 						<Iconmy cl="#0FBBFE"/>
 					</First>
@@ -41,68 +50,34 @@ function AssignmentScreen() {
 					</Second>
 
 				</Card>
+					</>
+					) :(
+					<>
+					<BoxHold1>
+							{load ? (
+								<div>
+									<div>
+										<ClipLoader color='#36d7b7' />
+									</div>
+									<div> Fetching data...</div>
+								</div>
+							) : (
+								<>
+									<BoxImag src='/img/emp.gif' />
+									<h3>Lecture Not Available</h3>
+									<p>
+										Your institute has no lecture  yet. Added lecture will
+										appear here.
+									</p>
+								</>
+							)}
+						</BoxHold1>
+					</>
+					)
+				}
 				
-				<Card>
-					<First>
-						<Iconmy cl="#0FBBFE"/>
-					</First>
-					<Second>
-						<LectureName>
-							<span>English</span>
-							<pre>
-							...	
-							</pre>
-						</LectureName>
-						<Content>
-						Let’s start with a quick tour of Vue’s data binding features.
-						</Content>
-
-						<TeacherDetails>
-							<div>Teacher </div>
-							&nbsp;
-							<pre>Peter Obi</pre>
-						</TeacherDetails>
-						<TeacherMeter>
-						</TeacherMeter>
-
-						<LectureButton>
-							<MyButton>View Lecture</MyButton>
-						</LectureButton>
-
-					</Second>
-
-				</Card>
 				
-				<Card>
-					<First>
-						<Iconmy cl="#0FBBFE"/>
-					</First>
-					<Second>
-						<LectureName>
-							<span>Physics</span>
-							<pre>
-							...	
-							</pre>
-						</LectureName>
-						<Content>
-						Let’s start with a quick tour of Vue’s data binding features.
-						</Content>
-
-						<TeacherDetails>
-							<div>Teacher </div>
-							&nbsp;
-							<pre>Peter Obi</pre>
-						</TeacherDetails>
-						<TeacherMeter>
-						</TeacherMeter>
-
-						<LectureButton>
-							<MyButton>View Lecture</MyButton>
-						</LectureButton>
-
-					</Second>
-
-				</Card>
+				
 				
 				
 				
@@ -113,6 +88,30 @@ function AssignmentScreen() {
 }
 
 export default AssignmentScreen
+
+const BoxImag = styled.img`
+  height: 200px;
+`;
+
+const BoxHold1 = styled.div`
+  min-height: 70vh;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+
+  justify-content: center;
+  max-height: 70vh;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  h3 {
+    margin: 0;
+  }
+
+  /* align-items: center; */
+`;
 
 
 const LectureButton = styled.div`
