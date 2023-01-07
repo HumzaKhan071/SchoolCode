@@ -47,7 +47,7 @@ const DetailsTest = () => {
         <Top>
           <DetailText>
             <h4>Test Detail</h4>
-            <span>Mid-Term Test - {dataFile?.subjectTest}</span>
+            <span>Mid-Term Test - {dataFile?.testTitle}</span>
           </DetailText>
           <Row1>
             <DetCard>
@@ -184,6 +184,14 @@ const DetailsTest = () => {
             <label htmlFor="adult">18 - 64 years</label>
             <input type={"radio"} id="senior" name="age" value="senior" />
             <label htmlFor="senior">65 years or older</label>
+
+            <button
+              onClick={() => {
+                console.log("object");
+              }}
+            >
+              show
+            </button>
           </Ans>
         </Answers>
       </Wrapper>
@@ -249,6 +257,7 @@ const Wrapper = styled.div`
 const Top = styled.div`
   margin-bottom: 30px;
 `;
+
 const Row1 = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -270,6 +279,7 @@ const CrdHold = styled.div`
   padding: 0 20px;
   font-size: 13px;
 `;
+
 const DetailText = styled.div`
   display: flex;
   flex-direction: column;
@@ -295,6 +305,7 @@ const DetailText = styled.div`
     cursor: pointer;
   }
 `;
+
 const Tit = styled.div`
   display: flex;
   align-items: center;
