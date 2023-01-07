@@ -1,5 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { User } from "../../../../Global/RecoilState";
+import moment from "moment";
 
 const TeacherReport = () => {
   const data = [
@@ -31,26 +38,65 @@ const TeacherReport = () => {
       bg: "#F939A1",
     },
   ];
+  const [getReport, setGetReport] = useState<any[]>([]);
+  //   url/api/report/:id/create-teacher-report(post)
+  // teacher's ID
+  const user = useRecoilValue(User);
+
+  const getAllReport = async () => {
+    const URL: string = `https://school-code.onrender.com/api/report/${user._id}/view-teacher-report`;
+    await axios.get(URL).then((res) => {
+      console.log(res.data.data.report);
+      setGetReport(res.data.data.report);
+    });
+  };
+
+  const handleForm = yup.object().shape({
+    message: yup.string().required("Empty fills, Be sure to put in something"),
+  });
+
+  const {
+    register,
+    // formState: { errors },
+    handleSubmit,
+  } = useForm({ resolver: yupResolver(handleForm) });
+
+  const onSubmmit = handleSubmit(async (value) => {
+    console.log("Success");
+    const { message } = value;
+    const URL: string = `https://school-code.onrender.com/api/report/${user._id}/create-teacher-report`;
+
+    await axios
+      .post(URL, { message })
+      .then((res) => {
+        console.log(res.data.data);
+      })
+      .catch((error) => {
+        console.log("From Catch", error);
+      });
+  });
+
+  useEffect(() => {
+    getAllReport();
+  }, []);
+
   return (
     <Container>
       <Wrapper>
         <MakeReport>
-          <MakeReportHold>
+          <MakeReportHold onSubmit={onSubmmit}>
             <Title>Make A Report</Title>
             <InputHold>
               <Inputt>
                 <label>Make Report</label>
-                <textarea placeholder="Enter Your Report Here" />
+                <textarea
+                  placeholder="Enter Your Report Here"
+                  {...register("message")}
+                />
               </Inputt>
             </InputHold>
             <ButtonHold>
-              <button
-                style={{
-                  backgroundColor: "",
-                }}
-              >
-                Save
-              </button>
+              <button type="submit">Publish</button>
             </ButtonHold>
           </MakeReportHold>
         </MakeReport>
@@ -60,15 +106,11 @@ const TeacherReport = () => {
             <ReportTitle>All Report</ReportTitle>
 
             <NoticeHold>
-              {data?.map((props) => (
-                <NoticeData key={props.id}>
-                  <NoticeDate
-                    style={{
-                      backgroundColor: `${props.bg}`,
-                    }}
-                  >
+              {getReport?.map((props) => (
+                <NoticeData key={props._id}>
+                  <NoticeDate>
                     {" "}
-                    {props.createdAt}{" "}
+                    {moment(props.createdAt).format("MMMM Do YYYY")}{" "}
                   </NoticeDate>
                   <NoticeMessage> {props.message} </NoticeMessage>
                 </NoticeData>
@@ -123,7 +165,7 @@ const MakeReport = styled.div`
     height: 300px;
   }
 `;
-const MakeReportHold = styled.div`
+const MakeReportHold = styled.form`
   padding: 20px;
 `;
 const Title = styled.div`
@@ -218,7 +260,7 @@ const NoticeData = styled.div`
 const NoticeDate = styled.div`
   height: 30px;
   width: 120px;
-  /* background-color: #40dfcd; */
+  background-color: #40dfcd;
   display: flex;
   justify-content: center;
   align-items: center;
