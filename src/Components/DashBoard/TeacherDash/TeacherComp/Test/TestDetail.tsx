@@ -1,11 +1,33 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { BiTimeFive } from "react-icons/bi";
 import { IoHourglassOutline } from "react-icons/io5";
 import { MdOutlineAlignHorizontalLeft } from "react-icons/md";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const TestDetail = () => {
+  const { id } = useParams();
+  console.log(id);
+  const [test, setTest] = useState({} as any);
+  const [testData, setTestData] = useState([] as any[]);
+
+  const fetchTEst = async () => {
+    const URL = "https://school-code.onrender.com";
+    const url = `${URL}/api/test/${id}/view-class-test`;
+
+    await axios.get(url).then((res) => {
+      // setTestData(res.data.data.test);
+      console.log(res.data);
+      setTest(res.data.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchTEst();
+  }, []);
+
   return (
     <Container>
       <Wrapper>
