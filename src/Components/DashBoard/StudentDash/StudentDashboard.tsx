@@ -26,6 +26,7 @@ const StudentDashboard = () => {
 	const [classData, setClassData] = useState<any>([]);
 	const [pageNumber, setPageNumber] = React.useState<number>(0);
 	const [rating, setRating] = useState(0);
+	const [hover, setHover] = useState(0);
 
 	console.log("this is users", user);
 
@@ -130,15 +131,43 @@ const StudentDashboard = () => {
 											<Boxchild>
 												<GoBook
 													style={{
+														backgroundColor: "transparent",
 														color: "grey",
 														fontSize: "20px", 	
-														marginTop: "5px",
+														marginTop: "-10px",
 													}}
 												/>
 											</Boxchild>
 											<Boxchild2>
 												Rating
-												<span className='star'>&#9733;</span>
+											
+											   <div style={{display:"flex"}}>
+												{
+													[...Array(5)].map((start, index)=>{
+														index += 1;
+														return(
+															<button
+				
+												style={{
+													backgroundColor: "transparent",
+													border: "none",
+													outline: "none",
+													cursor: "pointer",
+													fontSize: "20px",
+													color: "#ccc"
+													
+												}}
+												className={index <= (hover || rating) ? "on" : "off"}
+												>
+												&#9733;
+												</button>
+														)
+													})
+												}
+
+												</div>
+												
+												
 											</Boxchild2>
 										</Box1>
 										<Box2>
@@ -480,9 +509,7 @@ const Boxchild2 = styled.div`
 	display: flex;
 	flex-direction: column;
 	line-height: 20px;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+	
 
 	span {
 		color: black;
