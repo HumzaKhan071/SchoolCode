@@ -14,6 +14,9 @@ import Calendar from "react-calendar";
 import { useRecoilValue } from "recoil";
 import { User } from "../../Global/RecoilState";
 import axios from "axios";
+import ReactPaginate from "react-paginate";
+import "./pagination.css"
+import {iDataLeture }  from "./LectureData"
 
 const url: string = "https://school-code.onrender.com";
 const StudentDashboard = () => {
@@ -21,6 +24,8 @@ const StudentDashboard = () => {
 	const [value, setValue] = React.useState(new Date());
 	const user = useRecoilValue(User);
 	const [classData, setClassData] = useState<any>([]);
+	const [pageNumber, setPageNumber] = React.useState<number>(0);
+	const [rating, setRating] = useState(0);
 
 	console.log("this is users", user);
 
@@ -32,6 +37,143 @@ const StudentDashboard = () => {
 				setClassData(res.data.data);
 			});
 	};
+
+	const userPerLecture:number  = 1
+	const pageVisited  = pageNumber * userPerLecture;
+
+	const displayLecture = iDataLeture.slice(pageVisited, pageVisited + userPerLecture)
+	.map((props, i) => {
+		return (
+		<>
+		<TodayClass>
+					<Circle>
+								<div style={{ width: "50%", marginTop: "-10px" }}>
+											<CircularProgressbar
+												value={percentage}
+												text={`${percentage}%`}
+												styles={buildStyles({
+													pathTransitionDuration: 5.5,
+													textSize: "16px",
+												})}
+											/>
+										</div>
+									</Circle>
+								</TodayClass>
+
+								<DetailsClass>
+									<Details1>
+										<Box1>
+											<Boxchild>
+												<SiGoogleclassroom
+													style={{
+														color: "grey",
+														fontSize: "20px",
+														marginTop: "5px",
+													}}
+												/>
+											</Boxchild>
+											<Boxchild2>
+												class
+												<span>Primary 5</span>
+											</Boxchild2>
+										</Box1>
+										<Box2>
+											<Boxchild>
+												<MdOutlineAssignmentLate
+													style={{
+														color: "grey",
+														fontSize: "20px",
+														marginTop: "5px",
+													}}
+												/>
+											</Boxchild>
+											<Boxchild2>
+												Subject
+												<span>{props.lectureTopic}</span>
+											</Boxchild2>
+										</Box2>
+									</Details1>
+									<Details2>
+										<Box1>
+											<Boxchild>
+												<BiTimeFive
+													style={{
+														color: "grey",
+														fontSize: "20px",
+														marginTop: "5px",
+													}}
+												/>
+											</Boxchild>
+											<Boxchild2>
+											Time
+												<span>2 hrs</span>
+											</Boxchild2>
+										</Box1>
+										<Box2>
+											<Boxchild>
+												<CgProfile
+													style={{
+														color: "grey",
+														fontSize: "20px",
+														marginTop: "5px",
+													}}
+												/>
+											</Boxchild>
+											<Boxchild2>
+												Teacher
+												<span>Peter Obi</span>
+											</Boxchild2>
+										</Box2>
+									</Details2>
+									<Details3>
+										<Box1>
+											<Boxchild>
+												<GoBook
+													style={{
+														color: "grey",
+														fontSize: "20px", 	
+														marginTop: "5px",
+													}}
+												/>
+											</Boxchild>
+											<Boxchild2>
+												Rating
+												<span className='star'>&#9733;</span>
+											</Boxchild2>
+										</Box1>
+										<Box2>
+										{/* <ConBottum bg="#8E6AFF">Click To Rate</ConBottum> */}
+
+											{/* <Boxchild>
+												<MdOutlinePlayLesson
+													style={{
+														color: "grey",
+														fontSize: "20px",
+														marginTop: "5px",
+													}}
+												/>
+											</Boxchild>
+											<Boxchild2>
+												Lesson Learned
+												<span>10/50</span>
+											</Boxchild2> */}
+										</Box2>
+									</Details3>
+								</DetailsClass>
+
+		</>)
+	})
+
+
+	const pageCount = Math.ceil(iDataLeture.length / userPerLecture);
+
+	const changePage = (event:any) => {
+	  setPageNumber(event.selected);
+  
+	
+	}
+
+
 
 	React.useEffect(() => {
 		viewingClass();
@@ -108,123 +250,25 @@ const StudentDashboard = () => {
 								<span>View All</span>
 							</ViewToday>
 							<Holder>
-								<TodayClass>
-									<Circle>
-										<div style={{ width: "50%", marginTop: "-10px" }}>
-											<CircularProgressbar
-												value={percentage}
-												text={`${percentage}%`}
-												styles={buildStyles({
-													pathTransitionDuration: 5.5,
-													textSize: "16px",
-												})}
-											/>
-										</div>
-									</Circle>
-								</TodayClass>
-
-								<DetailsClass>
-									<Details1>
-										<Box1>
-											<Boxchild>
-												<SiGoogleclassroom
-													style={{
-														color: "grey",
-														fontSize: "20px",
-														marginTop: "5px",
-													}}
-												/>
-											</Boxchild>
-											<Boxchild2>
-												class
-												<span>Primary 5</span>
-											</Boxchild2>
-										</Box1>
-										<Box2>
-											<Boxchild>
-												<MdOutlineAssignmentLate
-													style={{
-														color: "grey",
-														fontSize: "20px",
-														marginTop: "5px",
-													}}
-												/>
-											</Boxchild>
-											<Boxchild2>
-												Assignment
-												<span>4 Assignment</span>
-											</Boxchild2>
-										</Box2>
-									</Details1>
-									<Details2>
-										<Box1>
-											<Boxchild>
-												<GoBook
-													style={{
-														color: "grey",
-														fontSize: "20px",
-														marginTop: "5px",
-													}}
-												/>
-											</Boxchild>
-											<Boxchild2>
-												Lesson
-												<span>1 Lessons</span>
-											</Boxchild2>
-										</Box1>
-										<Box2>
-											<Boxchild>
-												<CgProfile
-													style={{
-														color: "grey",
-														fontSize: "20px",
-														marginTop: "5px",
-													}}
-												/>
-											</Boxchild>
-											<Boxchild2>
-												Teacher
-												<span>Peter Obi</span>
-											</Boxchild2>
-										</Box2>
-									</Details2>
-									<Details3>
-										<Box1>
-											<Boxchild>
-												<BiTimeFive
-													style={{
-														color: "grey",
-														fontSize: "20px",
-														marginTop: "5px",
-													}}
-												/>
-											</Boxchild>
-											<Boxchild2>
-												Time
-												<span>2 hours</span>
-											</Boxchild2>
-										</Box1>
-										<Box2>
-											<Boxchild>
-												<MdOutlinePlayLesson
-													style={{
-														color: "grey",
-														fontSize: "20px",
-														marginTop: "5px",
-													}}
-												/>
-											</Boxchild>
-											<Boxchild2>
-												Lesson Learned
-												<span>10/50</span>
-											</Boxchild2>
-										</Box2>
-									</Details3>
-								</DetailsClass>
+								
+								{displayLecture}
 
 								<ViewAll>
-									<ConBottum>Skip</ConBottum>
-									<ConBottum>Next</ConBottum>
+								<ReactPaginate
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        pageCount={pageCount}
+        onPageChange={changePage}
+        containerClassName={"paginationBttns"}
+        previousLinkClassName={"previousBttn"}
+        nextLinkClassName={"nextBttn"}
+        disabledClassName={"paginationDisabled"}
+		pageClassName="page-item-none"
+		breakClassName="page-item-none"
+		marginPagesDisplayed={0}
+		// breakLabel="..."
+        activeClassName={"paginationActive"}
+      />
 								</ViewAll>
 							</Holder>
 						</TodadyLesson>
@@ -378,9 +422,9 @@ const Histitle = styled.div`
 	}
 `;
 
-const ConBottum = styled.div`
+const ConBottum = styled.div<{bg:string}>`
 	width: 100px;
-	background-color: blue;
+	background-color: ${({bg})=>bg};
 	height: 30px;
 	color: white;
 	display: flex;
