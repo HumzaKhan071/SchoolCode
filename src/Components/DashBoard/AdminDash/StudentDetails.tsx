@@ -59,7 +59,7 @@ function StudentDetails() {
       .get(`${url}/api/student/${user?._id}/${id}/view-student`)
       .then((res) => {
         setStudentData(res.data.data);
-        // console.log("data: ", studentData);
+        console.log("data: ", studentData);
         // console.log("id: ", id);
       });
   };
