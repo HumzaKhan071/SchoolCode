@@ -1,16 +1,74 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { User } from "../../../../Global/RecoilState";
 import RichTextEditor from "../RichTextEditor/RichTextEditor";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const Lecture = () => {
+  const [draft, setDraft] = useState("");
+
+  const user = useRecoilValue(User);
+
+  const getAllReport = async () => {
+    const URL: string = `https://school-code.onrender.com/api/lecture/${user._id}/view-all-teacher-lecture`;
+    await axios.get(URL).then((res) => {
+      console.log(res.data);
+      // setGetReport(res.data.data.report);
+    });
+  };
+
+  const handleForm = yup.object().shape({
+    lectureTopic: yup
+      .string()
+      .required("Empty fills, Be sure to put in something"),
+    lectureDetails: yup
+      .string()
+      .required("Empty fills, Be sure to put in something"),
+    lectureNote: yup
+      .string()
+      .required("Empty fills, Be sure to put in something"),
+    lectureTime: yup
+      .string()
+      .required("Empty fills, Be sure to put in something"),
+  });
+
+  const {
+    register,
+    // formState: { errors },
+    handleSubmit,
+  } = useForm({ resolver: yupResolver(handleForm) });
+
+  const onSubmmit = handleSubmit(async (value) => {
+    console.log("Success");
+    const { message } = value;
+    const URL: string = `https://school-code.onrender.com/api/report/${user._id}/create-teacher-report`;
+
+    await axios
+      .post(URL, { message })
+      .then((res) => {
+        console.log(res.data.data);
+      })
+      .catch((error) => {
+        console.log("From Catch", error);
+      });
+  });
+
+  useEffect(() => {
+    getAllReport();
+  }, []);
+
   return (
     <Container>
       <Wrapper>
         <CreateLecture>
           <CreateLectureHold>
             <LectureTitle>Make a New Lecture</LectureTitle>
-            <LectureSet>
+            <LectureSet onSubmit={onSubmmit}>
               <InputHold>
                 <label
                   style={{
@@ -22,6 +80,7 @@ const Lecture = () => {
                 <input
                   type="text"
                   placeholder="e.g The Amagamation of the Southern Empire"
+                  {...register("lectureTopic")}
                 />
               </InputHold>
               <InputHold>
@@ -35,6 +94,7 @@ const Lecture = () => {
                 <input
                   type="text"
                   placeholder="e.g By the End of this Lesson..."
+                  {...register("lectureDetails")}
                 />
               </InputHold>
               <InputHold>
@@ -45,11 +105,29 @@ const Lecture = () => {
                 >
                   Reading Time
                 </label>
-                <input type="time" />
+                <input
+                  type="text"
+                  placeholder="e.g 2 hrs, 20 min..."
+                  {...register("lectureTime")}
+                />
               </InputHold>
               <InputHold>
-                <RichTextEditor />
+                <label
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  Lecture Note
+                </label>
+                <textarea
+                  placeholder="Your lecture"
+                  {...register("lectureNote")}
+                />
               </InputHold>
+              <button type="submit">Publish</button>
+              {/* <InputHold>
+                <RichTextEditor  />
+              </InputHold> */}
             </LectureSet>
           </CreateLectureHold>
         </CreateLecture>
@@ -122,11 +200,57 @@ const LectureTitle = styled.div`
 const CreateLectureHold = styled.div`
   padding: 20px;
 `;
-const LectureSet = styled.div``;
+const LectureSet = styled.form`
+  button {
+    height: 40px;
+    width: 100%;
+    margin-top: 15px;
+    font-family: poppins;
+    border: 1px solid;
+    /* color: #1DA1F2; */
+    color: #fff;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: #1da1f2;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: all 350ms;
+
+    :hover {
+      transform: scale(0.98);
+    }
+
+    /* @media (max-width: 500px) {
+      height: 40px;
+      width: 100px;
+      font-size: 12px;
+      margin-left: 10px;
+      margin-right: 10px;
+    } */
+  }
+`;
 const InputHold = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+
+  textarea {
+    height: 150px;
+    width: 100%;
+    font-family: poppins;
+    border: 1px solid #1da1f2;
+    color: #6d6d6e;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
+    resize: none;
+    padding-left: 10px;
+    ::placeholder {
+      color: #a6c4e4;
+    }
+  }
+
   input {
     height: 40px;
     /* width: 300px; */

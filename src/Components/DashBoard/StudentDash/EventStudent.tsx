@@ -79,8 +79,6 @@ const EventStudent = () => {
   );
 };
 
-{
-}
 export default EventStudent;
 
 const View = styled.div`
