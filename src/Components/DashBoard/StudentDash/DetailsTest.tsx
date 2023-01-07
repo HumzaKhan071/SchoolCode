@@ -1,48 +1,53 @@
-import React from 'react'
-import styled from "styled-components"
+import React, { useState } from "react";
+import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { BiTimeFive } from "react-icons/bi";
 import { IoHourglassOutline } from "react-icons/io5";
 import { MdOutlineAlignHorizontalLeft } from "react-icons/md";
-import {TestData} from "./TestData"
+import { TestData } from "./TestData";
+import axios from "axios";
+import moment from "moment";
 
 interface demain {
-    question:string,
-    answer:string,
-    options:{}[]
-
-
+  question: string;
+  answer: string;
+  options: {}[];
 }
-
 interface testGet {
-    id:number,
-    subjectTest:string,
-    time:string,
-    testDetails:any
+  id: number;
+  subjectTest: string;
+  time: string;
+  testDetails: any;
+  data: any[];
 }
+
+const url: string = "https://school-code.onrender.com";
+
 const DetailsTest = () => {
-    const { id } = useParams();
-    const examId = parseInt(id!) 
-    console.log("this is dat",examId)
-    const [data, setData] = React.useState<testGet>()
+  const { id } = useParams();
+  const examId = parseInt(id!);
+  const [dataFile, setDataFile] = React.useState({} as any);
+  const [name, setName] = useState([] as any[]);
 
-    const fetchData = () => {
-		setData(TestData[examId - 1]);
-	};
+  const fetchData = async () => {
+    const newURL = `${url}/api/test/${id}/view-single-test`;
+    await axios.get(newURL).then((res) => {
+      setDataFile(res!.data!.data);
+      console.log("viewing file: ", dataFile);
+    });
+  };
 
-	React.useEffect(() => {
-		fetchData();
-        console.log("this id daat",data)
-	}, []);
+  React.useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <Container>
-         <Wrapper>
+      <Wrapper>
         <Top>
           <DetailText>
             <h4>Test Detail</h4>
-            <span>Mid-Term Test - {data?.subjectTest}</span>
-           
+            <span>Mid-Term Test - {dataFile?.subjectTest}</span>
           </DetailText>
           <Row1>
             <DetCard>
@@ -52,7 +57,11 @@ const DetailsTest = () => {
                   <AiTwotoneCalendar color="#90A1C0" size="15px" />{" "}
                   <span>Starts</span>{" "}
                 </Tit>
-                <Cont>2022 Dec 28, 11:38 AM</Cont>
+                <Cont>
+                  {moment(dataFile.createdAt).format(
+                    "dddd, MMMM Do YYYY, h:mm:ss a"
+                  )}
+                </Cont>
               </CrdHold>
             </DetCard>
             <DetCard>
@@ -62,7 +71,7 @@ const DetailsTest = () => {
                   <BiTimeFive color="#90A1C0" size="15px" />{" "}
                   <span>Duration</span>{" "}
                 </Tit>
-                <Cont>{data?.time}</Cont>
+                <Cont>{dataFile.time}</Cont>
               </CrdHold>
             </DetCard>
           </Row1>
@@ -74,7 +83,11 @@ const DetailsTest = () => {
                   <IoHourglassOutline color="#90A1C0" size="15px" />{" "}
                   <span>Finish Time</span>{" "}
                 </Tit>
-                <Cont>2022 Dec 28, 12:38 AM</Cont>
+                <Cont>
+                  {moment(dataFile?.createdAt).format(
+                    "dddd, MMMM Do YYYY, h:mm:ss a"
+                  )}
+                </Cont>
               </CrdHold>
             </DetCard>
             <DetCard>
@@ -87,149 +100,143 @@ const DetailsTest = () => {
                   />{" "}
                   <span>Total Questions</span>{" "}
                 </Tit>
-                <Cont>3</Cont>
+                <Cont>{dataFile?.testDetails?.length}</Cont>
               </CrdHold>
             </DetCard>
           </Row1>
         </Top>
         <Buttom>
           <InstQues>
-            <QuestTitle> Mid-Term Questions</QuestTitle>
-            <Instruct>
-              Answer Three of Five Questions, No 1 Is Compulsry
-            </Instruct>
+            <QuestTitle> Mid-Term {dataFile?.subjectTest} Questions</QuestTitle>
+            <Instruct>{dataFile.instruction}</Instruct>
           </InstQues>
-                 
-                
-          <MainQuestions>
-            <QuestionHold>
-              <No>1.</No>
-              <Question>
-                <Quest>What is Social Studies</Quest>
-                <Answers>
-                  <Ans>
-                    <input type="radio" /> <span>The study of Nature</span>
-                  </Ans>
-                  <Ans>
-                    <input type="radio" />{" "}
-                    <span>The study of Humans and Mammals</span>
-                  </Ans>
-                  <Ans>
-                    <input type="radio" />{" "}
-                    <span>The study of Man and His Environment</span>
-                  </Ans>
-                  <Ans>
-                    <input type="radio" />{" "}
-                    <span>The Abbit of reading and Writing</span>
-                  </Ans>
-                </Answers>
-              </Question>
-            </QuestionHold>
-          </MainQuestions>
-          <MainQuestions>
-            <QuestionHold>
-              <No>2.</No>
-              <Question>
-                <Quest>Mention Three Types of Marriage</Quest>
-                <Answers>
-                  <Ans>
-                    <input type="radio" /> <span>Modern, Ubarn, and Utral</span>
-                  </Ans>
-                  <Ans>
-                    <input type="radio" />{" "}
-                    <span>Physical, Spritual and Medical</span>
-                  </Ans>
-                  <Ans>
-                    <input type="radio" />{" "}
-                    <span>Big, Medium and Small Marriage</span>
-                  </Ans>
-                  <Ans>
-                    <input type="radio" />{" "}
-                    <span>Christian, Islamic and Triditional</span>
-                  </Ans>
-                </Answers>
-              </Question>
-            </QuestionHold>
-          </MainQuestions>
-          <MainQuestions>
-            <QuestionHold>
-              <No>3.</No>
-              <Question>
-                <Quest>Who Is the Head of the Family</Quest>
-                <Answers>
-                  <Ans>
-                    <input type="radio" /> <span>Father</span>
-                  </Ans>
-                  <Ans>
-                    <input type="radio" /> <span>Teacher</span>
-                  </Ans>
-                  <Ans>
-                    <input type="radio" /> <span>Pastor</span>
-                  </Ans>
-                  <Ans>
-                    <input type="radio" /> <span>Mother</span>
-                  </Ans>
-                </Answers>
-              </Question>
-            </QuestionHold>
-          </MainQuestions>
 
-        <MyButton>Submit</MyButton>
+          {dataFile?.testDetails?.map((props: any, i: number) => (
+            <MainQuestions key={props._id}>
+              <QuestionHold>
+                <No>{i + 1}.</No>
+                <Question>
+                  <Quest>{props.question}</Quest>
+
+                  <Answers>
+                    {" "}
+                    <Ans>
+                      <input
+                        type="radio"
+                        value={name}
+                        onChange={(e: any) => {
+                          setName(e.target.value);
+                        }}
+                      />{" "}
+                      <span>{props.a}</span>
+                    </Ans>
+                    <Ans>
+                      <input
+                        type="radio"
+                        value={name}
+                        onChange={(e: any) => {
+                          setName(e.target.value);
+                        }}
+                      />{" "}
+                      <span>{props.b}</span>
+                    </Ans>
+                    <Ans>
+                      <input
+                        type="radio"
+                        value={name}
+                        onChange={(e: any) => {
+                          setName(e.target.value);
+                        }}
+                      />{" "}
+                      <span>{props.c}</span>
+                    </Ans>
+                    <Ans>
+                      <input
+                        type="radio"
+                        value={name}
+                        onChange={(e: any) => {
+                          setName(e.target.value);
+                        }}
+                      />{" "}
+                      <span>{props.d}</span>
+                    </Ans>
+                  </Answers>
+                </Question>
+              </QuestionHold>
+            </MainQuestions>
+          ))}
+
+          <MyButton
+            onClick={(e) => {
+              console.log("showing: ", name);
+            }}
+          >
+            Submit
+          </MyButton>
         </Buttom>
+
+        <Answers>
+          {" "}
+          <Ans>
+            <input type={"radio"} id="child" name="age" value="child" />
+            <label htmlFor="child">17 years or younger</label>
+            <input type={"radio"} id="adult" name="age" value="adult" />
+            <label htmlFor="adult">18 - 64 years</label>
+            <input type={"radio"} id="senior" name="age" value="senior" />
+            <label htmlFor="senior">65 years or older</label>
+          </Ans>
+        </Answers>
       </Wrapper>
-
     </Container>
-  )
-}
+  );
+};
 
-export default DetailsTest
+export default DetailsTest;
 
-const MyButton  = styled.div`
-height:35px;
-width:120px;
-background-color:#0FBBFE;
-color:white;
-border:none;
-margin-top:15px;
-border-radius:6px;
-cursor:pointer;
-text-decoration: none;
-display: flex;
-justify-content: center;
-align-items: center;
-transition: all 350ms;
+const MyButton = styled.div`
+  height: 35px;
+  width: 120px;
+  background-color: #0fbbfe;
+  color: white;
+  border: none;
+  margin-top: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 350ms;
 
-:hover{
-    transform: scale(1.1)
-}
-
-
-`
+  :hover {
+    transform: scale(1.1);
+  }
+`;
 
 const Container = styled.div`
-	/* width: 100%; */
-	width: calc(100vw - 230px);
-	min-height: calc(100vh - 60px);
-	display: flex;
-	justify-content: center;
-	padding-bottom: 80px;
-	padding-top: 70px;
+  /* width: 100%; */
+  width: calc(100vw - 230px);
+  min-height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+  padding-bottom: 80px;
+  padding-top: 70px;
 
-	background-color: #f7f9fc;
-	/* background-color: gold; */
-	overflow: hidden;
-	position: absolute;
-	right: 0px;
-	// top: 50px;
+  background-color: #f7f9fc;
+  /* background-color: gold; */
+  overflow: hidden;
+  position: absolute;
+  right: 0px;
+  // top: 50px;
 
-	@media screen and (max-width: 1100px) {
-		width: 95%;
-	}
-	@media screen and (max-width: 1005px) {
-		width: 100%;
-	}
+  @media screen and (max-width: 1100px) {
+    width: 95%;
+  }
+  @media screen and (max-width: 1005px) {
+    width: 100%;
+  }
 
-	/* background-color: #352b1e; */
+  /* background-color: #352b1e; */
 `;
 
 const Wrapper = styled.div`

@@ -87,7 +87,6 @@ function StatusStudent() {
   const getClassSuject = async () => {
     const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;
     await axios.get(newURL).then((res) => {
-      console.log("class details: ", classInfo);
       setClassInfo(res.data!.data);
       setSubjectHolder(res.data!.data!.subject);
     });
