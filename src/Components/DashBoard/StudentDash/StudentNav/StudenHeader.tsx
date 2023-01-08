@@ -44,7 +44,6 @@ const StudentHeader = () => {
   const getStudent = async () => {
     const myURL = `${url}/api/student/${user._id}/student-detail-school`;
     await axios.get(myURL).then((res) => {
-      console.log(res);
       setStudentData(res.data.data);
     });
   };
@@ -59,12 +58,11 @@ const StudentHeader = () => {
         setSession(academic);
       });
   };
-
   useEffect(() => {
     getStudent();
     getSession();
     axios.get(url);
-  }, []);
+  }, [academic]);
 
   const changeTrue = () => {
     setChange(true);
