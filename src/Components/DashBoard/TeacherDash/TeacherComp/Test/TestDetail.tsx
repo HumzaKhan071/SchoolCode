@@ -11,7 +11,7 @@ import styled from "styled-components";
 const URL = "https://school-code.onrender.com";
 const TestDetail = () => {
   const { id } = useParams();
-  const [test, setTest] = useState({} as any);
+  const [answer, setAnswer] = useState({});
   const [testData, setTestData] = useState({} as any);
 
   const fetchTEst = async () => {
@@ -19,21 +19,54 @@ const TestDetail = () => {
 
     await axios.get(url).then((res) => {
       setTestData(res.data.data);
-      console.log(res.data.data);
     });
   };
 
-  const fetchDataII = async () => {
-    const newURL = `${URL}/api/test/${id}/viewing-option`;
-    await axios(newURL).then((res: any) => {
-      setTestData(res?.data?.data);
-      console.log(testData);
+  const onRadioButtonChange = (e: any) => {
+    setAnswer({
+      ...answer,
+      [e.target.name]: e.target.value,
     });
+  };
+  let correctAnswer: string[] = [];
+  let score = 0;
+  let status = "";
+
+  const submitTest = async () => {
+    for (let i = 0; i < testData?.mainTest?.length; i++) {
+      correctAnswer.push(testData?.mainTest[i].answer);
+
+      if (correctAnswer[i] === Object.values(answer)[i]) {
+        score++;
+      }
+    }
+
+    console.log("my answer: ", Object.values(answer));
+    console.log("correct: ", correctAnswer);
+
+    console.log(score);
+
+    if (score >= 3) status = "Pass";
+    else status = "Fail";
+
+    var date = new Date();
+    var d =
+      date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+    var t = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+    let data = {
+      result_status: status,
+      result_score: score,
+      exam_date: d + " " + t,
+      total_marks: "5",
+      exam_id: id,
+      total_Question: "5",
+    };
+    console.log(data);
   };
 
   useEffect(() => {
     fetchTEst();
-    // fetchDataII();
   }, []);
 
   return (
@@ -118,38 +151,50 @@ const TestDetail = () => {
                     <Ans>
                       <input
                         type={"radio"}
-                        id="child"
-                        name="age"
-                        value="child"
+                        id={props.a}
+                        name={i + 1}
+                        // value={props.a}
+                        onChange={(e) => {
+                          onRadioButtonChange(e);
+                        }}
                       />
-                      <label htmlFor="child">{props.a}</label>
+                      <label htmlFor={props.a}>{props.a}</label>
                     </Ans>
                     <Ans>
                       <input
                         type={"radio"}
-                        id="adult"
-                        name="age"
-                        value="adult"
+                        // id={props.b}
+                        name={i + 1}
+                        value={props.b}
+                        onChange={(e) => {
+                          onRadioButtonChange(e);
+                        }}
                       />
-                      <label htmlFor="adult">{props.b}</label>
+                      <label htmlFor={props.b}>{props.b}</label>
                     </Ans>
                     <Ans>
                       <input
                         type={"radio"}
-                        id="senior"
-                        name="age"
-                        value="senior"
+                        name={i + 1}
+                        id={props.c}
+                        value={props.c}
+                        onChange={(e) => {
+                          onRadioButtonChange(e);
+                        }}
                       />
-                      <label htmlFor="senior">{props.c}</label>
+                      <label htmlFor={props.c}>{props.c}</label>
                     </Ans>
                     <Ans>
                       <input
                         type={"radio"}
-                        id="senior"
-                        name="age"
-                        value="senior"
+                        name={i + 1}
+                        id={props.d}
+                        value={props.d}
+                        onChange={(e) => {
+                          onRadioButtonChange(e);
+                        }}
                       />
-                      <label htmlFor="senior">{props.d}</label>
+                      <label htmlFor={props.d}>{props.d}</label>
                     </Ans>
                   </Answers>
                 </Question>
@@ -157,22 +202,14 @@ const TestDetail = () => {
             </MainQuestions>
           ))}
 
-          <Ans>
-            <input type={"radio"} id="child" name="age" value="child" />
-            <label htmlFor="child">17 years or younger</label>
-            <input type={"radio"} id="adult" name="age" value="adult" />
-            <label htmlFor="adult">18 - 64 years</label>
-            <input type={"radio"} id="senior" name="age" value="senior" />
-            <label htmlFor="senior">65 years or older</label>
-
-            <button
-              onClick={() => {
-                console.log("object");
-              }}
-            >
-              show:
-            </button>
-          </Ans>
+          <button
+            onClick={() => {
+              // console.log(answer);
+              submitTest();
+            }}
+          >
+            Enter
+          </button>
         </Buttom>
       </Wrapper>
     </Container>

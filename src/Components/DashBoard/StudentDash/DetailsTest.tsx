@@ -29,13 +29,58 @@ const DetailsTest = () => {
   const examId = parseInt(id!);
   const [dataFile, setDataFile] = React.useState({} as any);
   const [name, setName] = useState([] as any[]);
+  const [answer, setAnswer] = useState([] as any[]);
+  const [testData, setTestData] = useState({} as any);
 
   const fetchData = async () => {
     const newURL = `${url}/api/test/${id}/view-single-test`;
     await axios.get(newURL).then((res) => {
-      setDataFile(res!.data!.data);
-      console.log("viewing file: ", dataFile);
+      setTestData(res!.data!.data);
+      console.log(testData);
     });
+  };
+
+  const onRadioButtonChange = (e: any) => {
+    setAnswer({
+      ...answer,
+      [e.target.name]: e.target.value,
+    });
+  };
+  let correctAnswer: string[] = [];
+  let score = 0;
+  let status = "";
+
+  const submitTest = async () => {
+    for (let i = 0; i < testData?.mainTest?.length; i++) {
+      correctAnswer.push(testData?.mainTest[i].answer);
+
+      if (correctAnswer[i] === Object.values(answer)[i]) {
+        score++;
+      }
+    }
+
+    console.log("my answer: ", Object.values(answer));
+    console.log("correct: ", correctAnswer);
+
+    console.log(score);
+
+    if (score >= 3) status = "Pass";
+    else status = "Fail";
+
+    var date = new Date();
+    var d =
+      date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+    var t = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+    let data = {
+      result_status: status,
+      result_score: score,
+      exam_date: d + " " + t,
+      total_marks: "5",
+      exam_id: id,
+      total_Question: "5",
+    };
+    console.log(data);
   };
 
   React.useEffect(() => {
@@ -107,58 +152,64 @@ const DetailsTest = () => {
         </Top>
         <Buttom>
           <InstQues>
-            <QuestTitle> Mid-Term {dataFile?.subjectTest} Questions</QuestTitle>
-            <Instruct>{dataFile.instruction}</Instruct>
+            <QuestTitle> Mid-Term {testData?.testTitle} Questions</QuestTitle>
+            <Instruct>{testData.instruction}</Instruct>
           </InstQues>
 
-          {dataFile?.testDetails?.map((props: any, i: number) => (
+          {testData?.mainTest?.map((props: any, i: any) => (
             <MainQuestions key={props._id}>
               <QuestionHold>
                 <No>{i + 1}.</No>
                 <Question>
                   <Quest>{props.question}</Quest>
-
                   <Answers>
-                    {" "}
                     <Ans>
                       <input
-                        type="radio"
-                        value={name}
-                        onChange={(e: any) => {
-                          setName(e.target.value);
+                        type={"radio"}
+                        id={props.a}
+                        name={i + 1}
+                        // value={props.a}
+                        onChange={(e) => {
+                          onRadioButtonChange(e);
                         }}
-                      />{" "}
-                      <span>{props.a}</span>
+                      />
+                      <label htmlFor={props.a}>{props.a}</label>
                     </Ans>
                     <Ans>
                       <input
-                        type="radio"
-                        value={name}
-                        onChange={(e: any) => {
-                          setName(e.target.value);
+                        type={"radio"}
+                        // id={props.b}
+                        name={i + 1}
+                        value={props.b}
+                        onChange={(e) => {
+                          onRadioButtonChange(e);
                         }}
-                      />{" "}
-                      <span>{props.b}</span>
+                      />
+                      <label htmlFor={props.b}>{props.b}</label>
                     </Ans>
                     <Ans>
                       <input
-                        type="radio"
-                        value={name}
-                        onChange={(e: any) => {
-                          setName(e.target.value);
+                        type={"radio"}
+                        name={i + 1}
+                        id={props.c}
+                        value={props.c}
+                        onChange={(e) => {
+                          onRadioButtonChange(e);
                         }}
-                      />{" "}
-                      <span>{props.c}</span>
+                      />
+                      <label htmlFor={props.c}>{props.c}</label>
                     </Ans>
                     <Ans>
                       <input
-                        type="radio"
-                        value={name}
-                        onChange={(e: any) => {
-                          setName(e.target.value);
+                        type={"radio"}
+                        name={i + 1}
+                        id={props.d}
+                        value={props.d}
+                        onChange={(e) => {
+                          onRadioButtonChange(e);
                         }}
-                      />{" "}
-                      <span>{props.d}</span>
+                      />
+                      <label htmlFor={props.d}>{props.d}</label>
                     </Ans>
                   </Answers>
                 </Question>
@@ -175,25 +226,7 @@ const DetailsTest = () => {
           </MyButton>
         </Buttom>
 
-        <Answers>
-          {" "}
-          <Ans>
-            <input type={"radio"} id="child" name="age" value="child" />
-            <label htmlFor="child">17 years or younger</label>
-            <input type={"radio"} id="adult" name="age" value="adult" />
-            <label htmlFor="adult">18 - 64 years</label>
-            <input type={"radio"} id="senior" name="age" value="senior" />
-            <label htmlFor="senior">65 years or older</label>
-
-            <button
-              onClick={() => {
-                console.log("object");
-              }}
-            >
-              show
-            </button>
-          </Ans>
-        </Answers>
+        <Answers> </Answers>
       </Wrapper>
     </Container>
   );
