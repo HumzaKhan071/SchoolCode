@@ -11,14 +11,14 @@ const DetailAttend: React.FC<Iprops> = ({ props }) => {
 	const URL: string = "https://school-code.onrender.com";
 
 	const user = useRecoilValue(User);
-	console.log("new", props);
+	console.log("newgh", props);
 
 	const getStudentDetail = async () => {
 		const uuri = `${URL}/api/student/${props}/student-detail`;
 
 		await axios.get(uuri).then((res) => {
 			setStudDetail(res?.data?.data);
-			console.log("this is studgg", res);
+			// console.log("this is ", res);
 		});
 	};
 

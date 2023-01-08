@@ -48,6 +48,18 @@ const AttendanceTable: React.FC<Iprops> = ({ myProps }) => {
 			console.log("student present", res);
 		});
 	};
+	const ViewPresent = async () => {
+		// console.log("id ooooo", id);
+		const uuri = `${URL}/api/attendance/${user?._id}/teacher-viewing-student-attendance`;
+
+		await axios.get(uuri).then((res) => {
+			console.log("now ", res);
+		});
+	};
+
+	useEffect(() => {
+		ViewPresent();
+	}, []);
 
 	return (
 		<Container>
@@ -73,7 +85,7 @@ const AttendanceTable: React.FC<Iprops> = ({ myProps }) => {
 											}}
 											disabled={todayDate !== props}
 											type='radio'
-										/>{" "}
+										/>
 									</td>
 								))}
 							</tr>
