@@ -116,7 +116,6 @@ const TeacherDashboard = () => {
         </RowOne>
 
         <div>
-          show
           <SliderComp notice={notice!.notification} />
         </div>
         <RowTwo>

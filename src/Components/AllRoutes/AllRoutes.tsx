@@ -311,7 +311,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "lecture_detail",
+          path: "lecture_detail/:id",
           element: (
             <>
               <TeacherHeader />
