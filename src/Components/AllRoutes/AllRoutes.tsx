@@ -55,6 +55,7 @@ import StatusStudent from "../DashBoard/StudentDash/StatusStudent";
 import Lecture from "../DashBoard/TeacherDash/TeacherComp/Lectures/Lecture";
 import LectureDetail from "../DashBoard/TeacherDash/TeacherComp/Lectures/LectureDetail";
 import CreateQuestions from "../DashBoard/TeacherDash/TeacherComp/Test/CreateQuestions";
+import StudentPerformance from "../DashBoard/StudentDash/StudentPerformance";
 
 //  4b4b1a2eaa0a87dc574b3e44dd683eb8a1ad7649
 
@@ -368,6 +369,15 @@ const AllRoutes = () => {
             <>
               <StudentHeader />
               <TimeTable />
+            </>
+          ),
+        },
+        {
+          path: "general-performance",
+          element: (
+            <>
+              <StudentHeader />
+              <StudentPerformance />
             </>
           ),
         },

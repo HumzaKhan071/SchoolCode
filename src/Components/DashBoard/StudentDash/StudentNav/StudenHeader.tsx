@@ -42,14 +42,13 @@ const StudentHeader = () => {
   const backRef = React.useRef<HTMLDivElement>(null!);
 
   const getStudent = async () => {
-    const local = "http://localhost:2244";
     const myURL = `${url}/api/student/${user._id}/student-detail-school`;
     await axios.get(myURL).then((res) => {
       console.log(res);
       setStudentData(res.data.data);
     });
   };
-  console.log(user);
+
   const getSession = async () => {
     await axios
       .get(
@@ -61,16 +60,11 @@ const StudentHeader = () => {
       });
   };
 
-  useEffect(
-    () => {
-      getStudent();
-      getSession();
-      axios.get(url);
-    },
-    [
-      //   academic
-    ]
-  );
+  useEffect(() => {
+    getStudent();
+    getSession();
+    axios.get(url);
+  }, []);
 
   const changeTrue = () => {
     setChange(true);
@@ -82,6 +76,7 @@ const StudentHeader = () => {
     myRef.current.style.left = "-300px";
     backRef.current.style.left = "-2000px";
   };
+
   return (
     <div>
       <HeaderDash>
