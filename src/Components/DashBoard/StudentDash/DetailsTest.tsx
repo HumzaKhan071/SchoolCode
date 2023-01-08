@@ -8,6 +8,8 @@ import { MdOutlineAlignHorizontalLeft } from "react-icons/md";
 import { TestData } from "./TestData";
 import axios from "axios";
 import moment from "moment";
+import { useRecoilValue } from "recoil";
+import { User } from "../../Global/RecoilState";
 
 interface demain {
   question: string;
@@ -26,17 +28,15 @@ const url: string = "https://school-code.onrender.com";
 
 const DetailsTest = () => {
   const { id } = useParams();
-  const examId = parseInt(id!);
-  const [dataFile, setDataFile] = React.useState({} as any);
-  const [name, setName] = useState([] as any[]);
+  const user = useRecoilValue(User);
+
   const [answer, setAnswer] = useState([] as any[]);
   const [testData, setTestData] = useState({} as any);
 
   const fetchData = async () => {
-    const newURL = `${url}/api/test/${id}/view-single-test`;
+    const newURL = `${url}/api/test/${id}/viewing-option`;
     await axios.get(newURL).then((res) => {
       setTestData(res!.data!.data);
-      console.log(testData);
     });
   };
 
@@ -46,6 +46,7 @@ const DetailsTest = () => {
       [e.target.name]: e.target.value,
     });
   };
+
   let correctAnswer: string[] = [];
   let score = 0;
   let status = "";
@@ -81,6 +82,13 @@ const DetailsTest = () => {
       total_Question: "5",
     };
     console.log(data);
+
+    const newURL = `${url}/api/performance/${user._id}/create-student-performance`;
+    axios.post(newURL, {
+      right: score,
+      testCode: testData.testCode,
+    });
+    correctAnswer = [];
   };
 
   React.useEffect(() => {
@@ -92,7 +100,7 @@ const DetailsTest = () => {
         <Top>
           <DetailText>
             <h4>Test Detail</h4>
-            <span>Mid-Term Test - {dataFile?.testTitle}</span>
+            <span>Mid-Term Test - {testData?.testTitle}</span>
           </DetailText>
           <Row1>
             <DetCard>
@@ -103,7 +111,7 @@ const DetailsTest = () => {
                   <span>Starts</span>{" "}
                 </Tit>
                 <Cont>
-                  {moment(dataFile.createdAt).format(
+                  {moment(testData.createdAt).format(
                     "dddd, MMMM Do YYYY, h:mm:ss a"
                   )}
                 </Cont>
@@ -114,9 +122,11 @@ const DetailsTest = () => {
                 <Tit>
                   {" "}
                   <BiTimeFive color="#90A1C0" size="15px" />{" "}
-                  <span>Duration</span>{" "}
+                  <span>Duration - Test Code</span>{" "}
                 </Tit>
-                <Cont>{dataFile.time}</Cont>
+                <Cont>
+                  {testData.time} - {testData.testCode}
+                </Cont>
               </CrdHold>
             </DetCard>
           </Row1>
@@ -129,7 +139,7 @@ const DetailsTest = () => {
                   <span>Finish Time</span>{" "}
                 </Tit>
                 <Cont>
-                  {moment(dataFile?.createdAt).format(
+                  {moment(testData?.createdAt).format(
                     "dddd, MMMM Do YYYY, h:mm:ss a"
                   )}
                 </Cont>
@@ -145,7 +155,7 @@ const DetailsTest = () => {
                   />{" "}
                   <span>Total Questions</span>{" "}
                 </Tit>
-                <Cont>{dataFile?.testDetails?.length}</Cont>
+                <Cont>{testData?.mainTest?.length}</Cont>
               </CrdHold>
             </DetCard>
           </Row1>
@@ -168,7 +178,7 @@ const DetailsTest = () => {
                         type={"radio"}
                         id={props.a}
                         name={i + 1}
-                        // value={props.a}
+                        value={props.a}
                         onChange={(e) => {
                           onRadioButtonChange(e);
                         }}
@@ -178,7 +188,7 @@ const DetailsTest = () => {
                     <Ans>
                       <input
                         type={"radio"}
-                        // id={props.b}
+                        id={props.b}
                         name={i + 1}
                         value={props.b}
                         onChange={(e) => {
@@ -218,8 +228,8 @@ const DetailsTest = () => {
           ))}
 
           <MyButton
-            onClick={(e) => {
-              console.log("showing: ", name);
+            onClick={() => {
+              submitTest();
             }}
           >
             Submit
