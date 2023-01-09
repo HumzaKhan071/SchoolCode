@@ -14,6 +14,7 @@ import MyForm from "../AdminDash/Screen/Homeforms/MyForm";
 import OtherForm from "../AdminDash/Screen/Homeforms/MyForm";
 
 import numeral from "numeral";
+import moment from "moment";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -29,7 +30,7 @@ interface IData {
   subject: [];
 }
 
-function StatusStudent() {
+function StudentPerformance() {
   const { id } = useParams();
   const user = useRecoilValue(User);
   const useSession = useRecoilValue(Session);
@@ -47,114 +48,35 @@ function StatusStudent() {
   const [amount, setAmount] = useState("");
 
   const [subjectHolder, setSubjectHolder] = useState([] as any[]);
+  const [myResult, setMyResult] = useState([] as any[]);
   const [classInfo, setClassInfo] = useState({} as any);
 
   const toggleFee = () => {
     setFee(!fee);
   };
-  const toggleEdit = () => {
-    setShowEdit(!showEdit);
-  };
 
-  const getStudentDetails = async () => {
+  const getResult = async () => {
     await axios
-      .get(`${url}/api/student/${user?._id}/${id}/view-student`)
+      .get(`${url}/api/performance/${user?._id}/viewing-student-performance`)
       .then((res) => {
-        setStudentData(res.data.data);
-      });
-  };
-
-  const paySchoolFeeNow = async () => {
-    const newURL = `${url}/api/schoolfee/${user._id}/${studentData._id}/student-school-fee`;
-    await axios
-      .post(newURL, {
-        amountPaid: parseInt(name),
-        sessionCode: name1,
-      })
-      .then((res) => {
-        setShow(false);
-      });
-  };
-
-  const viewSchoolFeeDetail = async () => {
-    const newURL = `${url}/api/schoolfee/${user._id}/view-student-school-fee-detail-by-student`;
-
-    await axios.get(newURL).then((res) => {
-      setStudentDataFee(res.data.data.schoolFee);
-    });
-  };
-
-  const getClassSuject = async () => {
-    const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;
-    await axios.get(newURL).then((res) => {
-      setClassInfo(res.data!.data);
-      setSubjectHolder(res.data!.data!.subject);
-    });
-  };
-
-  const updateFeeDetail = async () => {
-    const newUrl = `${url}/api/schoolfee/${user._id}/${id}/${idState}/update-student-school-fee-parent`;
-
-    await axios
-      .patch(newUrl, {
-        amountPaid: parseInt(amount),
-        sessionCode: useSession?.sessionCode,
-      })
-      .then((res) => {
-        Swal.fire({
-          icon: "success",
-          title: "Updated Successful",
-        });
-
-        window.location.reload();
+        setMyResult(res?.data?.data?.performance);
       });
   };
 
   useEffect(() => {
-    getStudentDetails();
-    viewSchoolFeeDetail();
-    getClassSuject();
-  }, [
-    // subjectHolder,
-    // studentDataFee,
-    // classInfo,
-    studentData,
-  ]);
+    getResult();
+  }, []);
 
   return (
     <>
-      {fee ? (
-        <OtherForm
-          check={true}
-          holder="Enter payment to pay on behave of student"
-          holder1="session code: 8b309d"
-          holder2="Teacher to take this subject"
-          toggle={toggleFee}
-          title={`Make payment for on behave of student`}
-          title1="Amount to pay"
-          title2="Session Code"
-          // numb={true}
-          // mainAction={paySchoolFeeNow}
-          mainAction={paySchoolFeeNow}
-          show={show}
-          setShow={setShow}
-          setName={setName}
-          setName1={setName1}
-          setName2={setName2}
-          one={true}
-          name={name}
-          name1={name1}
-          buttonCall="Pay SchoolFee"
-        />
-      ) : null}
       <Container>
         <Content>
           <span>{user?.name}</span>
           <MainHold>
             <LoaderHold>
               <Holding>
-                <span>Setup Completed</span>
-                <Div>100%</Div>
+                <span>General Performance</span>
+                <Div>on Test/Exam</Div>
               </Holding>
             </LoaderHold>
             <NextRec>
@@ -166,7 +88,7 @@ function StatusStudent() {
           <MainHold2>
             <Cont>
               <Tog>
-                <h5>Detail data for {user?.name} class</h5>
+                <h5>Detail test and exam performance for {user?.name}</h5>
                 <span>
                   Present class: <strong>{user?.className}</strong>
                 </span>
@@ -175,10 +97,6 @@ function StatusStudent() {
                   class Teacher: <strong>{classInfo?.classTeacher}</strong>
                 </span>
                 <br />
-                <span>
-                  This term class school-fee:{" "}
-                  <strong>₦{numeral(classInfo?.termFee).format("0,0")}</strong>
-                </span>
               </Tog>
 
               <div
@@ -187,16 +105,16 @@ function StatusStudent() {
                   flexWrap: "wrap",
                 }}
               >
-                {subjectHolder.map((props) => (
+                {myResult.map((props) => (
                   <AllSubBox1 key={props._id}>
                     <Main>
                       <First>
-                        <Title>{props.subjectName}</Title>
+                        <Title>{props.testTitle} Test</Title>
                         <IconHold>
                           <FiMoreVertical />
                         </IconHold>
                       </First>
-                      <span>Compulsory</span>
+                      <span>subject: {props.testName}</span>
 
                       <div
                         style={{
@@ -212,186 +130,147 @@ function StatusStudent() {
                         >
                           SubjectTeacher :{" "}
                         </div>
-                        {props.subjectTeacher}
+                        <div style={{ fontSize: "13px" }}>
+                          {" "}
+                          {props.teacherName}
+                        </div>
+                      </div>
+                      <br />
+
+                      <div
+                        style={{
+                          marginTop: "5px",
+                          display: "flex",
+                          justifyContent: "space-around",
+                          alignContent: "center",
+                        }}
+                      >
+                        {" "}
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            alignItems: "center",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          {" "}
+                          <div
+                            style={{
+                              color: "lightblue",
+                              fontSize: "11px",
+                            }}
+                          >
+                            Grade/Question
+                          </div>
+                          <div
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {props.gradeScore} Mark
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            alignItems: "center",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          {" "}
+                          <div
+                            style={{
+                              color: "lightblue",
+                              fontSize: "11px",
+                            }}
+                          >
+                            Score
+                          </div>
+                          <div
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >{`${props.gradeScore * props.maxLength} / ${
+                            props.totalScore
+                          } `}</div>
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            alignItems: "center",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          {" "}
+                          <div
+                            style={{
+                              color: "lightblue",
+                              fontSize: "11px",
+                            }}
+                          >
+                            Grade
+                          </div>
+                          <div
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {" "}
+                            {props.grade}
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            alignItems: "center",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          {" "}
+                          <div
+                            style={{
+                              color: "lightblue",
+                              fontSize: "11px",
+                            }}
+                          >
+                            percentage
+                          </div>
+                          <div
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {" "}
+                            {props.precentage}
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+                      <div
+                        style={{
+                          fontSize: "10px",
+                          fontWeight: "bold",
+                          display: "flex",
+                        }}
+                      >
+                        Test done:{" "}
+                        <div
+                          style={{
+                            textTransform: "uppercase",
+                            marginLeft: "5px",
+                          }}
+                        >
+                          {moment(props.createdAt).fromNow()}
+                        </div>
                       </div>
                     </Main>
                   </AllSubBox1>
                 ))}
               </div>
-            </Cont>
-          </MainHold2>
-
-          <MainHold2>
-            <Cont>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Tog>
-                  <h5>All time school fee record</h5>
-                  <span>
-                    This are all the expenses/transaction you have made.
-                  </span>
-                </Tog>
-                <Button1 onClick={toggleFee}>Pay SchoolFee</Button1>
-              </div>
-
-              {studentDataFee.map((props) => (
-                <AllSubBox key={props._id}>
-                  <Main>
-                    <First>
-                      <Title>School Fee Session: {props.academicSession}</Title>
-                      <IconHold
-                        onClick={() => {
-                          //   toggleEdit();
-                          setIdState(props._id);
-                        }}
-                      >
-                        <FiMoreVertical />
-                      </IconHold>
-                    </First>
-                    <span>{props.academicTerm}</span>
-
-                    <div
-                      style={{
-                        display: "flex",
-                        marginTop: "15px",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <div
-                          style={{
-                            color: "green",
-                            fontSize: "11px",
-                            fontWeight: "bold",
-                            letterSpacing: "1.2px",
-                          }}
-                        >
-                          Amount Paid
-                        </div>
-                        <div
-                          style={{ marginRight: "60px", fontWeight: "bold" }}
-                        >
-                          ₦{numeral(props.amountPaid).format("0,0")}
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <div
-                          style={{
-                            color: "red",
-                            fontSize: "11px",
-                            fontWeight: "bold",
-                            letterSpacing: "1.2px",
-                          }}
-                        >
-                          Amount to balance
-                        </div>
-                        <div
-                          style={{
-                            marginRight: "25px",
-                            fontWeight: "bold",
-                            fontSize: "13px",
-                          }}
-                        >
-                          ₦{numeral(props.toBalance).format("0,0")}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div
-                      style={{
-                        color: "#F8C46B",
-                        fontSize: "11px",
-                        marginTop: "10px",
-                      }}
-                    >
-                      Payment Details{" "}
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      Transaction Refence:{" "}
-                      <div
-                        style={{
-                          fontWeight: "bold",
-                          marginLeft: "10px",
-                          fontSize: "13px",
-                        }}
-                      >
-                        {props.receiptToken}
-                      </div>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      Paid Date :{" "}
-                      <div
-                        style={{
-                          fontWeight: "bold",
-                          marginLeft: "10px",
-                          fontSize: "13px",
-                        }}
-                      >
-                        {props.dateTime}
-                      </div>
-                    </div>
-                  </Main>
-
-                  {showEdit && idState === props._id ? (
-                    <Conta4>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <span>update Amout</span>
-
-                        <Cancel
-                          onClick={() => {
-                            toggleEdit();
-                          }}
-                        >
-                          <AiOutlineClose />
-                        </Cancel>
-                      </div>
-
-                      <Iput
-                        type="number"
-                        onChange={(e) => {
-                          setAmount(e.target.value);
-                        }}
-                        placeholder="update this fee"
-                      />
-
-                      {amount !== "" ? (
-                        <ButHold2
-                          onClick={() => {
-                            updateFeeDetail();
-                          }}
-                        >
-                          <Button>+ Update Fee</Button>
-                        </ButHold2>
-                      ) : (
-                        <ButHold2
-                          style={{ opacity: "0.2", cursor: "not-allowed" }}
-                        >
-                          <Button>+ Update Fee</Button>
-                        </ButHold2>
-                      )}
-                    </Conta4>
-                  ) : null}
-                </AllSubBox>
-              ))}
             </Cont>
           </MainHold2>
         </Content>
@@ -400,7 +279,7 @@ function StatusStudent() {
   );
 }
 
-export default StatusStudent;
+export default StudentPerformance;
 
 const TeacherImage = styled.img`
   height: 20px;
@@ -464,7 +343,7 @@ const Main = styled.div`
 
   span {
     height: 25px;
-    width: 100px;
+    width: 150px;
     display: flex;
     background-color: #f4f4f4;
     padding-left: 5px;
@@ -703,10 +582,11 @@ const Holding = styled.div`
   text-align: left;
   justify-content: center;
   height: 100%;
+  color: white;
 
   span {
     font-size: 12px;
-    color: gray;
+    opacity: 0.8;
   }
 `;
 const Div = styled.div`
@@ -714,7 +594,7 @@ const Div = styled.div`
 `;
 const LoaderHold = styled.div`
   height: 100%;
-  background-color: #fab84e;
+  background-color: #8e6aff;
   width: 30%;
   border-radius: 10px;
 `;

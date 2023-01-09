@@ -7,47 +7,47 @@ import { HiDocumentReport } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 
 interface NavCon {
-	name: string;
-	icon: IconType;
-	to: string;
+  name: string;
+  icon: IconType;
+  to: string;
 }
 
 export const SideBarItem: NavCon[] = [
-	{
-		name: "Dashboard",
-		icon: (prop: IconBaseProps) => <MdDashboard />,
-		to: "/student-dashboard",
-	},
-	
-	{
-		name: "Status",
-		icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
-		to: "/student-dashboard/status/:id",
-	},
-	// {
-	// 	name: "Time-Table",
-	// 	icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
-	// 	to: "/student-dashboard/Time-Table",
-	// },
-	{
-		name: "Tests",
-		icon: (prop: IconBaseProps) => <CgCommunity />,
-		to: "/student-dashboard/student-test",
-	},
-	{
-		name: "Report",
-		icon: (prop: IconBaseProps) => <HiDocumentReport />,
-		to: "/student-dashboard/student-report",
-	},
+  {
+    name: "Dashboard",
+    icon: (prop: IconBaseProps) => <MdDashboard />,
+    to: "/student-dashboard",
+  },
 
-	{
-		name: "Notification",
-		icon: (prop: IconBaseProps) => <IoIosNotifications />,
-		to: "/student-dashboard/student-notifications",
-	},
-	{
-		name: "Lecture",
-		icon: (prop: IconBaseProps) => <SiMicrosoftacademic />,
-		to: "/student-dashboard/lecture",
-	},
+  {
+    name: "Status",
+    icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
+    to: "/student-dashboard/status/:id",
+  },
+  {
+    name: "General Performance",
+    icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
+    to: "/student-dashboard/general-performance",
+  },
+  {
+    name: "Tests",
+    icon: (prop: IconBaseProps) => <CgCommunity />,
+    to: "/student-dashboard/student-test",
+  },
+  {
+    name: "Report",
+    icon: (prop: IconBaseProps) => <HiDocumentReport />,
+    to: "/student-dashboard/student-report",
+  },
+
+  {
+    name: "Notification",
+    icon: (prop: IconBaseProps) => <IoIosNotifications />,
+    to: "/student-dashboard/student-notifications",
+  },
+  {
+    name: "Lecture",
+    icon: (prop: IconBaseProps) => <SiMicrosoftacademic />,
+    to: "/student-dashboard/lecture",
+  },
 ];

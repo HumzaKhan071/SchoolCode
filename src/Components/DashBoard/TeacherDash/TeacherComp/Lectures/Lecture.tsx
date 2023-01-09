@@ -1,16 +1,154 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { User } from "../../../../Global/RecoilState";
 import RichTextEditor from "../RichTextEditor/RichTextEditor";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { reset } from "numeral";
 
+const url = "https://school-code.onrender.com";
 const Lecture = () => {
+  const [draft, setDraft] = useState("");
+
+  const user = useRecoilValue(User);
+  const [subjects, setSubjects] = useState([] as any[]);
+  const [lectures, setLectures] = useState([] as any[]);
+
+  const getAllReport = async () => {
+    const URL: string = `${url}/api/lecture/${user._id}/view-all-teacher-lecture`;
+    await axios.get(URL).then((res) => {
+      setLectures(res.data.data.lectures);
+    });
+  };
+
+  const handleForm = yup.object().shape({
+    lectureTopic: yup
+      .string()
+      .required("Empty fills, Be sure to put in something"),
+    lectureObjective: yup
+      .string()
+      .required("Empty fills, Be sure to put in something"),
+    lectureNote: yup
+      .string()
+      .required("Empty fills, Be sure to put in something"),
+    lectureTime: yup
+      .string()
+      .required("Empty fills, Be sure to put in something"),
+    subjectCode: yup
+      .string()
+      .required("Empty fills, Be sure to put in something"),
+  });
+
+  const {
+    register,
+    // formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm({ resolver: yupResolver(handleForm) });
+
+  const onSubmmit = handleSubmit(async (value) => {
+    const {
+      subjectCode,
+      lectureTopic,
+      lectureObjective,
+      lectureNote,
+      lectureTime,
+    } = value;
+    const URL: string = `https://school-code.onrender.com/api/lecture/${user._id}/creating-lecture`;
+
+    await axios
+      .post(URL, {
+        subjectCode,
+        lectureTopic,
+        lectureObjective,
+        lectureNote,
+        lectureTime,
+      })
+      .then((res) => {
+        console.log(res.data.data);
+      })
+      .catch((error) => {
+        console.log("From Catch", error);
+      });
+
+    reset();
+  });
+
+  const fetchSub = async () => {
+    const newURL = `${url}/api/subject/${user._id}/viewing-subject-teacher`;
+
+    await axios.get(newURL).then((res) => {
+      setSubjects(res.data.data);
+    });
+  };
+
+  useEffect(() => {
+    getAllReport();
+    fetchSub();
+  }, []);
+
   return (
     <Container>
       <Wrapper>
         <CreateLecture>
           <CreateLectureHold>
+            <LectureTitle>View all the Subjects you teach</LectureTitle>
+
+            <CardHolder>
+              {subjects?.map((props) => (
+                <Card key={props._id}>
+                  <Title>
+                    Subject Name: <span>{props.subjectName}</span>
+                  </Title>
+
+                  <Code>
+                    Subject Code: <span>{props.subjectToken}</span>
+                  </Code>
+                  <Code>
+                    class Offering: <span>{props.className}</span>
+                  </Code>
+                  <br />
+                  <div
+                    style={{ display: "flex", justifyContent: "space-around" }}
+                  >
+                    <Coded col="#219ebc">
+                      No of STD <span>{props.students.length}</span>
+                    </Coded>
+                    <Coded col="#ffb703">
+                      No of Lecture <span>{props.lecture.length}</span>
+                    </Coded>
+                    <Coded col="red">
+                      No of Test <span>{props.test.length}</span>
+                    </Coded>
+                  </div>
+                </Card>
+              ))}
+            </CardHolder>
+          </CreateLectureHold>
+        </CreateLecture>
+
+        <CreateLecture>
+          <CreateLectureHold>
             <LectureTitle>Make a New Lecture</LectureTitle>
-            <LectureSet>
+            <LectureSet onSubmit={onSubmmit}>
+              <InputHold>
+                <label
+                  style={{
+                    color: "black",
+                  }}
+                >
+                  Subject Code
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g 1d5c"
+                  {...register("subjectCode")}
+                />
+              </InputHold>
               <InputHold>
                 <label
                   style={{
@@ -22,6 +160,7 @@ const Lecture = () => {
                 <input
                   type="text"
                   placeholder="e.g The Amagamation of the Southern Empire"
+                  {...register("lectureTopic")}
                 />
               </InputHold>
               <InputHold>
@@ -35,8 +174,10 @@ const Lecture = () => {
                 <input
                   type="text"
                   placeholder="e.g By the End of this Lesson..."
+                  {...register("lectureObjective")}
                 />
               </InputHold>
+
               <InputHold>
                 <label
                   style={{
@@ -45,40 +186,109 @@ const Lecture = () => {
                 >
                   Reading Time
                 </label>
-                <input type="time" />
+                <input
+                  type="text"
+                  placeholder="e.g 2 hrs, 20 min..."
+                  {...register("lectureTime")}
+                />
               </InputHold>
               <InputHold>
-                <RichTextEditor />
+                <label
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  Lecture Note
+                </label>
+                <textarea
+                  placeholder="Your lecture"
+                  {...register("lectureNote")}
+                />
               </InputHold>
+              <button type="submit">Publish</button>
+              {/* <InputHold>
+                <RichTextEditor  />
+              </InputHold> */}
             </LectureSet>
           </CreateLectureHold>
         </CreateLecture>
 
-        <AllLecture>
-          <AllLectureHold>
-            <TestCard>
-              <Layer1>
-                <LectureTit>The Almalgamation of the Southen Empire</LectureTit>
-                <LectureReadTime>12 minutes read</LectureReadTime>
-                <LectureObjective>
-                  At the End of the Lesson The Students should be able to
-                  Understand What Unity Means
-                </LectureObjective>
-              </Layer1>
-              <Layer2>
-                <NavLink to="/teacher-dashboard/lecture_detail">
-                  <button>Explore</button>
-                </NavLink>
-              </Layer2>
-            </TestCard>
-          </AllLectureHold>
-        </AllLecture>
+        {lectures?.map((props) => (
+          <AllLecture key={props._id}>
+            <AllLectureHold>
+              <TestCard>
+                <Layer1>
+                  <LectureTit>{props.lectureTopic}</LectureTit>
+                  <LectureReadTime>{props.lectureTime}</LectureReadTime>
+                  <LectureObjective>{props.lectureObjective}</LectureObjective>
+                  <br />
+
+                  <LectureReadTime>
+                    <strong>
+                      Students Ratings: {props.lecturePerformance}
+                    </strong>
+                  </LectureReadTime>
+                </Layer1>
+
+                <Layer2>
+                  <NavLink
+                    to={`/teacher-dashboard/lecture_detail/${props._id}`}
+                  >
+                    <button>Explore</button>
+                  </NavLink>
+                </Layer2>
+              </TestCard>
+            </AllLectureHold>
+          </AllLecture>
+        ))}
       </Wrapper>
     </Container>
   );
 };
 
 export default Lecture;
+const Card = styled.div`
+  width: 250px;
+  height: 150px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  padding: 10px;
+  margin: 5px;
+`;
+const Title = styled.div`
+  margin: 5px;
+  font-size: 17px;
+
+  span {
+    font-weight: bold;
+  }
+`;
+const Coded = styled.div<{ col: string }>`
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  align-items: center;
+  color: ${({ col }) => col};
+  font-weight: bold;
+
+  span {
+    color: black;
+  }
+`;
+const Code = styled.div`
+  margin: 5px;
+
+  span {
+    font-weight: bold;
+  }
+`;
+const CardHolder = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  // justify-content: center;
+`;
 
 const Container = styled.div`
   /* width: 100%; */
@@ -122,11 +332,58 @@ const LectureTitle = styled.div`
 const CreateLectureHold = styled.div`
   padding: 20px;
 `;
-const LectureSet = styled.div``;
+const LectureSet = styled.form`
+  button {
+    height: 40px;
+    width: 100%;
+    margin-top: 15px;
+    font-family: poppins;
+    border: 1px solid;
+    /* color: #1DA1F2; */
+    color: #fff;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: #1da1f2;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: all 350ms;
+
+    :hover {
+      transform: scale(0.98);
+    }
+
+    /* @media (max-width: 500px) {
+      height: 40px;
+      width: 100px;
+      font-size: 12px;
+      margin-left: 10px;
+      margin-right: 10px;
+    } */
+  }
+`;
 const InputHold = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+
+  textarea {
+    height: 150px;
+    width: 100%;
+    font-family: poppins;
+    border: 1px solid #1da1f2;
+    color: #6d6d6e;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
+    resize: none;
+    padding-left: 10px;
+    padding-top: 10px;
+    ::placeholder {
+      color: #a6c4e4;
+    }
+  }
+
   input {
     height: 40px;
     /* width: 300px; */

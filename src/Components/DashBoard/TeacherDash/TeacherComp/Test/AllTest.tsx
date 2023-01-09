@@ -42,16 +42,24 @@ const AllTest = () => {
                   <TestTitle>Mid-Term Test</TestTitle>
                   <TestSubject>{props.subjectTest}</TestSubject>
                   <TestQuestions>
-                    {props.testDetails.length} Questions Set
+                    {props.mainTest.length} Questions Set
                   </TestQuestions>
                   <TimeCreated>{moment(props.createdAt).fromNow()}</TimeCreated>
                 </Layer1>
                 <Layer2>
-                  <NavLink
-                    to={`/teacher-dashboard/test/alltest/${props._id}/preview_test`}
-                  >
-                    <button>View Test</button>
-                  </NavLink>
+                  {props.mainTest.length > 0 ? (
+                    <NavLink
+                      to={`/teacher-dashboard/test/alltest/${props._id}/preview_test`}
+                    >
+                      <button>View Test</button>
+                    </NavLink>
+                  ) : (
+                    <NavLink
+                      to={`/teacher-dashboard/test/alltest/${props._id}/add-questions`}
+                    >
+                      <button>Add Question</button>
+                    </NavLink>
+                  )}
                 </Layer2>
               </TestCard>
             ))}

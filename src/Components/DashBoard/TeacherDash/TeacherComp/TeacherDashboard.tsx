@@ -7,9 +7,10 @@ import { BsFillDisplayFill } from "react-icons/bs";
 import { VscSymbolClass } from "react-icons/vsc";
 import { IoIosPeople } from "react-icons/io";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { User } from "../../../Global/RecoilState";
+import { Session, User } from "../../../Global/RecoilState";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import SliderComp from "./SliderComp";
 // import DoughnutChart from "./DoughnutChart";
 // import PieChart from "./PieChart";
 
@@ -17,27 +18,57 @@ interface iTeacher {
   name: string;
   schoolName: string;
   email: string;
-  classes: string;
+  classes: string[];
+  teacherCode: string;
+  test: [];
+  subjectTaken: [];
+  notice: {}[];
 }
 const url: string = "https://school-code.onrender.com";
 
 const TeacherDashboard = () => {
   const navigate = useNavigate();
+
   const [userState, setUserState] = useRecoilState(User);
   const [change, setChange] = React.useState(false);
   const user = useRecoilValue(User);
+  const [session, setSession] = useRecoilState(Session);
   const [teacher, setTeacher] = useState({} as iTeacher);
+  const [notice, setNotice] = useState({} as any);
+  const [academic, setAcademic] = useState({} as any);
 
   const getSession = async () => {
     await axios.get(`${url}/api/teacher/${user._id}/`).then((res) => {
       setTeacher(res.data.data);
-      // console.log(teacher);
     });
+  };
+
+  const getAcademic = async () => {
+    await axios
+      .get(`${url}/api/academic/${user._id}/get-academic-session-teacher`)
+      .then((res) => {
+        setAcademic(res.data.data.academicSession[0]);
+      });
+  };
+
+  const getNotice = async () => {
+    await axios
+      .post(
+        `${url}/api/announcement/${user._id}/viewing-announcement-teacher`,
+        { code: academic?.sessionCode }
+      )
+      .then((res) => {
+        setNotice(res.data.data);
+        setSession(res.data.data);
+      });
   };
 
   useEffect(() => {
     getSession();
+    getNotice();
+    getAcademic();
   }, []);
+
   return (
     <Container>
       <Wrapper>
@@ -52,6 +83,7 @@ const TeacherDashboard = () => {
               School Name: <strong> {teacher.schoolName} </strong>{" "}
             </span>
           </Boxes>
+
           <Boxes>
             <BoxOneIconHold bg="#89087E">
               {" "}
@@ -67,32 +99,47 @@ const TeacherDashboard = () => {
               <IoQrCode />{" "}
             </BoxOneIconHold>
             <span>
-              Class Teacher of: <strong> {teacher.classes} </strong>
+              Class Teacher of:{" "}
+              <strong>
+                {" "}
+                <div style={{ display: "flex" }}>
+                  {" "}
+                  {teacher?.classes?.map((props) => (
+                    <div style={{ display: "flex", marginRight: "5px" }}>
+                      {` ${props}`},
+                    </div>
+                  ))}
+                </div>{" "}
+              </strong>
             </span>
           </Boxes>
         </RowOne>
+
+        <div>
+          <SliderComp notice={notice!.notification} />
+        </div>
         <RowTwo>
           <FirstBox>
             <InnerBox>
               <IconHold bgi="#F3E5F5">
                 <FaChalkboardTeacher color="#8E24AA" />
               </IconHold>
-              <span> 636ysststw6 </span>
+              <span> {teacher?.teacherCode} </span>
               <small>Teacher Code</small>
             </InnerBox>
             <InnerBox>
               <IconHold bgi="#E1F1FF">
                 <BsFillDisplayFill color="#3F7AFC" />
               </IconHold>
-              <span> Mr Best </span>
-              <small>Display Name</small>
+              <span> {teacher?.test?.length} </span>
+              <small>Total test</small>
             </InnerBox>
             <InnerBox>
               <IconHold bgi="#FFF2D8">
                 <VscSymbolClass color="#FFA070" />
               </IconHold>
-              <span> 30 </span>
-              <small>Totla Classes</small>
+              <span> {teacher?.subjectTaken?.length} </span>
+              <small>Subjects Taken</small>
             </InnerBox>
             <InnerBox>
               <IconHold bgi="#FFEAEA">

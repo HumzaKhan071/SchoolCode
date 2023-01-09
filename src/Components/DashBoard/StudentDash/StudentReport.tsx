@@ -118,23 +118,6 @@ const StudentReport = () => {
         <BoardCard>
           <BoardHold>
             <ReportTitle>All Report</ReportTitle>
-
-            {/* <NoticeHold>
-              {data?.map((props: any) => (
-                <NoticeData key={props._id}>
-                  <NoticeDate
-                    style={{
-                      backgroundColor: `${props.bg}`,
-                    }}
-                  >
-                    {" "}
-                    {moment(props.createdAt).format()}{" "}
-                  </NoticeDate>
-                  <NoticeMessage> {props.message} </NoticeMessage>
-                </NoticeData>
-              ))}
-            </NoticeHold> */}
-
             <NoticeHold>
               {viewReport?.length >= 1 ? (
                 <BoxHold>

@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Test, User } from "../../../../Global/RecoilState";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 interface TestData {
   subjectTest: string;
@@ -18,6 +18,7 @@ interface TestData {
 const url: string = "https://school-code.onrender.com";
 
 const CreateTest = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [testValue, setTestValue] = useRecoilState(Test);
   const readValue = useRecoilValue(Test);
@@ -71,7 +72,7 @@ const CreateTest = () => {
   const publishingTest = async () => {
     await axios
       .post(`${url}/api/test/${user?._id}/${id}/creating-test`, {
-        subjectTest: subject,
+        testTitle: subject,
         time,
         instruction,
         gradeScore,
@@ -79,6 +80,7 @@ const CreateTest = () => {
       })
       .then((res) => {
         console.log(res);
+        navigate(-1);
       });
     setTestValue([]);
     setGradeScore("");
@@ -168,124 +170,22 @@ const CreateTest = () => {
                     type="number"
                   />
                 </InputHold>
+
+                <Button
+                  type="submit"
+                  onClick={() => {
+                    publishingTest();
+                  }}
+                  col="#1da1f2"
+                  bod="#1da1f2"
+                >
+                  create test
+                </Button>
               </DetailSet>
             </TestDetailHold>
           </TestDetails>
 
-          <form onSubmit={onSubmit}>
-            <NewQuestion>
-              <NewQuestionHold>
-                <QuestionTitle>Type New Question</QuestionTitle>
-                <QuestionSet>
-                  <QuestInputHold>
-                    <label
-                      style={{
-                        color: "#264653",
-                      }}
-                    >
-                      Question
-                    </label>
-                    <textarea
-                      required
-                      {...register("question")}
-                      placeholder="Type Your Question Here"
-                    ></textarea>
-                  </QuestInputHold>
-                  <QuestInputHold>
-                    <label
-                      style={{
-                        color: "#e9c46a",
-                      }}
-                    >
-                      Correct Option
-                    </label>
-                    <input
-                      required
-                      {...register("answer")}
-                      type="text"
-                      placeholder="Write Answer here"
-                    />
-                  </QuestInputHold>
-                  <QuestInputHold>
-                    <label
-                      style={{
-                        color: "#2a9d8f",
-                      }}
-                    >
-                      Option 1
-                    </label>
-                    <input
-                      required
-                      {...register("a")}
-                      type="text"
-                      placeholder="Type option here"
-                    />
-                  </QuestInputHold>
-                  <QuestInputHold>
-                    <label
-                      style={{
-                        color: "#f4a261",
-                      }}
-                    >
-                      Option 2
-                    </label>
-                    <input
-                      required
-                      {...register("b")}
-                      type="text"
-                      placeholder="Type option here"
-                    />
-                  </QuestInputHold>
-                  <QuestInputHold>
-                    <label
-                      style={{
-                        color: "#e76f51",
-                      }}
-                    >
-                      Option 3
-                    </label>
-                    <input
-                      required
-                      {...register("c")}
-                      type="text"
-                      placeholder="Type option here"
-                    />
-                  </QuestInputHold>
-                  <QuestInputHold>
-                    <label
-                      style={{
-                        color: "#ffafcc",
-                      }}
-                    >
-                      Option 4
-                    </label>
-                    <input
-                      required
-                      {...register("d")}
-                      type="text"
-                      placeholder="Type option here"
-                    />
-                  </QuestInputHold>
-
-                  <Button
-                    type="submit"
-                    onClick={() => {
-                      // onSubmit();
-                    }}
-                    col="#1da1f2"
-                    bod="#1da1f2"
-                  >
-                    Set Another
-                  </Button>
-                  <Button col="red" bod="red">
-                    Cancel
-                  </Button>
-                </QuestionSet>
-              </NewQuestionHold>
-            </NewQuestion>
-          </form>
-
-          <TypedQuestion>
+          {/* <TypedQuestion>
             <TypedQuestionHold>
               <MainQuestions>
                 {testValue?.map((props: any, i: any) => (
@@ -339,7 +239,7 @@ const CreateTest = () => {
                 Reset
               </Button>
             </PublishTestHold>
-          </PublishTest>
+          </PublishTest> */}
         </TestBox>
       </Wrapper>
     </Container>
