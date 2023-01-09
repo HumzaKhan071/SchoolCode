@@ -9,6 +9,7 @@ import { User } from "../../../../Global/RecoilState";
 import axios from "axios";
 import DetailsTest from "../../../StudentDash/DetailsTest";
 import DetailAttend from "./DetailAttend";
+import DetailInput from "./DetailInput";
 
 interface Iprops {
 	myProps: any;
@@ -40,20 +41,15 @@ const AttendanceTable: React.FC<Iprops> = ({ myProps }) => {
 		days.push(moment().add(i, "days").format("dddd, Do MMMM YYYY"));
 	}
 
-	const CreatePresent = async (id: any) => {
-		console.log("id ooooo", id);
-		const uuri = `${URL}/api/attendance/${user?._id}/${id}/present`;
+	const [presentData, setPresentData] = React.useState([]);
 
-		await axios.post(uuri).then((res) => {
-			console.log("student present", res);
-		});
-	};
 	const ViewPresent = async () => {
 		// console.log("id ooooo", id);
 		const uuri = `${URL}/api/attendance/${user?._id}/teacher-viewing-student-attendance`;
 
 		await axios.get(uuri).then((res) => {
 			console.log("now ", res);
+			setPresentData(res?.data?.data?.attendance);
 		});
 	};
 
@@ -76,18 +72,7 @@ const AttendanceTable: React.FC<Iprops> = ({ myProps }) => {
 						{myProps?.students?.map((newProps: any) => (
 							<tr>
 								<DetailAttend props={newProps} />
-
-								{days.map((props) => (
-									<td>
-										<input
-											onClick={() => {
-												CreatePresent(newProps);
-											}}
-											disabled={todayDate !== props}
-											type='radio'
-										/>
-									</td>
-								))}
+								<DetailInput newProps={newProps} />
 							</tr>
 						))}
 					</table>
