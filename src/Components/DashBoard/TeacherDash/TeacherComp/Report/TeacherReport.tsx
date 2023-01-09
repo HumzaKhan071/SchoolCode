@@ -103,15 +103,29 @@ const TeacherReport = () => {
 
         <BoardCard>
           <BoardHold>
-            <ReportTitle>All Report</ReportTitle>
+            <ReportTitle>All your Report so far! </ReportTitle>
 
             <NoticeHold>
               {getReport?.map((props) => (
                 <NoticeData key={props._id}>
-                  <NoticeDate>
-                    {" "}
-                    {moment(props.createdAt).format("MMMM Do YYYY")}{" "}
-                  </NoticeDate>
+                  {props.status === "not seen" ? (
+                    <Div bg="red">unseen</Div>
+                  ) : props.status === "seen" ? (
+                    <Div bg="orange">unseen</Div>
+                  ) : props.status === "done" ? (
+                    <Div bg="green">done</Div>
+                  ) : null}
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <NoticeDate>
+                      {" "}
+                      {moment(props.createdAt).format("MMMM Do YYYY")}{" "}
+                    </NoticeDate>
+                    <div style={{ fontSize: "12px", fontWeight: "bold" }}>
+                      {/* Edit */}
+                    </div>
+                  </div>
                   <NoticeMessage> {props.message} </NoticeMessage>
                 </NoticeData>
               ))}
@@ -125,6 +139,15 @@ const TeacherReport = () => {
 
 export default TeacherReport;
 
+const Div = styled.div<{ bg: string }>`
+  background-color: ${({ bg }) => bg};
+  color: white;
+  font-size: 12px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  border-radius: 2px;
+`;
 const Container = styled.div`
   /* width: 100%; */
   width: calc(100vw - 230px);

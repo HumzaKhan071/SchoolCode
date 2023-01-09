@@ -74,7 +74,7 @@ const StudentReport = () => {
   }
   const user = useRecoilValue(User);
 
-  const [viewReport, setViewReport] = useState([] as iReport[]);
+  const [viewReport, setViewReport] = useState([] as any[]);
 
   const [load, setLoad] = useState(false);
   const fetchReport = async () => {
@@ -117,56 +117,32 @@ const StudentReport = () => {
 
         <BoardCard>
           <BoardHold>
-            <ReportTitle>All Report</ReportTitle>
+            <ReportTitle>All Report so far! </ReportTitle>
+
             <NoticeHold>
-              {viewReport?.length >= 1 ? (
-                <BoxHold>
-                  {viewReport?.map((props: any) => (
-                    <NoticeData key={props._id}>
-                      <NoticeDate
-                        style={{
-                          backgroundColor: `${props.bg}`,
-                        }}
-                      >
-                        {props.status} by School
-                      </NoticeDate>
-                      <NoticeMessage> {props.message} </NoticeMessage>
-                      <NoticeMessage>
-                        reported date:{" "}
-                        <strong>
-                          {" "}
-                          {moment(props.createdAt).format(
-                            "dddd, MMMM Do YYYY, h:mm:ss a"
-                          )}
-                        </strong>
-                      </NoticeMessage>
-                    </NoticeData>
-                  ))}
-                </BoxHold>
-              ) : (
-                <BoxHold1>
-                  {load ? (
-                    <div>
-                      <div>
-                        <ClipLoader color="#36d7b7" />
-                      </div>
-                      <div> Fetching data...</div>
-                    </div>
-                  ) : (
-                    <>
+              {viewReport?.map((props) => (
+                <NoticeData key={props._id}>
+                  {props.status === "not seen" ? (
+                    <Div bg="red">unseen</Div>
+                  ) : props.status === "seen" ? (
+                    <Div bg="orange">unseen</Div>
+                  ) : props.status === "done" ? (
+                    <Div bg="green">done</Div>
+                  ) : null}
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <NoticeDate>
                       {" "}
-                      <BoxImag src="/img/emp.gif" />
-                      <h3>You haven't made any report yet..</h3>
-                      <p>
-                        if you'd like to make any remake, complains and event
-                        report an action or what have view, please just do that
-                        here!.
-                      </p>
-                      {/* <Button2 onClick={toggleShow}>Create Student</Button2> */}
-                    </>
-                  )}
-                </BoxHold1>
-              )}
+                      {moment(props?.createdAt).format("MMMM Do YYYY")}{" "}
+                    </NoticeDate>
+                    <div style={{ fontSize: "12px", fontWeight: "bold" }}>
+                      {/* Edit */}
+                    </div>
+                  </div>
+                  <NoticeMessage> {props.message} </NoticeMessage>
+                </NoticeData>
+              ))}
             </NoticeHold>
           </BoardHold>
         </BoardCard>
@@ -176,7 +152,15 @@ const StudentReport = () => {
 };
 
 export default StudentReport;
-
+const Div = styled.div<{ bg: string }>`
+  background-color: ${({ bg }) => bg};
+  color: white;
+  font-size: 12px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  border-radius: 2px;
+`;
 const BoxHold = styled.div`
   /* min-height: 90vh; */
   width: 100%;

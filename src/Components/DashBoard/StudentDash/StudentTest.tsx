@@ -15,7 +15,7 @@ const StudentTest = () => {
   const fetchTest = async () => {
     //   {{uri}}/test/63b15f60dc81aa109c62fa8c/view-class-test-now
     const local = "http://localhost:2244";
-    const newURL = `${local}/api/test/${user.classID}/view-class-test-now`;
+    const newURL = `${url}/api/test/${user.classID}/view-class-test-now`;
     await axios.get(newURL).then((res) => {
       console.log("showing: ", res);
       setMyTestData(res!.data!.data!.test);
