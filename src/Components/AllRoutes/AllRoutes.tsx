@@ -56,6 +56,8 @@ import Lecture from "../DashBoard/TeacherDash/TeacherComp/Lectures/Lecture";
 import LectureDetail from "../DashBoard/TeacherDash/TeacherComp/Lectures/LectureDetail";
 import CreateQuestions from "../DashBoard/TeacherDash/TeacherComp/Test/CreateQuestions";
 import StudentPerformance from "../DashBoard/StudentDash/StudentPerformance";
+import LectureScreen from "../DashBoard/StudentDash/LectureScreen";
+import LectureDetailRating from "../DashBoard/StudentDash/LectureDetailRating";
 
 //  4b4b1a2eaa0a87dc574b3e44dd683eb8a1ad7649
 
@@ -360,6 +362,24 @@ const AllRoutes = () => {
             <>
               <StudentHeader />
               <AssignmentScreen />
+            </>
+          ),
+        },
+        {
+          path: "lecture/lecture-screen/:id",
+          element: (
+            <>
+              <StudentHeader />
+              <LectureScreen />
+            </>
+          ),
+        },
+        {
+          path: "lecture-screen-detail/:myID",
+          element: (
+            <>
+              <StudentHeader />
+              <LectureDetailRating />
             </>
           ),
         },
