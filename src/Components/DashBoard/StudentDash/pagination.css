@@ -45,3 +45,13 @@
   .page-item-none{
     display: none;
   }
+
+
+button {
+}
+.on {
+	color: #fdcc0d;
+}
+.off {
+	color: #ccc;
+}

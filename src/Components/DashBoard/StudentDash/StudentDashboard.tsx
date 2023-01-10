@@ -497,6 +497,15 @@ const Boxchild = styled.div`
   height: 100%;
 `;
 const Boxchild2 = styled.div`
+<<<<<<< HEAD
+	width: 160px;
+	height: 100%;
+	color: grey;
+	display: flex;
+	flex-direction: column;
+	line-height: 20px;
+	
+=======
   width: 160px;
   height: 100%;
   color: grey;
@@ -506,6 +515,7 @@ const Boxchild2 = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+>>>>>>> 4321dae79579a245c569ad4b743096351a828aaa
 
   span {
     color: black;
