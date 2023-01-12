@@ -6,6 +6,10 @@ import { User } from "../../../../Global/RecoilState";
 
 import ClipLoader from "react-spinners/ClipLoader";
 import { NavLink } from "react-router-dom";
+import { IoBookSharp } from 'react-icons/io5';
+import { MdPageview} from 'react-icons/md';
+
+
 
 const SubjectTest = () => {
   const URL: string = "https://school-code.onrender.com";
@@ -23,6 +27,7 @@ const SubjectTest = () => {
     students: [];
     test: [];
     lecture: [];
+    subjectTeacher:string;
   }
 
   const user = useRecoilValue(User);
@@ -56,11 +61,61 @@ const SubjectTest = () => {
                   display: "flex",
                   flexWrap: "wrap",
                   justifyContent: "center",
+                
                 }}
               >
                 {getSubjects?.map((props) => (
                   <SubjectCard key={props._id}>
-                    <SubjectName> {props.className} </SubjectName>
+
+                    <SubjectFirst>
+                      <One>
+                        <HolderIcon>
+                          <IoBookSharp
+                            style={{
+                              color: "#EFA642",
+                              fontWeight: "700",
+                              fontSize: "50px"
+                            }}
+                          />
+
+                        </HolderIcon>
+                      </One>
+                      <Two>
+                      <span>{props.subjectName}</span>
+                      <pre>class : {props.className}</pre>
+                      </Two>
+                      
+                    </SubjectFirst>
+                    <SubjectSecond>
+
+                      <SecondOne>
+                           <pre>Subject Teacher : {props.subjectTeacher} </pre>
+                      </SecondOne>
+                      <SecondTwo> 
+                      <NavLink
+                        to={`/teacher-dashboard/test/allTest/${props._id}`}
+
+                        style={{
+                          textDecoration:"none"
+                        }}
+                      >
+                        <ViewButton>
+                        <MdPageview
+                         style={{
+                          color: "white",
+                          fontWeight: "300",
+                          fontSize: "15px",
+                          marginRight: "5px",
+                        }}
+                        />
+                        <span>View / Create Test</span>
+                        </ViewButton>
+                        </NavLink>
+
+                      </SecondTwo>
+                             
+                    </SubjectSecond>
+                    {/* <SubjectName> {props.className} </SubjectName>
                     <SubjectName> {props.subjectName} </SubjectName>
                     <SubjectTeacher> {teacherInfo.name} </SubjectTeacher>
                     <ButtonHold>
@@ -69,7 +124,7 @@ const SubjectTest = () => {
                       >
                         <button>View / Create Test</button>
                       </NavLink>
-                    </ButtonHold>
+                    </ButtonHold> */}
                   </SubjectCard>
                 ))}
               </div>
@@ -108,6 +163,133 @@ const SubjectTest = () => {
 
 export default SubjectTest;
 
+
+const ViewButton = styled.div`
+width:170px;
+height:27px;
+background-color:#0FBBFE;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-right:20px;
+border-radius:6px;
+span{
+  color:white;
+  font-weight:600;
+  font-size:15px;
+}
+
+`
+
+const SecondOne = styled.div`
+  width:200px;
+  display: flex;
+  justify-content: center;
+  background-color:white;
+  height:28px;
+  border-radius:6px;
+  margin-left:25px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  padding-left:5px;
+  padding-right:5px;
+
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
+  pre{
+    margin-top:5px;
+    font-width:600;
+  }
+`
+const SecondTwo = styled.div``
+
+const HolderIcon = styled.div`
+background-color:#FDF4E6;
+height:70px;
+width:70px;
+display: flex;
+align-items: center;
+justify-content: center;
+
+`
+
+
+const One = styled.div`
+height:100%;
+width:80px;
+
+display: flex;
+
+align-items:center;
+
+@media screen and (max-width:600px){
+  width:45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+`
+const Two = styled.div`
+width:350px;
+height:100%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+line-height: 12px;
+
+
+span{
+  font-size:25px;
+  font-weight:600;
+  color:black
+}
+
+pre{
+  font-size:15px;
+  color:grey;
+  font-weight:600;
+}
+
+@media screen and (max-width:600px){
+  span{
+    margin-left:5px;
+    font-size:20px;
+  };
+
+  pre{
+      margin-left:5px;
+  }
+}
+
+`
+
+const SubjectFirst = styled.div`
+
+padding-bottom:0px;
+display: flex;
+height:110px;
+width:90%;
+
+@media screen and (max-width:600px){
+  width:100%; 
+}
+
+`
+const SubjectSecond = styled.div`
+
+height:50px;
+background-color:#F7F9FC;
+display: flex;
+align-items: center;
+justify-content: space-between;
+width:100%;
+box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
+@media screen and (max-width:600px){
+  width:100%;
+`
 const BoxImag = styled.img`
   height: 200px;
 `;
@@ -167,19 +349,55 @@ const TestSubjects = styled.div`
 
 const AllSubjects = styled.div`
   padding: 30px;
+  padding-left: 0px;
+  padding-right: 0px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  min-height:500px;
+  height:100%;
+
+  @media screen and (max-width:600px){
+    width: 100%;
+   
+  }
 `;
 const SubjectCard = styled.div`
-  height: 130px;
-  width: 280px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  height: 156px;
+  width: 480px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   margin: 10px;
+
+  @media  screen  and (max-width:700px) {
+  width:550px;
+  height: 156px;
+   
+  }
+  @media  screen  and (max-width:425px) {
+  width:400px;
+  height: 156px;
+   
+  }
+  @media  screen  and (max-width:375px) {
+  width:330px;
+  height: 156px;
+   
+  }
+  @media  screen  and (max-width:320px) {
+  width:300px;
+  height: 156px;
+   
+  }
+  :hover{
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  };
+ 
+
 `;
 const SubjectName = styled.div`
   font-weight: bold;
