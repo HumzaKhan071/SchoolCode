@@ -53,6 +53,10 @@ function ReportCard() {
 
   const [subjectData, setSubjectData] = useState([] as string[]);
   const [subjectDataFile, setSubjectDataFile] = useState([] as number[]);
+  const [subjectDataFileScore, setSubjectDataFileScore] = useState(
+    [] as number[]
+  );
+  const [score, setScore] = useState([] as any[]);
 
   const toggleFee = () => {
     setFee(!fee);
@@ -72,14 +76,46 @@ function ReportCard() {
         setMyResult(res?.data?.data?.performance);
       });
   };
-
+  let checkData;
   useEffect(() => {
     getResult();
 
-    var groubedByTeam = groupData(myResult, "testName");
-    setSubjectData(Object.keys(groubedByTeam));
-    console.log("report: ", myResult);
-  }, []);
+    var groubedSubjectName = groupData(myResult, "testName");
+
+    setSubjectData(Object.keys(groubedSubjectName));
+    setSubjectDataFile(Object.values(groubedSubjectName));
+
+    const checkData = subjectDataFile
+      .map((el: any) => {
+        return el.map((el: any) => {
+          return el.totalScore;
+        });
+      })
+      .map((el: any) => {
+        return el;
+      })
+      .map((el: any) => {
+        return el.reduce((a: any, b: any) => {
+          return a + b;
+        });
+      });
+
+    setScore(
+      subjectDataFile
+        .map((el: any) => {
+          return el.map((el: any) => {
+            return el.totalScore;
+          });
+        })
+        .map((el: any) => {
+          return el;
+        })
+        .map((el: any) => {
+          return el;
+        })
+    );
+    setSubjectDataFileScore(checkData);
+  }, [checkData]);
 
   return (
     <>
@@ -297,10 +333,25 @@ function ReportCard() {
               <Score>Total Score</Score>
             </Table>
             <Table>
-              <Subject>Subject</Subject>
-              <Score>Score1</Score>
+              <Subject>
+                {subjectData?.map((el: any, i: number) => (
+                  <SubjectName key={i}>{el}</SubjectName>
+                ))}
+              </Subject>
+              <Score>
+                {score.map((el: any, i: number) => (
+                  <SubjectName key={i}>{el}</SubjectName>
+                ))}
+              </Score>
               <Score>Score2</Score>
               <Score>Score23</Score>
+              <Score>
+                {subjectDataFileScore.map((el: number, i: number) => (
+                  <SubjectName key={i}>
+                    <strong>{el}</strong>
+                  </SubjectName>
+                ))}
+              </Score>
             </Table>
           </TableHolder>
         </Content>
@@ -310,6 +361,10 @@ function ReportCard() {
 }
 
 export default ReportCard;
+
+const SubjectName = styled.div`
+  margin: 10px 0;
+`;
 
 const TableHolder = styled.div``;
 
