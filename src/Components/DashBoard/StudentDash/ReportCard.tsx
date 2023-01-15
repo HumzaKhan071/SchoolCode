@@ -327,28 +327,32 @@ function ReportCard() {
           <TableHolder>
             <Table>
               <Subject>Subject</Subject>
-              <Score>First Test</Score>
-              <Score>Second Test</Score>
-              <Score>Third Test</Score>
+              <Score>Test Scores</Score>
               <Score>Total Score</Score>
             </Table>
             <Table>
               <Subject>
                 {subjectData?.map((el: any, i: number) => (
-                  <SubjectName key={i}>{el}</SubjectName>
+                  <SubjectName key={i}>
+                    <Score>{el}</Score>
+                  </SubjectName>
                 ))}
               </Subject>
               <Score>
                 {score.map((el: any, i: number) => (
-                  <SubjectName key={i}>{el}</SubjectName>
+                  <SubjectName key={i}>
+                    {el.map((props: any, i: number) => (
+                      <Score key={i}>{props}</Score>
+                    ))}
+                  </SubjectName>
                 ))}
               </Score>
-              <Score>Score2</Score>
-              <Score>Score23</Score>
               <Score>
                 {subjectDataFileScore.map((el: number, i: number) => (
                   <SubjectName key={i}>
-                    <strong>{el}</strong>
+                    <strong>
+                      <Score>{el}</Score>
+                    </strong>
                   </SubjectName>
                 ))}
               </Score>
@@ -364,13 +368,15 @@ export default ReportCard;
 
 const SubjectName = styled.div`
   margin: 10px 0;
+  display: flex;
 `;
 
 const TableHolder = styled.div``;
 
 const Score = styled.div`
   margin: 10px;
-  width: 100px;
+  width: 200px;
+  // border-right: 1px solid silver;
 `;
 
 const Subject = styled.div`
