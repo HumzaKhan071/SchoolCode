@@ -20,8 +20,6 @@ import { iDataLeture } from "./LectureData";
 import SliderComp from "./SliderComp";
 import Swal from "sweetalert2";
 
-
-
 const url: string = "https://school-code.onrender.com";
 const StudentDashboard = () => {
   const [percentage, setPercentage] = React.useState(80);
@@ -33,7 +31,7 @@ const StudentDashboard = () => {
   const [hover, setHover] = useState(0);
 
   const [session, setSession] = useRecoilState(Session);
-  const [clasSubject, setClassSubjects] = React.useState([] as any[])
+  const [clasSubject, setClassSubjects] = React.useState([] as any[]);
   const [notice, setNotice] = useState({} as any);
   const [academic, setAcademic] = useState({} as any);
 
@@ -48,14 +46,12 @@ const StudentDashboard = () => {
       });
   };
 
-  const getSubject = async () =>{
+  const getSubject = async () => {
     const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;
-    await axios.get(newURL).then((res)=>{
+    await axios.get(newURL).then((res) => {
       setClassSubjects(res!.data!.data!.subject);
-    })
-  }
-
-  // viewing-announcement-student
+    });
+  };
 
   const getNotice = async () => {
     await axios
@@ -69,12 +65,9 @@ const StudentDashboard = () => {
       });
   };
 
-  console.log("notice: ", notice);
-
   useEffect(() => {
     getNotice();
-    getSubject()
-    console.log("show mylecture", clasSubject )
+    getSubject();
   }, []);
 
   const userPerLecture: number = 1;
@@ -178,59 +171,50 @@ const StudentDashboard = () => {
                 </Boxchild>
                 <Boxchild2>
                   Rating
-                  <div style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          width:"auto",
-                        
-                        }}>
-                  {
-                    [...Array(5)].map((start, index) =>{
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "auto",
+                    }}
+                  >
+                    {[...Array(5)].map((start, index) => {
                       index += 1;
-                      return(
-                       
-
+                      return (
                         <button
-                        style={{
-                          backgroundColor: "transparent",
-                          border: "none",
-                          outline: "none",
-                          cursor: "pointer",
-                          fontSize: "18px",
-                          display: "flex",
-                          
-                        }}
-
-                        className={index <= (hover || rating) ? "on" : "off"}
-
-                        onClick={ async()=>{
-                          try {  
-                            setRating(index)
-                            await axios.post(`${url}/api/lecture-rating/${user._id}/${props._id}/creating-lecture-rating` ,   {ratingLecture:index}).then((res)=>{
-                              console.log("rating successfully")
-  
-  
-                            })
-
-
-                          }catch(err) {
-                            console.error(err, "something wen wrong");
-                          }
-   
-                        }}
-                        onMouseEnter={() => setHover(index)}
-											onMouseLeave={() => setHover(rating)}
+                          style={{
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            cursor: "pointer",
+                            fontSize: "18px",
+                            display: "flex",
+                          }}
+                          className={index <= (hover || rating) ? "on" : "off"}
+                          onClick={async () => {
+                            try {
+                              setRating(index);
+                              await axios
+                                .post(
+                                  `${url}/api/lecture-rating/${user._id}/${props._id}/creating-lecture-rating`,
+                                  { ratingLecture: index }
+                                )
+                                .then((res) => {
+                                  console.log("rating successfully");
+                                });
+                            } catch (err) {
+                              console.error(err, "something wen wrong");
+                            }
+                          }}
+                          onMouseEnter={() => setHover(index)}
+                          onMouseLeave={() => setHover(rating)}
                         >
-                  &#9733;
-                  </button>
-                 
-                      )
-                    })
-                  }
-                   </div>
-                  
-                 
+                          &#9733;
+                        </button>
+                      );
+                    })}
+                  </div>
                 </Boxchild2>
               </Box1>
               <Box2>
@@ -409,13 +393,10 @@ const StudentDashboard = () => {
 
 export default StudentDashboard;
 
-
 const Mybutton = styled.button`
-
-span{
-
-}
-`
+  span {
+  }
+`;
 
 const SeconDiv = styled.div`
   height: 50px;

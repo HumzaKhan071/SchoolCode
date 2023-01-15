@@ -58,6 +58,7 @@ import CreateQuestions from "../DashBoard/TeacherDash/TeacherComp/Test/CreateQue
 import StudentPerformance from "../DashBoard/StudentDash/StudentPerformance";
 import LectureScreen from "../DashBoard/StudentDash/LectureScreen";
 import LectureDetailRating from "../DashBoard/StudentDash/LectureDetailRating";
+import ReportCard from "../DashBoard/StudentDash/ReportCard";
 
 //  4b4b1a2eaa0a87dc574b3e44dd683eb8a1ad7649
 
@@ -371,6 +372,15 @@ const AllRoutes = () => {
             <>
               <StudentHeader />
               <LectureScreen />
+            </>
+          ),
+        },
+        {
+          path: "report-card",
+          element: (
+            <>
+              <StudentHeader />
+              <ReportCard />
             </>
           ),
         },
