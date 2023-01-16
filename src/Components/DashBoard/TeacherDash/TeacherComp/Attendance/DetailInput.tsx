@@ -16,9 +16,11 @@ const DetailInput: React.FC<Iprops> = ({ newProps }) => {
 	for (let i = 0; i <= daysRequired; i++) {
 		days.push(moment().add(i, "days").format("dddd, Do MMMM YYYY"));
 	}
-	const [presentData, setPresentData] = React.useState([]);
+	const [presentData, setPresentData] = React.useState([] as any);
 
 	const URL: string = "https://school-code.onrender.com";
+
+	// console.log(days);
 
 	const user = useRecoilValue(User);
 
@@ -27,7 +29,7 @@ const DetailInput: React.FC<Iprops> = ({ newProps }) => {
 		const uuri = `${URL}/api/attendance/${user?._id}/${id}/present`;
 
 		await axios.post(uuri).then((res) => {
-			console.log("student present", res);
+			// console.log("student present", res);
 		});
 	};
 
@@ -38,9 +40,11 @@ const DetailInput: React.FC<Iprops> = ({ newProps }) => {
 		await axios.get(uuri).then((res) => {
 			console.log("now ", res);
 			setPresentData(res?.data?.data?.attendance);
-			console.log("this is present", presentData);
+			console.log("this is presents", presentData);
 		});
 	};
+
+	// console.log("this is new props", newProps);
 
 	const [studDetail, setStudDetail] = useState([] as any);
 
@@ -57,20 +61,20 @@ const DetailInput: React.FC<Iprops> = ({ newProps }) => {
 
 	useEffect(() => {
 		getStudentDetail();
-	}, []);
+	}, [newProps]);
 
 	useEffect(() => {
 		ViewPresent();
-	}, []);
+	}, [studDetail]);
 	return (
 		<>
 			{days.map((props: any) => (
 				<>
-					{presentData?.some(
+					{presentData?.find(
 						(el: any) =>
-							el?.present == true &&
+							el?.present === true &&
 							el?.studentName === studDetail?.name &&
-							el?.dateTime === props,
+							el?.dateTime !== props,
 					) ? (
 						<>
 							<td>
@@ -79,7 +83,7 @@ const DetailInput: React.FC<Iprops> = ({ newProps }) => {
 									onClick={() => {
 										CreatePresent(newProps);
 									}}
-									// disabled={todayDate !== props}
+									disabled={todayDate !== props}
 									type='radio'
 								/>
 							</td>

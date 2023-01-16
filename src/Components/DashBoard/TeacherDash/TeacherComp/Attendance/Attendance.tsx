@@ -29,19 +29,18 @@ const Attendance = () => {
 	}, []);
 	return (
 		<Container>
+			{load ? (
+				<div
+					style={{
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						height: "100%",
+					}}>
+					Fetching Data...
+				</div>
+			) : null}
 			<Wrapper>
-				{load ? (
-					<div
-						style={{
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center",
-							height: "100%",
-						}}>
-						Fetching Data...
-					</div>
-				) : null}
-
 				{getClasses?.map((myProps: any) => (
 					<>
 						<AttendMarker>
