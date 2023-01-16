@@ -209,7 +209,7 @@ const StudentDashboard = () => {
                             setRating(index)
                             await axios.post(`${url}/api/lecture-rating/${user._id}/${props._id}/creating-lecture-rating` ,   {ratingLecture:index}).then((res)=>{
                               console.log("rating successfully")
-  
+
   
                             })
 

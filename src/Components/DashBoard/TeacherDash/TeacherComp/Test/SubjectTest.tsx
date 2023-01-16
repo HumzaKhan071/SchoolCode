@@ -179,6 +179,20 @@ span{
   font-size:15px;
 }
 
+@media screen and (max-width:600px){
+  width:120px;
+  height:27px;
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  span{
+  color:white;
+  font-weight:600;
+  font-size:10px;
+}
+}
+
 `
 
 const SecondOne = styled.div`
@@ -201,6 +215,22 @@ const SecondOne = styled.div`
     margin-top:5px;
     font-width:600;
   }
+
+  @media screen and (max-width:600px){
+  width:120px;
+  height:27px;
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-left:10px;
+
+  pre{
+    margin-top:10px;
+    font-size:9px;
+    margin-left:10px;
+    font-width:700;
+  }
+}
 `
 const SecondTwo = styled.div``
 
@@ -215,7 +245,7 @@ justify-content: center;
 `
 
 
-const One = styled.div`
+const One = styled.div`s
 height:100%;
 width:80px;
 
@@ -247,7 +277,7 @@ span{
 }
 
 pre{
-  font-size:15px;
+  font-size:20px;
   color:grey;
   font-weight:600;
 }
