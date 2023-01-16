@@ -115,7 +115,7 @@ function ReportCard() {
         })
     );
     setSubjectDataFileScore(checkData);
-  }, [checkData]);
+  }, []);
 
   return (
     <>
