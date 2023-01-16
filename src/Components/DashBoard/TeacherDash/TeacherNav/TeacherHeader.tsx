@@ -60,7 +60,7 @@ const TeacherHeader = () => {
     await axios
       .get(`${url}/api/academic/${user._id}/get-academic-session-teacher`)
       .then((res) => {
-        // setAcademic(res.data.data.academicSession[0]);
+        setAcademic(res.data.data.academicSession[0]);
       });
   };
 
@@ -100,7 +100,7 @@ const TeacherHeader = () => {
                   />
                 </SubTitle>
               </SchoolName>
-              {/* <SchoolId style={{ marginTop: "2px" }}>
+              <SchoolId style={{ marginTop: "2px" }}>
                 <div>Session Code: {academic?.sessionCode}</div>
 
                 <span>
@@ -113,7 +113,7 @@ const TeacherHeader = () => {
                     }}
                   />
                 </span>
-              </SchoolId> */}
+              </SchoolId>
               <SchoolId>
                 <div>SCH: {user?.schoolName}</div>
               </SchoolId>
@@ -474,7 +474,7 @@ const HeaderDash = styled.div`
   background-color: white;
   position: fixed;
   width: 100%;
-  height: 60px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;

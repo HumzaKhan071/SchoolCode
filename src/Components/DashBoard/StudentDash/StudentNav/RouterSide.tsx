@@ -30,6 +30,11 @@ export const SideBarItem: NavCon[] = [
     to: "/student-dashboard/general-performance",
   },
   {
+    name: "Report Card",
+    icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
+    to: "/student-dashboard/report-card",
+  },
+  {
     name: "Tests",
     icon: (prop: IconBaseProps) => <CgCommunity />,
     to: "/student-dashboard/student-test",

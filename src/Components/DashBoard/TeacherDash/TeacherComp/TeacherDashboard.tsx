@@ -67,7 +67,7 @@ const TeacherDashboard = () => {
     getSession();
     getNotice();
     getAcademic();
-  }, []);
+  }, [notice]);
 
   return (
     <Container>
