@@ -11,100 +11,112 @@ import { MdPageview } from "react-icons/md";
 import pic from "../../../../Img/emp.gif";
 
 const SubjectTest = () => {
-	const URL: string = "https://school-code.onrender.com";
 
-	interface iTeacher {
-		_id: string;
-		name: string;
-	}
+  const URL: string = "https://school-code.onrender.com";
 
-	interface iSubject {
-		_id: string;
-		className: string;
-		subjectToken: string;
-		subjectName: string;
-		students: [];
-		test: [];
-		lecture: [];
-		subjectTeacher: string;
-	}
+  interface iTeacher {
+    _id: string;
+    name: string;
+  }
 
-	const user = useRecoilValue(User);
-	const [getSubjects, setGetSubjects] = useState([] as iSubject[]);
-	const [teacherInfo, setTeacherInfo] = useState({} as iTeacher);
-	const [load, setLoad] = useState(true);
+  interface iSubject {
+    _id: string;
+    className: string;
+    subjectToken: string;
+    subjectName: string;
+    students: [];
+    test: [];
+    lecture: [];
+    subjectTeacher:string;
+  }
 
-	const getSub = async () => {
-		const uuri = `${URL}/api/subject/${user._id}/viewing-subject-teacher`;
+  const user = useRecoilValue(User);
+  const [getSubjects, setGetSubjects] = useState([] as iSubject[]);
+  const [teacherInfo, setTeacherInfo] = useState({} as iTeacher);
+  const [load, setLoad] = useState(true);
 
-		await axios.get(uuri).then((res) => {
-			setGetSubjects(res.data.data);
-			console.log(res.data);
-			setTeacherInfo(res.data.data);
-			setLoad(false);
-		});
-	};
+  const getSub = async () => {
+    const uuri = `${URL}/api/subject/${user._id}/viewing-subject-teacher`;
 
-	useEffect(() => {
-		getSub();
-	}, []);
+    await axios.get(uuri).then((res) => {
+      setGetSubjects(res.data.data);
+      console.log(res.data);
+      setTeacherInfo(res.data.data);
+      setLoad(false);
+    });
+  };
 
-	return (
-		<Container>
-			<Wrapper>
-				<TestSubjects>
-					<AllSubjects>
-						{getSubjects?.length >= 1 ? (
-							<div
-								style={{
-									display: "flex",
-									flexWrap: "wrap",
-									justifyContent: "center",
-								}}>
-								{getSubjects?.map((props) => (
-									<SubjectCard key={props._id}>
-										<SubjectFirst>
-											<One>
-												<HolderIcon>
-													<IoBookSharp
-														style={{
-															color: "#EFA642",
-															fontWeight: "700",
-															fontSize: "50px",
-														}}
-													/>
-												</HolderIcon>
-											</One>
-											<Two>
-												<span>{props.subjectName}</span>
-												<pre>class : {props.className}</pre>
-											</Two>
-										</SubjectFirst>
-										<SubjectSecond>
-											<SecondOne>
-												<pre>Subject Teacher : {props.subjectTeacher} </pre>
-											</SecondOne>
-											<SecondTwo>
-												<NavLink
-													to={`/teacher-dashboard/test/allTest/${props._id}`}
-													style={{
-														textDecoration: "none",
-													}}>
-													<ViewButton>
-														<MdPageview
-															style={{
-																color: "white",
-																fontWeight: "300",
-																fontSize: "15px",
-																marginRight: "5px",
-															}}
-														/>
-														<span>View / Create Test</span>
-													</ViewButton>
-												</NavLink>
-											</SecondTwo>
-										</SubjectSecond>
-										{/* <SubjectName> {props.className} </SubjectName>
+  useEffect(() => {
+    getSub();
+  }, []);
+
+  return (
+    <Container>
+      <Wrapper>
+        <TestSubjects>
+          <AllSubjects>
+            {getSubjects?.length >= 1 ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                
+                }}
+              >
+                {getSubjects?.map((props) => (
+                  <SubjectCard key={props._id}>
+
+                    <SubjectFirst>
+                      <One>
+                        <HolderIcon>
+                          <IoBookSharp
+                            style={{
+                              color: "#EFA642",
+                              fontWeight: "700",
+                              fontSize: "50px"
+                            }}
+                          />
+
+                        </HolderIcon>
+                      </One>
+                      <Two>
+                      <span>{props.subjectName}</span>
+                      <pre>class : {props.className}</pre>
+                      </Two>
+                      
+                    </SubjectFirst>
+                    <SubjectSecond>
+
+                      <SecondOne>
+                           <pre>Teacher : {props.subjectTeacher} </pre>
+                      </SecondOne>
+                      <SecondTwo> 
+                      <NavLink
+                        to={`/teacher-dashboard/test/allTest/${props._id}`}
+
+                        style={{
+                          textDecoration:"none"
+                        }}
+                      >
+                        <ViewButton>
+                        <MdPageview
+                         style={{
+                          color: "white",
+                          fontWeight: "300",
+                          fontSize: "15px",
+                          marginRight: "5px",
+                        }}
+                        />
+                        <span>View / Create Test</span>
+                        </ViewButton>
+                        </NavLink>
+
+                      </SecondTwo>
+                             
+                    </SubjectSecond>
+                    {/* <SubjectName> {props.className} </SubjectName>
+
                     <SubjectName> {props.subjectName} </SubjectName>
                     <SubjectTeacher> {teacherInfo.name} </SubjectTeacher>
                     <ButtonHold>
