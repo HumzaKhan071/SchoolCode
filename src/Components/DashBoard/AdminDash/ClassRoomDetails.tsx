@@ -294,7 +294,7 @@ function ClassRoomDetails() {
 												</div>
 												<div style={{ display: "flex", alignItems: "center" }}>
 													{" "}
-													<TeacherImage src='/img/prof.png' />
+													<TeacherImage src={pic} />
 													{props?.subjectTeacher}
 												</div>
 											</div>
