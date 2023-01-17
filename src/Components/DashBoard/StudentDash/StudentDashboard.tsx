@@ -3,7 +3,6 @@ import { SiGoogleclassroom } from "react-icons/si";
 import { GoBook } from "react-icons/go";
 import { MdOutlineAssignmentLate } from "react-icons/md";
 import { BiTimeFive } from "react-icons/bi";
-import { MdOutlinePlayLesson } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import styled from "styled-components";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
@@ -18,9 +17,12 @@ import ReactPaginate from "react-paginate";
 import "./pagination.css";
 import { iDataLeture } from "./LectureData";
 import SliderComp from "./SliderComp";
-import Swal from "sweetalert2";
-import {Link} from "react-router-dom"
-import ClipLoader from "react-spinners/ClipLoader";
+
+import pic1 from "../../svg/teacher-icon-01.svg";
+import pic2 from "../../svg/teacher-icon-02.svg";
+import pic3 from "../../svg/student-icon-01.svg";
+import pic4 from "../../svg/student-icon-02.svg";
+
 
 const url: string = "https://school-code.onrender.com";
 const StudentDashboard = () => {
@@ -36,7 +38,6 @@ const StudentDashboard = () => {
   const [session, setSession] = useRecoilState(Session);
   const [clasSubject, setClassSubjects] = React.useState([] as any[]);
   const [notice, setNotice] = useState({} as any);
-  const [academic, setAcademic] = useState({} as any);
 
   const viewingClass = async () => {
     await axios
@@ -208,9 +209,7 @@ const StudentDashboard = () => {
                                   { ratingLecture: index }
                                 )
                                 .then((res) => {});
-                            } catch (err) {
-                              console.error(err, "something wen wrong");
-                            }
+                            } catch (err) {}
                           }}
 
                           onMouseEnter={() => setHover(index)}
@@ -227,6 +226,7 @@ const StudentDashboard = () => {
                 {/* <ConBottum bg="#8E6AFF">Click To Rate</ConBottum> */}
 
                 {/* <Boxchild>
+
 
 												<MdOutlinePlayLesson
 													style={{
@@ -275,7 +275,7 @@ const StudentDashboard = () => {
             </One>
             <Two>
               <BackTwo>
-                <img src="/svg/teacher-icon-01.svg" />
+                <img src={pic1} />
               </BackTwo>
             </Two>
           </DisPlay>
@@ -288,7 +288,7 @@ const StudentDashboard = () => {
             </One>
             <Two>
               <BackTwo>
-                <img src="/svg/teacher-icon-02.svg" />
+                <img src={pic2} />
               </BackTwo>
             </Two>
           </DisPlay>
@@ -301,7 +301,7 @@ const StudentDashboard = () => {
             </One>
             <Two>
               <BackTwo>
-                <img src="/svg/student-icon-01.svg" />
+                <img src={pic3} />
               </BackTwo>
             </Two>
           </DisPlay>
@@ -314,7 +314,7 @@ const StudentDashboard = () => {
             </One>
             <Two>
               <BackTwo>
-                <img src="/svg/student-icon-02.svg" />
+                <img src={pic4} />
               </BackTwo>
             </Two>
           </DisPlay>

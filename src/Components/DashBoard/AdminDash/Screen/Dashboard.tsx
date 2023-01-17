@@ -12,6 +12,9 @@ import { Navigate, useNavigate } from "react-router";
 import Notice from "./Notice";
 import NewNotice from "./NewNotice";
 import SliderComp from "./Homeforms/SliderComp";
+import pic1 from '../../../Img/tea.svg'
+import pic2 from '../../../Img/st.svg'
+import pic3 from '../../../Img/cl.svg'
 
 const url: string = "https://school-code.onrender.com";
 
@@ -333,7 +336,7 @@ const Dashboard = () => {
                   <Text>Teachers</Text>
                 </CountHold>
                 <IconHold bg="#fdf4e6">
-                  <img src="/img/tea.svg" />
+                  <img src={pic1} />
                 </IconHold>
               </OverCard>
               <OverCard>
@@ -342,7 +345,7 @@ const Dashboard = () => {
                   <Text>Classrooms</Text>
                 </CountHold>
                 <IconHold bg="#EAF9FF">
-                  <img src="/img/cl.svg" />
+                  <img src={pic3} />
                 </IconHold>
               </OverCard>
               <OverCard>
@@ -351,7 +354,7 @@ const Dashboard = () => {
                   <Text>Students</Text>
                 </CountHold>
                 <IconHold bg="#EDE8FF">
-                  <img src="/img/st.svg" />
+                  <img src={pic2} />
                 </IconHold>
               </OverCard>
             </MainHold>

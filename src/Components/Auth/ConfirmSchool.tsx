@@ -9,6 +9,8 @@ import {
 } from "react-icons/ai";
 
 import { Link } from "react-router-dom";
+import pic1 from "../Img/kod.png";
+import pic2 from "../Img/SckoolCodMain.png";
 
 const ConfirmSchool: React.FC = () => {
 	return (
@@ -17,7 +19,7 @@ const ConfirmSchool: React.FC = () => {
 				<Card>
 					<LogoHolder to='/'>
 						<Logo>
-							<img src='/Img/kod.png' alt='' />
+							<img src={pic1} alt='' />
 						</Logo>
 					</LogoHolder>
 

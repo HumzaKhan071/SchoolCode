@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import pic from "../image2/45.webp";
 
 const FormComp = () => {
 	return (
@@ -62,7 +63,7 @@ const FormComp = () => {
 						<Button>Get Started</Button>
 					</First>
 					<Second>
-						<Image src='/image/45.webp' />
+						<Image src={pic} />
 					</Second>
 				</Hold>
 			</Wrapper>
