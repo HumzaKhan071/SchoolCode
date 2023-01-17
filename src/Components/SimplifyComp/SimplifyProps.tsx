@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
+import pic1 from "../image2/slid.webp";
+import pic2 from "../image2/slid2.webp";
+import pic3 from "../image2/slid3.webp";
+
 const SimplifyProps = () => {
 	return (
 		<Holder>
@@ -83,22 +87,22 @@ const Second = styled.div`
 	background-position: cover;
 	background-size: contain;
 	animation: 5s slider infinite;
-	background-image: url("/image/slid.webp");
+	background-image: url(${pic1});
 	background-repeat: no-repeat;
 
 	@keyframes slider {
 		25% {
-			background-image: url("/image/slid.webp");
+			background-image: url(${pic1});
 		}
 
 		50% {
-			background-image: url("/image/slid2.webp");
+			background-image: url(${pic2});
 		}
 		75% {
-			background-image: url("/image/slid3.webp");
+			background-image: url(${pic3});
 		}
 		100% {
-			background-image: url("/image/slid.webp");
+			background-image: url(${pic1});
 		}
 	}
 	/* background-color: red; */

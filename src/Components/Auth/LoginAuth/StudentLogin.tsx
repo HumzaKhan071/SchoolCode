@@ -10,6 +10,8 @@ import Loading from "../Loading";
 import Swal from "sweetalert2";
 import { useRecoilState } from "recoil";
 import { User } from "../../Global/RecoilState";
+import pic1 from "../../Img/kod.png";
+import pic3 from "../../Img/SckoolCodMain.png";
 
 interface iData {
 	schoolName: string;
@@ -64,7 +66,7 @@ const StudentLogin = () => {
 			{loading ? <Loading /> : null}
 			<First>
 				<Logo>
-					<img src='/Img/kod.png' alt='' />
+					<img src={pic1} alt='' />
 				</Logo>
 
 				<HeadHold>
@@ -108,7 +110,7 @@ const StudentLogin = () => {
 					<p>~ Luciana C.</p>
 
 					<ImageHold>
-						<Image src='/Img/SckoolCodMain.png' />
+						<Image src={pic3} />
 					</ImageHold>
 				</Wrapper>
 			</Second>

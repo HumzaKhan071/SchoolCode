@@ -10,30 +10,38 @@ const Header = () => {
 				<Logo>
 					<img src='/Img/kod.png' alt='' />
 				</Logo>
-				<Button>
-					<Link to='/login'>
-						<button
-							style={{
-								backgroundColor: "transparent",
-								border: "1px solid #4285f4",
-								color: "#000",
-							}}>
-							Log In
-						</button>
+				<ButHold>
+					<Link style={{ textDecoration: "none" }} to='/login'>
+						<Button1>
+							<button
+								style={{
+									backgroundColor: "transparent",
+									border: "1px solid #4285f4",
+									color: "#000",
+								}}>
+								Log In
+							</button>
+						</Button1>
 					</Link>
-					<Link to='/get-started'>
-						<button>Get Started</button>
+					<Link style={{ textDecoration: "none" }} to='/get-started'>
+						<Button2>
+							<button>Get Started</button>
+						</Button2>{" "}
 					</Link>
-				</Button>
-				<Nav>
+				</ButHold>
+				{/* <Nav>
 					<VscThreeBars size='25px' />
-				</Nav>
+				</Nav> */}
 			</Wrapper>
 		</Container>
 	);
 };
 
 export default Header;
+
+const ButHold = styled.div`
+	display: flex;
+`;
 
 const Container = styled.div`
 	height: 80px;
@@ -52,9 +60,13 @@ const Wrapper = styled.div`
 const Logo = styled.div`
 	img {
 		width: 150px;
+
+		@media (max-width: 800px) {
+			width: 100px;
+		}
 	}
 `;
-const Button = styled.div`
+const Button1 = styled.div`
 	button {
 		height: 35px;
 		width: 150px;
@@ -67,6 +79,9 @@ const Button = styled.div`
 		margin-left: 10px;
 		outline: none;
 		border: none;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		cursor: pointer;
 		transition: all 350ms;
 		:hover {
@@ -75,6 +90,32 @@ const Button = styled.div`
 	}
 	@media (max-width: 800px) {
 		display: none;
+	}
+`;
+const Button2 = styled.div`
+	button {
+		height: 35px;
+		width: 150px;
+		background-color: #4285f4;
+		color: #fff;
+		font-family: Montserrat;
+		font-size: 13px;
+		font-weight: bold;
+		border-radius: 5px;
+		margin-left: 10px;
+		outline: none;
+		border: none;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		transition: all 350ms;
+		:hover {
+			transform: scale(0.94);
+		}
+	}
+	@media (max-width: 800px) {
+		/* display: none; */
 	}
 `;
 

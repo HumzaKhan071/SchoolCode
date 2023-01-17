@@ -12,7 +12,8 @@ import { User } from "../../../Global/RecoilState";
 import CreateStudent from "../CreateStudent";
 import MyForm from "./Homeforms/MyForm";
 import { ClipLoader } from "react-spinners";
-
+import pic from "../../../Img/emp.gif";
+import pic2 from "../../../Img/prof.png";
 const url: string = "https://school-code.onrender.com";
 
 interface iTeacher {
@@ -156,7 +157,7 @@ function Students() {
 						<BoxHold>
 							{student?.map((props) => (
 								<ReMakeCard key={props._id}>
-									<TeacherImage src='/img/prof.png' />
+									<TeacherImage src={pic2} />
 									<Div>{props.name}</Div>
 									<P>{props.email}</P>
 									<RemButHold>
@@ -205,7 +206,7 @@ function Students() {
 							) : (
 								<>
 									{" "}
-									<BoxImag src='/img/emp.gif' />
+									<BoxImag src={pic} />
 									<h3>Add Student to your institute.</h3>
 									<p>
 										Your institute has no Students yet. Added classrooms will
