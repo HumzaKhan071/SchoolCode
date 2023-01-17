@@ -16,11 +16,9 @@ const DetailInput: React.FC<Iprops> = ({ newProps }) => {
 	for (let i = 0; i <= daysRequired; i++) {
 		days.push(moment().add(i, "days").format("dddd, Do MMMM YYYY"));
 	}
-	const [presentData, setPresentData] = React.useState([] as any);
+	const [presentData, setPresentData] = React.useState([]);
 
 	const URL: string = "https://school-code.onrender.com";
-
-	// console.log(days);
 
 	const user = useRecoilValue(User);
 
@@ -38,13 +36,11 @@ const DetailInput: React.FC<Iprops> = ({ newProps }) => {
 		const uuri = `${URL}/api/attendance/${user?._id}/teacher-viewing-student-attendance`;
 
 		await axios.get(uuri).then((res) => {
-			console.log("now ", res);
+			// console.log("now ", res);
 			setPresentData(res?.data?.data?.attendance);
-			console.log("this is presents", presentData);
+			// console.log("this is presentdds", presentData);
 		});
 	};
-
-	// console.log("this is new props", newProps);
 
 	const [studDetail, setStudDetail] = useState([] as any);
 
@@ -61,29 +57,30 @@ const DetailInput: React.FC<Iprops> = ({ newProps }) => {
 
 	useEffect(() => {
 		getStudentDetail();
-	}, [newProps]);
+	}, []);
 
 	useEffect(() => {
 		ViewPresent();
-	}, [studDetail]);
+	}, [presentData, newProps]);
 	return (
 		<>
 			{days.map((props: any) => (
 				<>
-					{presentData?.find(
+					{presentData?.findIndex(
 						(el: any) =>
 							el?.present === true &&
 							el?.studentName === studDetail?.name &&
-							el?.dateTime !== props,
+							el?.dateTime === props &&
+							newProps?.className === props?.className,
 					) ? (
 						<>
 							<td>
 								<input
 									checked
 									onClick={() => {
-										CreatePresent(newProps);
+										// CreatePresent(newProps);
 									}}
-									disabled={todayDate !== props}
+									// disabled={todayDate !== props}
 									type='radio'
 								/>
 							</td>
@@ -101,6 +98,7 @@ const DetailInput: React.FC<Iprops> = ({ newProps }) => {
 							</td>
 						</>
 					)}
+
 					{/* {presentData?.map((preProps: any) => (
 						<>
 							{preProps?.present &&

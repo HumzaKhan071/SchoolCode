@@ -6,20 +6,21 @@ import { User } from "../../../Global/RecoilState";
 import ClipLoader from "react-spinners/ClipLoader";
 import MyForm from "./Homeforms/MyForm";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const url: string = "https://school-code.onrender.com";
 
 interface iTeacher {
-  _id: string;
-  classes: string;
-  name: string;
-  email: string;
-  image: string;
-  subjectTaken: any[];
+	_id: string;
+	classes: string;
+	name: string;
+	email: string;
+	image: string;
+	subjectTaken: any[];
+	myClass: any[];
 }
 
 function Academics() {
-
 	const user = useRecoilValue(User);
 	const [teacher, setTeacher] = useState([] as iTeacher[]);
 	const [load, setLoad] = useState(true);
@@ -88,6 +89,7 @@ function Academics() {
 		const newURL = `${url}/api/school/${user._id}/teachers`;
 		await axios.get(newURL).then((res) => {
 			setTeacher(res.data.data.teachers);
+			console.log("main teacher");
 
 			setLoad(false);
 		});
@@ -148,134 +150,48 @@ function Academics() {
 					{teacher?.length >= 1 ? (
 						<BoxHold>
 							{teacher?.map((props) => (
-								<TeaqcherCard key={props?._id}>
-									<TeachHold>
-										<TeacherImage src='/img/prof.png' />
-										<Main>
-											<Div>{props.name}</Div>
-											<P>{props.email}</P>
-											<div
-												style={{
-													fontSize: "10px",
-													display: "flex",
-													alignItems: "center",
-												}}>
-												<div>Position </div> : Teacher
-											</div>
+								<ReMakeCard key={props._id}>
+									<TeacherImage src='/img/prof.png' />
+									<Div>{props.name}</Div>
+									<P>{props.email}</P>
+									<RemButHold>
+										<RemBut
+											// onClick={() => {
+											// 	toggleClassRoom();
+											// 	setHold(props._id);
+											// }}
+											bg='#FAB84E'>
+											Change Class
+										</RemBut>
 
-											<Cal>
-												Class :{" "}
-												<div style={{ display: "flex" }}>
-													{props.classes ? (
-														<div
-															style={{
-																marginTop: "2px",
-																marginLeft: "5px",
-																fontWeight: "500",
-															}}>
-															{" "}
-															{props.classes}
-														</div>
-													) : (
-														<div
-															style={{
-																fontSize: "12px",
-																marginTop: "2px",
-																marginLeft: "5px",
-															}}>
-															Not yet assigned
-														</div>
-													)}
-												</div>
-											</Cal>
+										<Link
+											style={{ textDecoration: "none", color: "white" }}
+											to={`/admin-dashboard/createteacher/view-teacher-detail/${props._id}`}>
+											{" "}
+											<RemBut bg='#1DA1F2'>View Details</RemBut>
+										</Link>
+										<br />
+									</RemButHold>
+									<Down>
+										<Down1>
+											<DownHo style={{ color: "#1DA1F2" }}>
+												Class Assigned
+											</DownHo>
+											<Sub>{props?.myClass?.length}</Sub>
+										</Down1>
+										<Down1>
+											<DownHo style={{ color: "#4A148C" }}>
+												Subjects Taken
+											</DownHo>
+											<Sub>{props?.subjectTaken?.length}</Sub>
+										</Down1>
 
-											<CalD>
-												Subject Taken:
-												{props.subjectTaken.length > 0 ? (
-													<div
-														style={{
-															margin: "5px",
-															display: "flex",
-															alignItems: "center",
-															justifyContent: "center",
-															padding: "2px 4px",
-															width: "160px",
-															minHeight: "100px",
-															flexWrap: "wrap",
-														}}>
-														{props.subjectTaken.map((props, i) => (
-															<Curve key={i}>{props}</Curve>
-														))}
-													</div>
-												) : (
-													<Curve>Not yet Assigned</Curve>
-												)}
-											</CalD>
-											<br />
-											<div
-												style={{
-													display: "flex",
-													justifyContent: "space-between",
-													width: "110%",
-												}}>
-												<ButtonB
-													bg='black'
-													onClick={() => {
-														toggleClassRoom();
-														setHold(props._id);
-													}}>
-													Reassign to another Class
-												</ButtonB>
-
-												<br />
-												<br />
-
-												{/* <ButtonB bg="black" onClick={toggleSubject}>
-
-                        Assign for Subject
-                      </ButtonB>
-                      {subject ? (
-                        <MyForm
-                          check={false}
-                          holder="Enter the class Name: eg SS3A"
-                          holder1="session code: 8b309d"
-                          holder2="Teacher to take this subject"
-                          toggle={toggleSubject}
-                          title="Create Subject"
-                          title1="Subject Name"
-                          title2="Class Code"
-                          title3="subject Teacher"
-                          subTitle=" By creating a class room, this new class will be added to your list
-                of class rooms."
-                          mainActionAdmin={() => {
-                            createSubject(props._id);
-                          }}
-                          show={show}
-                          setShow={setShow}
-                          setName={setName}
-                          setName1={setName1}
-                          setName2={setName2}
-                          setName3={setName3}
-                          setName4={setName4}
-                          setName5={setName5}
-                          one={true}
-                          two={true}
-                          three={false}
-                          four={false}
-                          five={false}
-                          name={name}
-                          name1={name1}
-                          name2={name2}
-                          name3={name3}
-                          name4={name4}
-                          name5={name5}
-                        />
-                     ) : null} */}
-
-											</div>
-										</Main>
-									</TeachHold>
-								</TeaqcherCard>
+										<Down1>
+											<DownHo style={{ color: "#FAB84E" }}>Status</DownHo>
+											<Sub>Teacher</Sub>
+										</Down1>
+									</Down>
+								</ReMakeCard>
 							))}
 						</BoxHold>
 					) : (
@@ -303,220 +219,280 @@ function Academics() {
 			</Container>
 		</>
 	);
-
 }
 
 export default Academics;
 
+const Down = styled.div`
+	display: flex;
+	font-size: 10px;
+	justify-content: space-between;
+	width: 80%;
+	margin-top: 5px;
+	text-align: center;
+`;
+const Down1 = styled.div``;
+const DownHo = styled.div`
+	margin-right: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	text-align: center;
+`;
+const Sub = styled.div`
+	font-weight: bold;
+`;
+
+const RemButHold = styled.div`
+	display: flex;
+`;
+const RemBut = styled.div<{ bg: string }>`
+	height: 25px;
+	width: 110px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 20px;
+	background-color: ${({ bg }) => bg};
+	display: flex;
+	font-size: 12px;
+	color: white;
+	margin: 5px;
+	cursor: pointer;
+`;
+
+const ReMakeCard = styled.div`
+	/* height: 170px; */
+	width: 300px;
+	border: 1px solid #f4f3f3;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	transition: all 350ms;
+
+	:hover {
+		border: 1px solid #fab84e;
+	}
+`;
+
 const Curve = styled.div`
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: bold;
-  color: white;
-  background-color: #000269;
-  border-radius: 30px;
-  margin: 3px;
+	padding: 2px 8px;
+	font-size: 12px;
+	font-weight: bold;
+	color: white;
+	background-color: #000269;
+	border-radius: 30px;
+	margin: 3px;
 `;
 
 const Input = styled.input`
-  height: 40px;
-  width: 200px;
-  background-color: none;
-  color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  padding-left: 10px;
-  border: 1px solid #1da1f2;
-  transition: all 350ms;
-  outline: none;
+	height: 40px;
+	width: 200px;
+	background-color: none;
+	color: black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	padding-left: 10px;
+	border: 1px solid #1da1f2;
+	transition: all 350ms;
+	outline: none;
 
-  :hover {
-    transform: scale(0.97);
-  }
+	:hover {
+		transform: scale(0.97);
+	}
 `;
 
 const BoxHold1 = styled.div`
-  min-height: 70vh;
-  width: 100%;
-  background-color: white;
-  border-radius: 5px;
-  display: flex;
+	min-height: 70vh;
+	width: 100%;
+	background-color: white;
+	border-radius: 5px;
+	display: flex;
 
-  justify-content: center;
-  max-height: 70vh;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+	justify-content: center;
+	max-height: 70vh;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
 
-  h3 {
-    margin: 0;
-  }
+	h3 {
+		margin: 0;
+	}
 
-  /* align-items: center; */
+	/* align-items: center; */
 `;
 
 const BoxImag = styled.img`
-  height: 200px;
+	height: 200px;
 `;
 
 const CalD = styled.div`
-  display: flex;
-  align-items: center;
-  font-weight: 500;
-  font-size: 12px;
-  margin-top: 5px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-weight: 500;
+	font-size: 14px;
+	margin-top: 5px;
+	align-items: flex-start;
+	width: 100%;
 `;
 
 const Cal = styled.div`
-  display: flex;
-  align-items: center;
-  font-weight: 500;
-  font-size: 14px;
+	display: flex;
+	align-items: center;
+	font-weight: 500;
+	font-size: 14px;
 `;
 const P = styled.div`
-  font-size: 10px;
+	font-size: 10px;
 `;
 const TeaqcherCard = styled.div`
-  min-height: 100px;
-  width: 320px;
-  background-color: #f4f4f4;
-  border-radius: 5px;
-  margin: 10px;
-  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
-  padding: 10px 0;
+	min-height: 100px;
+	width: 320px;
+	background-color: #f4f4f4;
+	border-radius: 5px;
+	margin: 10px;
+	box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+	padding: 10px 0;
 `;
 const TeachHold = styled.div`
-  display: flex;
-  /* align-items: center; */
-  padding: 10px;
+	display: flex;
+	/* align-items: center; */
+	padding: 10px;
 `;
 const TeacherImage = styled.img`
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  background-color: silver;
-  margin-right: 10px;
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	background-color: silver;
+	margin-right: 10px;
 `;
 const Main = styled.div``;
 const Div = styled.div`
-  font-weight: bold;
-  //   text-transform: uppercase;
+	font-weight: bold;
+	//   text-transform: uppercase;
 `;
 
 const BoxHold = styled.div`
-  /* min-height: 90vh; */
-  width: 100%;
-  background-color: white;
-  border-radius: 5px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-height: 70vh;
-  overflow-y: scroll;
-  /* align-items: center; */
+	/* min-height: 90vh; */
+	width: 100%;
+	background-color: white;
+	border-radius: 5px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	max-height: 70vh;
+	overflow-y: scroll;
+	/* align-items: center; */
 `;
 
 const Hols = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
 `;
 
 const ButtonB = styled.div<{ bg: string }>`
-  height: 45px;
-  width: 150px;
-  //   padding: 0 5px;
-  background-color: ${({ bg }) => bg};
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  cursor: pointer;
-  text-transform: uppercase;
-  font-size: 12px;
-  transition: all 350ms;
-  margin-top: 10px;
-  text-align: center;
-  font-weight: 500;
+	height: 45px;
+	width: 150px;
+	//   padding: 0 5px;
+	background-color: ${({ bg }) => bg};
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	cursor: pointer;
+	text-transform: uppercase;
+	font-size: 12px;
+	transition: all 350ms;
+	margin-top: 10px;
+	text-align: center;
+	font-weight: 500;
 
-  :hover {
-    transform: scale(0.97);
-  }
+	:hover {
+		transform: scale(0.97);
+	}
 
-  @media screen and (max-width: 760px) {
-    width: 120px;
-    font-size: 10px;
-  }
+	@media screen and (max-width: 760px) {
+		width: 120px;
+		font-size: 10px;
+	}
 `;
 
 const Button = styled.div`
-  height: 40px;
-  width: 150px;
-  background-color: #1da1f2;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  cursor: pointer;
+	height: 40px;
+	width: 150px;
+	background-color: #1da1f2;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	cursor: pointer;
 
-  transition: all 350ms;
+	transition: all 350ms;
 
-  :hover {
-    transform: scale(0.97);
-  }
+	:hover {
+		transform: scale(0.97);
+	}
 
-  @media screen and (max-width: 760px) {
-    width: 120px;
-    font-size: 10px;
-  }
+	@media screen and (max-width: 760px) {
+		width: 120px;
+		font-size: 10px;
+	}
 `;
 
 const Span = styled.div`
-  font-size: 13px;
+	font-size: 13px;
 `;
 const Holder = styled.div`
-  width: 95%;
-  height: 100%;
-  display: flex;
-  margin-top: 20px;
-  flex-direction: column;
-  /* align-items: center; */
-  /* justify-content: space-between; */
+	width: 95%;
+	height: 100%;
+	display: flex;
+	margin-top: 20px;
+	flex-direction: column;
+	/* align-items: center; */
+	/* justify-content: space-between; */
 
-  /* background-color: red; */
+	/* background-color: red; */
 `;
 const Hold = styled.div`
-  h3 {
-    margin: 0;
-  }
+	h3 {
+		margin: 0;
+	}
 `;
 
 const Container = styled.div`
-  margin-top: 80px;
-  /* width: 100%; */
-  width: calc(100vw - 230px);
-  min-height: calc(100vh - 60px);
-  display: flex;
-  justify-content: center;
-  /* flex-direction: column; */
+	margin-top: 80px;
+	/* width: 100%; */
+	width: calc(100vw - 230px);
+	min-height: calc(100vh - 60px);
+	display: flex;
+	justify-content: center;
+	/* flex-direction: column; */
 
-  background-color: #f7f9fc;
-  /* background-color: gold; */
-  overflow: hidden;
-  position: absolute;
-  right: 0px;
-  // top: 50px;
+	background-color: #f7f9fc;
+	/* background-color: gold; */
+	overflow: hidden;
+	position: absolute;
+	right: 0px;
+	// top: 50px;
 
-  @media screen and (max-width: 1100px) {
-    width: 95%;
-  }
-  @media screen and (max-width: 1005px) {
-    width: 100%;
-  }
+	@media screen and (max-width: 1100px) {
+		width: 95%;
+	}
+	@media screen and (max-width: 1005px) {
+		width: 100%;
+	}
 
-  /* background-color: #352b1e; */
+	/* background-color: #352b1e; */
 `;

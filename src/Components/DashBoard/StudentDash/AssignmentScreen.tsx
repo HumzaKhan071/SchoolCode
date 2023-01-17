@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IoNewspaper } from "react-icons/io5";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { User } from "../../Global/RecoilState";
 import axios from "axios";
+import RatingLecture from "./RatingLecture";
+import { Link } from "react-router-dom";
 
 const url: string = "https://school-code.onrender.com";
 function AssignmentScreen() {
@@ -13,7 +15,10 @@ function AssignmentScreen() {
   const dataLecture = [];
   const [load, setLoad] = React.useState(false);
   const [classSubjects, setClassSubjects] = React.useState([] as any[]);
-
+  const [rate, setRate] = useState(0);
+  const [rateLoad, setRateLoad] = useState({} as any);
+  const [rateLoad1, setRateLoad1] = useState(false);
+  const [show, setShow] = useState(false);
   // /:id/viewing-student-class-subject
 
   const getSubjects = async () => {
@@ -23,85 +28,124 @@ function AssignmentScreen() {
     });
   };
 
+  const toggle = () => {
+    setRateLoad1(!rateLoad1);
+  };
+
   useEffect(() => {
     getSubjects();
   }, []);
 
   return (
-    <Container>
-      <MyContent>
-        <UserName>
-          All Lecture
-          <span>Student&nbsp;/&nbsp;test</span>
-        </UserName>
-        <Mysubject>
-          {classSubjects?.length > 0 ? (
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-              }}
-            >
-              {classSubjects?.map((props) => (
-                <Card key={props._id}>
-                  <First>
-                    <Iconmy cl="#0FBBFE" />
-                  </First>
-                  <Second>
-                    <LectureName>
-                      <span>{props.subjectName}</span>
-                      <pre>Lecture Code: {props.subjectToken}</pre>
-                    </LectureName>
-                    <Content>
-                      Let’s start with a quick tour of Vue’s data binding
-                      features.
-                    </Content>
+    <>
+      <Container>
+        <MyContent>
+          <UserName>
+            All Lecture
+            <span>Student&nbsp;/&nbsp;test</span>
+          </UserName>
+          <Mysubject>
+            {classSubjects?.length > 0 ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                }}
+              >
+                {classSubjects?.map((props) => (
+                  <Card key={props._id}>
+                    <First>
+                      <Iconmy cl="#0FBBFE" />
+                    </First>
+                    <Second>
+                      <LectureName>
+                        <span>{props.subjectName}</span>
+                        <pre>Lecture Code: {props.subjectToken}</pre>
+                      </LectureName>
+                      <Content>
+                        Let’s start with a quick tour of Vue’s data binding
+                        features.
+                      </Content>
 
-                    <TeacherDetails>
-                      <div>Teacher </div>
-                      &nbsp;
-                      <pre>{props.subjectTeacher}</pre>
-                    </TeacherDetails>
-                    <TeacherMeter></TeacherMeter>
+                      <TeacherDetails>
+                        <div>Teacher </div>
+                        &nbsp;
+                        <pre>{props.subjectTeacher}</pre>
+                      </TeacherDetails>
+                      <TeacherMeter></TeacherMeter>
 
-                    <LectureButton>
-                      <MyButton>View Lecture</MyButton>
-                      <pre>Your Rating: 0</pre>
-                    </LectureButton>
-                  </Second>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <>
-              <BoxHold1>
-                {load ? (
-                  <div>
+                      <LectureButton>
+                        <MyButton
+                          bg="red"
+                          onClick={() => {
+                            setRateLoad(props);
+                            setRateLoad1(true);
+                            toggle();
+                          }}
+                        >
+                          Rate Lecture
+                        </MyButton>
+                        {/* lecture-screen/:id */}
+
+                        <Link
+                          style={{ textDecoration: "none" }}
+                          to={`lecture-screen/${props._id}`}
+                        >
+                          <MyButton bg="#0fbbfe">View Lecture</MyButton>
+                        </Link>
+
+                        <div style={{ flex: "1" }} />
+                        <pre>Your Rating: 0</pre>
+                      </LectureButton>
+                    </Second>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <>
+                <BoxHold1>
+                  {load ? (
                     <div>
-                      <ClipLoader color="#36d7b7" />
+                      <div>
+                        <ClipLoader color="#36d7b7" />
+                      </div>
+                      <div> Fetching data...</div>
                     </div>
-                    <div> Fetching data...</div>
-                  </div>
-                ) : (
-                  <>
-                    <BoxImag src="/img/emp.gif" />
-                    <h3>Lecture Not Available</h3>
-                    <p>
-                      Your institute has no lecture yet. Added lecture will
-                      appear here.
-                    </p>
-                  </>
-                )}
-              </BoxHold1>
-            </>
-          )}
-        </Mysubject>
-      </MyContent>
-    </Container>
+                  ) : (
+                    <>
+                      <BoxImag src="/img/emp.gif" />
+                      <h3>Lecture Not Available</h3>
+                      <p>
+                        Your institute has no lecture yet. Added lecture will
+                        appear here.
+                      </p>
+                    </>
+                  )}
+                </BoxHold1>
+              </>
+            )}
+          </Mysubject>
+        </MyContent>
+      </Container>
+    </>
   );
 }
 
 export default AssignmentScreen;
+
+const Input = styled.input`
+  width: 50px;
+  height: 30px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  outline: none;
+  margin-right: 8px;
+  padding-left: 10px;
+
+  ::placeholder {
+    font-family: Poppins;
+  }
+`;
 
 const BoxImag = styled.img`
   height: 200px;
@@ -132,15 +176,16 @@ const LectureButton = styled.div`
   height: 30px;
   margin-top: 15px;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  //   justify-content: space-between;
   @media screen and (max-width: 600px) {
     width: 90%;
   }
 `;
-const MyButton = styled.div`
-  height: 30px;
+const MyButton = styled.div<{ bg: string }>`
+  height: 35px;
   width: 120px;
-  background-color: #0fbbfe;
+  background-color: ${({ bg }) => bg};
   color: white;
   border: none;
   margin-top: 5px;
@@ -150,11 +195,11 @@ const MyButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  margin: 0 5px;
   transition: all 350ms;
 
   :hover {
-    transform: scale(1.1);
+    transform: scale(1.02);
   }
 `;
 

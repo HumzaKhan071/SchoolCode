@@ -18,6 +18,7 @@ import ReactPaginate from "react-paginate";
 import "./pagination.css";
 import { iDataLeture } from "./LectureData";
 import SliderComp from "./SliderComp";
+import Swal from "sweetalert2";
 
 const url: string = "https://school-code.onrender.com";
 const StudentDashboard = () => {
@@ -27,8 +28,10 @@ const StudentDashboard = () => {
   const [classData, setClassData] = useState<any>([]);
   const [pageNumber, setPageNumber] = React.useState<number>(0);
   const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
 
   const [session, setSession] = useRecoilState(Session);
+  const [clasSubject, setClassSubjects] = React.useState([] as any[]);
   const [notice, setNotice] = useState({} as any);
   const [academic, setAcademic] = useState({} as any);
 
@@ -43,7 +46,12 @@ const StudentDashboard = () => {
       });
   };
 
-  // viewing-announcement-student
+  const getSubject = async () => {
+    const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;
+    await axios.get(newURL).then((res) => {
+      setClassSubjects(res!.data!.data!.subject);
+    });
+  };
 
   const getNotice = async () => {
     await axios
@@ -57,16 +65,15 @@ const StudentDashboard = () => {
       });
   };
 
-  console.log("notice: ", notice);
-
   useEffect(() => {
     getNotice();
+    getSubject();
   }, []);
 
   const userPerLecture: number = 1;
   const pageVisited = pageNumber * userPerLecture;
 
-  const displayLecture = iDataLeture
+  const displayLecture = clasSubject
     .slice(pageVisited, pageVisited + userPerLecture)
     .map((props, i) => {
       return (
@@ -115,7 +122,7 @@ const StudentDashboard = () => {
                 </Boxchild>
                 <Boxchild2>
                   Subject
-                  <span>{props.lectureTopic}</span>
+                  <span>{props.subjectName}</span>
                 </Boxchild2>
               </Box2>
             </Details1>
@@ -147,7 +154,7 @@ const StudentDashboard = () => {
                 </Boxchild>
                 <Boxchild2>
                   Teacher
-                  <span>Peter Obi</span>
+                  <span>{props.subjectTeacher}</span>
                 </Boxchild2>
               </Box2>
             </Details2>
@@ -164,7 +171,50 @@ const StudentDashboard = () => {
                 </Boxchild>
                 <Boxchild2>
                   Rating
-                  <span className="star">&#9733;</span>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "auto",
+                    }}
+                  >
+                    {[...Array(5)].map((start, index) => {
+                      index += 1;
+                      return (
+                        <button
+                          style={{
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            cursor: "pointer",
+                            fontSize: "18px",
+                            display: "flex",
+                          }}
+                          className={index <= (hover || rating) ? "on" : "off"}
+                          onClick={async () => {
+                            try {
+                              setRating(index);
+                              await axios
+                                .post(
+                                  `${url}/api/lecture-rating/${user._id}/${props._id}/creating-lecture-rating`,
+                                  { ratingLecture: index }
+                                )
+                                .then((res) => {
+                                  console.log("rating successfully");
+                                });
+                            } catch (err) {
+                              console.error(err, "something wen wrong");
+                            }
+                          }}
+                          onMouseEnter={() => setHover(index)}
+                          onMouseLeave={() => setHover(rating)}
+                        >
+                          &#9733;
+                        </button>
+                      );
+                    })}
+                  </div>
                 </Boxchild2>
               </Box1>
               <Box2>
@@ -343,6 +393,11 @@ const StudentDashboard = () => {
 
 export default StudentDashboard;
 
+const Mybutton = styled.button`
+  span {
+  }
+`;
+
 const SeconDiv = styled.div`
   height: 50px;
   width: 3px;
@@ -497,15 +552,6 @@ const Boxchild = styled.div`
   height: 100%;
 `;
 const Boxchild2 = styled.div`
-<<<<<<< HEAD
-	width: 160px;
-	height: 100%;
-	color: grey;
-	display: flex;
-	flex-direction: column;
-	line-height: 20px;
-	
-=======
   width: 160px;
   height: 100%;
   color: grey;
@@ -515,7 +561,6 @@ const Boxchild2 = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
->>>>>>> 4321dae79579a245c569ad4b743096351a828aaa
 
   span {
     color: black;

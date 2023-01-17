@@ -48,6 +48,7 @@
 
 
 button {
+  display: flex;
 }
 .on {
 	color: #fdcc0d;
