@@ -19,6 +19,8 @@ import "./pagination.css";
 import { iDataLeture } from "./LectureData";
 import SliderComp from "./SliderComp";
 import Swal from "sweetalert2";
+import {Link} from "react-router-dom"
+import ClipLoader from "react-spinners/ClipLoader";
 
 const url: string = "https://school-code.onrender.com";
 const StudentDashboard = () => {
@@ -29,6 +31,7 @@ const StudentDashboard = () => {
   const [pageNumber, setPageNumber] = React.useState<number>(0);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
+  const [load, setLoad] = useState(true);
 
   const [session, setSession] = useRecoilState(Session);
   const [clasSubject, setClassSubjects] = React.useState([] as any[]);
@@ -48,8 +51,10 @@ const StudentDashboard = () => {
 
   const getSubject = async () => {
     const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;
+    console.log("open and close",user.classID)
     await axios.get(newURL).then((res) => {
       setClassSubjects(res!.data!.data!.subject);
+      setLoad(false);
     });
   };
 
@@ -107,7 +112,7 @@ const StudentDashboard = () => {
                 </Boxchild>
                 <Boxchild2>
                   class
-                  <span>Primary 5</span>
+                  <span>{props.className}</span>
                 </Boxchild2>
               </Box1>
               <Box2>
@@ -138,8 +143,8 @@ const StudentDashboard = () => {
                   />
                 </Boxchild>
                 <Boxchild2>
-                  Time
-                  <span>2 hrs</span>
+                  No.of Lecture
+                  <span>{props.lecture?.length}</span>
                 </Boxchild2>
               </Box1>
               <Box2>
@@ -160,7 +165,12 @@ const StudentDashboard = () => {
             </Details2>
             <Details3>
               <Box1>
-                <Boxchild>
+              <MyButton to={`lecture/lecture-screen/${props._id}`}>
+              View Lecture
+          </MyButton>
+
+                
+                {/* <Boxchild>
                   <GoBook
                     style={{
                       color: "grey",
@@ -168,8 +178,8 @@ const StudentDashboard = () => {
                       marginTop: "5px",
                     }}
                   />
-                </Boxchild>
-                <Boxchild2>
+                </Boxchild> */}
+                {/* <Boxchild2>
                   Rating
                   <div
                     style={{
@@ -211,33 +221,10 @@ const StudentDashboard = () => {
                           }
    
                         }}
-                        onMouseEnter={() => setHover(index)}
-											onMouseLeave={() => setHover(rating)}
+            
 
-                          style={{
-                            backgroundColor: "transparent",
-                            border: "none",
-                            outline: "none",
-                            cursor: "pointer",
-                            fontSize: "18px",
-                            display: "flex",
-                          }}
-                          className={index <= (hover || rating) ? "on" : "off"}
-                          onClick={async () => {
-                            try {
-                              setRating(index);
-                              await axios
-                                .post(
-                                  `${url}/api/lecture-rating/${user._id}/${props._id}/creating-lecture-rating`,
-                                  { ratingLecture: index }
-                                )
-                                .then((res) => {
-                                  console.log("rating successfully");
-                                });
-                            } catch (err) {
-                              console.error(err, "something wen wrong");
-                            }
-                          }}
+                          
+                        
                           onMouseEnter={() => setHover(index)}
                           onMouseLeave={() => setHover(rating)}
                         >
@@ -246,7 +233,7 @@ const StudentDashboard = () => {
                       );
                     })}
                   </div>
-                </Boxchild2>
+                </Boxchild2> */}
               </Box1>
               <Box2>
                 {/* <ConBottum bg="#8E6AFF">Click To Rate</ConBottum> */}
@@ -351,11 +338,39 @@ const StudentDashboard = () => {
           <FirstPart>
             <TodadyLesson>
               <ViewToday>
-                <p>Recenet Leacture</p>
+                <p>Top/Recent Subject</p>
                 <span>View All</span>
               </ViewToday>
               <Holder>
-                {displayLecture}
+               
+                {
+                  clasSubject?.length >= 1 ? (<>{displayLecture}</>) :(
+                  <div style={{
+                    height:"100%",
+                    flex:"1",
+                    display:"flex",
+                    justifyContent:"center",
+                    alignItems: "center",
+
+                  }}>
+                 {load ? (
+								<div>
+									<div >
+										<ClipLoader color='#36d7b7' />
+									</div>
+									{/* <div> Fetching data...</div> */}
+								</div>
+							) : (
+								<>
+									
+									<h3>No Subject Yet.</h3>
+								
+								</>
+							)}
+                  </div>
+                  )
+                }
+                
 
                 <ViewAll>
                   <ReactPaginate
@@ -424,7 +439,29 @@ const StudentDashboard = () => {
 
 export default StudentDashboard;
 
-const Mybutton = styled.button`
+
+const MyButton = styled(Link)`
+  height: 30px;
+  width: 120px;
+  background-color: #0fbbfe;
+  color: white;
+  border: none;
+  margin-top: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: all 350ms;
+
+  :hover {
+    transform: scale(1.1);
+  }
+`;
+
+const Mybutton2 = styled.button`
   span {
   }
 `;

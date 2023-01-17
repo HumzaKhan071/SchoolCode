@@ -89,7 +89,7 @@ const SubjectTest = () => {
                     <SubjectSecond>
 
                       <SecondOne>
-                           <pre>Subject Teacher : {props.subjectTeacher} </pre>
+                           <pre>Teacher : {props.subjectTeacher} </pre>
                       </SecondOne>
                       <SecondTwo> 
                       <NavLink
