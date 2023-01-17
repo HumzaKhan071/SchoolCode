@@ -3,46 +3,53 @@ import styled from "styled-components";
 import { BsFillCalendar2EventFill } from "react-icons/bs";
 import axios from "axios";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { Session } from "../../Global/RecoilState";
+import { Session, User } from "../../Global/RecoilState";
 // import { Session, User } from "../../../Global/RecoilState";
 
 const url: string = "https://school-code.onrender.com";
 
 const EventStudent = () => {
-  const [jan, setJan] = useState(true);
-  const [feb, setFeb] = useState(false);
-  const [mar, setMar] = useState(false);
-  const [apr, setApr] = useState(false);
-  const [may, setMay] = useState(false);
-  const [jun, setJun] = useState(false);
-  const [jul, setJul] = useState(false);
-  const [aug, setAug] = useState(false);
-  const [sept, setSept] = useState(false);
-  const [oct, setOct] = useState(false);
-  const [nov, setNov] = useState(false);
-  const [dec, setDec] = useState(false);
+  const user = useRecoilValue(User);
 
-  const [holderData, setHolderData] = useState([] as any[]);
+  const [holderData, setHolderData] = useState({} as any);
+  const [studentData, setStudentData] = useState({} as any);
+  const [studentData2, setStudentData2] = useState({} as any);
 
-  const session = useRecoilValue(Session);
+  const [academic, setAcademic] = useState({} as any);
 
-  console.log("review Data: ", session);
-
-  const fetchData = async () => {
-    await axios
-      .get(`${url}/api/event/${session._id}/viewing-event-school`)
-
-      .then((res) => {
-        console.log("review: ", res);
-        setHolderData(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+  const getStudent = async () => {
+    const myURL = `${url}/api/student/${user._id}/student-detail-school`;
+    await axios.get(myURL).then((res) => {
+      setStudentData(res.data.data);
+    });
   };
 
+  const dataURL = `${url}/api/academic/${studentData._id}/viewing-present-academic-session`;
+
+  const dataURL2 = `${url}/api/event/${academic!._id}/viewing-event-school`;
+
+  const getSession = async () => {
+    await axios.get(dataURL).then((res) => {
+      setAcademic(res.data.data);
+    });
+  };
+
+  const getEvent = async () => {
+    await axios.get(dataURL2).then((res) => {
+      setHolderData(res.data.data);
+    });
+  };
+
+  // console.log(academic);
+  // console.log(studentData);
+  console.log(holderData);
+
+  console.log(academic!._id);
+
   useEffect(() => {
-    fetchData();
+    getStudent();
+    getSession();
+    getEvent();
   }, []);
 
   return (
@@ -55,7 +62,7 @@ const EventStudent = () => {
 
       <Wrap>
         <View>
-          {holderData?.map((props) => (
+          {holderData?.map((props: any) => (
             <Card key={props._id}>
               <Top>
                 <Icon />

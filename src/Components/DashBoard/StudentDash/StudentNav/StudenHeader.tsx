@@ -55,6 +55,7 @@ const StudentHeader = () => {
       setSession(academic);
     });
   };
+
   useEffect(() => {
     getStudent();
     getSession();

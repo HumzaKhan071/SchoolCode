@@ -183,37 +183,8 @@ const StudentDashboard = () => {
                       index += 1;
                       return (
                         <button
-
-                        style={{
-                          backgroundColor: "transparent",
-                          border: "none",
-                          outline: "none",
-                          cursor: "pointer",
-                          fontSize: "18px",
-                          display: "flex",
-                          
-                        }}
-
-                        className={index <= (hover || rating) ? "on" : "off"}
-
-                        onClick={ async()=>{
-                          try {  
-                            setRating(index)
-                            await axios.post(`${url}/api/lecture-rating/${user._id}/${props._id}/creating-lecture-rating` ,   {ratingLecture:index}).then((res)=>{
-                              console.log("rating successfully")
-
-  
-                            })
-
-
-                          }catch(err) {
-                            console.error(err, "something wen wrong");
-                          }
-   
-                        }}
-                        onMouseEnter={() => setHover(index)}
-											onMouseLeave={() => setHover(rating)}
-
+                          onMouseEnter={() => setHover(index)}
+                          onMouseLeave={() => setHover(rating)}
                           style={{
                             backgroundColor: "transparent",
                             border: "none",
@@ -238,8 +209,6 @@ const StudentDashboard = () => {
                               console.error(err, "something wen wrong");
                             }
                           }}
-                          onMouseEnter={() => setHover(index)}
-                          onMouseLeave={() => setHover(rating)}
                         >
                           &#9733;
                         </button>
