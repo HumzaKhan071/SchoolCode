@@ -31,7 +31,6 @@ interface iData {
 const url: string = "https://school-code.onrender.com";
 const StudentHeader = () => {
   const [change, setChange] = React.useState(false);
-  const [sessionState, setSessionState] = useRecoilState(Session);
   const [academic, setAcademic] = useState({} as iSession);
   const [studentData, setStudentData] = useState({} as iData);
 
@@ -48,21 +47,19 @@ const StudentHeader = () => {
     });
   };
 
+  const dataURL = `${url}/api/academic/${studentData._id}/viewing-present-academic-session`;
+
   const getSession = async () => {
-    await axios
-      .get(
-        `${url}/api/academic/${studentData._id}/viewing-present-academic-session`
-      )
-      .then((res) => {
-        setAcademic(res.data.data);
-        setSession(academic);
-      });
+    await axios.get(dataURL).then((res) => {
+      setAcademic(res.data.data);
+      setSession(academic);
+    });
   };
   useEffect(() => {
     getStudent();
     getSession();
     axios.get(url);
-  }, [academic]);
+  }, [dataURL]);
 
   const changeTrue = () => {
     setChange(true);

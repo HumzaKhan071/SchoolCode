@@ -57,6 +57,9 @@ function ReportCard() {
     [] as number[]
   );
   const [score, setScore] = useState([] as any[]);
+  const [scoreTotal, setScoreTotal] = useState([] as any[]);
+
+  const [scoreRemarkData, setScoreRemarkData] = useState({} as any);
 
   const toggleFee = () => {
     setFee(!fee);
@@ -69,16 +72,14 @@ function ReportCard() {
     }, {});
   };
 
+  let checkData;
+
   const getResult = async () => {
     await axios
       .get(`${url}/api/performance/${user?._id}/viewing-student-performance`)
       .then((res) => {
         setMyResult(res?.data?.data?.performance);
       });
-  };
-  let checkData;
-  useEffect(() => {
-    getResult();
 
     var groubedSubjectName = groupData(myResult, "testName");
 
@@ -89,6 +90,21 @@ function ReportCard() {
       .map((el: any) => {
         return el.map((el: any) => {
           return el.totalScore;
+        });
+      })
+      .map((el: any) => {
+        return el;
+      })
+      .map((el: any) => {
+        return el.reduce((a: any, b: any) => {
+          return a + b;
+        });
+      });
+
+    const checkData2 = subjectDataFile
+      .map((el: any) => {
+        return el.map((el: any) => {
+          return el.rateScore;
         });
       })
       .map((el: any) => {
@@ -114,7 +130,24 @@ function ReportCard() {
           return el;
         })
     );
+
     setSubjectDataFileScore(checkData);
+    setScoreTotal(checkData2);
+  };
+
+  const getScoreResult = async () => {
+    const newURL = `${url}/api/performance/${
+      user!._id
+    }/general-student-performance`;
+
+    await axios.get(newURL).then((res) => {
+      setScoreRemarkData(res.data);
+    });
+  };
+
+  useEffect(() => {
+    getResult();
+    getScoreResult();
   }, []);
 
   return (
@@ -125,8 +158,8 @@ function ReportCard() {
           <MainHold>
             <LoaderHold>
               <Holding>
-                <span>General Performance</span>
-                <Div>on Test/Exam</Div>
+                <span>Report Card</span>
+                <Div>Report Card Performance</Div>
               </Holding>
             </LoaderHold>
             <NextRec>
@@ -136,7 +169,7 @@ function ReportCard() {
           </MainHold>
 
           <MainHold2>
-            <Cont>
+            {/* <Cont>
               <Tog>
                 <h5>Detail test and exam performance for {user?.name}</h5>
                 <span>
@@ -321,10 +354,65 @@ function ReportCard() {
                   </AllSubBox1>
                 ))}
               </div>
-            </Cont>
+            </Cont> */}
+
+            <TableHolder>
+              <Table>
+                <TableMark>
+                  <Subject>Subject</Subject>
+                  <Score>Test Scores</Score>
+                  <TotalScore>Total Score</TotalScore>
+                  <Remark>Remark</Remark>
+                </TableMark>
+              </Table>
+              <Table>
+                <TableMark2>
+                  <Subject>
+                    {scoreRemarkData?.data?.subjectName?.map(
+                      (el: any, i: number) => (
+                        <SubjectName key={i}>
+                          <Score>{el}</Score>
+                        </SubjectName>
+                      )
+                    )}
+                  </Subject>
+                  <Score>
+                    {scoreRemarkData?.data?.score?.map((el: any, i: number) => (
+                      <SubjectName key={i}>
+                        {el.map((props: any, i: number) => (
+                          <Score key={i}>{props}</Score>
+                        ))}
+                      </SubjectName>
+                    ))}
+                  </Score>
+
+                  <TotalScore>
+                    {scoreRemarkData?.data?.overAllMark?.map(
+                      (el: number, i: number) => (
+                        <SubjectName key={i}>
+                          <strong>
+                            <Score>{el}</Score>
+                          </strong>
+                        </SubjectName>
+                      )
+                    )}
+                  </TotalScore>
+
+                  <Remark>
+                    {scoreRemarkData?.data?.remarkData?.map(
+                      (el: any, i: number) => (
+                        <Remark>
+                          <strong key={i}>{el!.remark}</strong>
+                        </Remark>
+                      )
+                    )}
+                  </Remark>
+                </TableMark2>
+              </Table>
+            </TableHolder>
           </MainHold2>
 
-          <TableHolder>
+          {/* <TableHolder>
             <Table>
               <Subject>Subject</Subject>
               <Score>Test Scores</Score>
@@ -357,7 +445,7 @@ function ReportCard() {
                 ))}
               </Score>
             </Table>
-          </TableHolder>
+          </TableHolder> */}
         </Content>
       </Container>
     </>
@@ -366,9 +454,38 @@ function ReportCard() {
 
 export default ReportCard;
 
+const Remark = styled.div`
+  flex: 1;
+  text-transform: capitalized;
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  // background-color: lightblue;
+  min-width: 300px;
+`;
+
+const TableMark2 = styled.div`
+  border-bottom: 1px solid silver;
+  display: flex;
+  width: 100%;
+  // background-color: red;
+`;
+
+const TableMark = styled.div`
+  border-bottom: 1px solid silver;
+  display: flex;
+  width: 100%;
+`;
+
+const TotalScore = styled.div`
+  margin: 10px;
+  width: 150px;
+`;
+
 const SubjectName = styled.div`
   margin: 10px 0;
   display: flex;
+  min-width: 60px;
 `;
 
 const TableHolder = styled.div``;
@@ -382,6 +499,10 @@ const Score = styled.div`
 const Subject = styled.div`
   margin: 10px;
   width: 150px;
+
+  :hover {
+    background-color: gray;
+  }
 `;
 
 const Table = styled.div`
@@ -702,7 +823,7 @@ const Div = styled.div`
 `;
 const LoaderHold = styled.div`
   height: 100%;
-  background-color: #8e6aff;
+  background-color: red;
   width: 30%;
   border-radius: 10px;
 `;
