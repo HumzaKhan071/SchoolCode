@@ -22,6 +22,7 @@ import Swal from "sweetalert2";
 
 const url: string = "https://school-code.onrender.com";
 const StudentDashboard = () => {
+
 	const [percentage, setPercentage] = React.useState(80);
 	const [value, setValue] = React.useState(new Date());
 	const user = useRecoilValue(User);
@@ -219,6 +220,7 @@ const StudentDashboard = () => {
 								{/* <ConBottum bg="#8E6AFF">Click To Rate</ConBottum> */}
 
 								{/* <Boxchild>
+
 												<MdOutlinePlayLesson
 													style={{
 														color: "grey",
