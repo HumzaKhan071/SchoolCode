@@ -31,6 +31,7 @@ interface IData {
 
 function StatusStudent() {
   const { id } = useParams();
+
   const user = useRecoilValue(User);
   const useSession = useRecoilValue(Session);
 
@@ -54,14 +55,6 @@ function StatusStudent() {
   };
   const toggleEdit = () => {
     setShowEdit(!showEdit);
-  };
-
-  const getStudentDetails = async () => {
-    await axios
-      .get(`${url}/api/student/${user?._id}/${id}/view-student`)
-      .then((res) => {
-        setStudentData(res.data.data);
-      });
   };
 
   const paySchoolFeeNow = async () => {
@@ -111,15 +104,9 @@ function StatusStudent() {
   };
 
   useEffect(() => {
-    getStudentDetails();
     viewSchoolFeeDetail();
     getClassSuject();
-  }, [
-    // subjectHolder,
-    // studentDataFee,
-    // classInfo,
-    studentData,
-  ]);
+  }, [studentData]);
 
   return (
     <>

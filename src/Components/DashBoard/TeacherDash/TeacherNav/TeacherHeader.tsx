@@ -490,6 +490,7 @@ const Side = styled.div`
   width: 220px;
   min-height: calc(100vh - 0px);
   overflow: hidden;
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
   background-color: #ffffff;

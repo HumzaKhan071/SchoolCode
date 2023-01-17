@@ -2,14 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BiTime } from "react-icons/bi";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { User } from "../../Global/RecoilState";
 
 const url = "https://school-code.onrender.com";
 const LectureDetailRating = () => {
   const { id } = useParams();
-  const user = useRecoilValue(User);
   const [lectures, setLectures] = useState({} as any);
 
   const getAllLecture = async () => {

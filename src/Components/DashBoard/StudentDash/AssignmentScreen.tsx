@@ -5,21 +5,16 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { User } from "../../Global/RecoilState";
 import axios from "axios";
-import RatingLecture from "./RatingLecture";
 import { Link } from "react-router-dom";
 
 const url: string = "https://school-code.onrender.com";
 function AssignmentScreen() {
   const user = useRecoilValue(User);
 
-  const dataLecture = [];
   const [load, setLoad] = React.useState(false);
   const [classSubjects, setClassSubjects] = React.useState([] as any[]);
-  const [rate, setRate] = useState(0);
   const [rateLoad, setRateLoad] = useState({} as any);
   const [rateLoad1, setRateLoad1] = useState(false);
-  const [show, setShow] = useState(false);
-  // /:id/viewing-student-class-subject
 
   const getSubjects = async () => {
     const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;

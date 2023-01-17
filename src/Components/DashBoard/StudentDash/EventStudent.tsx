@@ -2,18 +2,16 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { BsFillCalendar2EventFill } from "react-icons/bs";
 import axios from "axios";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { Session, User } from "../../Global/RecoilState";
-// import { Session, User } from "../../../Global/RecoilState";
+import { useRecoilValue } from "recoil";
+import { User } from "../../Global/RecoilState";
 
 const url: string = "https://school-code.onrender.com";
 
 const EventStudent = () => {
   const user = useRecoilValue(User);
 
-  const [holderData, setHolderData] = useState({} as any);
+  const [holderData, setHolderData] = useState([] as any[]);
   const [studentData, setStudentData] = useState({} as any);
-  const [studentData2, setStudentData2] = useState({} as any);
 
   const [academic, setAcademic] = useState({} as any);
 
@@ -44,7 +42,7 @@ const EventStudent = () => {
     getStudent();
     getSession();
     getEvent();
-  }, []);
+  }, [academic]);
 
   return (
     <Container>
