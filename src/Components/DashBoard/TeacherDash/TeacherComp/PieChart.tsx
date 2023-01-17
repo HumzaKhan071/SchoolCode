@@ -1,45 +1,189 @@
-// import React from "react";
-// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-// import { Pie } from "react-chartjs-2";
+import axios from "axios";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import styled from "styled-components";
+import { User } from "../../../Global/RecoilState";
 
-// ChartJS.register(ArcElement, Tooltip, Legend);
+const url: string = "https://school-code.onrender.com";
 
-// const PieChart = () => {
-//   const data = {
-//     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-//     datasets: [
-//       {
-//         label: "# of Votes",
-//         data: [12, 19, 3, 5, 2, 3],
-//         backgroundColor: [
-//           "rgba(255, 99, 132, 0.2)",
-//           "rgba(54, 162, 235, 0.2)",
-//           "rgba(255, 206, 86, 0.2)",
-//           "rgba(75, 192, 192, 0.2)",
-//           "rgba(153, 102, 255, 0.2)",
-//           "rgba(255, 159, 64, 0.2)",
-//         ],
-//         borderColor: [
-//           "rgba(255, 99, 132, 1)",
-//           "rgba(54, 162, 235, 1)",
-//           "rgba(255, 206, 86, 1)",
-//           "rgba(75, 192, 192, 1)",
-//           "rgba(153, 102, 255, 1)",
-//           "rgba(255, 159, 64, 1)",
-//         ],
-//         borderWidth: 1,
-//       },
-//     ],
-//   };
-//   return <Pie data={data} />;
-// };
+interface Iprops {
+	notice: any;
+}
+const PieChart: React.FC<Iprops> = ({ notice }) => {
+	useEffect(() => {}, [notice]);
 
-// export default PieChart;
-
-import React from "react";
-
-const PieChart = () => {
-  return <div>PieChart</div>;
+	return (
+		<div>
+			<BoardHold>
+				<NoticeHold>
+					{notice?.length >= 1 ? (
+						<div>
+							{notice?.map((props: any, i: any) => (
+								<div key={i}>
+									{i <= 1 ? (
+										<div>
+											{" "}
+											<NoticeData key={props.id}>
+												<Div>{props.title}</Div>
+												<NoticeMessage> {props.detail} </NoticeMessage>
+												<SenderDate>
+													<small> {moment(props.createdAt).fromNow()} </small> /{" "}
+												</SenderDate>
+											</NoticeData>
+										</div>
+									) : null}
+								</div>
+							))}
+						</div>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+							}}>
+							No notice found
+						</div>
+					)}
+				</NoticeHold>
+			</BoardHold>
+		</div>
+	);
 };
 
 export default PieChart;
+
+const Div = styled.div`
+	height: 30px;
+	//   width: 120px;
+	padding: 0 10px;
+	background-color: #40dfcd;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 40px;
+	font-size: 10px;
+	color: #fff;
+	font-weight: 600;
+	margin-bottom: 15px;
+`;
+
+const Container = styled.div`
+	//   wifth: 100%;
+	min-height: calc(100vh - 60px);
+	display: flex;
+	justify-content: center;
+	background-color: #f7f9fc;
+	/* background-color: gold; */
+	overflow: hidden;
+	position: absolute;
+	right: 0px;
+	// top: 50px;
+
+	@media screen and (max-width: 1100px) {
+		width: 95%;
+	}
+	@media screen and (max-width: 1005px) {
+		width: 100%;
+	}
+
+	/* background-color: #352b1e; */
+`;
+
+const Wrapper = styled.div`
+	//   width: 95%;
+	display: flex;
+	justify-content: center;
+`;
+
+const BoardCard = styled.div`
+	width: 95%;
+	background-color: #fff;
+	margin-top: 30px;
+`;
+const BoardHold = styled.div`
+	padding: 30px;
+`;
+const Title = styled.div`
+	font-weight: bold;
+	margin-bottom: 10px;
+`;
+const Serarch = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	margin: 20px 0;
+	align-items: flex-end;
+
+	button {
+		height: 40px;
+		width: 120px;
+		font-family: poppins;
+		background-color: #1da1f2;
+		color: #fff;
+		border-radius: 3px;
+		font-size: 15px;
+		font-weight: 600;
+		cursor: pointer;
+		margin-right: 10px;
+		border: none;
+		@media (max-width: 500px) {
+			height: 40px;
+			/* width: 100%; */
+			font-size: 12px;
+			/* margin-left: 10px; */
+			margin-right: 10px;
+		}
+	}
+`;
+
+const Inputt = styled.div`
+	display: flex;
+	flex-direction: column;
+	margin-right: 20px;
+	input {
+		height: 40px;
+		width: 200px;
+		font-family: poppins;
+		border: 1px solid #dddddd;
+		color: #6d6d6e;
+		border-radius: 3px;
+		font-size: 14px;
+		font-weight: 600;
+		cursor: pointer;
+		@media (max-width: 500px) {
+			margin-bottom: 10px;
+		}
+	}
+	label {
+		font-size: 10px;
+		font-weight: 600;
+		margin-bottom: 3px;
+	}
+`;
+const NoticeHold = styled.div``;
+const NoticeData = styled.div`
+	border-bottom: 1px solid lightgray;
+	margin-bottom: 10px;
+`;
+const NoticeDate = styled.div`
+	height: 30px;
+	width: 120px;
+	/* background-color: #40dfcd; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 40px;
+	font-size: 10px;
+	color: #fff;
+	font-weight: 600;
+	margin-bottom: 15px;
+`;
+const NoticeMessage = styled.div`
+	font-size: 13px;
+	margin-bottom: 10px;
+`;
+const SenderDate = styled.div`
+	font-size: 11px;
+	margin-bottom: 20px;
+`;
