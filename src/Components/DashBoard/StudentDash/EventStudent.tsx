@@ -40,12 +40,6 @@ const EventStudent = () => {
     });
   };
 
-  // console.log(academic);
-  // console.log(studentData);
-  console.log(holderData);
-
-  console.log(academic!._id);
-
   useEffect(() => {
     getStudent();
     getSession();
