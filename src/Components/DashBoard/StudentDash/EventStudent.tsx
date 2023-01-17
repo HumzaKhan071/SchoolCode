@@ -42,7 +42,7 @@ const EventStudent = () => {
     getStudent();
     getSession();
     getEvent();
-  }, [academic]);
+  }, [academic, studentData]);
 
   return (
     <Container>

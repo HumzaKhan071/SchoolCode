@@ -6,11 +6,9 @@ import {
   AiOutlineCopy,
   AiFillQuestionCircle,
   AiFillBell,
-  AiFillDashboard,
   AiOutlineCalendar,
 } from "react-icons/ai";
 import { useRecoilState, useRecoilValue } from "recoil";
-// import { BsCalendarCheck } from 'react-icons/bs';
 import { SideBarItem } from "./RouterSide";
 import { NavLink, useNavigate } from "react-router-dom";
 import img from "./1.jpg";
@@ -61,7 +59,7 @@ const StudentHeader = () => {
     getStudent();
     getSession();
     axios.get(url);
-  }, [dataURL]);
+  }, [dataURL, academic]);
 
   const changeTrue = () => {
     setChange(true);
