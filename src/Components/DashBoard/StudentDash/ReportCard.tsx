@@ -1,20 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { AiOutlineClose } from "react-icons/ai";
-import { FiMoreVertical } from "react-icons/fi";
-import { MdDeleteForever } from "react-icons/md";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { Session, User } from "../../Global/RecoilState";
-import Swal from "sweetalert2";
-import Loading from "../../Auth/Loading";
-import ClassDataProps from "../AdminDash/ClassDataProps";
-import MyForm from "../AdminDash/Screen/Homeforms/MyForm";
-import OtherForm from "../AdminDash/Screen/Homeforms/MyForm";
 
-import numeral from "numeral";
-import moment from "moment";
+import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { User } from "../../Global/RecoilState";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -31,109 +20,9 @@ interface IData {
 }
 
 function ReportCard() {
-  const { id } = useParams();
   const user = useRecoilValue(User);
-  const useSession = useRecoilValue(Session);
-
-  const [studentData, setStudentData] = React.useState({} as IData);
-  const [studentDataFee, setStudentDataFee] = React.useState([] as any[]);
-  const [fee, setFee] = useState(false);
-  const [show, setShow] = useState(false);
-
-  const [name, setName] = useState("");
-  const [name1, setName1] = useState("");
-  const [name2, setName2] = useState("");
-  const [idState, setIdState] = useState("");
-  const [showEdit, setShowEdit] = useState(false);
-  const [amount, setAmount] = useState("");
-
-  const [subjectHolder, setSubjectHolder] = useState([] as any[]);
-  const [myResult, setMyResult] = useState([] as any[]);
-  const [classInfo, setClassInfo] = useState({} as any);
-
-  const [subjectData, setSubjectData] = useState([] as string[]);
-  const [subjectDataFile, setSubjectDataFile] = useState([] as number[]);
-  const [subjectDataFileScore, setSubjectDataFileScore] = useState(
-    [] as number[]
-  );
-  const [score, setScore] = useState([] as any[]);
-  const [scoreTotal, setScoreTotal] = useState([] as any[]);
 
   const [scoreRemarkData, setScoreRemarkData] = useState({} as any);
-
-  const toggleFee = () => {
-    setFee(!fee);
-  };
-
-  const groupData = (data: {}[], props: string) => {
-    return data.reduce((el: any, newEL: any) => {
-      (el[newEL[props]] = el[newEL[props]] || []).push(newEL);
-      return el;
-    }, {});
-  };
-
-  let checkData;
-
-  const getResult = async () => {
-    await axios
-      .get(`${url}/api/performance/${user?._id}/viewing-student-performance`)
-      .then((res) => {
-        setMyResult(res?.data?.data?.performance);
-      });
-
-    var groubedSubjectName = groupData(myResult, "testName");
-
-    setSubjectData(Object.keys(groubedSubjectName));
-    setSubjectDataFile(Object.values(groubedSubjectName));
-
-    const checkData = subjectDataFile
-      .map((el: any) => {
-        return el.map((el: any) => {
-          return el.totalScore;
-        });
-      })
-      .map((el: any) => {
-        return el;
-      })
-      .map((el: any) => {
-        return el.reduce((a: any, b: any) => {
-          return a + b;
-        });
-      });
-
-    const checkData2 = subjectDataFile
-      .map((el: any) => {
-        return el.map((el: any) => {
-          return el.rateScore;
-        });
-      })
-      .map((el: any) => {
-        return el;
-      })
-      .map((el: any) => {
-        return el.reduce((a: any, b: any) => {
-          return a + b;
-        });
-      });
-
-    setScore(
-      subjectDataFile
-        .map((el: any) => {
-          return el.map((el: any) => {
-            return el.totalScore;
-          });
-        })
-        .map((el: any) => {
-          return el;
-        })
-        .map((el: any) => {
-          return el;
-        })
-    );
-
-    setSubjectDataFileScore(checkData);
-    setScoreTotal(checkData2);
-  };
 
   const getScoreResult = async () => {
     const newURL = `${url}/api/performance/${
@@ -146,7 +35,6 @@ function ReportCard() {
   };
 
   useEffect(() => {
-    getResult();
     getScoreResult();
   }, []);
 
@@ -401,8 +289,8 @@ function ReportCard() {
                   <Remark>
                     {scoreRemarkData?.data?.remarkData?.map(
                       (el: any, i: number) => (
-                        <Remark>
-                          <strong key={i}>{el!.remark}</strong>
+                        <Remark key={i}>
+                          <strong>{el!.remark}</strong>
                         </Remark>
                       )
                     )}
@@ -878,13 +766,13 @@ const Container = styled.div`
   min-height: calc(100vh - 60px);
   display: flex;
   justify-content: center;
-
+  // margin-top: 80px;
   background-color: #f7f9fc;
 
   overflow: hidden;
   position: absolute;
   right: 0px;
-  margin-top: 80px;
+  padding-top: 80px;
   // top: 50px;
 
   @media screen and (max-width: 1100px) {

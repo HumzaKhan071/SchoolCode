@@ -5,24 +5,10 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import { BiTimeFive } from "react-icons/bi";
 import { IoHourglassOutline } from "react-icons/io5";
 import { MdOutlineAlignHorizontalLeft } from "react-icons/md";
-import { TestData } from "./TestData";
 import axios from "axios";
 import moment from "moment";
 import { useRecoilValue } from "recoil";
 import { User } from "../../Global/RecoilState";
-
-interface demain {
-  question: string;
-  answer: string;
-  options: {}[];
-}
-interface testGet {
-  id: number;
-  subjectTest: string;
-  time: string;
-  testDetails: any;
-  data: any[];
-}
 
 const url: string = "https://school-code.onrender.com";
 
@@ -60,28 +46,8 @@ const DetailsTest = () => {
       }
     }
 
-    console.log("my answer: ", Object.values(answer));
-    console.log("correct: ", correctAnswer);
-
-    console.log(score);
-
     if (score >= 3) status = "Pass";
     else status = "Fail";
-
-    var date = new Date();
-    var d =
-      date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-    var t = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-
-    let data = {
-      result_status: status,
-      result_score: score,
-      exam_date: d + " " + t,
-      total_marks: "5",
-      exam_id: id,
-      total_Question: "5",
-    };
-    console.log(data);
 
     const newURL = `${url}/api/performance/${user._id}/create-student-performance`;
     axios.post(newURL, {

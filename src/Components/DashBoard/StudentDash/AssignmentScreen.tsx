@@ -5,128 +5,128 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { User } from "../../Global/RecoilState";
 import axios from "axios";
-import RatingLecture from "./RatingLecture";
 import { Link } from "react-router-dom";
 import pic from "../../Img/emp.gif";
 
 const url: string = "https://school-code.onrender.com";
 function AssignmentScreen() {
-	const user = useRecoilValue(User);
 
-	const dataLecture = [];
-	const [load, setLoad] = React.useState(false);
-	const [classSubjects, setClassSubjects] = React.useState([] as any[]);
-	const [rate, setRate] = useState(0);
-	const [rateLoad, setRateLoad] = useState({} as any);
-	const [rateLoad1, setRateLoad1] = useState(false);
-	const [show, setShow] = useState(false);
-	// /:id/viewing-student-class-subject
+  const user = useRecoilValue(User);
 
-	const getSubjects = async () => {
-		const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;
-		await axios.get(newURL).then((res) => {
-			setClassSubjects(res!.data!.data!.subject);
-		});
-	};
+  const [load, setLoad] = React.useState(false);
+  const [classSubjects, setClassSubjects] = React.useState([] as any[]);
+  const [rateLoad, setRateLoad] = useState({} as any);
+  const [rateLoad1, setRateLoad1] = useState(false);
 
-	const toggle = () => {
-		setRateLoad1(!rateLoad1);
-	};
+  const getSubjects = async () => {
+    const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;
+    await axios.get(newURL).then((res) => {
+      setClassSubjects(res!.data!.data!.subject);
+    });
+  };
 
-	useEffect(() => {
-		getSubjects();
-	}, []);
+  const toggle = () => {
+    setRateLoad1(!rateLoad1);
+  };
 
-	return (
-		<>
-			<Container>
-				<MyContent>
-					<UserName>
-						All Lecture
-						<span>Student&nbsp;/&nbsp;test</span>
-					</UserName>
-					<Mysubject>
-						{classSubjects?.length > 0 ? (
-							<div
-								style={{
-									display: "flex",
-									flexWrap: "wrap",
-								}}>
-								{classSubjects?.map((props) => (
-									<Card key={props._id}>
-										<First>
-											<Iconmy cl='#0FBBFE' />
-										</First>
-										<Second>
-											<LectureName>
-												<span>{props.subjectName}</span>
-												<pre>Lecture Code: {props.subjectToken}</pre>
-											</LectureName>
-											<Content>
-												Let’s start with a quick tour of Vue’s data binding
-												features.
-											</Content>
+  useEffect(() => {
+    getSubjects();
+  }, []);
 
-											<TeacherDetails>
-												<div>Teacher </div>
-												&nbsp;
-												<pre>{props.subjectTeacher}</pre>
-											</TeacherDetails>
-											<TeacherMeter></TeacherMeter>
+  return (
+    <>
+      <Container>
+        <MyContent>
+          <UserName>
+            All Lecture
+            <span>Student&nbsp;/&nbsp;test</span>
+          </UserName>
+          <Mysubject>
+            {classSubjects?.length > 0 ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                }}
+              >
+                {classSubjects?.map((props) => (
+                  <Card key={props._id}>
+                    <First>
+                      <Iconmy cl="#0FBBFE" />
+                    </First>
+                    <Second>
+                      <LectureName>
+                        <span>{props.subjectName}</span>
+                        <pre>Lecture Code: {props.subjectToken}</pre>
+                      </LectureName>
+                      <Content>
+                        Let’s start with a quick tour of Vue’s data binding
+                        features.
+                      </Content>
 
-											<LectureButton>
-												<MyButton
-													bg='red'
-													onClick={() => {
-														setRateLoad(props);
-														setRateLoad1(true);
-														toggle();
-													}}>
-													Rate Lecture
-												</MyButton>
-												{/* lecture-screen/:id */}
+                      <TeacherDetails>
+                        <div>Teacher </div>
+                        &nbsp;
+                        <pre>{props.subjectTeacher}</pre>
+                      </TeacherDetails>
+                      <TeacherMeter></TeacherMeter>
 
-												<Link
-													style={{ textDecoration: "none" }}
-													to={`lecture-screen/${props._id}`}>
-													<MyButton bg='#0fbbfe'>View Lecture</MyButton>
-												</Link>
+                      <LectureButton>
+                        <MyButton
+                          bg="red"
+                          onClick={() => {
+                            setRateLoad(props);
+                            setRateLoad1(true);
+                            toggle();
+                          }}
+                        >
+                          Rate Lecture
+                        </MyButton>
+                        {/* lecture-screen/:id */}
 
-												<div style={{ flex: "1" }} />
-												<pre>Your Rating: 0</pre>
-											</LectureButton>
-										</Second>
-									</Card>
-								))}
-							</div>
-						) : (
-							<>
-								<BoxHold1>
-									{load ? (
-										<div>
-											<div>
-												<ClipLoader color='#36d7b7' />
-											</div>
-											<div> Fetching data...</div>
-										</div>
-									) : (
-										<>
-											<BoxImag src={pic} />
-											<h3>Lecture Not Available</h3>
-											<p>
-												Your institute has no lecture yet. Added lecture will
-												appear here.
-											</p>
-										</>
-									)}
-								</BoxHold1>
-							</>
-						)}
-					</Mysubject>
-				</MyContent>
-			</Container>
-		</>
-	);
+                        <Link
+                          style={{ textDecoration: "none" }}
+                          to={`lecture-screen/${props._id}`}
+                        >
+                          <MyButton bg="#0fbbfe">View Lecture</MyButton>
+                        </Link>
+
+                        <div style={{ flex: "1" }} />
+                        <pre>Your Rating: 0</pre>
+                      </LectureButton>
+                    </Second>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <>
+                <BoxHold1>
+                  {load ? (
+                    <div>
+                      <div>
+                        <ClipLoader color="#36d7b7" />
+                      </div>
+                      <div> Fetching data...</div>
+                    </div>
+                  ) : (
+                    <>
+                      <BoxImag src="/img/emp.gif" />
+                      <h3>Lecture Not Available</h3>
+                      <p>
+                        Your institute has no lecture yet. Added lecture will
+                        appear here.
+                      </p>
+                    </>
+                  )}
+                </BoxHold1>
+              </>
+            )}
+          </Mysubject>
+        </MyContent>
+      </Container>
+    </>
+  );
+
 }
 
 export default AssignmentScreen;
