@@ -43,6 +43,14 @@ const AttendanceTable: React.FC<Iprops> = ({ myProps }) => {
 
 	const [presentData, setPresentData] = React.useState([]);
 
+	const CreatePresent = async (id: any) => {
+		console.log("id ooooo", id);
+		const uuri = `${URL}/api/attendance/${user?._id}/${id}/present`;
+
+		await axios.post(uuri).then((res) => {
+			console.log("student present", res);
+		});
+	};
 	const ViewPresent = async () => {
 		// console.log("id ooooo", id);
 		const uuri = `${URL}/api/attendance/${user?._id}/teacher-viewing-student-attendance`;
@@ -65,7 +73,7 @@ const AttendanceTable: React.FC<Iprops> = ({ myProps }) => {
 					<table>
 						<tr>
 							<th>Students</th>
-							{days.map((props) => (
+							{days.map((props: any) => (
 								<th>{props}</th>
 							))}
 						</tr>

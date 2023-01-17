@@ -78,6 +78,8 @@ function Students() {
 		await axios.get(newURL).then((res) => {
 			setStudent(res.data.data.students);
 			setLoad(false);
+
+			console.log("this is for studebt data", res);
 		});
 	};
 
@@ -153,53 +155,42 @@ function Students() {
 					{student?.length >= 1 ? (
 						<BoxHold>
 							{student?.map((props) => (
-								<TeaqcherCard key={props._id}>
-									<TeachHold>
-										<TeacherImage src='/img/prof.png' />
-										<Main>
-											<Div>{props.name}</Div>
-											<P>{props.email}</P>
-											<div
-												style={{
-													fontSize: "10px",
-													display: "flex",
-													alignItems: "center",
-												}}>
-												<div>Position </div> : Student
-											</div>
+								<ReMakeCard key={props._id}>
+									<TeacherImage src='/img/prof.png' />
+									<Div>{props.name}</Div>
+									<P>{props.email}</P>
+									<RemButHold>
+										<RemBut
+											onClick={() => {
+												toggleClassRoom();
+												setHold(props._id);
+											}}
+											bg='#4A148C'>
+											Change Class
+										</RemBut>
 
-											<Cal>Class : {props.className}</Cal>
-											<br />
+										<Link
+											style={{ textDecoration: "none", color: "white" }}
+											to={`/admin-dashboard/createstudent/view-student-detail/${props._id}`}>
+											{" "}
+											<RemBut bg='#1DA1F2'>View Details</RemBut>
+										</Link>
+										<br />
+									</RemButHold>
+									<Down>
+										<Down1>
+											<DownHo style={{ color: "#1DA1F2" }}>
+												Class Assigned
+											</DownHo>
+											<Sub>{props.className}</Sub>
+										</Down1>
 
-											<div
-												style={{
-													display: "flex",
-													justifyContent: "space-between",
-													width: "100%",
-													flexWrap: "wrap",
-												}}>
-												<ButtonB
-													bg='#4A148C'
-													onClick={() => {
-														toggleClassRoom();
-														setHold(props._id);
-													}}>
-													Change class
-												</ButtonB>
-
-												<Link
-													style={{ textDecoration: "none", color: "white" }}
-													to={`/admin-dashboard/createstudent/view-student-detail/${props._id}`}>
-													{" "}
-													<ButtonB bg='#1DA1F2'>View Details</ButtonB>
-												</Link>
-
-												<br />
-												<br />
-											</div>
-										</Main>
-									</TeachHold>
-								</TeaqcherCard>
+										<Down1>
+											<DownHo style={{ color: "#FAB84E" }}>Status</DownHo>
+											<Sub>Student</Sub>
+										</Down1>
+									</Down>
+								</ReMakeCard>
 							))}
 						</BoxHold>
 					) : (
@@ -238,6 +229,64 @@ function Students() {
 }
 
 export default Students;
+
+const Down = styled.div`
+	display: flex;
+	font-size: 10px;
+	justify-content: space-between;
+	width: 80%;
+	margin-top: 5px;
+	/* text-align: center; */
+`;
+const Down1 = styled.div``;
+const DownHo = styled.div`
+	margin-right: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	text-align: center;
+`;
+const Sub = styled.div`
+	font-weight: bold;
+`;
+
+const RemButHold = styled.div`
+	display: flex;
+`;
+const RemBut = styled.div<{ bg: string }>`
+	height: 25px;
+	width: 110px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 20px;
+	background-color: ${({ bg }) => bg};
+	display: flex;
+	font-size: 12px;
+	color: white;
+	margin: 5px;
+	cursor: pointer;
+`;
+
+const ReMakeCard = styled.div`
+	/* height: 170px; */
+	width: 300px;
+	border: 1px solid #f4f3f3;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	transition: all 350ms;
+
+	:hover {
+		border: 1px solid #fab84e;
+	}
+`;
 
 const ButtonB = styled.div<{ bg: string }>`
 	height: 40px;
@@ -331,7 +380,7 @@ const TeacherImage = styled.img`
 	height: 50px;
 	width: 50px;
 	border-radius: 50%;
-	background-color: silver;
+	background-color: #f7f7f7;
 	margin-right: 10px;
 `;
 const Main = styled.div``;
