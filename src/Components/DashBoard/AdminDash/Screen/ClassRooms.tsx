@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { User } from "../../../Global/RecoilState";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Link } from "react-router-dom";
-
+import pic from "../../../Img/emp.gif";
 const url: string = "https://school-code.onrender.com";
 
 interface iTeacher {
@@ -97,7 +97,7 @@ function ClassRooms() {
 							</div>
 						) : (
 							<>
-								<BoxImag src='/img/emp.gif' />
+								<BoxImag src={pic} />
 								<h3>Add ClassRoom to your institute.</h3>
 								<p>
 									Your institute has no ClassRoom yet. Added classrooms will

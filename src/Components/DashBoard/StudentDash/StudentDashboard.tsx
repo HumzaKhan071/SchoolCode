@@ -19,10 +19,13 @@ import "./pagination.css";
 import { iDataLeture } from "./LectureData";
 import SliderComp from "./SliderComp";
 import Swal from "sweetalert2";
+import pic1 from "../../svg/teacher-icon-01.svg";
+import pic2 from "../../svg/teacher-icon-02.svg";
+import pic3 from "../../svg/student-icon-01.svg";
+import pic4 from "../../svg/student-icon-02.svg";
 
 const url: string = "https://school-code.onrender.com";
 const StudentDashboard = () => {
-
 	const [percentage, setPercentage] = React.useState(80);
 	const [value, setValue] = React.useState(new Date());
 	const user = useRecoilValue(User);
@@ -268,7 +271,7 @@ const StudentDashboard = () => {
 						</One>
 						<Two>
 							<BackTwo>
-								<img src='/svg/teacher-icon-01.svg' />
+								<img src={pic1} />
 							</BackTwo>
 						</Two>
 					</DisPlay>
@@ -281,7 +284,7 @@ const StudentDashboard = () => {
 						</One>
 						<Two>
 							<BackTwo>
-								<img src='/svg/teacher-icon-02.svg' />
+								<img src={pic2} />
 							</BackTwo>
 						</Two>
 					</DisPlay>
@@ -294,7 +297,7 @@ const StudentDashboard = () => {
 						</One>
 						<Two>
 							<BackTwo>
-								<img src='/svg/student-icon-01.svg' />
+								<img src={pic3} />
 							</BackTwo>
 						</Two>
 					</DisPlay>
@@ -307,7 +310,7 @@ const StudentDashboard = () => {
 						</One>
 						<Two>
 							<BackTwo>
-								<img src='/svg/student-icon-02.svg' />
+								<img src={pic4} />
 							</BackTwo>
 						</Two>
 					</DisPlay>

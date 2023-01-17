@@ -6,7 +6,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import Loading from "./Loading";
-
+import pic1 from "../Img/kod.png";
+import pic2 from "../Img/SckoolCodMain.png";
 interface iData {
 	schoolName: string;
 	email: string;
@@ -53,7 +54,7 @@ const SchoolSignUp = () => {
 			{loading ? <Loading /> : null}
 			<First>
 				<Logo>
-					<img src='/Img/kod.png' alt='' />
+					<img src={pic1} alt='' />
 				</Logo>
 
 				<HeadHold>
@@ -103,7 +104,7 @@ const SchoolSignUp = () => {
 					<p>~ Luciana C.</p>
 
 					<ImageHold>
-						<Image src='/Img/SckoolCodMain.png' />
+						<Image src={pic2} />
 					</ImageHold>
 				</Wrapper>
 			</Second>

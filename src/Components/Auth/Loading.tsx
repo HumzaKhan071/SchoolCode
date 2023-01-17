@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import pic1 from "../Img/load1.gif";
 
 const Loading = () => {
 	return (
 		<Container>
-			<LoadImage src='/img/load1.gif' />
+			<LoadImage src={pic1} />
 		</Container>
 	);
 };

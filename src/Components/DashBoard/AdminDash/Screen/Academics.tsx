@@ -7,6 +7,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import MyForm from "./Homeforms/MyForm";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import pic from "../../../Img/emp.gif";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -205,7 +206,7 @@ function Academics() {
 								</div>
 							) : (
 								<>
-									<BoxImag src='/img/emp.gif' />
+									<BoxImag src={pic} />
 									<h3>Add Teacher to your institute.</h3>
 									<p>
 										Your institute has no teacher yet. Added classrooms will
