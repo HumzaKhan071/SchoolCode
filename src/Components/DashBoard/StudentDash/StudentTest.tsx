@@ -4,7 +4,6 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { User } from "../../Global/RecoilState";
 import ExamCard from "./ExamCard";
-import { TestData } from "./TestData";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -13,15 +12,11 @@ const StudentTest = () => {
   const [myTestData, setMyTestData] = useState([] as any[]);
 
   const fetchTest = async () => {
-    //   {{uri}}/test/63b15f60dc81aa109c62fa8c/view-class-test-now
-    const local = "http://localhost:2244";
     const newURL = `${url}/api/test/${user.classID}/view-class-test-now`;
     await axios.get(newURL).then((res) => {
-      console.log("showing: ", res);
       setMyTestData(res!.data!.data!.test);
     });
   };
-  console.log("showing Data:  ");
   useEffect(() => {
     fetchTest();
   }, []);
@@ -35,7 +30,7 @@ const StudentTest = () => {
         </UserName>
         <Mysubject>
           {myTestData.map((item, index) => (
-            <ExamCard data={item} />
+            <ExamCard data={item} key={index} />
           ))}
         </Mysubject>
       </MyContent>

@@ -12,7 +12,7 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 // import { BsCalendarCheck } from 'react-icons/bs';
 import { SideBarItem } from "./RouterSide";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import img from "./1.jpg";
 import SideBar from "./SideBar";
 import { Session, User } from "../../../Global/RecoilState";
@@ -33,9 +33,10 @@ const StudentHeader = () => {
   const [change, setChange] = React.useState(false);
   const [academic, setAcademic] = useState({} as iSession);
   const [studentData, setStudentData] = useState({} as iData);
-
+  const navigate = useNavigate();
   const user = useRecoilValue(User);
   const [session, setSession] = useRecoilState(Session);
+  const [userState, setUserState] = useRecoilState(User);
 
   const myRef = React.useRef<HTMLDivElement>(null!);
   const backRef = React.useRef<HTMLDivElement>(null!);
@@ -55,6 +56,7 @@ const StudentHeader = () => {
       setSession(academic);
     });
   };
+
   useEffect(() => {
     getStudent();
     getSession();
@@ -177,6 +179,7 @@ const StudentHeader = () => {
           {SideBarItem.map((props, index) => (
             <NavLink
               to={props.to}
+              key={index}
               style={({ isActive }) => {
                 return {
                   color: isActive ? "#1DA1F2" : "black",
@@ -200,8 +203,22 @@ const StudentHeader = () => {
           ))}
         </ContentDash>
 
-        <LogSide>
+        <LogSide
+          onClick={() => {
+            setUserState(null);
+            navigate("/");
+          }}
+        >
           <Dimge src="/Img/kod.png" />
+          <div
+            style={{
+              fontSize: "14px",
+              fontWeight: "bold",
+              textTransform: "uppercase",
+            }}
+          >
+            Log Out
+          </div>
         </LogSide>
       </Side>
 
@@ -272,8 +289,8 @@ const LogSide = styled.div`
   height: 100px;
   width: 100%;
   justify-content: center;
-
   display: flex;
+  flex-direction: column;
 `;
 
 const NavCon = styled.div`
@@ -461,7 +478,7 @@ const Side = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
-
+  padding-top: 70px;
   position: fixed;
   justify-content: space-between;
 

@@ -1,13 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { reset } from "numeral";
 import { User } from "../../Global/RecoilState";
 import RatingLecture from "./RatingLecture";
 
@@ -15,11 +11,9 @@ const url = "https://school-code.onrender.com";
 
 const LectureScreen = () => {
   const { id } = useParams();
-  const [draft, setDraft] = useState("");
 
   const user = useRecoilValue(User);
   const [lectures, setLectures] = useState([] as any[]);
-  const [rate, setRate] = useState(0);
   const [rateLoad, setRateLoad] = useState({} as any);
   const [rateLoad1, setRateLoad1] = useState(false);
   const [show, setShow] = useState(false);
@@ -34,9 +28,6 @@ const LectureScreen = () => {
       setLectures(res.data.data.lecture);
     });
   };
-
-  // console.log(lectures);
-  // console.log(id);
 
   useEffect(() => {
     fetchSub();

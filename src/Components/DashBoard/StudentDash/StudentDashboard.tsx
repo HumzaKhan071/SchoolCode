@@ -38,13 +38,10 @@ const StudentDashboard = () => {
   const [notice, setNotice] = useState({} as any);
   const [academic, setAcademic] = useState({} as any);
 
-  console.log("this is users", user);
-
   const viewingClass = async () => {
     await axios
       .get(`${url}/api/class/${user?.classID}/viewing-class`)
       .then((res) => {
-        console.log("this is the class", res);
         setClassData(res.data.data);
       });
   };
@@ -66,7 +63,6 @@ const StudentDashboard = () => {
       )
       .then((res) => {
         setNotice(res.data.data);
-        console.log("notice: ", notice);
       });
   };
 
@@ -194,37 +190,29 @@ const StudentDashboard = () => {
                       return (
                         <button
 
-                        style={{
-                          backgroundColor: "transparent",
-                          border: "none",
-                          outline: "none",
-                          cursor: "pointer",
-                          fontSize: "18px",
-                          display: "flex",
-                          
-                        }}
+                          style={{
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            cursor: "pointer",
+                            fontSize: "18px",
+                            display: "flex",
+                          }}
+                          className={index <= (hover || rating) ? "on" : "off"}
+                          onClick={async () => {
+                            try {
+                              setRating(index);
+                              await axios
+                                .post(
+                                  `${url}/api/lecture-rating/${user._id}/${props._id}/creating-lecture-rating`,
+                                  { ratingLecture: index }
+                                )
+                                .then((res) => {});
+                            } catch (err) {
+                              console.error(err, "something wen wrong");
+                            }
+                          }}
 
-                        className={index <= (hover || rating) ? "on" : "off"}
-
-                        onClick={ async()=>{
-                          try {  
-                            setRating(index)
-                            await axios.post(`${url}/api/lecture-rating/${user._id}/${props._id}/creating-lecture-rating` ,   {ratingLecture:index}).then((res)=>{
-                              console.log("rating successfully")
-
-  
-                            })
-
-
-                          }catch(err) {
-                            console.error(err, "something wen wrong");
-                          }
-   
-                        }}
-            
-
-                          
-                        
                           onMouseEnter={() => setHover(index)}
                           onMouseLeave={() => setHover(rating)}
                         >
@@ -239,6 +227,7 @@ const StudentDashboard = () => {
                 {/* <ConBottum bg="#8E6AFF">Click To Rate</ConBottum> */}
 
                 {/* <Boxchild>
+
 												<MdOutlinePlayLesson
 													style={{
 														color: "grey",

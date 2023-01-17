@@ -9,7 +9,11 @@ interface Iprops {
 
 const SideBar: React.FC<Iprops> = ({ changeFalse }) => {
   return (
-    <div>
+    <div
+      style={{
+        marginTop: "80px",
+      }}
+    >
       <ContentDash>
         {SideBarItem.map((props, index) => (
           <NavLink
@@ -37,9 +41,7 @@ const SideBar: React.FC<Iprops> = ({ changeFalse }) => {
         ))}
       </ContentDash>
 
-      <LogSide>
-        <Dimge src="/Img/kod.png" />
-      </LogSide>
+      <LogSide>{/* <Dimge src="/Img/kod.png" /> */}</LogSide>
     </div>
   );
 };

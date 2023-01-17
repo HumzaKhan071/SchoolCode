@@ -31,29 +31,12 @@ interface IData {
 }
 
 function StudentPerformance() {
-  const { id } = useParams();
   const user = useRecoilValue(User);
-  const useSession = useRecoilValue(Session);
 
-  const [studentData, setStudentData] = React.useState({} as IData);
-  const [studentDataFee, setStudentDataFee] = React.useState([] as any[]);
   const [fee, setFee] = useState(false);
-  const [show, setShow] = useState(false);
 
-  const [name, setName] = useState("");
-  const [name1, setName1] = useState("");
-  const [name2, setName2] = useState("");
-  const [idState, setIdState] = useState("");
-  const [showEdit, setShowEdit] = useState(false);
-  const [amount, setAmount] = useState("");
-
-  const [subjectHolder, setSubjectHolder] = useState([] as any[]);
   const [myResult, setMyResult] = useState([] as any[]);
   const [classInfo, setClassInfo] = useState({} as any);
-
-  const toggleFee = () => {
-    setFee(!fee);
-  };
 
   const getResult = async () => {
     await axios
@@ -63,8 +46,17 @@ function StudentPerformance() {
       });
   };
 
+  const getClass = async () => {
+    await axios
+      .get(`${url}/api/class/${user?.classID}/viewing-class`)
+      .then((res) => {
+        setClassInfo(res?.data?.data);
+      });
+  };
+
   useEffect(() => {
     getResult();
+    getClass();
   }, []);
 
   return (

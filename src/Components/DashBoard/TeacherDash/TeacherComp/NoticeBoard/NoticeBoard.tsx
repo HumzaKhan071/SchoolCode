@@ -9,29 +9,39 @@ const url: string = "https://school-code.onrender.com";
 
 const NoticeBoard = () => {
   const [holderData, setHolderData] = useState([] as any[]);
-
-  const session = useRecoilValue(Session);
+  const [academic, setAcademic] = useState({} as any);
   const user = useRecoilValue(User);
 
-  console.log("review Data: ", session);
+  const getSession = async () => {
+    await axios
+      .get(`${url}/api/academic/${user._id}/get-academic-session-teacher`)
+      .then((res) => {
+        setAcademic(res?.data?.data?.academicSession[0]);
+      });
+  };
+
+  const dataURL2 = `${url}/api/event/${academic!._id}/viewing-event-school`;
+
+  const getEvent = async () => {
+    await axios.get(dataURL2).then((res) => {
+      setHolderData(res?.data?.data);
+    });
+  };
 
   const fetchData = async () => {
     await axios
       .get(`${url}/api/announcement/${user._id}/viewing-announcement-teacher`)
-      // url/api/announcement/:id/viewing-announcement-teacher
 
       .then((res) => {
-        console.log("review: ", res.data);
-        setHolderData(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
+        setHolderData(res?.data?.data?.notification);
       });
   };
 
   useEffect(() => {
+    getSession();
     fetchData();
-  }, []);
+    getEvent();
+  }, [dataURL2]);
 
   return (
     <Container>
