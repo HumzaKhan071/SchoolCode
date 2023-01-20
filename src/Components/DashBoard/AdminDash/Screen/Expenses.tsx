@@ -1,14 +1,91 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 // import ExpenseData from "./ExpenseData";
 import { BiSearch } from "react-icons/bi";
 import { RiAddFill } from "react-icons/ri";
 import { IoIosFunnel } from "react-icons/io";
 import ExpenseData from "../ExpenseData";
+import OtherForm from "./Homeforms/OtherForm";
+import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { User } from "../../../Global/RecoilState";
+import { useNavigate } from "react-router-dom";
+
+const url: string = "https://school-code.onrender.com";
 
 const Expenses: React.FC = () => {
+  const navigate = useNavigate();
+  const user = useRecoilValue(User);
+  const [expense, setExpense] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const [name, setName] = useState("");
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
+
+  const [viewExpenseData, setViewExpenseData] = useState([] as any[]);
+
+  const toggleExpense = () => {
+    setExpense(!expense);
+  };
+
+  const createExpense = async () => {
+    const newURL = `${url}/api/expense/${user._id}/create-expense`;
+    await axios
+      .post(newURL, {
+        cost: name,
+        item: name,
+        description: name2,
+      })
+      .then(() => {
+        navigate(-1);
+      });
+  };
+
+  const viewExpense = async () => {
+    // const newURL = `${url}/api/expense/${user._id}/get-expense`;
+    const newURL = `http://localhost:2244/api/expense/63a5a3ad444f6ada937d4ef4/get-expense`;
+    await axios
+      .get(
+        `http://localhost:2244/api/expense/63a5a3ad444f6ada937d4ef4/get-expense`
+      )
+      .then((res) => {
+        console.log("state data: ", res);
+        // setViewExpenseData(res);
+      });
+  };
+
+  useEffect(() => {
+    // viewExpense();
+  }, []);
+
   return (
     <>
+      {expense ? (
+        <OtherForm
+          numb={true}
+          holder="Cost: #3000"
+          holder1="Enter Item title:EG Books"
+          holder2="Please Describe this Item to purchase"
+          toggle={toggleExpense}
+          mainAction={createExpense}
+          title="Enter Expense"
+          title1="What is this Item Cost"
+          title2="Title the Expense"
+          title3="Please Describe this Item to purchase"
+          show={show}
+          setName={setName}
+          setName1={setName1}
+          setName2={setName2}
+          one={true}
+          two={true}
+          name={name}
+          name1={name1}
+          name2={name2}
+          check={true}
+          buttonCall="Add this Expense"
+        />
+      ) : null}
       <Container>
         <Header>
           <Hold>
@@ -38,8 +115,14 @@ const Expenses: React.FC = () => {
               </Select>
               entries
             </Show>
-            <div>
-              <div>Add</div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <DivButton
+                onClick={() => {
+                  setExpense(true);
+                }}
+              >
+                Add Expense
+              </DivButton>
               <Search>
                 <Icon></Icon>
                 <Input placeholder="Search" />
@@ -65,6 +148,21 @@ const Expenses: React.FC = () => {
 };
 
 export default Expenses;
+
+const DivButton = styled.div`
+  margin: 0 5px;
+  margin-right: 15px;
+  background-color: red;
+  color: white;
+  padding: 5px;
+  border-radius: 2px;
+  transition: all 360ms;
+
+  :hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+`;
 
 const Next = styled.div`
   width: 200px;

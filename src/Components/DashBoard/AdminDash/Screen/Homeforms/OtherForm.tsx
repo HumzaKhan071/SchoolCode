@@ -1,13 +1,8 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { MdOutlineClose } from "react-icons/md";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { User } from "../../../../Global/RecoilState";
-import { string } from "yargs";
 
 interface iProps {
   toggle?: () => void;
@@ -31,7 +26,8 @@ interface iProps {
   holder5?: string;
   show?: boolean;
   setShow?: React.Dispatch<React.SetStateAction<boolean>>;
-  setName?: React.Dispatch<React.SetStateAction<string>>;
+
+  setName: React.Dispatch<React.SetStateAction<string>>;
   setName3?: React.Dispatch<React.SetStateAction<string>>;
   setName4?: React.Dispatch<React.SetStateAction<string>>;
   setName5?: React.Dispatch<React.SetStateAction<string>>;
