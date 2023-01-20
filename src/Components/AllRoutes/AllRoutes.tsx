@@ -60,438 +60,448 @@ import LectureScreen from "../DashBoard/StudentDash/LectureScreen";
 import LectureDetailRating from "../DashBoard/StudentDash/LectureDetailRating";
 import ReportCard from "../DashBoard/StudentDash/ReportCard";
 import TeacherDetails from "../DashBoard/AdminDash/Screen/TeacherDetails";
+import SalaryPay from "../DashBoard/AdminDash/Screen/SalaryPay";
 
 //  4b4b1a2eaa0a87dc574b3e44dd683eb8a1ad7649
 
 const AllRoutes = () => {
-	let element = useRoutes([
-		{
-			path: "/",
-			element: <PrivateRoute />,
-		},
+  let element = useRoutes([
+    {
+      path: "/",
+      element: <PrivateRoute />,
+    },
 
-		{
-			path: "/get-started",
-			children: [
-				{
-					index: true,
-					element: <MainAuth />,
-				},
+    {
+      path: "/get-started",
+      children: [
+        {
+          index: true,
+          element: <MainAuth />,
+        },
 
-				{
-					path: "teacher-signup",
-					element: <TeachersSignUp />,
-				},
-				// {
-				// 	path: "student-signup",
-				// 	element: <StudentSignup />,
-				// },
-				{
-					path: "school-signup",
-					element: <SchoolSignUp />,
-				},
-			],
-		},
+        {
+          path: "teacher-signup",
+          element: <TeachersSignUp />,
+        },
+        // {
+        // 	path: "student-signup",
+        // 	element: <StudentSignup />,
+        // },
+        {
+          path: "school-signup",
+          element: <SchoolSignUp />,
+        },
+      ],
+    },
 
-		{
-			path: "/login",
-			children: [
-				{
-					index: true,
-					element: <MainLogin />,
-				},
+    {
+      path: "/login",
+      children: [
+        {
+          index: true,
+          element: <MainLogin />,
+        },
 
-				{
-					path: "teacher",
-					element: <TeacherLogin />,
-				},
-				{
-					path: "student",
-					element: <StudentLogin />,
-				},
-				{
-					path: "school",
-					element: <SchoolLogin />,
-				},
-			],
-		},
+        {
+          path: "teacher",
+          element: <TeacherLogin />,
+        },
+        {
+          path: "student",
+          element: <StudentLogin />,
+        },
+        {
+          path: "school",
+          element: <SchoolLogin />,
+        },
+      ],
+    },
 
-		//Admin/School Route
+    //Admin/School Route
 
-		{
-			path: "/admin-dashboard",
-			children: [
-				{
-					index: true,
-					element: (
-						<>
-							<PrivateRoute />
-						</>
-					),
-				},
-				{
-					path: "createteacher",
-					children: [
-						{
-							index: true,
-							element: (
-								<>
-									<Header />
-									<Academics />
-								</>
-							),
-						},
+    {
+      path: "/admin-dashboard",
+      children: [
+        {
+          index: true,
+          element: (
+            <>
+              <PrivateRoute />
+            </>
+          ),
+        },
+        {
+          path: "createteacher",
+          children: [
+            {
+              index: true,
+              element: (
+                <>
+                  <Header />
+                  <Academics />
+                </>
+              ),
+            },
 
-						{
-							path: "view-teacher-detail/:id",
-							element: (
-								<>
-									<Header />
-									<TeacherDetails />
-								</>
-							),
-						},
-					],
-				},
-				{
-					path: "createstudent",
-					children: [
-						{
-							index: true,
-							element: (
-								<>
-									<Header />
-									<Students />
-								</>
-							),
-						},
+            {
+              path: "view-teacher-detail/:id",
+              element: (
+                <>
+                  <Header />
+                  <TeacherDetails />
+                </>
+              ),
+            },
+          ],
+        },
+        {
+          path: "createstudent",
+          children: [
+            {
+              index: true,
+              element: (
+                <>
+                  <Header />
+                  <Students />
+                </>
+              ),
+            },
 
-						{
-							path: "view-student-detail/:id",
-							element: (
-								<>
-									<Header />
-									<StudentDetails />
-								</>
-							),
-						},
-					],
-				},
-				{
-					path: "classrooms",
-					children: [
-						{
-							index: true,
-							element: (
-								<>
-									<Header />
-									<ClassRooms />
-								</>
-							),
-						},
-						{
-							path: "view-class-details/:id",
-							element: (
-								<>
-									<Header />
-									<ClassRoomDetails />
-								</>
-							),
-						},
-					],
-				},
-				{
-					path: "expenses",
-					element: (
-						<>
-							<Header />
-							<FeeMangement />
-						</>
-					),
-				},
-				{
-					path: "report",
-					element: (
-						<>
-							<Header />
-							<Report />
-						</>
-					),
-				},
-				{
-					path: "notifications",
-					element: (
-						<>
-							<Header />
-							<Notification />
-						</>
-					),
-				},
-			],
-		},
+            {
+              path: "view-student-detail/:id",
+              element: (
+                <>
+                  <Header />
+                  <StudentDetails />
+                </>
+              ),
+            },
+          ],
+        },
+        {
+          path: "classrooms",
+          children: [
+            {
+              index: true,
+              element: (
+                <>
+                  <Header />
+                  <ClassRooms />
+                </>
+              ),
+            },
+            {
+              path: "view-class-details/:id",
+              element: (
+                <>
+                  <Header />
+                  <ClassRoomDetails />
+                </>
+              ),
+            },
+          ],
+        },
+        {
+          path: "pay-salary",
+          element: (
+            <>
+              <Header />
+              <SalaryPay />
+            </>
+          ),
+        },
+        {
+          path: "expenses",
+          element: (
+            <>
+              <Header />
+              <FeeMangement />
+            </>
+          ),
+        },
+        {
+          path: "report",
+          element: (
+            <>
+              <Header />
+              <Report />
+            </>
+          ),
+        },
+        {
+          path: "notifications",
+          element: (
+            <>
+              <Header />
+              <Notification />
+            </>
+          ),
+        },
+      ],
+    },
 
-		//Teachers Route
-		{
-			path: "/teacher-dashboard",
-			children: [
-				{
-					index: true,
-					element: (
-						<>
-							<PrivateRoute />
-						</>
-					),
-				},
+    //Teachers Route
+    {
+      path: "/teacher-dashboard",
+      children: [
+        {
+          index: true,
+          element: (
+            <>
+              <PrivateRoute />
+            </>
+          ),
+        },
 
-				{
-					path: "attendance",
-					element: (
-						<>
-							<TeacherHeader />
-							<Attendance />
-						</>
-					),
-				},
-				{
-					path: "test",
-					children: [
-						{
-							index: true,
-							element: (
-								<>
-									<TeacherHeader />
-									<SubjectTest />
-								</>
-							),
-						},
+        {
+          path: "attendance",
+          element: (
+            <>
+              <TeacherHeader />
+              <Attendance />
+            </>
+          ),
+        },
+        {
+          path: "test",
+          children: [
+            {
+              index: true,
+              element: (
+                <>
+                  <TeacherHeader />
+                  <SubjectTest />
+                </>
+              ),
+            },
 
-						{
-							path: "new_test/:id",
-							element: (
-								<>
-									<TeacherHeader />
-									<CreateTest />
-								</>
-							),
-						},
+            {
+              path: "new_test/:id",
+              element: (
+                <>
+                  <TeacherHeader />
+                  <CreateTest />
+                </>
+              ),
+            },
 
-						{
-							path: "alltest/:id",
-							children: [
-								{
-									index: true,
-									element: (
-										<>
-											<TeacherHeader />
-											<AllTest />
-										</>
-									),
-								},
+            {
+              path: "alltest/:id",
+              children: [
+                {
+                  index: true,
+                  element: (
+                    <>
+                      <TeacherHeader />
+                      <AllTest />
+                    </>
+                  ),
+                },
 
-								{
-									path: "preview_test",
-									element: (
-										<>
-											<TeacherHeader />
-											<TestDetail />
-										</>
-									),
-								},
-								{
-									path: "add-questions",
-									element: (
-										<>
-											<TeacherHeader />
-											<CreateQuestions />
-										</>
-									),
-								},
-							],
-						},
-					],
-				},
+                {
+                  path: "preview_test",
+                  element: (
+                    <>
+                      <TeacherHeader />
+                      <TestDetail />
+                    </>
+                  ),
+                },
+                {
+                  path: "add-questions",
+                  element: (
+                    <>
+                      <TeacherHeader />
+                      <CreateQuestions />
+                    </>
+                  ),
+                },
+              ],
+            },
+          ],
+        },
 
-				{
-					path: "report",
-					element: (
-						<>
-							<TeacherHeader />
-							<TeacherReport />
-						</>
-					),
-				},
-				{
-					path: "lecture",
-					element: (
-						<>
-							<TeacherHeader />
-							<Lecture />
-						</>
-					),
-				},
-				{
-					path: "lecture_detail/:id",
-					element: (
-						<>
-							<TeacherHeader />
-							<LectureDetail />
-						</>
-					),
-				},
-				{
-					path: "noticeboard",
-					element: (
-						<>
-							<TeacherHeader />
-							<NoticeBoard />
-						</>
-					),
-				},
-			],
-		},
+        {
+          path: "report",
+          element: (
+            <>
+              <TeacherHeader />
+              <TeacherReport />
+            </>
+          ),
+        },
+        {
+          path: "lecture",
+          element: (
+            <>
+              <TeacherHeader />
+              <Lecture />
+            </>
+          ),
+        },
+        {
+          path: "lecture_detail/:id",
+          element: (
+            <>
+              <TeacherHeader />
+              <LectureDetail />
+            </>
+          ),
+        },
+        {
+          path: "noticeboard",
+          element: (
+            <>
+              <TeacherHeader />
+              <NoticeBoard />
+            </>
+          ),
+        },
+      ],
+    },
 
-		//Student Route
-		{
-			path: "/student-dashboard",
-			children: [
-				{
-					index: true,
-					element: (
-						<>
-							<StudentHeader />
-							<StudentDashboard />
-						</>
-					),
-				},
+    //Student Route
+    {
+      path: "/student-dashboard",
+      children: [
+        {
+          index: true,
+          element: (
+            <>
+              <StudentHeader />
+              <StudentDashboard />
+            </>
+          ),
+        },
 
-				{
-					path: "status/:id",
-					element: (
-						<>
-							<StudentHeader />
-							<StatusStudent />
-						</>
-					),
-				},
-				{
-					path: "lecture",
-					element: (
-						<>
-							<StudentHeader />
-							<AssignmentScreen />
-						</>
-					),
-				},
-				{
-					path: "lecture/lecture-screen/:id",
-					element: (
-						<>
-							<StudentHeader />
-							<LectureScreen />
-						</>
-					),
-				},
-				{
-					path: "report-card",
-					element: (
-						<>
-							<StudentHeader />
-							<ReportCard />
-						</>
-					),
-				},
-				{
-					path: "lecture-screen-detail/:myID",
-					element: (
-						<>
-							<StudentHeader />
-							<LectureDetailRating />
-						</>
-					),
-				},
-				{
-					path: "Time-Table",
-					element: (
-						<>
-							<StudentHeader />
-							<TimeTable />
-						</>
-					),
-				},
-				{
-					path: "general-performance",
-					element: (
-						<>
-							<StudentHeader />
-							<StudentPerformance />
-						</>
-					),
-				},
-				{
-					path: "student-report",
-					element: (
-						<>
-							<StudentHeader />
-							<StudentReport />
-						</>
-					),
-				},
-				{
-					path: "student-notifications",
-					element: (
-						<>
-							<StudentHeader />
-							<StudentNot />
-						</>
-					),
-				},
-				{
-					path: "student-test",
-					children: [
-						{
-							index: true,
-							element: (
-								<>
-									<StudentHeader />
-									<StudentTest />
-								</>
-							),
-						},
+        {
+          path: "status/:id",
+          element: (
+            <>
+              <StudentHeader />
+              <StatusStudent />
+            </>
+          ),
+        },
+        {
+          path: "lecture",
+          element: (
+            <>
+              <StudentHeader />
+              <AssignmentScreen />
+            </>
+          ),
+        },
+        {
+          path: "lecture/lecture-screen/:id",
+          element: (
+            <>
+              <StudentHeader />
+              <LectureScreen />
+            </>
+          ),
+        },
+        {
+          path: "report-card",
+          element: (
+            <>
+              <StudentHeader />
+              <ReportCard />
+            </>
+          ),
+        },
+        {
+          path: "lecture-screen-detail/:myID",
+          element: (
+            <>
+              <StudentHeader />
+              <LectureDetailRating />
+            </>
+          ),
+        },
+        {
+          path: "Time-Table",
+          element: (
+            <>
+              <StudentHeader />
+              <TimeTable />
+            </>
+          ),
+        },
+        {
+          path: "general-performance",
+          element: (
+            <>
+              <StudentHeader />
+              <StudentPerformance />
+            </>
+          ),
+        },
+        {
+          path: "student-report",
+          element: (
+            <>
+              <StudentHeader />
+              <StudentReport />
+            </>
+          ),
+        },
+        {
+          path: "student-notifications",
+          element: (
+            <>
+              <StudentHeader />
+              <StudentNot />
+            </>
+          ),
+        },
+        {
+          path: "student-test",
+          children: [
+            {
+              index: true,
+              element: (
+                <>
+                  <StudentHeader />
+                  <StudentTest />
+                </>
+              ),
+            },
 
-						{
-							path: "student-test-details/:id",
-							element: (
-								<>
-									<StudentHeader />
-									<DetailsTest />
-								</>
-							),
-						},
-					],
-				},
-			],
-		},
+            {
+              path: "student-test-details/:id",
+              element: (
+                <>
+                  <StudentHeader />
+                  <DetailsTest />
+                </>
+              ),
+            },
+          ],
+        },
+      ],
+    },
 
-		{
-			path: "/confirm",
-			element: <ConfirmSchool />,
-		},
-		{
-			path: "/api/school/verified/:id",
-			element: <SchoolConfirmVerify />,
-		},
-		{
-			path: "/api/teacher/verified/:id",
-			element: <ConfirmTeacherMessage />,
-		},
+    {
+      path: "/confirm",
+      element: <ConfirmSchool />,
+    },
+    {
+      path: "/api/school/verified/:id",
+      element: <SchoolConfirmVerify />,
+    },
+    {
+      path: "/api/teacher/verified/:id",
+      element: <ConfirmTeacherMessage />,
+    },
 
-		{
-			path: "*",
-			element: <NotFound />,
-		},
-	]);
+    {
+      path: "*",
+      element: <NotFound />,
+    },
+  ]);
 
-	return element;
+  return element;
 };
 
 export default AllRoutes;

@@ -12,47 +12,52 @@ import { BsFillPeopleFill } from "react-icons/bs";
 import { IoBriefcaseSharp } from "react-icons/io5";
 
 interface NavCon {
-	name: string;
-	icon: IconType;
-	to: string;
+  name: string;
+  icon: IconType;
+  to: string;
 }
 
 export const SideBarItem: NavCon[] = [
-	{
-		name: "Dashboard",
-		icon: (prop: IconBaseProps) => <MdDashboard />,
-		to: "/admin-dashboard",
-	},
+  {
+    name: "Dashboard",
+    icon: (prop: IconBaseProps) => <MdDashboard />,
+    to: "/admin-dashboard",
+  },
 
-	{
-		name: "Teachers",
-		icon: (prop: IconBaseProps) => <FaChalkboardTeacher />,
-		to: "/admin-dashboard/createteacher",
-	},
-	{
-		name: "Students",
-		icon: (prop: IconBaseProps) => <BsFillPeopleFill />,
-		to: "/admin-dashboard/createstudent",
-	},
-	{
-		name: "ClassRooms",
-		icon: (prop: IconBaseProps) => <SiGoogleclassroom />,
-		to: "/admin-dashboard/classrooms",
-	},
-	{
-		name: "Expenses",
-		icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
-		to: "/admin-dashboard/expenses",
-	},
-	{
-		name: "Reports",
-		icon: (prop: IconBaseProps) => <HiDocumentReport />,
-		to: "/admin-dashboard/report",
-	},
+  {
+    name: "Teachers",
+    icon: (prop: IconBaseProps) => <FaChalkboardTeacher />,
+    to: "/admin-dashboard/createteacher",
+  },
+  {
+    name: "Students",
+    icon: (prop: IconBaseProps) => <BsFillPeopleFill />,
+    to: "/admin-dashboard/createstudent",
+  },
+  {
+    name: "ClassRooms",
+    icon: (prop: IconBaseProps) => <SiGoogleclassroom />,
+    to: "/admin-dashboard/classrooms",
+  },
+  {
+    name: "Expenses",
+    icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
+    to: "/admin-dashboard/expenses",
+  },
+  {
+    name: "Pay Salary",
+    icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
+    to: "/admin-dashboard/pay-salary",
+  },
+  {
+    name: "Reports",
+    icon: (prop: IconBaseProps) => <HiDocumentReport />,
+    to: "/admin-dashboard/report",
+  },
 
-	{
-		name: "Events",
-		icon: (prop: IconBaseProps) => <IoIosNotifications />,
-		to: "/admin-dashboard/notifications",
-	},
+  {
+    name: "Events",
+    icon: (prop: IconBaseProps) => <IoIosNotifications />,
+    to: "/admin-dashboard/notifications",
+  },
 ];

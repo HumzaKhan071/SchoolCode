@@ -15,7 +15,6 @@ const AllTest = () => {
 
     await axios.get(url).then((res) => {
       setTestData(res.data.data.test);
-      console.log(res.data.data);
       setTest(res.data.data);
     });
   };

@@ -17,12 +17,11 @@ import ReactPaginate from "react-paginate";
 import "./pagination.css";
 import { iDataLeture } from "./LectureData";
 import SliderComp from "./SliderComp";
-
+import { Link } from "react-router-dom";
 import pic1 from "../../svg/teacher-icon-01.svg";
 import pic2 from "../../svg/teacher-icon-02.svg";
 import pic3 from "../../svg/student-icon-01.svg";
 import pic4 from "../../svg/student-icon-02.svg";
-
 
 const url: string = "https://school-code.onrender.com";
 const StudentDashboard = () => {
@@ -49,7 +48,7 @@ const StudentDashboard = () => {
 
   const getSubject = async () => {
     const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;
-    console.log("open and close",user.classID)
+
     await axios.get(newURL).then((res) => {
       setClassSubjects(res!.data!.data!.subject);
       setLoad(false);
@@ -162,11 +161,10 @@ const StudentDashboard = () => {
             </Details2>
             <Details3>
               <Box1>
-              <MyButton to={`lecture/lecture-screen/${props._id}`}>
-              View Lecture
-          </MyButton>
+                <MyButton to={`lecture/lecture-screen/${props._id}`}>
+                  View Lecture
+                </MyButton>
 
-                
                 {/* <Boxchild>
                   <GoBook
                     style={{
@@ -331,35 +329,30 @@ const StudentDashboard = () => {
                 <span>View All</span>
               </ViewToday>
               <Holder>
-               
-                {
-                  clasSubject?.length >= 1 ? (<>{displayLecture}</>) :(
-                  <div style={{
-                    height:"100%",
-                    flex:"1",
-                    display:"flex",
-                    justifyContent:"center",
-                    alignItems: "center",
-
-                  }}>
-                 {load ? (
-								<div>
-									<div >
-										<ClipLoader color='#36d7b7' />
-									</div>
-									{/* <div> Fetching data...</div> */}
-								</div>
-							) : (
-								<>
-									
-									<h3>No Subject Yet.</h3>
-								
-								</>
-							)}
+                {clasSubject?.length >= 1 ? (
+                  <>{displayLecture}</>
+                ) : (
+                  <div
+                    style={{
+                      height: "100%",
+                      flex: "1",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {load ? (
+                      <div>
+                        <div>{/* <ClipLoader color="#36d7b7" /> */}</div>
+                        {/* <div> Fetching data...</div> */}
+                      </div>
+                    ) : (
+                      <>
+                        <h3>No Subject Yet.</h3>
+                      </>
+                    )}
                   </div>
-                  )
-                }
-                
+                )}
 
                 <ViewAll>
                   <ReactPaginate
@@ -427,7 +420,6 @@ const StudentDashboard = () => {
 };
 
 export default StudentDashboard;
-
 
 const MyButton = styled(Link)`
   height: 30px;

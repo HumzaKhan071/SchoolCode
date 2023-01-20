@@ -8,12 +8,14 @@ import MyForm from "./Homeforms/MyForm";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import pic from "../../../Img/emp.gif";
+import numeral from "numeral";
 
 const url: string = "https://school-code.onrender.com";
 
 interface iTeacher {
   _id: string;
   classes: string;
+  salary: string;
   name: string;
   email: string;
   image: string;
@@ -21,14 +23,14 @@ interface iTeacher {
   myClass: any[];
 }
 
-function Academics() {
+function SalaryPay() {
   const user = useRecoilValue(User);
   const [teacher, setTeacher] = useState([] as iTeacher[]);
   const [load, setLoad] = useState(true);
 
   const [classRoom, setClassRoom] = useState(false);
-  const [subject, setSubject] = useState(false);
   const [show, setShow] = useState(false);
+  const [academic, setAcademic] = useState({} as any);
 
   const [name, setName] = useState("");
   const [name1, setName1] = useState("");
@@ -43,11 +45,16 @@ function Academics() {
     setClassRoom(!classRoom);
   };
 
-  const toggleSubject = () => {
-    setSubject(!subject);
-  };
   const toggle = () => {
     setShow(!show);
+  };
+
+  const getSession = async () => {
+    await axios
+      .get(`${url}/api/academic/${user._id}/viewing-present-academic-session`)
+      .then((res) => {
+        setAcademic(res.data.data);
+      });
   };
 
   const createClassRoom = async (id: string) => {
@@ -69,20 +76,27 @@ function Academics() {
       });
   };
 
-  const createSubject = async (id: string) => {
-    const newURL = `${url}/api/subject/${user._id}/${id}/assign-subject-teacher`;
-    console.log("id:", id, show);
+  const makePayment = async (id: string) => {
+    const newURL = `${url}/api/payment/${user._id}/${id}/create-teacher-payment`;
 
-    // await axios.post(newURL, {
-    //   subjectName: name,
-    //   classToken: name1,
-    //   subjectTeacher: name2,
-    // });
-    //   .then((res) => {
-    //     setTeacher(res.data.data.teachers);
+    await axios
+      .post(newURL, { sessionCode: academic!.sessionCode })
 
+      .then(() => {
+        setLoad(true);
+        Swal.fire({
+          icon: "success",
+          title: "paid",
+          text: "Salary has been paid",
+        });
+      });
+    //   .catch((res) => {
     //     setLoad(false);
-    //     setShow(false);
+    //     Swal.fire({
+    //       icon: "error",
+    //       title: "An error occured",
+    //       text: "can't pay now!",
+    //     });
     //   });
   };
 
@@ -98,7 +112,8 @@ function Academics() {
 
   useEffect(() => {
     getTeacher();
-  }, []);
+    getSession();
+  }, [academic]);
   return (
     <>
       {classRoom ? (
@@ -155,24 +170,17 @@ function Academics() {
                   <TeacherImage src="/img/prof.png" />
                   <Div>{props.name}</Div>
                   <P>{props.email}</P>
+                  <br />
                   <RemButHold>
-                    <RemBut
-                      // onClick={() => {
-                      // 	toggleClassRoom();
-                      // 	setHold(props._id);
-                      // }}
-                      bg="#FAB84E"
-                    >
-                      Change Class
-                    </RemBut>
-
-                    <Link
+                    <div
                       style={{ textDecoration: "none", color: "white" }}
-                      to={`/admin-dashboard/createteacher/view-teacher-detail/${props._id}`}
+                      onClick={() => {
+                        makePayment(props._id);
+                      }}
                     >
                       {" "}
-                      <RemBut bg="#1DA1F2">View Details</RemBut>
-                    </Link>
+                      <RemBut bg="#1DA1F2">Pay Salary</RemBut>
+                    </div>
                     <br />
                   </RemButHold>
                   <Down>
@@ -190,8 +198,8 @@ function Academics() {
                     </Down1>
 
                     <Down1>
-                      <DownHo style={{ color: "#FAB84E" }}>Status</DownHo>
-                      <Sub>Teacher</Sub>
+                      <DownHo style={{ color: "#FAB84E" }}>My Salary</DownHo>
+                      <Sub> ₦{numeral(props?.salary).format("0,0")}</Sub>
                     </Down1>
                   </Down>
                 </ReMakeCard>
@@ -224,7 +232,7 @@ function Academics() {
   );
 }
 
-export default Academics;
+export default SalaryPay;
 
 const Down = styled.div`
   display: flex;
@@ -236,7 +244,7 @@ const Down = styled.div`
 `;
 const Down1 = styled.div``;
 const DownHo = styled.div`
-  margin-right: 10px;
+  //   margin-right: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
