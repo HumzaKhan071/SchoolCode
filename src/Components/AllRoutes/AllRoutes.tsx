@@ -60,6 +60,10 @@ import LectureScreen from "../DashBoard/StudentDash/LectureScreen";
 import LectureDetailRating from "../DashBoard/StudentDash/LectureDetailRating";
 import ReportCard from "../DashBoard/StudentDash/ReportCard";
 import TeacherDetails from "../DashBoard/AdminDash/Screen/TeacherDetails";
+import SalaryPay from "../DashBoard/AdminDash/Screen/SalaryPay";
+import Settings from "../DashBoard/AdminDash/Screen/Settings";
+import TeacherSettings from "../DashBoard/TeacherDash/TeacherComp/TeacherSettings";
+import StudentSettings from "../DashBoard/StudentDash/StudentSettings";
 
 //  4b4b1a2eaa0a87dc574b3e44dd683eb8a1ad7649
 
@@ -201,6 +205,24 @@ const AllRoutes = () => {
 					],
 				},
 				{
+					path: "pay-salary",
+					element: (
+						<>
+							<Header />
+							<SalaryPay />
+						</>
+					),
+				},
+				{
+					path: "settings",
+					element: (
+						<>
+							<Header />
+							<Settings />
+						</>
+					),
+				},
+				{
 					path: "expenses",
 					element: (
 						<>
@@ -249,6 +271,15 @@ const AllRoutes = () => {
 						<>
 							<TeacherHeader />
 							<Attendance />
+						</>
+					),
+				},
+				{
+					path: "settings",
+					element: (
+						<>
+							<TeacherHeader />
+							<TeacherSettings />
 						</>
 					),
 				},
@@ -370,6 +401,15 @@ const AllRoutes = () => {
 						<>
 							<StudentHeader />
 							<StatusStudent />
+						</>
+					),
+				},
+				{
+					path: "settings",
+					element: (
+						<>
+							<StudentHeader />
+							<StudentSettings />
 						</>
 					),
 				},

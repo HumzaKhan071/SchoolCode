@@ -152,7 +152,7 @@ function Academics() {
 						<BoxHold>
 							{teacher?.map((props) => (
 								<ReMakeCard key={props._id}>
-									<TeacherImage src={pic} />
+									<TeacherImage src='/img/prof.png' />
 									<Div>{props.name}</Div>
 									<P>{props.email}</P>
 									<RemButHold>

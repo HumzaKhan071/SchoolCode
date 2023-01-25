@@ -3,7 +3,6 @@ import { SiGoogleclassroom } from "react-icons/si";
 import { GoBook } from "react-icons/go";
 import { MdOutlineAssignmentLate } from "react-icons/md";
 import { BiTimeFive } from "react-icons/bi";
-import { MdOutlinePlayLesson } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import styled from "styled-components";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
@@ -18,7 +17,7 @@ import ReactPaginate from "react-paginate";
 import "./pagination.css";
 import { iDataLeture } from "./LectureData";
 import SliderComp from "./SliderComp";
-import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 import pic1 from "../../svg/teacher-icon-01.svg";
 import pic2 from "../../svg/teacher-icon-02.svg";
 import pic3 from "../../svg/student-icon-01.svg";
@@ -26,204 +25,205 @@ import pic4 from "../../svg/student-icon-02.svg";
 
 const url: string = "https://school-code.onrender.com";
 const StudentDashboard = () => {
+  const [percentage, setPercentage] = React.useState(80);
+  const [value, setValue] = React.useState(new Date());
+  const user = useRecoilValue(User);
+  const [classData, setClassData] = useState<any>([]);
+  const [pageNumber, setPageNumber] = React.useState<number>(0);
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+  const [load, setLoad] = useState(true);
 
-	const [percentage, setPercentage] = React.useState(80);
-	const [value, setValue] = React.useState(new Date());
-	const user = useRecoilValue(User);
-	const [classData, setClassData] = useState<any>([]);
-	const [pageNumber, setPageNumber] = React.useState<number>(0);
-	const [rating, setRating] = useState(0);
-	const [hover, setHover] = useState(0);
+  const [session, setSession] = useRecoilState(Session);
+  const [clasSubject, setClassSubjects] = React.useState([] as any[]);
+  const [notice, setNotice] = useState({} as any);
 
-	const [session, setSession] = useRecoilState(Session);
-	const [clasSubject, setClassSubjects] = React.useState([] as any[]);
-	const [notice, setNotice] = useState({} as any);
-	const [academic, setAcademic] = useState({} as any);
+  const viewingClass = async () => {
+    await axios
+      .get(`${url}/api/class/${user?.classID}/viewing-class`)
+      .then((res) => {
+        setClassData(res.data.data);
+      });
+  };
 
-	console.log("this is users", user);
+  const getSubject = async () => {
+    const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;
 
-	const viewingClass = async () => {
-		await axios
-			.get(`${url}/api/class/${user?.classID}/viewing-class`)
-			.then((res) => {
-				console.log("this is the class", res);
-				setClassData(res.data.data);
-			});
-	};
+    await axios.get(newURL).then((res) => {
+      setClassSubjects(res!.data!.data!.subject);
+      setLoad(false);
+    });
+  };
 
-	const getSubject = async () => {
-		const newURL = `${url}/api/class/${user.classID}/viewing-student-class-subject`;
-		await axios.get(newURL).then((res) => {
-			setClassSubjects(res!.data!.data!.subject);
-		});
-	};
+  const getNotice = async () => {
+    await axios
+      .post(
+        `${url}/api/announcement/${user._id}/viewing-announcement-student`,
+        { code: session?.sessionCode }
+      )
+      .then((res) => {
+        setNotice(res.data.data);
+      });
+  };
 
-	const getNotice = async () => {
-		await axios
-			.post(
-				`${url}/api/announcement/${user._id}/viewing-announcement-student`,
-				{ code: session?.sessionCode },
-			)
-			.then((res) => {
-				setNotice(res.data.data);
-				console.log("notice: ", notice);
-			});
-	};
+  useEffect(() => {
+    getNotice();
+    getSubject();
+  }, []);
 
-	useEffect(() => {
-		getNotice();
-		getSubject();
-	}, []);
+  const userPerLecture: number = 1;
+  const pageVisited = pageNumber * userPerLecture;
 
-	const userPerLecture: number = 1;
-	const pageVisited = pageNumber * userPerLecture;
+  const displayLecture = clasSubject
+    .slice(pageVisited, pageVisited + userPerLecture)
+    .map((props, i) => {
+      return (
+        <>
+          <TodayClass>
+            <Circle>
+              <div style={{ width: "50%", marginTop: "-10px" }}>
+                <CircularProgressbar
+                  value={percentage}
+                  text={`${percentage}%`}
+                  styles={buildStyles({
+                    pathTransitionDuration: 5.5,
+                    textSize: "16px",
+                  })}
+                />
+              </div>
+            </Circle>
+          </TodayClass>
 
-	const displayLecture = clasSubject
-		.slice(pageVisited, pageVisited + userPerLecture)
-		.map((props, i) => {
-			return (
-				<>
-					<TodayClass>
-						<Circle>
-							<div style={{ width: "50%", marginTop: "-10px" }}>
-								<CircularProgressbar
-									value={percentage}
-									text={`${percentage}%`}
-									styles={buildStyles({
-										pathTransitionDuration: 5.5,
-										textSize: "16px",
-									})}
-								/>
-							</div>
-						</Circle>
-					</TodayClass>
+          <DetailsClass>
+            <Details1>
+              <Box1>
+                <Boxchild>
+                  <SiGoogleclassroom
+                    style={{
+                      color: "grey",
+                      fontSize: "20px",
+                      marginTop: "5px",
+                    }}
+                  />
+                </Boxchild>
+                <Boxchild2>
+                  class
+                  <span>{props.className}</span>
+                </Boxchild2>
+              </Box1>
+              <Box2>
+                <Boxchild>
+                  <MdOutlineAssignmentLate
+                    style={{
+                      color: "grey",
+                      fontSize: "20px",
+                      marginTop: "5px",
+                    }}
+                  />
+                </Boxchild>
+                <Boxchild2>
+                  Subject
+                  <span>{props.subjectName}</span>
+                </Boxchild2>
+              </Box2>
+            </Details1>
+            <Details2>
+              <Box1>
+                <Boxchild>
+                  <BiTimeFive
+                    style={{
+                      color: "grey",
+                      fontSize: "20px",
+                      marginTop: "5px",
+                    }}
+                  />
+                </Boxchild>
+                <Boxchild2>
+                  No.of Lecture
+                  <span>{props.lecture?.length}</span>
+                </Boxchild2>
+              </Box1>
+              <Box2>
+                <Boxchild>
+                  <CgProfile
+                    style={{
+                      color: "grey",
+                      fontSize: "20px",
+                      marginTop: "5px",
+                    }}
+                  />
+                </Boxchild>
+                <Boxchild2>
+                  Teacher
+                  <span>{props.subjectTeacher}</span>
+                </Boxchild2>
+              </Box2>
+            </Details2>
+            <Details3>
+              <Box1>
+                <MyButton to={`lecture/lecture-screen/${props._id}`}>
+                  View Lecture
+                </MyButton>
 
-					<DetailsClass>
-						<Details1>
-							<Box1>
-								<Boxchild>
-									<SiGoogleclassroom
-										style={{
-											color: "grey",
-											fontSize: "20px",
-											marginTop: "5px",
-										}}
-									/>
-								</Boxchild>
-								<Boxchild2>
-									class
-									<span>Primary 5</span>
-								</Boxchild2>
-							</Box1>
-							<Box2>
-								<Boxchild>
-									<MdOutlineAssignmentLate
-										style={{
-											color: "grey",
-											fontSize: "20px",
-											marginTop: "5px",
-										}}
-									/>
-								</Boxchild>
-								<Boxchild2>
-									Subject
-									<span>{props.subjectName}</span>
-								</Boxchild2>
-							</Box2>
-						</Details1>
-						<Details2>
-							<Box1>
-								<Boxchild>
-									<BiTimeFive
-										style={{
-											color: "grey",
-											fontSize: "20px",
-											marginTop: "5px",
-										}}
-									/>
-								</Boxchild>
-								<Boxchild2>
-									Time
-									<span>2 hrs</span>
-								</Boxchild2>
-							</Box1>
-							<Box2>
-								<Boxchild>
-									<CgProfile
-										style={{
-											color: "grey",
-											fontSize: "20px",
-											marginTop: "5px",
-										}}
-									/>
-								</Boxchild>
-								<Boxchild2>
-									Teacher
-									<span>{props.subjectTeacher}</span>
-								</Boxchild2>
-							</Box2>
-						</Details2>
-						<Details3>
-							<Box1>
-								<Boxchild>
-									<GoBook
-										style={{
-											color: "grey",
-											fontSize: "20px",
-											marginTop: "5px",
-										}}
-									/>
-								</Boxchild>
-								<Boxchild2>
-									Rating
-									<div
-										style={{
-											display: "flex",
-											justifyContent: "center",
-											alignItems: "center",
-											width: "auto",
-										}}>
-										{[...Array(5)].map((start, index) => {
-											index += 1;
-											return (
-												<button
-													style={{
-														backgroundColor: "transparent",
-														border: "none",
-														outline: "none",
-														cursor: "pointer",
-														fontSize: "18px",
-														display: "flex",
-													}}
-													className={index <= (hover || rating) ? "on" : "off"}
-													onClick={async () => {
-														try {
-															setRating(index);
-															await axios
-																.post(
-																	`${url}/api/lecture-rating/${user._id}/${props._id}/creating-lecture-rating`,
-																	{ ratingLecture: index },
-																)
-																.then((res) => {
-																	console.log("rating successfully");
-																});
-														} catch (err) {
-															console.error(err, "something wen wrong");
-														}
-													}}
-													onMouseEnter={() => setHover(index)}
-													onMouseLeave={() => setHover(rating)}>
-													&#9733;
-												</button>
-											);
-										})}
-									</div>
-								</Boxchild2>
-							</Box1>
-							<Box2>
-								{/* <ConBottum bg="#8E6AFF">Click To Rate</ConBottum> */}
+                {/* <Boxchild>
+                  <GoBook
+                    style={{
+                      color: "grey",
+                      fontSize: "20px",
+                      marginTop: "5px",
+                    }}
+                  />
+                </Boxchild> */}
+                {/* <Boxchild2>
+                  Rating
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "auto",
+                    }}
+                  >
+                    {[...Array(5)].map((start, index) => {
+                      index += 1;
+                      return (
+                        <button
 
-								{/* <Boxchild>
+                          style={{
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            cursor: "pointer",
+                            fontSize: "18px",
+                            display: "flex",
+                          }}
+                          className={index <= (hover || rating) ? "on" : "off"}
+                          onClick={async () => {
+                            try {
+                              setRating(index);
+                              await axios
+                                .post(
+                                  `${url}/api/lecture-rating/${user._id}/${props._id}/creating-lecture-rating`,
+                                  { ratingLecture: index }
+                                )
+                                .then((res) => {});
+                            } catch (err) {}
+                          }}
+
+                          onMouseEnter={() => setHover(index)}
+                          onMouseLeave={() => setHover(rating)}
+                        >
+                          &#9733;
+                        </button>
+                      );
+                    })}
+                  </div>
+                </Boxchild2> */}
+              </Box1>
+              <Box2>
+                {/* <ConBottum bg="#8E6AFF">Click To Rate</ConBottum> */}
+
+                {/* <Boxchild>
 
 
 												<MdOutlinePlayLesson
@@ -238,169 +238,211 @@ const StudentDashboard = () => {
 												Lesson Learned
 												<span>10/50</span>
 											</Boxchild2> */}
+              </Box2>
+            </Details3>
+          </DetailsClass>
+        </>
+      );
+    });
 
-							</Box2>
-						</Details3>
-					</DetailsClass>
-				</>
-			);
-		});
+  const pageCount = Math.ceil(iDataLeture.length / userPerLecture);
 
-	const pageCount = Math.ceil(iDataLeture.length / userPerLecture);
+  const changePage = (event: any) => {
+    setPageNumber(event.selected);
+  };
 
-	const changePage = (event: any) => {
-		setPageNumber(event.selected);
-	};
+  React.useEffect(() => {
+    viewingClass();
+  }, []);
 
-	React.useEffect(() => {
-		viewingClass();
-	}, []);
+  return (
+    <Container>
+      <MyContent>
+        <UserName>
+          Welome {user?.name}
+          <span>Student/</span>
+        </UserName>
 
-	return (
-		<Container>
-			<MyContent>
-				<UserName>
-					Welome {user?.name}
-					<span>Student/</span>
-				</UserName>
+        <DisPlayBoard>
+          <DisPlay>
+            <One>
+              <div>
+                All Courses
+                <span>{classData?.subject?.length}</span>
+              </div>
+            </One>
+            <Two>
+              <BackTwo>
+                <img src={pic1} />
+              </BackTwo>
+            </Two>
+          </DisPlay>
+          <DisPlay>
+            <One>
+              <div>
+                All Students
+                <span>{classData?.students?.length}</span>
+              </div>
+            </One>
+            <Two>
+              <BackTwo>
+                <img src={pic2} />
+              </BackTwo>
+            </Two>
+          </DisPlay>
+          <DisPlay>
+            <One>
+              <div>
+                Tested Attented
+                <span>{classData?.test?.length}</span>
+              </div>
+            </One>
+            <Two>
+              <BackTwo>
+                <img src={pic3} />
+              </BackTwo>
+            </Two>
+          </DisPlay>
+          <DisPlay>
+            <One>
+              <div>
+                Presents
+                <span>{classData?.attendance?.length}</span>
+              </div>
+            </One>
+            <Two>
+              <BackTwo>
+                <img src={pic4} />
+              </BackTwo>
+            </Two>
+          </DisPlay>
+        </DisPlayBoard>
+        <div>
+          <SliderComp notice={notice!.notification} />
+        </div>
 
-				<DisPlayBoard>
-					<DisPlay>
-						<One>
-							<div>
-								All Courses
-								<span>{classData?.subject?.length}</span>
-							</div>
-						</One>
-						<Two>
-							<BackTwo>
-								<img src={pic1} />
-							</BackTwo>
-						</Two>
-					</DisPlay>
-					<DisPlay>
-						<One>
-							<div>
-								All Students
-								<span>{classData?.students?.length}</span>
-							</div>
-						</One>
-						<Two>
-							<BackTwo>
-								<img src={pic2} />
-							</BackTwo>
-						</Two>
-					</DisPlay>
-					<DisPlay>
-						<One>
-							<div>
-								Tested Attented
-								<span>{classData?.test?.length}</span>
-							</div>
-						</One>
-						<Two>
-							<BackTwo>
-								<img src={pic3} />
-							</BackTwo>
-						</Two>
-					</DisPlay>
-					<DisPlay>
-						<One>
-							<div>
-								Presents
-								<span>{classData?.attendance?.length}</span>
-							</div>
-						</One>
-						<Two>
-							<BackTwo>
-								<img src={pic4} />
-							</BackTwo>
-						</Two>
-					</DisPlay>
-				</DisPlayBoard>
-				<div>
-					<SliderComp notice={notice!.notification} />
-				</div>
+        <MainDisplay>
+          <FirstPart>
+            <TodadyLesson>
+              <ViewToday>
+                <p>Top/Recent Subject</p>
+                <span>View All</span>
+              </ViewToday>
+              <Holder>
+                {clasSubject?.length >= 1 ? (
+                  <>{displayLecture}</>
+                ) : (
+                  <div
+                    style={{
+                      height: "100%",
+                      flex: "1",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {load ? (
+                      <div>
+                        <div>{/* <ClipLoader color="#36d7b7" /> */}</div>
+                        {/* <div> Fetching data...</div> */}
+                      </div>
+                    ) : (
+                      <>
+                        <h3>No Subject Yet.</h3>
+                      </>
+                    )}
+                  </div>
+                )}
 
-				<MainDisplay>
-					<FirstPart>
-						<TodadyLesson>
-							<ViewToday>
-								<p>Recenet Leacture</p>
-								<span>View All</span>
-							</ViewToday>
-							<Holder>
-								{displayLecture}
+                <ViewAll>
+                  <ReactPaginate
+                    previousLabel={"Previous"}
+                    nextLabel={"Next"}
+                    pageCount={pageCount}
+                    onPageChange={changePage}
+                    containerClassName={"paginationBttns"}
+                    previousLinkClassName={"previousBttn"}
+                    nextLinkClassName={"nextBttn"}
+                    disabledClassName={"paginationDisabled"}
+                    pageClassName="page-item-none"
+                    breakClassName="page-item-none"
+                    marginPagesDisplayed={0}
+                    // breakLabel="..."
+                    activeClassName={"paginationActive"}
+                  />
+                </ViewAll>
+              </Holder>
+            </TodadyLesson>
 
-								<ViewAll>
-									<ReactPaginate
-										previousLabel={"Previous"}
-										nextLabel={"Next"}
-										pageCount={pageCount}
-										onPageChange={changePage}
-										containerClassName={"paginationBttns"}
-										previousLinkClassName={"previousBttn"}
-										nextLinkClassName={"nextBttn"}
-										disabledClassName={"paginationDisabled"}
-										pageClassName='page-item-none'
-										breakClassName='page-item-none'
-										marginPagesDisplayed={0}
-										// breakLabel="..."
-										activeClassName={"paginationActive"}
-									/>
-								</ViewAll>
-							</Holder>
-						</TodadyLesson>
+            <History>
+              <Histitle>
+                <p>Teacher History</p>
+                <span>View All</span>
+              </Histitle>
+              <TimeLine />
+            </History>
+          </FirstPart>
 
-						<History>
-							<Histitle>
-								<p>Teacher History</p>
-								<span>View All</span>
-							</Histitle>
-							<TimeLine />
-						</History>
-					</FirstPart>
+          <SecondPart>
+            <ShowBox>
+              <DateBox>
+                <Calendar value={value} />
+              </DateBox>
 
-					<SecondPart>
-						<ShowBox>
-							<DateBox>
-								<Calendar value={value} />
-							</DateBox>
+              <UpcomingEvent>
+                <TitleEvent>
+                  <pre>Upcoming Events</pre>
+                  <p>+</p>
+                </TitleEvent>
 
-							<UpcomingEvent>
-								<TitleEvent>
-									<pre>Upcoming Events</pre>
-									<p>+</p>
-								</TitleEvent>
-
-								<EventCon>
-									<DateEvent>Jan 4</DateEvent>
-									<br />
-									<ContentEvent>
-										<Fisrt>08:00 am</Fisrt>
-										<Second>
-											<SeconDiv></SeconDiv>
-											<SeconDiv2>
-												<span>&nbsp; New Year Party</span>
-												<pre>&nbsp; All student should Attennd</pre>
-											</SeconDiv2>
-										</Second>
-										<Third>09:30am - 10:45am</Third>
-									</ContentEvent>
-								</EventCon>
-							</UpcomingEvent>
-						</ShowBox>
-					</SecondPart>
-				</MainDisplay>
-			</MyContent>
-		</Container>
-	);
-
+                <EventCon>
+                  <DateEvent>Jan 4</DateEvent>
+                  <br />
+                  <ContentEvent>
+                    <Fisrt>08:00 am</Fisrt>
+                    <Second>
+                      <SeconDiv></SeconDiv>
+                      <SeconDiv2>
+                        <span>&nbsp; New Year Party</span>
+                        <pre>&nbsp; All student should Attennd</pre>
+                      </SeconDiv2>
+                    </Second>
+                    <Third>09:30am - 10:45am</Third>
+                  </ContentEvent>
+                </EventCon>
+              </UpcomingEvent>
+            </ShowBox>
+          </SecondPart>
+        </MainDisplay>
+      </MyContent>
+    </Container>
+  );
 };
 
 export default StudentDashboard;
 
-const Mybutton = styled.button`
+const MyButton = styled(Link)`
+  height: 30px;
+  width: 120px;
+  background-color: #0fbbfe;
+  color: white;
+  border: none;
+  margin-top: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: all 350ms;
+
+  :hover {
+    transform: scale(1.1);
+  }
+`;
+
+const Mybutton2 = styled.button`
   span {
   }
 `;

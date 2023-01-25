@@ -106,7 +106,7 @@ function AssignmentScreen() {
 										</div>
 									) : (
 										<>
-											<BoxImag src={pic} />
+											<BoxImag src='/img/emp.gif' />
 											<h3>Lecture Not Available</h3>
 											<p>
 												Your institute has no lecture yet. Added lecture will
