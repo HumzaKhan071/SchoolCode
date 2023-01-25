@@ -10,6 +10,7 @@ import pic from "../../Img/emp.gif";
 
 const url: string = "https://school-code.onrender.com";
 function AssignmentScreen() {
+
   const user = useRecoilValue(User);
 
   const [load, setLoad] = React.useState(false);
@@ -125,6 +126,7 @@ function AssignmentScreen() {
       </Container>
     </>
   );
+
 }
 
 export default AssignmentScreen;

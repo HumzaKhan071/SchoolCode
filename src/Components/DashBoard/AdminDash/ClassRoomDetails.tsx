@@ -139,6 +139,13 @@ function ClassRoomDetails() {
 				});
 			});
 	};
+	React.useEffect(() => {
+		if (load) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "unset";
+		}
+	}, [load]);
 
 	useEffect(() => {
 		getClassDetails();
@@ -294,7 +301,7 @@ function ClassRoomDetails() {
 												</div>
 												<div style={{ display: "flex", alignItems: "center" }}>
 													{" "}
-													<TeacherImage src='/img/prof.png' />
+													<TeacherImage src={pic} />
 													{props?.subjectTeacher}
 												</div>
 											</div>
