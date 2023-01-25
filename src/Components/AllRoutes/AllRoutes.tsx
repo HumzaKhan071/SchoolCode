@@ -62,6 +62,11 @@ import ReportCard from "../DashBoard/StudentDash/ReportCard";
 import TeacherDetails from "../DashBoard/AdminDash/Screen/TeacherDetails";
 import SalaryPay from "../DashBoard/AdminDash/Screen/SalaryPay";
 
+import Settings from "../DashBoard/AdminDash/Screen/Settings";
+import TeacherSettings from "../DashBoard/TeacherDash/TeacherComp/TeacherSettings";
+import StudentSettings from "../DashBoard/StudentDash/StudentSettings";
+
+
 //  4b4b1a2eaa0a87dc574b3e44dd683eb8a1ad7649
 
 const AllRoutes = () => {
@@ -167,78 +172,89 @@ const AllRoutes = () => {
               ),
             },
 
-            {
-              path: "view-student-detail/:id",
-              element: (
-                <>
-                  <Header />
-                  <StudentDetails />
-                </>
-              ),
-            },
-          ],
-        },
-        {
-          path: "classrooms",
-          children: [
-            {
-              index: true,
-              element: (
-                <>
-                  <Header />
-                  <ClassRooms />
-                </>
-              ),
-            },
-            {
-              path: "view-class-details/:id",
-              element: (
-                <>
-                  <Header />
-                  <ClassRoomDetails />
-                </>
-              ),
-            },
-          ],
-        },
-        {
-          path: "pay-salary",
-          element: (
-            <>
-              <Header />
-              <SalaryPay />
-            </>
-          ),
-        },
-        {
-          path: "expenses",
-          element: (
-            <>
-              <Header />
-              <FeeMangement />
-            </>
-          ),
-        },
-        {
-          path: "report",
-          element: (
-            <>
-              <Header />
-              <Report />
-            </>
-          ),
-        },
-        {
-          path: "notifications",
-          element: (
-            <>
-              <Header />
-              <Notification />
-            </>
-          ),
-        },
-      ],
-    },
+
+						{
+							path: "view-student-detail/:id",
+							element: (
+								<>
+									<Header />
+									<StudentDetails />
+								</>
+							),
+						},
+					],
+				},
+				{
+					path: "classrooms",
+					children: [
+						{
+							index: true,
+							element: (
+								<>
+									<Header />
+									<ClassRooms />
+								</>
+							),
+						},
+						{
+							path: "view-class-details/:id",
+							element: (
+								<>
+									<Header />
+									<ClassRoomDetails />
+								</>
+							),
+						},
+					],
+				},
+				{
+					path: "pay-salary",
+					element: (
+						<>
+							<Header />
+							<SalaryPay />
+						</>
+					),
+				},
+				{
+					path: "settings",
+					element: (
+						<>
+							<Header />
+							<Settings />
+						</>
+					),
+				},
+				{
+					path: "expenses",
+					element: (
+						<>
+							<Header />
+							<FeeMangement />
+						</>
+					),
+				},
+				{
+					path: "report",
+					element: (
+						<>
+							<Header />
+							<Report />
+						</>
+					),
+				},
+				{
+					path: "notifications",
+					element: (
+						<>
+							<Header />
+							<Notification />
+						</>
+					),
+				},
+			],
+		},
+
 
     //Teachers Route
     {
@@ -253,27 +269,38 @@ const AllRoutes = () => {
           ),
         },
 
-        {
-          path: "attendance",
-          element: (
-            <>
-              <TeacherHeader />
-              <Attendance />
-            </>
-          ),
-        },
-        {
-          path: "test",
-          children: [
-            {
-              index: true,
-              element: (
-                <>
-                  <TeacherHeader />
-                  <SubjectTest />
-                </>
-              ),
-            },
+
+				{
+					path: "attendance",
+					element: (
+						<>
+							<TeacherHeader />
+							<Attendance />
+						</>
+					),
+				},
+				{
+					path: "settings",
+					element: (
+						<>
+							<TeacherHeader />
+							<TeacherSettings />
+						</>
+					),
+				},
+				{
+					path: "test",
+					children: [
+						{
+							index: true,
+							element: (
+								<>
+									<TeacherHeader />
+									<SubjectTest />
+								</>
+							),
+						},
+
 
             {
               path: "new_test/:id",
@@ -374,99 +401,109 @@ const AllRoutes = () => {
           ),
         },
 
-        {
-          path: "status/:id",
-          element: (
-            <>
-              <StudentHeader />
-              <StatusStudent />
-            </>
-          ),
-        },
-        {
-          path: "lecture",
-          element: (
-            <>
-              <StudentHeader />
-              <AssignmentScreen />
-            </>
-          ),
-        },
-        {
-          path: "lecture/lecture-screen/:id",
-          element: (
-            <>
-              <StudentHeader />
-              <LectureScreen />
-            </>
-          ),
-        },
-        {
-          path: "report-card",
-          element: (
-            <>
-              <StudentHeader />
-              <ReportCard />
-            </>
-          ),
-        },
-        {
-          path: "lecture-screen-detail/:myID",
-          element: (
-            <>
-              <StudentHeader />
-              <LectureDetailRating />
-            </>
-          ),
-        },
-        {
-          path: "Time-Table",
-          element: (
-            <>
-              <StudentHeader />
-              <TimeTable />
-            </>
-          ),
-        },
-        {
-          path: "general-performance",
-          element: (
-            <>
-              <StudentHeader />
-              <StudentPerformance />
-            </>
-          ),
-        },
-        {
-          path: "student-report",
-          element: (
-            <>
-              <StudentHeader />
-              <StudentReport />
-            </>
-          ),
-        },
-        {
-          path: "student-notifications",
-          element: (
-            <>
-              <StudentHeader />
-              <StudentNot />
-            </>
-          ),
-        },
-        {
-          path: "student-test",
-          children: [
-            {
-              index: true,
-              element: (
-                <>
-                  <StudentHeader />
-                  <StudentTest />
-                </>
-              ),
-            },
+
+				{
+					path: "status/:id",
+					element: (
+						<>
+							<StudentHeader />
+							<StatusStudent />
+						</>
+					),
+				},
+				{
+					path: "settings",
+					element: (
+						<>
+							<StudentHeader />
+							<StudentSettings />
+						</>
+					),
+				},
+				{
+					path: "lecture",
+					element: (
+						<>
+							<StudentHeader />
+							<AssignmentScreen />
+						</>
+					),
+				},
+				{
+					path: "lecture/lecture-screen/:id",
+					element: (
+						<>
+							<StudentHeader />
+							<LectureScreen />
+						</>
+					),
+				},
+				{
+					path: "report-card",
+					element: (
+						<>
+							<StudentHeader />
+							<ReportCard />
+						</>
+					),
+				},
+				{
+					path: "lecture-screen-detail/:myID",
+					element: (
+						<>
+							<StudentHeader />
+							<LectureDetailRating />
+						</>
+					),
+				},
+				{
+					path: "Time-Table",
+					element: (
+						<>
+							<StudentHeader />
+							<TimeTable />
+						</>
+					),
+				},
+				{
+					path: "general-performance",
+					element: (
+						<>
+							<StudentHeader />
+							<StudentPerformance />
+						</>
+					),
+				},
+				{
+					path: "student-report",
+					element: (
+						<>
+							<StudentHeader />
+							<StudentReport />
+						</>
+					),
+				},
+				{
+					path: "student-notifications",
+					element: (
+						<>
+							<StudentHeader />
+							<StudentNot />
+						</>
+					),
+				},
+				{
+					path: "student-test",
+					children: [
+						{
+							index: true,
+							element: (
+								<>
+									<StudentHeader />
+									<StudentTest />
+								</>
+							),
+						},
 
             {
               path: "student-test-details/:id",

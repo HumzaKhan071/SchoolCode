@@ -10,6 +10,7 @@ import { useRecoilState } from "recoil";
 import { User } from "../../Global/RecoilState";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { IoBriefcaseSharp } from "react-icons/io5";
+import { AiFillSetting } from "react-icons/ai";
 
 interface NavCon {
   name: string;
@@ -24,40 +25,47 @@ export const SideBarItem: NavCon[] = [
     to: "/admin-dashboard",
   },
 
-  {
-    name: "Teachers",
-    icon: (prop: IconBaseProps) => <FaChalkboardTeacher />,
-    to: "/admin-dashboard/createteacher",
-  },
-  {
-    name: "Students",
-    icon: (prop: IconBaseProps) => <BsFillPeopleFill />,
-    to: "/admin-dashboard/createstudent",
-  },
-  {
-    name: "ClassRooms",
-    icon: (prop: IconBaseProps) => <SiGoogleclassroom />,
-    to: "/admin-dashboard/classrooms",
-  },
-  {
-    name: "Expenses",
-    icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
-    to: "/admin-dashboard/expenses",
-  },
-  {
-    name: "Pay Salary",
-    icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
-    to: "/admin-dashboard/pay-salary",
-  },
-  {
-    name: "Reports",
-    icon: (prop: IconBaseProps) => <HiDocumentReport />,
-    to: "/admin-dashboard/report",
-  },
 
-  {
-    name: "Events",
-    icon: (prop: IconBaseProps) => <IoIosNotifications />,
-    to: "/admin-dashboard/notifications",
-  },
+	{
+		name: "Teachers",
+		icon: (prop: IconBaseProps) => <FaChalkboardTeacher />,
+		to: "/admin-dashboard/createteacher",
+	},
+	{
+		name: "Students",
+		icon: (prop: IconBaseProps) => <BsFillPeopleFill />,
+		to: "/admin-dashboard/createstudent",
+	},
+	{
+		name: "ClassRooms",
+		icon: (prop: IconBaseProps) => <SiGoogleclassroom />,
+		to: "/admin-dashboard/classrooms",
+	},
+	{
+		name: "Expenses",
+		icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
+		to: "/admin-dashboard/expenses",
+	},
+	{
+		name: "Pay Salary",
+		icon: (prop: IconBaseProps) => <FaMoneyBillAlt />,
+		to: "/admin-dashboard/pay-salary",
+	},
+	{
+		name: "Reports",
+		icon: (prop: IconBaseProps) => <HiDocumentReport />,
+		to: "/admin-dashboard/report",
+	},
+
+	{
+		name: "Events",
+		icon: (prop: IconBaseProps) => <IoIosNotifications />,
+		to: "/admin-dashboard/notifications",
+	},
+	{
+		name: "Settings",
+		icon: (prop: IconBaseProps) => <AiFillSetting />,
+		to: "/admin-dashboard/settings",
+	},
+
 ];

@@ -92,6 +92,14 @@ const StudentReport = () => {
 		});
 	};
 
+	React.useEffect(() => {
+		if (load) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "unset";
+		}
+	}, [load]);
+
 	useEffect(() => {
 		fetchReport();
 	}, []);
