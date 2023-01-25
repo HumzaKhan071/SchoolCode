@@ -207,7 +207,11 @@ const StudentHeader = () => {
             navigate("/");
           }}
         >
-          <Dimge src="/Img/kod.png" />
+          {user?.logo ? (
+            <Dimge src={user?.logo} />
+          ) : (
+            <Dimge src="/Img/phe.png" />
+          )}
           <div
             style={{
               fontSize: "14px",
@@ -222,7 +226,7 @@ const StudentHeader = () => {
 
       <Back ref={backRef}>
         <SideHold ref={myRef}>
-          <SideBar changeFalse={changeFalse} />
+          <SideBar changeFalse={changeFalse} user={user} />
         </SideHold>
       </Back>
     </div>

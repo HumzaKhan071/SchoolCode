@@ -5,9 +5,10 @@ import { SideBarItem } from "./RouterSide";
 
 interface Iprops {
   changeFalse: () => void;
+  user?: any;
 }
 
-const SideBar: React.FC<Iprops> = ({ changeFalse }) => {
+const SideBar: React.FC<Iprops> = ({ changeFalse, user }) => {
   return (
     <div
       style={{
@@ -41,7 +42,9 @@ const SideBar: React.FC<Iprops> = ({ changeFalse }) => {
         ))}
       </ContentDash>
 
-      <LogSide>{/* <Dimge src="/Img/kod.png" /> */}</LogSide>
+      <LogSide>
+        {user?.logo ? <Dimge src={user?.logo} /> : <Dimge src="/Img/phe.png" />}
+      </LogSide>
     </div>
   );
 };

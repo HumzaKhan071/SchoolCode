@@ -43,20 +43,16 @@ const Expenses: React.FC = () => {
   };
 
   const viewExpense = async () => {
-    // const newURL = `${url}/api/expense/${user._id}/get-expense`;
-    const newURL = `http://localhost:2244/api/expense/63a5a3ad444f6ada937d4ef4/get-expense`;
-    await axios
-      .get(
-        `http://localhost:2244/api/expense/63a5a3ad444f6ada937d4ef4/get-expense`
-      )
-      .then((res) => {
-        console.log("state data: ", res);
-        // setViewExpenseData(res);
-      });
+    const newURL = `${url}/api/expense/${user._id}/get-expense`;
+    // const newURL = `http://localhost:2244/api/expense/63a5a3ad444f6ada937d4ef4/get-expense`;
+    await axios.get(newURL).then((res) => {
+      console.log("state data: ", res);
+      // setViewExpenseData(res);
+    });
   };
 
   useEffect(() => {
-    // viewExpense();
+    viewExpense();
   }, []);
 
   return (

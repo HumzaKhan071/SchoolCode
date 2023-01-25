@@ -239,7 +239,11 @@ const Header = () => {
             // navigate("/");
           }}
         >
-          <Dimge src="/Img/kod.png" />
+          {user?.logo ? (
+            <Dimge src={user?.logo} />
+          ) : (
+            <Dimge src="/Img/phe.png" />
+          )}
           <div
             style={{
               fontSize: "14px",
