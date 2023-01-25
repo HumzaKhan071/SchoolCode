@@ -13,17 +13,18 @@ import { IoBriefcaseSharp } from "react-icons/io5";
 import { AiFillSetting } from "react-icons/ai";
 
 interface NavCon {
-	name: string;
-	icon: IconType;
-	to: string;
+  name: string;
+  icon: IconType;
+  to: string;
 }
 
 export const SideBarItem: NavCon[] = [
-	{
-		name: "Dashboard",
-		icon: (prop: IconBaseProps) => <MdDashboard />,
-		to: "/admin-dashboard",
-	},
+  {
+    name: "Dashboard",
+    icon: (prop: IconBaseProps) => <MdDashboard />,
+    to: "/admin-dashboard",
+  },
+
 
 	{
 		name: "Teachers",
@@ -66,4 +67,5 @@ export const SideBarItem: NavCon[] = [
 		icon: (prop: IconBaseProps) => <AiFillSetting />,
 		to: "/admin-dashboard/settings",
 	},
+
 ];

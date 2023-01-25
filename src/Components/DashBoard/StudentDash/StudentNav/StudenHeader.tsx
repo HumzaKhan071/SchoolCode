@@ -3,10 +3,12 @@ import styled from "styled-components";
 import { FaSchool, FaBars } from "react-icons/fa";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import {
-	AiOutlineCopy,
-	AiFillQuestionCircle,
-	AiFillBell,
-	AiOutlineCalendar,
+
+  AiOutlineCopy,
+  AiFillQuestionCircle,
+  AiFillBell,
+  AiOutlineCalendar,
+
 } from "react-icons/ai";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SideBarItem } from "./RouterSide";
@@ -28,202 +30,207 @@ interface iData {
 
 const url: string = "https://school-code.onrender.com";
 const StudentHeader = () => {
-	const [change, setChange] = React.useState(false);
-	const [academic, setAcademic] = useState({} as iSession);
-	const [studentData, setStudentData] = useState({} as iData);
-	const navigate = useNavigate();
-	const user = useRecoilValue(User);
-	const [session, setSession] = useRecoilState(Session);
-	const [userState, setUserState] = useRecoilState(User);
 
-	const myRef = React.useRef<HTMLDivElement>(null!);
-	const backRef = React.useRef<HTMLDivElement>(null!);
+  const [change, setChange] = React.useState(false);
+  const [academic, setAcademic] = useState({} as iSession);
+  const [studentData, setStudentData] = useState({} as iData);
+  const navigate = useNavigate();
+  const user = useRecoilValue(User);
+  const [session, setSession] = useRecoilState(Session);
+  const [userState, setUserState] = useRecoilState(User);
 
-	const getStudent = async () => {
-		const myURL = `${url}/api/student/${user._id}/student-detail-school`;
-		await axios.get(myURL).then((res) => {
-			setStudentData(res.data.data);
-		});
-	};
+  const myRef = React.useRef<HTMLDivElement>(null!);
+  const backRef = React.useRef<HTMLDivElement>(null!);
 
-	const dataURL = `${url}/api/academic/${studentData._id}/viewing-present-academic-session`;
+  const getStudent = async () => {
+    const myURL = `${url}/api/student/${user._id}/student-detail-school`;
+    await axios.get(myURL).then((res) => {
+      setStudentData(res.data.data);
+    });
+  };
 
-	const getSession = async () => {
-		await axios.get(dataURL).then((res) => {
-			setAcademic(res.data.data);
-			setSession(academic);
-		});
-	};
+  const dataURL = `${url}/api/academic/${studentData._id}/viewing-present-academic-session`;
 
-	useEffect(() => {
-		getStudent();
-		getSession();
-		axios.get(url);
-	}, [dataURL, academic]);
+  const getSession = async () => {
+    await axios.get(dataURL).then((res) => {
+      setAcademic(res.data.data);
+      setSession(academic);
+    });
+  };
 
-	const changeTrue = () => {
-		setChange(true);
-		myRef.current.style.left = "0px";
-		backRef.current.style.left = "0px";
-	};
-	const changeFalse = () => {
-		setChange(false);
-		myRef.current.style.left = "-300px";
-		backRef.current.style.left = "-2000px";
-	};
+  useEffect(() => {
+    getStudent();
+    getSession();
+    axios.get(url);
+  }, [dataURL, academic]);
 
-	return (
-		<div>
-			<HeaderDash>
-				<HolderCon>
-					<MenuHold>
-						{change ? (
-							<FaBars fontSize='20px' cursor='pointer' onClick={changeFalse} />
-						) : (
-							<FaBars fontSize='20px' cursor='pointer' onClick={changeTrue} />
-						)}
-					</MenuHold>
-					<LogoName>
-						<MyIcon>
-							<FaSchool
-								style={{
-									color: "white",
-									fontSize: "25px",
-								}}
-							/>
-						</MyIcon>
-						<AdminDetails>
-							<SchoolName>
-								<Title>{user?.schoolName}</Title>
-								<SubTitle>
-									<RiArrowDropDownLine
-										style={{
-											fontSize: "30px",
-											fontWeight: "500",
-											marginTop: "5px",
-										}}
-									/>
-								</SubTitle>
-							</SchoolName>
-							<SchoolId>
-								<div>ID: {academic?.sessionCode}</div>
+  const changeTrue = () => {
+    setChange(true);
+    myRef.current.style.left = "0px";
+    backRef.current.style.left = "0px";
+  };
+  const changeFalse = () => {
+    setChange(false);
+    myRef.current.style.left = "-300px";
+    backRef.current.style.left = "-2000px";
+  };
 
-								<span>
-									<AiOutlineCopy
-										style={{
-											fontSize: "15px",
-											fontWeight: "500",
-											color: "blue",
-											marginTop: "2px",
-										}}
-									/>
-								</span>
-							</SchoolId>
-						</AdminDetails>
-					</LogoName>
+  return (
+    <div>
+      <HeaderDash>
+        <HolderCon>
+          <MenuHold>
+            {change ? (
+              <FaBars fontSize="20px" cursor="pointer" onClick={changeFalse} />
+            ) : (
+              <FaBars fontSize="20px" cursor="pointer" onClick={changeTrue} />
+            )}
+          </MenuHold>
+          <LogoName>
+            <MyIcon>
+              <FaSchool
+                style={{
+                  color: "white",
+                  fontSize: "25px",
+                }}
+              />
+            </MyIcon>
+            <AdminDetails>
+              <SchoolName>
+                <Title>{user?.schoolName}</Title>
+                <SubTitle>
+                  <RiArrowDropDownLine
+                    style={{
+                      fontSize: "30px",
+                      fontWeight: "500",
+                      marginTop: "5px",
+                    }}
+                  />
+                </SubTitle>
+              </SchoolName>
+              <SchoolId>
+                <div>ID: {academic?.sessionCode}</div>
 
-					<RightCon>
-						<One>
-							<div>
-								<AiOutlineCalendar
-									style={{
-										fontSize: "15px",
-										marginTop: "5px",
-									}}
-								/>
-							</div>
-							<span>{academic?.academicSession}</span>
-							<div>
-								<RiArrowDropDownLine
-									style={{
-										color: "gray",
-										fontSize: "25px",
-										marginTop: "5px",
-									}}
-								/>
-							</div>
-						</One>
-						<Two>
-							<div>
-								<AiFillQuestionCircle
-									style={{
-										fontSize: "20px",
-										marginTop: "8px",
-									}}
-								/>
-							</div>
-							<span>Help</span>
-						</Two>
-						<Three>
-							<AiFillBell />
-						</Three>
-						<Four>
-							<img src={img} />
-						</Four>
-						<div>
-							<RiArrowDropDownLine
-								style={{
-									color: "gray",
-									fontSize: "25px",
-									marginTop: "5px",
-								}}
-							/>
-						</div>
-					</RightCon>
-				</HolderCon>
-			</HeaderDash>
-			<Side>
-				<ContentDash>
-					{SideBarItem.map((props, index) => (
-						<NavLink
-							to={props.to}
-							key={index}
-							style={({ isActive }) => {
-								return {
-									color: isActive ? "#1DA1F2" : "black",
-									textDecoration: isActive ? "none" : " none",
+                <span>
+                  <AiOutlineCopy
+                    style={{
+                      fontSize: "15px",
+                      fontWeight: "500",
+                      color: "blue",
+                      marginTop: "2px",
+                    }}
+                  />
+                </span>
+              </SchoolId>
+            </AdminDetails>
+          </LogoName>
 
-									borderLeft: isActive
-										? "4px solid #1DA1F2"
-										: "4px solid black",
-									display: isActive ? "flex" : "flex",
-									marginTop: isActive ? "8px" : "8px",
-								};
-							}}>
-							<NavCon>
-								&nbsp;&nbsp;&nbsp;
-								<div> {props.icon(props)}</div>
-								&nbsp;&nbsp;&nbsp;
-								<span> {props.name}</span>
-							</NavCon>
-						</NavLink>
-					))}
-				</ContentDash>
+          <RightCon>
+            <One>
+              <div>
+                <AiOutlineCalendar
+                  style={{
+                    fontSize: "15px",
+                    marginTop: "5px",
+                  }}
+                />
+              </div>
+              <span>{academic?.academicSession}</span>
+              <div>
+                <RiArrowDropDownLine
+                  style={{
+                    color: "gray",
+                    fontSize: "25px",
+                    marginTop: "5px",
+                  }}
+                />
+              </div>
+            </One>
+            <Two>
+              <div>
+                <AiFillQuestionCircle
+                  style={{
+                    fontSize: "20px",
+                    marginTop: "8px",
+                  }}
+                />
+              </div>
+              <span>Help</span>
+            </Two>
+            <Three>
+              <AiFillBell />
+            </Three>
+            <Four>
+              <img src={img} />
+            </Four>
+            <div>
+              <RiArrowDropDownLine
+                style={{
+                  color: "gray",
+                  fontSize: "25px",
+                  marginTop: "5px",
+                }}
+              />
+            </div>
+          </RightCon>
+        </HolderCon>
+      </HeaderDash>
+      <Side>
+        <ContentDash>
+          {SideBarItem.map((props, index) => (
+            <NavLink
+              to={props.to}
+              key={index}
+              style={({ isActive }) => {
+                return {
+                  color: isActive ? "#1DA1F2" : "black",
+                  textDecoration: isActive ? "none" : " none",
 
-				<LogSide
-					onClick={() => {
-						setUserState(null);
-						navigate("/");
-					}}>
-					<Dimge src='/Img/kod.png' />
-					<div
-						style={{
-							fontSize: "14px",
-							fontWeight: "bold",
-							textTransform: "uppercase",
-						}}>
-						Log Out
-					</div>
-				</LogSide>
-			</Side>
+                  borderLeft: isActive
+                    ? "4px solid #1DA1F2"
+                    : "4px solid black",
+                  display: isActive ? "flex" : "flex",
+                  marginTop: isActive ? "8px" : "8px",
+                };
+              }}
+            >
+              <NavCon>
+                &nbsp;&nbsp;&nbsp;
+                <div> {props.icon(props)}</div>
+                &nbsp;&nbsp;&nbsp;
+                <span> {props.name}</span>
+              </NavCon>
+            </NavLink>
+          ))}
+        </ContentDash>
 
-			<Back ref={backRef}>
-				<SideHold ref={myRef}>
-					<SideBar changeFalse={changeFalse} />
-				</SideHold>
-			</Back>
-		</div>
-	);
+        <LogSide
+          onClick={() => {
+            setUserState(null);
+            navigate("/");
+          }}
+        >
+          <Dimge src="/Img/kod.png" />
+          <div
+            style={{
+              fontSize: "14px",
+              fontWeight: "bold",
+              textTransform: "uppercase",
+            }}
+          >
+            Log Out
+          </div>
+        </LogSide>
+      </Side>
+
+      <Back ref={backRef}>
+        <SideHold ref={myRef}>
+          <SideBar changeFalse={changeFalse} />
+        </SideHold>
+      </Back>
+    </div>
+  );
+
 };
 
 export default StudentHeader;

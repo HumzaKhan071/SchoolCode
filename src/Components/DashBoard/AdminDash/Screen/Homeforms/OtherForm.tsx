@@ -5,27 +5,43 @@ import styled from "styled-components";
 import "react-datepicker/dist/react-datepicker.css";
 
 interface iProps {
-	toggle?: () => void;
-	toggleShow?: () => void;
-	//   toggleSubject?: () => void;
-	mainAction?: () => void;
-	mainActionAdmin?: (id: any) => void;
-	title?: string;
-	title1?: string;
-	title2?: string;
-	title3?: string;
-	title4?: string;
-	title5?: string;
-	title6?: string;
-	subTitle?: string;
-	holder?: string;
-	holder1?: string;
-	holder2?: string;
-	holder3?: string;
-	holder4?: string;
-	holder5?: string;
-	show?: boolean;
-	setShow?: React.Dispatch<React.SetStateAction<boolean>>;
+
+  toggle?: () => void;
+  toggleShow?: () => void;
+  //   toggleSubject?: () => void;
+  mainAction?: () => void;
+  mainActionAdmin?: (id: any) => void;
+  title?: string;
+  title1?: string;
+  title2?: string;
+  title3?: string;
+  title4?: string;
+  title5?: string;
+  title6?: string;
+  subTitle?: string;
+  holder?: string;
+  holder1?: string;
+  holder2?: string;
+  holder3?: string;
+  holder4?: string;
+  holder5?: string;
+  show?: boolean;
+  setShow?: React.Dispatch<React.SetStateAction<boolean>>;
+
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setName3?: React.Dispatch<React.SetStateAction<string>>;
+  setName4?: React.Dispatch<React.SetStateAction<string>>;
+  setName5?: React.Dispatch<React.SetStateAction<string>>;
+  setName1?: React.Dispatch<React.SetStateAction<string>>;
+  setName2?: React.Dispatch<React.SetStateAction<string>>;
+  one?: boolean;
+  two?: boolean;
+  three?: boolean;
+  four?: boolean;
+  five?: boolean;
+  check?: boolean;
+  numb?: boolean;
+
 
 	setName: React.Dispatch<React.SetStateAction<string>>;
 	setName3?: React.Dispatch<React.SetStateAction<string>>;
