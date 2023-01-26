@@ -41,6 +41,15 @@ const Header = () => {
   const [showMySession, setShowMySession] = React.useState(false);
   const [showDrop, setShowDrop] = React.useState(false);
 
+  const [data, setData] = useState({} as any);
+
+  const fetchData = async () => {
+    const newURL = `${url}/api/school/${user._id}`;
+    await axios.get(newURL).then((res) => {
+      setData(res.data.data);
+    });
+  };
+
   const myRef = React.useRef<HTMLDivElement>(null!);
   const backRef = React.useRef<HTMLDivElement>(null!);
 
@@ -78,6 +87,7 @@ const Header = () => {
   useEffect(() => {
     getSession();
     axios.get(url);
+    fetchData();
   }, [academic]);
 
   React.useEffect(() => {
@@ -239,8 +249,8 @@ const Header = () => {
             // navigate("/");
           }}
         >
-          {user?.logo ? (
-            <Dimge src={user?.logo} />
+          {data?.logo ? (
+            <Dimge src={data?.logo} />
           ) : (
             <Dimge src="/Img/phe.png" />
           )}
@@ -258,7 +268,7 @@ const Header = () => {
 
       <Back ref={backRef}>
         <SideHold ref={myRef}>
-          <SideBar changeFalse={changeFalse} />
+          <SideBar changeFalse={changeFalse} data={data} />
         </SideHold>
       </Back>
 

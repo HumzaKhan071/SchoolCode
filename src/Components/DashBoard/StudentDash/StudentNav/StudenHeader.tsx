@@ -3,12 +3,10 @@ import styled from "styled-components";
 import { FaSchool, FaBars } from "react-icons/fa";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import {
-
   AiOutlineCopy,
   AiFillQuestionCircle,
   AiFillBell,
   AiOutlineCalendar,
-
 } from "react-icons/ai";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SideBarItem } from "./RouterSide";
@@ -19,18 +17,17 @@ import { Session, User } from "../../../Global/RecoilState";
 import axios from "axios";
 
 interface iSession {
-	sessionCode: string;
-	academicSession: string;
-	academicTerm: string;
+  sessionCode: string;
+  academicSession: string;
+  academicTerm: string;
 }
 
 interface iData {
-	_id: string;
+  _id: string;
 }
 
 const url: string = "https://school-code.onrender.com";
 const StudentHeader = () => {
-
   const [change, setChange] = React.useState(false);
   const [academic, setAcademic] = useState({} as iSession);
   const [studentData, setStudentData] = useState({} as iData);
@@ -38,6 +35,14 @@ const StudentHeader = () => {
   const user = useRecoilValue(User);
   const [session, setSession] = useRecoilState(Session);
   const [userState, setUserState] = useRecoilState(User);
+  const [data, setData] = useState({} as any);
+
+  const fetchData = async () => {
+    const newURL = `${url}/api/student/${user._id}/student-detail`;
+    await axios.get(newURL).then((res) => {
+      setData(res.data.data);
+    });
+  };
 
   const myRef = React.useRef<HTMLDivElement>(null!);
   const backRef = React.useRef<HTMLDivElement>(null!);
@@ -61,6 +66,8 @@ const StudentHeader = () => {
   useEffect(() => {
     getStudent();
     getSession();
+    fetchData();
+
     axios.get(url);
   }, [dataURL, academic]);
 
@@ -234,267 +241,266 @@ const StudentHeader = () => {
       </Back>
     </div>
   );
-
 };
 
 export default StudentHeader;
 
 const Back = styled.div`
-	display: none;
+  display: none;
 
-	@media (max-width: 1000px) {
-		height: 100vh;
-		width: 100%;
-		background-color: rgba(0, 0, 0, 0.8);
-		position: fixed;
-		transition: 1ms;
-		left: -2000px;
-		display: block;
-		z-index: 1111;
-	}
+  @media (max-width: 1000px) {
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    transition: 1ms;
+    left: -2000px;
+    display: block;
+    z-index: 1111;
+  }
 `;
 
 const SideHold = styled.div`
-	display: none;
+  display: none;
 
-	@media (max-width: 1000px) {
-		width: 260px;
-		display: block;
+  @media (max-width: 1000px) {
+    width: 260px;
+    display: block;
 
-		height: 100vh;
-		transition: all 350ms;
-		/* display: flex; */
-		background-color: white;
+    height: 100vh;
+    transition: all 350ms;
+    /* display: flex; */
+    background-color: white;
 
-		position: fixed;
+    position: fixed;
 
-		left: -300px;
-	}
+    left: -300px;
+  }
 `;
 
 const MenuHold = styled.div`
-	display: none;
+  display: none;
 
-	@media (max-width: 1000px) {
-		display: flex;
+  @media (max-width: 1000px) {
+    display: flex;
 
-		height: 100%;
-		width: 50px;
-		justify-content: center;
-		align-items: center;
-	}
+    height: 100%;
+    width: 50px;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const Dimge = styled.img`
-	width: 70%;
-	height: 45px;
-	object-fit: contain;
+  width: 70%;
+  height: 45px;
+  object-fit: contain;
 `;
 
 const LogSide = styled.div`
-	height: 100px;
-	width: 100%;
-	justify-content: center;
-	display: flex;
-	flex-direction: column;
+  height: 100px;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
 `;
 
 const NavCon = styled.div`
-	width: 100%;
-	height: 35px;
+  width: 100%;
+  height: 35px;
 
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 
-	span {
-		font-weight: 500;
-	}
+  span {
+    font-weight: 500;
+  }
 `;
 
 const ContentDash = styled.div`
-	padding-top: 10px;
+  padding-top: 10px;
 `;
 
 const One = styled.div`
-	width: 200px;
-	height: 35px;
-	border-radius: 9px;
-	display: flex;
-	justify-content: space-evenly;
-	background-color: #f4f4f4;
-	align-items: center;
+  width: 200px;
+  height: 35px;
+  border-radius: 9px;
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #f4f4f4;
+  align-items: center;
 
-	span {
-		font-weight: 600;
-	}
+  span {
+    font-weight: 600;
+  }
 
-	@media (max-width: 800px) {
-		display: none;
-	}
+  @media (max-width: 800px) {
+    display: none;
+  }
 `;
 const Two = styled.div`
-	width: 80px;
-	height: 35px;
-	border-radius: 9px;
-	display: flex;
-	justify-content: space-evenly;
-	background-color: #f4f4f4;
-	align-items: center;
+  width: 80px;
+  height: 35px;
+  border-radius: 9px;
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #f4f4f4;
+  align-items: center;
 
-	span {
-		font-weight: 500;
-		font-size: 15px;
-	}
+  span {
+    font-weight: 500;
+    font-size: 15px;
+  }
 
-	@media (max-width: 800px) {
-		display: none;
-	}
+  @media (max-width: 800px) {
+    display: none;
+  }
 `;
 const Three = styled.div`
-	width: 50px;
-	height: 35px;
-	border-radius: 9px;
-	display: flex;
-	justify-content: space-evenly;
-	background-color: #f4f4f4;
-	align-items: center;
+  width: 50px;
+  height: 35px;
+  border-radius: 9px;
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #f4f4f4;
+  align-items: center;
 
-	span {
-		font-weight: 600;
-	}
+  span {
+    font-weight: 600;
+  }
 `;
 const Four = styled.div`
-	width: 50px;
-	height: 35px;
-	border-radius: 9px;
-	display: flex;
-	justify-content: space-evenly;
-	background-color: #f4f4f4;
-	align-items: center;
+  width: 50px;
+  height: 35px;
+  border-radius: 9px;
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #f4f4f4;
+  align-items: center;
 
-	img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		border-radius: 9px;
-	}
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 9px;
+  }
 
-	span {
-		font-weight: 600;
-	}
+  span {
+    font-weight: 600;
+  }
 
-	@media (max-width: 800px) {
-		display: none;
-	}
+  @media (max-width: 800px) {
+    display: none;
+  }
 `;
 
 const Title = styled.div`
-	width: 90px;
-	height: 20px;
-	display: flex;
-	align-items: flex-end;
-	overflow: hidden;
-	font-size: 15px;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+  width: 90px;
+  height: 20px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  font-size: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 const SubTitle = styled.div``;
 
 const SchoolName = styled.div`
-	height: 25px;
-	width: 150px;
-	display: flex;
-	align-items: center;
+  height: 25px;
+  width: 150px;
+  display: flex;
+  align-items: center;
 `;
 const SchoolId = styled.div`
-	margin-top: -7px;
-	font-size: 12px;
-	display: flex;
-	color: grey;
-	span {
-		cursor: pointer;
-		margin-left: 7px;
-	}
+  margin-top: -7px;
+  font-size: 12px;
+  display: flex;
+  color: grey;
+  span {
+    cursor: pointer;
+    margin-left: 7px;
+  }
 `;
 
 const MyIcon = styled.div`
-	width: 48px;
-	height: 48px;
-	border-radius: 50%;
-	background-color: #1da1f2;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #1da1f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const AdminDetails = styled.div`
-	height: 70%;
-	width: 150px;
+  height: 70%;
+  width: 150px;
 
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 const LogoName = styled.div`
-	width: 200px;
-	height: 100%;
+  width: 200px;
+  height: 100%;
 
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 const RightCon = styled.div`
-	width: 500px;
-	height: 100%;
+  width: 500px;
+  height: 100%;
 
-	display: flex;
-	align-items: center;
-	justify-content: space-evenly;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 
-	@media (max-width: 800px) {
-		width: 80px;
-	}
+  @media (max-width: 800px) {
+    width: 80px;
+  }
 `;
 
 const HolderCon = styled.div`
-	width: 97%;
-	display: flex;
-	height: 100%;
-	display: flex;
-	justify-content: space-between;
+  width: 97%;
+  display: flex;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const HeaderDash = styled.div`
-	width: 100%;
-	height: 60px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 
-	background-color: white;
-	position: fixed;
-	top: 0;
-	z-index: 999;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  z-index: 999;
 `;
 
 const Side = styled.div`
-	width: 230px;
-	min-height: calc(100vh - 0px);
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	background-color: #ffffff;
-	padding-top: 70px;
-	position: fixed;
-	justify-content: space-between;
+  width: 230px;
+  min-height: calc(100vh - 0px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding-top: 70px;
+  position: fixed;
+  justify-content: space-between;
 
-	z-index: 1;
-	@media (max-width: 1000px) {
-		display: none;
-		/* left: -300px; */
-	}
+  z-index: 1;
+  @media (max-width: 1000px) {
+    display: none;
+    /* left: -300px; */
+  }
 
-	//box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-	//box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-	//box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  //box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  //box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  //box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 `;

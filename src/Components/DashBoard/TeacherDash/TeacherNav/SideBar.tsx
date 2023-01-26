@@ -6,9 +6,10 @@ import { SideBarItem } from "./RouterSide";
 interface Iprops {
   changeFalse: () => void;
   user?: any;
+  dataFile?: any;
 }
 
-const SideBar: React.FC<Iprops> = ({ changeFalse, user }) => {
+const SideBar: React.FC<Iprops> = ({ changeFalse, user, dataFile }) => {
   return (
     <div
       style={{
@@ -43,7 +44,11 @@ const SideBar: React.FC<Iprops> = ({ changeFalse, user }) => {
       </ContentDash>
 
       <LogSide>
-        {user?.logo ? <Dimge src={user?.logo} /> : <Dimge src="/Img/phe.png" />}
+        {dataFile?.logo ? (
+          <Dimge src={dataFile?.logo} />
+        ) : (
+          <Dimge src="/Img/phe.png" />
+        )}
       </LogSide>
     </div>
   );

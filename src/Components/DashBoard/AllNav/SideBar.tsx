@@ -7,9 +7,10 @@ import { AiOutlineDown } from "react-icons/ai";
 interface Iprops {
   changeFalse: () => void;
   user?: any;
+  data?: any;
 }
 
-const SideBar: React.FC<Iprops> = ({ changeFalse, user }) => {
+const SideBar: React.FC<Iprops> = ({ changeFalse, user, data }) => {
   return (
     <div>
       <ContentDash>
@@ -37,7 +38,7 @@ const SideBar: React.FC<Iprops> = ({ changeFalse, user }) => {
       </ContentDash>
 
       <LogSide>
-        {user?.logo ? <Dimge src={user?.logo} /> : <Dimge src="/Img/phe.png" />}
+        {data?.logo ? <Dimge src={data?.logo} /> : <Dimge src="/Img/phe.png" />}
       </LogSide>
     </div>
   );

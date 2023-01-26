@@ -42,6 +42,15 @@ const TeacherHeader = () => {
   const user = useRecoilValue(User);
   const [academic, setAcademic] = useState({} as iSession | null);
 
+  const [dataFile, setDataFile] = useState({} as any);
+  const [data, setData] = useState({} as any);
+
+  const fetchData = async () => {
+    const newURL = `${url}/api/teacher/${user._id}`;
+    await axios.get(newURL).then((res) => {
+      setData(res.data.data);
+    });
+  };
   const myRef = React.useRef<HTMLDivElement>(null!);
   const backRef = React.useRef<HTMLDivElement>(null!);
 
@@ -61,11 +70,13 @@ const TeacherHeader = () => {
       .get(`${url}/api/academic/${user._id}/get-academic-session-teacher`)
       .then((res) => {
         setAcademic(res.data.data.academicSession[0]);
+        setDataFile(res.data.data);
       });
   };
 
   useEffect(() => {
     getSession();
+    fetchData();
   }, []);
   return (
     <MainDown>
@@ -79,14 +90,30 @@ const TeacherHeader = () => {
             )}
           </MenuHold>
           <LogoName>
-            <MyIcon>
-              <FaSchool
-                style={{
-                  color: "white",
-                  fontSize: "25px",
-                }}
-              />
-            </MyIcon>
+            {data.image ? (
+              <MyIcon>
+                <img
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    objectFit: "cover",
+                    overflow: "hidden",
+                    borderRadius: "50%",
+                  }}
+                  src={data.image}
+                />
+              </MyIcon>
+            ) : (
+              <MyIcon>
+                <FaSchool
+                  style={{
+                    color: "white",
+                    fontSize: "25px",
+                  }}
+                />
+              </MyIcon>
+            )}
+
             <AdminDetails>
               <SchoolName>
                 <Title>{user?.name}</Title>
@@ -201,8 +228,8 @@ const TeacherHeader = () => {
             navigate("/");
           }}
         >
-          {user?.logo ? (
-            <Dimge src={user?.logo} />
+          {dataFile?.logo ? (
+            <Dimge src={dataFile?.logo} />
           ) : (
             <Dimge src="/Img/phe.png" />
           )}
@@ -220,7 +247,7 @@ const TeacherHeader = () => {
 
       <Back ref={backRef}>
         <SideHold ref={myRef}>
-          <SideBar changeFalse={changeFalse} user={user} />
+          <SideBar changeFalse={changeFalse} user={user} dataFile={dataFile} />
         </SideHold>
       </Back>
     </MainDown>
