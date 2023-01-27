@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { BsFacebook, BsLinkedin, BsYoutube, BsTwitter } from "react-icons/bs";
 import { AiFillInstagram } from "react-icons/ai";
+import log from "../image/phe.png";
 
 const Footer: React.FC = () => {
 	return (
@@ -10,7 +11,7 @@ const Footer: React.FC = () => {
 			<Container>
 				<Wrapper>
 					<FirstDiv>
-						<Logo>SchoolKode</Logo>
+						<Logo src={log} />
 						<p>
 							The one-stop platform for all <br />
 							financial management of small and <br />
@@ -55,7 +56,7 @@ const Footer: React.FC = () => {
 					</SecondDiv>
 				</Wrapper>
 				<CopyT>
-					<span>© 2022 expense. All right reserved.</span>
+					<span>© 2023 PHOENIX. All right reserved.</span>
 				</CopyT>
 			</Container>
 		</div>
@@ -91,21 +92,22 @@ const Nav = styled.p`
 
 	:hover {
 		cursor: pointer;
-		color: #926efc;
+		color: #1e2027;
 		/* font-weight: 600; */
 		transform: scale(1.02);
 	}
 `;
 
-const Logo = styled.div`
+const Logo = styled.img`
 	font-weight: bold;
+	width: 150px;
 `;
 const Socials = styled.div`
 	width: 170px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	color: #926efc;
+	color: #143547;
 	font-size: 1.3rem;
 	margin-top: 30px;
 `;
@@ -127,7 +129,7 @@ const SecondDiv = styled.div`
 	grid-template-columns: repeat(4, 1fr);
 	grid-gap: 10px;
 
-	@media screen and (max-width: 960px) {
+	@media screen and (max-width: 760px) {
 		grid-template-columns: repeat(1, 1fr);
 	}
 `;
@@ -137,7 +139,11 @@ const Wrapper = styled.div`
 	/* align-items: center; */
 	padding: 30px;
 	width: 91%;
-	flex-wrap: wrap;
+
+	@media screen and (max-width: 760px) {
+		flex-wrap: wrap;
+	}
+	/* flex-wrap: wrap; */
 `;
 const Container = styled.div`
 	/* height: 60vh; */
