@@ -2,13 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { VscThreeBars } from "react-icons/vsc";
 import { Link } from "react-router-dom";
+import log from '../image/phe.png'
 
 const Header = () => {
 	return (
 		<Container>
 			<Wrapper>
 				<Logo>
-					<img src='/Img/kod.png' alt='' />
+					<img src={log} alt='' />
 				</Logo>
 				<ButHold>
 					<Link style={{ textDecoration: "none" }} to='/login'>
