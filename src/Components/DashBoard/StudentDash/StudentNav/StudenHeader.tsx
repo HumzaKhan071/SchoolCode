@@ -36,6 +36,7 @@ const StudentHeader = () => {
   const [session, setSession] = useRecoilState(Session);
   const [userState, setUserState] = useRecoilState(User);
   const [data, setData] = useState({} as any);
+  const [dataFIle, setDataFile] = useState({} as any);
 
   const fetchData = async () => {
     const newURL = `${url}/api/student/${user._id}/student-detail`;
@@ -58,7 +59,8 @@ const StudentHeader = () => {
 
   const getSession = async () => {
     await axios.get(dataURL).then((res) => {
-      setAcademic(res.data.data);
+      setAcademic(res.data.data!.academicSession![0]);
+      setDataFile(res.data.data);
       setSession(academic);
     });
   };

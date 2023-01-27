@@ -80,14 +80,14 @@ const Header = () => {
     await axios
       .get(`${url}/api/academic/${user._id}/viewing-present-academic-session`)
       .then((res) => {
-        setAcademic(res.data.data);
+        setAcademic(res.data.data?.academicSession[0]!);
         setSessionState(academic);
       });
   };
   useEffect(() => {
     getSession();
     axios.get(url);
-    fetchData();
+    // fetchData();
   }, [academic]);
 
   React.useEffect(() => {
@@ -153,7 +153,10 @@ const Header = () => {
                 </span>
               </SchoolId>
               <SchoolId>
-                <div>Session Code: {academic?.sessionCode}</div>
+                <div>
+                  Session Code:
+                  {academic?.sessionCode}
+                </div>
               </SchoolId>
             </AdminDetails>
           </LogoName>
@@ -170,7 +173,10 @@ const Header = () => {
                   }}
                 />
               </div>
-              <span>Session: {academic?.academicSession} </span>
+              <span>
+                Session:
+                {academic?.academicSession}
+              </span>
               <div>
                 <RiArrowDropDownLine
                   style={{
