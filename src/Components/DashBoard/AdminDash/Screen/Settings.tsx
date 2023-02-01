@@ -84,7 +84,7 @@ const Settings: React.FC = () => {
 	};
 
 	const uploadInfo = async () => {
-		const newURL = `${url}/api/school/${user?._id}`;
+		const newURL = `${url}/api/school/${user._id}`;
 
 		setLoading(true);
 		await axios

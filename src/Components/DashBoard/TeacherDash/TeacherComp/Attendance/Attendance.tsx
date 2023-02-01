@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { User } from "../../../../Global/RecoilState";
@@ -18,14 +19,13 @@ const Attendance = () => {
 
     await axios.get(uuri).then((res) => {
       setGetClasses(res?.data?.data?.myClass);
-      console.log("this is fodfg", res);
-      // setTeacherInfo(res.data.data);
       setLoad(false);
     });
   };
 
   useEffect(() => {
     getSub();
+    console.log("viewing classes: ", getClasses);
   }, []);
   return (
     <Container>
@@ -57,8 +57,17 @@ const Attendance = () => {
                   Absent : <input disabled type="radio" />{" "}
                 </div>
               </MarkerHold>
+
+              <Div>
+                <Biv to={`${myProps._id}/attendence-class`}>
+                  Mark Class Attendance
+                </Biv>
+                <Biv to={`${myProps._id}/attendence-record`}>
+                  View Attendance Record
+                </Biv>
+              </Div>
             </AttendMarker>
-            <AttendanceTable myProps={myProps} />
+            {/* <AttendanceTable myProps={myProps} /> */}
           </>
         ))}
       </Wrapper>
@@ -67,6 +76,27 @@ const Attendance = () => {
 };
 
 export default Attendance;
+
+const Biv = styled(Link)`
+  background-color: #000269;
+  color: white;
+  padding: 8px 15px;
+  transition: all 350ms;
+  border-radius: 3px;
+  text-decoration: none;
+  margin: 0 5px;
+  :hover {
+    cursor: pointer;
+    transform: scale(0.97);
+  }
+`;
+
+const Div = styled.div`
+  width: 90%;
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 20px;
+`;
 
 const Container = styled.div`
   /* width: 100%; */

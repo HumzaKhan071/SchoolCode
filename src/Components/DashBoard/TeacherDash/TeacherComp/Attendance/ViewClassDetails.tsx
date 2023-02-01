@@ -6,15 +6,10 @@ import { MdDeleteForever } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Session, User } from "../../Global/RecoilState";
 import Swal from "sweetalert2";
-import Loading from "../../Auth/Loading";
-import ClassDataProps from "../AdminDash/ClassDataProps";
-import MyForm from "../AdminDash/Screen/Homeforms/MyForm";
-import OtherForm from "../AdminDash/Screen/Homeforms/MyForm";
-
 import numeral from "numeral";
 import moment from "moment";
+import { User } from "../../../../Global/RecoilState";
 
 const url: string = "https://school-code.onrender.com";
 
@@ -30,30 +25,64 @@ interface IData {
   subject: [];
 }
 
-function StudentPerformance() {
+function ViewClassDetails() {
+  const { id } = useParams();
   const user = useRecoilValue(User);
 
   const [fee, setFee] = useState(false);
+  const [register, setRegister] = useState(false);
 
   const [myResult, setMyResult] = useState([] as any[]);
+  const [result, setResult] = useState([] as any[]);
   const [classInfo, setClassInfo] = useState({} as any);
 
   const getResult = async () => {
     await axios
-      .get(`${url}/api/performance/${user?._id}/viewing-student-performance`)
+      .get(`${url}/api/class/${id}/viewing-class-students`)
       .then((res) => {
-        setMyResult(res?.data?.data?.performance);
+        setResult(res?.data?.data?.students);
+        console.log(res);
       });
   };
 
   const getClass = async () => {
+    await axios.get(`${url}/api/class/${id}/viewing-class`).then((res) => {
+      setClassInfo(res?.data?.data);
+    });
+  };
+
+  const markPresent = async (studentID: string) => {
     await axios
-      .get(`${url}/api/class/${user?.classID}/viewing-class`)
-      .then((res) => {
-        setClassInfo(res?.data?.data);
+      .post(`${url}/api/attendance/${user._id}/${studentID}/present`)
+      .then(() => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Student is marked Present",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        console.log(studentID);
       });
   };
 
+  const markAdsent = async (studentID: string) => {
+    await axios
+      .post(`${url}/api/attendance/${user._id}/${studentID}/absent`)
+      .then((res) => {
+        setClassInfo(res?.data?.data);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Student is marked Adsent",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        console.log(studentID);
+      });
+  };
+
+  //   window.location.reload();
   useEffect(() => {
     getResult();
     getClass();
@@ -63,12 +92,12 @@ function StudentPerformance() {
     <>
       <Container>
         <Content>
-          <span>{user?.name}</span>
+          {/* <span>{user?.name}</span> */}
           <MainHold>
             <LoaderHold>
               <Holding>
-                <span>General Performance</span>
-                <Div>on Test/Exam</Div>
+                <span>Taking class Attendance</span>
+                <Div>Recording Attendance</Div>
               </Holding>
             </LoaderHold>
             <NextRec>
@@ -82,196 +111,86 @@ function StudentPerformance() {
               <Tog>
                 <h5>Detail test and exam performance for {user?.name}</h5>
                 <span>
-                  Present class: <strong>{user?.className}</strong>
+                  Present class: <strong>{classInfo?.className}</strong>
                 </span>
                 <br />
                 <span>
                   class Teacher: <strong>{classInfo?.classTeacher}</strong>
                 </span>
                 <br />
+                <span>
+                  total Students: <strong>{classInfo?.students?.length}</strong>
+                </span>
+                <br />
               </Tog>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                }}
-              >
-                {myResult.map((props) => (
-                  <AllSubBox1 key={props._id}>
-                    <Main>
-                      <First>
-                        <Title>{props.testTitle} Test</Title>
-                        <IconHold>
-                          <FiMoreVertical />
-                        </IconHold>
-                      </First>
-                      <span>subject: {props.testName}</span>
-
-                      <div
-                        style={{
-                          marginTop: "5px",
-                        }}
-                      >
-                        {" "}
-                        <div
-                          style={{
-                            color: "#F8C46B",
-                            fontSize: "11px",
-                          }}
-                        >
-                          SubjectTeacher :{" "}
-                        </div>
-                        <div style={{ fontSize: "13px" }}>
-                          {" "}
-                          {props.teacherName}
-                        </div>
-                      </div>
-                      <br />
-
-                      <div
-                        style={{
-                          marginTop: "5px",
-                          display: "flex",
-                          justifyContent: "space-around",
-                          alignContent: "center",
-                        }}
-                      >
-                        {" "}
-                        <div
-                          style={{
-                            fontSize: "11px",
-                            alignItems: "center",
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                        >
-                          {" "}
-                          <div
-                            style={{
-                              color: "lightblue",
-                              fontSize: "11px",
-                            }}
-                          >
-                            Grade/Question
-                          </div>
-                          <div
-                            style={{
-                              fontWeight: "bold",
-                            }}
-                          >
-                            {props.gradeScore} Mark
-                          </div>
-                        </div>
-                        <div
-                          style={{
-                            fontSize: "11px",
-                            alignItems: "center",
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                        >
-                          {" "}
-                          <div
-                            style={{
-                              color: "lightblue",
-                              fontSize: "11px",
-                            }}
-                          >
-                            Score
-                          </div>
-                          <div
-                            style={{
-                              fontWeight: "bold",
-                            }}
-                          >{`${props.gradeScore * props.maxLength} / ${
-                            props.totalScore
-                          } `}</div>
-                        </div>
-                        <div
-                          style={{
-                            fontSize: "11px",
-                            alignItems: "center",
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                        >
-                          {" "}
-                          <div
-                            style={{
-                              color: "lightblue",
-                              fontSize: "11px",
-                            }}
-                          >
-                            Grade
-                          </div>
-                          <div
-                            style={{
-                              fontWeight: "bold",
-                            }}
-                          >
-                            {" "}
-                            {props.grade}
-                          </div>
-                        </div>
-                        <div
-                          style={{
-                            fontSize: "11px",
-                            alignItems: "center",
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                        >
-                          {" "}
-                          <div
-                            style={{
-                              color: "lightblue",
-                              fontSize: "11px",
-                            }}
-                          >
-                            percentage
-                          </div>
-                          <div
-                            style={{
-                              fontWeight: "bold",
-                            }}
-                          >
-                            {" "}
-                            {props.precentage}
-                          </div>
-                        </div>
-                      </div>
-                      <br />
-                      <div
-                        style={{
-                          fontSize: "10px",
-                          fontWeight: "bold",
-                          display: "flex",
-                        }}
-                      >
-                        Test done:{" "}
-                        <div
-                          style={{
-                            textTransform: "uppercase",
-                            marginLeft: "5px",
-                          }}
-                        >
-                          {moment(props.createdAt).fromNow()}
-                        </div>
-                      </div>
-                    </Main>
-                  </AllSubBox1>
-                ))}
-              </div>
             </Cont>
           </MainHold2>
+
+          {result?.map((props, i) => (
+            <MainHold1 key={props._id}>
+              <div style={{ flex: "1" }}>{props.name}</div>
+              <Div11>
+                <Div111>
+                  <div>Present</div>
+                  <input
+                    type={"radio"}
+                    name={props._id}
+                    id={props._id}
+                    value={"true"}
+                    onChange={(e) => {
+                      // onRadioButtonChange(e);
+                      setRegister(true);
+                    }}
+                    onClick={(e: any) => {
+                      //   console.log(register);
+                      markPresent(props._id);
+                    }}
+                  />
+                </Div111>
+                <Div111>
+                  <div>Absent</div>
+                  <input
+                    type={"radio"}
+                    id={props._id}
+                    name={props._id}
+                    value={"false"}
+                    onChange={(e) => {
+                      //   onRadioButtonChange(e);
+                      setRegister(false);
+                    }}
+                    onClick={(e: any) => {
+                      //   console.log(register);
+                      markAdsent(props._id);
+                    }}
+                  />
+                </Div111>
+              </Div11>
+              {/* <Button11
+                onClick={() => {
+                  console.log(register);
+                }}
+              >
+                Mark Attendance
+              </Button11> */}
+            </MainHold1>
+          ))}
         </Content>
       </Container>
     </>
   );
 }
 
-export default StudentPerformance;
+export default ViewClassDetails;
+
+const Div111 = styled.div`
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Div11 = styled.div`
+  display: flex;
+`;
 
 const TeacherImage = styled.img`
   height: 20px;
@@ -454,6 +373,27 @@ const Button1 = styled.div`
   }
 `;
 
+const Button11 = styled.div`
+  //   height: 40px;
+  padding: 8px 13px;
+  //   width: 200px;
+  background-color: none;
+  color: #1da1f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background-color: #000269;
+  color: white;
+
+  cursor: pointer;
+  transition: all 350ms;
+
+  :hover {
+    transform: scale(0.97);
+  }
+`;
+
 const Button = styled.div`
   height: 40px;
   width: 200px;
@@ -586,12 +526,31 @@ const Div = styled.div`
 `;
 const LoaderHold = styled.div`
   height: 100%;
-  background-color: #8e6aff;
+  background-color: orange;
   width: 30%;
   border-radius: 10px;
 `;
 const NextRec = styled.div`
   margin-right: 10px;
+`;
+
+const MainHold1 = styled.div`
+  display: flex;
+  width: 97.6%;
+  background-color: white;
+  border-radius: 5px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  margin-top: 10px;
+  padding: 10px;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
+  h5 {
+    margin: 0;
+  }
 `;
 
 const MainHold2 = styled.div`
@@ -611,6 +570,7 @@ const MainHold2 = styled.div`
     margin: 0;
   }
 `;
+
 const MainHold = styled.div`
   display: flex;
   width: 100%;
@@ -647,7 +607,7 @@ const Container = styled.div`
   overflow: hidden;
   position: absolute;
   right: 0px;
-  padding-top: 100px;
+  margin-top: 80px;
   // top: 50px;
 
   @media screen and (max-width: 1100px) {
