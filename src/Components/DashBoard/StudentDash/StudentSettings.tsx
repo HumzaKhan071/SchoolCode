@@ -24,14 +24,12 @@ const Settings: React.FC = () => {
   const [logo, setLogo] = useState("");
   const [address, setAddress] = useState("");
   const [contact, setContact] = useState("");
-  const [vision, setVision] = useState("");
-  const [mission, setMission] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState({} as any);
 
   const fetchData = async () => {
-    const newURL = `${url}/api/school/${user._id}`;
+    const newURL = `${url}/api/student/${user._id}/student-detail`;
     await axios.get(newURL).then((res) => {
       setData(res.data.data);
     });
@@ -42,12 +40,11 @@ const Settings: React.FC = () => {
     const save = URL.createObjectURL(file);
     setImage(save);
     setLogo(file);
-    console.log(file);
-    console.log(save);
   };
 
   const uploadLogo = async () => {
-    const newURL = `${url}/api/school/${user._id}`;
+    const local = "http://localhost:2244";
+    const newURL = `${local}/api/student/${user._id}/update-student`;
     const formData = new FormData();
     formData.append("image", logo);
 
@@ -82,11 +79,10 @@ const Settings: React.FC = () => {
   };
 
   const uploadInfo = async () => {
-    const newURL = `${url}/api/school/${user._id}`;
-
-    setLoading(true);
+    const newURL = `${url}/api/student/${user._id}/update-student-info`;
+    console.log(newURL);
     await axios
-      .patch(newURL, { address, contact, vision, mission })
+      .patch(newURL, { address, contact })
       .then(() => {
         Swal.fire({
           position: "center",
@@ -114,6 +110,7 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     fetchData();
+    console.log("showing now:", data);
   }, []);
 
   return (
@@ -130,9 +127,9 @@ const Settings: React.FC = () => {
           <BoxHold>
             <MyHead>PERSONAL DATA</MyHead>
             <First>
-              <Title>School's Logo</Title>
+              <Title>studnet's avatar</Title>
               <AvatarHold>
-                <UserAvatar src={data?.logo ? data?.logo : image} />
+                <UserAvatar src={data?.image ? data?.image : image} />
                 <MyInput id="pix" type="file" onChange={uploadImage} />
                 <But htmlFor="pix">
                   <BiPencil />
@@ -157,11 +154,11 @@ const Settings: React.FC = () => {
             </First>
 
             <First>
-              <Title>School's Address</Title>
+              <Title>My Address</Title>
               <MainInp
-                placeholder="Enter the school's Address"
+                placeholder="Enter the my Address"
                 type="text"
-                defaultValue={data.address}
+                defaultValue={data?.address}
                 value={address}
                 onChange={(e: any) => {
                   setAddress(e.target.value);
@@ -169,38 +166,14 @@ const Settings: React.FC = () => {
               />
             </First>
             <First>
-              <Title>School's Contact</Title>
+              <Title>My Contact</Title>
               <MainInp
-                placeholder="Enter the school's Contact number"
+                placeholder="Enter the my Contact number"
                 type="text"
-                defaultValue={data.contact}
+                defaultValue={data?.contact}
                 value={contact}
                 onChange={(e: any) => {
                   setContact(e.target.value);
-                }}
-              />
-            </First>
-            <First>
-              <Title>School's Mission</Title>
-              <MainInp
-                placeholder="Enter the school's Mission"
-                type="text"
-                defaultValue={data.mission}
-                value={mission}
-                onChange={(e: any) => {
-                  setMission(e.target.value);
-                }}
-              />
-            </First>
-            <First>
-              <Title>School's Vision</Title>
-              <MainInp
-                placeholder="Enter the school's Vision"
-                type="text"
-                defaultValue={data.vision}
-                value={vision}
-                onChange={(e: any) => {
-                  setVision(e.target.value);
                 }}
               />
             </First>
