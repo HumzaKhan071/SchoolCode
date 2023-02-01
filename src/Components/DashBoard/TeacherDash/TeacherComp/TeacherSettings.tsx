@@ -19,15 +19,14 @@ const Settings: React.FC = () => {
 
   const user = useRecoilValue(User);
   const [userState, setUserState] = useRecoilState(User);
+  const [data, setData] = useState({} as any);
 
   const [image, setImage] = useState(pic2);
   const [logo, setLogo] = useState("");
-  const [address, setAddress] = useState("");
-  const [contact, setContact] = useState("");
-  const [motivation, setMotivation] = useState("");
-  const [bio, setBio] = useState("");
-
-  const [data, setData] = useState({} as any);
+  const [address, setAddress] = useState(data?.address);
+  const [contact, setContact] = useState(data?.contact);
+  const [motivation, setMotivation] = useState(data?.motivation);
+  const [bio, setBio] = useState(data?.bio);
 
   const fetchData = async () => {
     const newURL = `${url}/api/teacher/${user._id}`;
@@ -148,7 +147,7 @@ const Settings: React.FC = () => {
               <MainInp
                 placeholder="Enter the Your Address"
                 type="text"
-                value={address}
+                defaultValue={data?.address}
                 onChange={(e: any) => {
                   setAddress(e.target.value);
                 }}
@@ -159,7 +158,7 @@ const Settings: React.FC = () => {
               <MainInp
                 placeholder="Enter the Your Contact number"
                 type="text"
-                value={contact}
+                defaultValue={data?.contact}
                 onChange={(e: any) => {
                   setContact(e.target.value);
                 }}
@@ -170,7 +169,7 @@ const Settings: React.FC = () => {
               <MainInp
                 placeholder="Enter the Your Motivation"
                 type="text"
-                value={motivation}
+                defaultValue={data?.motivation}
                 onChange={(e: any) => {
                   setMotivation(e.target.value);
                 }}
@@ -181,7 +180,7 @@ const Settings: React.FC = () => {
               <MainInp
                 placeholder="Enter the Your Bio"
                 type="text"
-                value={bio}
+                defaultValue={data?.bio}
                 onChange={(e: any) => {
                   setBio(e.target.value);
                 }}

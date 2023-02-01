@@ -19,14 +19,12 @@ const Settings: React.FC = () => {
 
   const user = useRecoilValue(User);
   const [userState, setUserState] = useRecoilState(User);
-
+  const [data, setData] = useState({} as any);
   const [image, setImage] = useState(pic2);
   const [logo, setLogo] = useState("");
-  const [address, setAddress] = useState("");
-  const [contact, setContact] = useState("");
+  const [address, setAddress] = useState(data?.address);
+  const [contact, setContact] = useState(data?.contact);
   const [loading, setLoading] = useState(false);
-
-  const [data, setData] = useState({} as any);
 
   const fetchData = async () => {
     const newURL = `${url}/api/student/${user._id}/student-detail`;
@@ -43,8 +41,7 @@ const Settings: React.FC = () => {
   };
 
   const uploadLogo = async () => {
-    const local = "http://localhost:2244";
-    const newURL = `${local}/api/student/${user._id}/update-student`;
+    const newURL = `${url}/api/student/${user._id}/update-student`;
     const formData = new FormData();
     formData.append("image", logo);
 
@@ -110,7 +107,7 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     fetchData();
-    console.log("showing now:", data);
+    console.log("showing:", data);
   }, []);
 
   return (
@@ -159,7 +156,6 @@ const Settings: React.FC = () => {
                 placeholder="Enter the my Address"
                 type="text"
                 defaultValue={data?.address}
-                value={address}
                 onChange={(e: any) => {
                   setAddress(e.target.value);
                 }}
@@ -171,7 +167,6 @@ const Settings: React.FC = () => {
                 placeholder="Enter the my Contact number"
                 type="text"
                 defaultValue={data?.contact}
-                value={contact}
                 onChange={(e: any) => {
                   setContact(e.target.value);
                 }}

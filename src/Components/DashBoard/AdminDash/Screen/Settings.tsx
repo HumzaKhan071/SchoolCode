@@ -20,16 +20,17 @@ const Settings: React.FC = () => {
 
   const user = useRecoilValue(User);
   const [userState, setUserState] = useRecoilState(User);
+  const [data, setData] = useState({} as any);
 
   const [image, setImage] = useState(pic2);
   const [logo, setLogo] = useState("");
-  const [address, setAddress] = useState("");
-  const [contact, setContact] = useState("");
-  const [vision, setVision] = useState("");
-  const [mission, setMission] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const [data, setData] = useState({} as any);
+  const [address, setAddress] = useState(data?.address);
+  const [contact, setContact] = useState(data?.contact);
+  const [vision, setVision] = useState(data?.vision);
+  const [mission, setMission] = useState(data?.mission);
+
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     const newURL = `${url}/api/school/${user._id}`;
@@ -83,8 +84,7 @@ const Settings: React.FC = () => {
   };
 
   const uploadInfo = async () => {
-    const local = "http://localhost:2244";
-    const newURL = `${local}/api/school/${user._id}/info`;
+    const newURL = `${url}/api/school/${user._id}/info`;
 
     setLoading(true);
     await axios
@@ -165,7 +165,6 @@ const Settings: React.FC = () => {
                 placeholder="Enter the school's Address"
                 type="text"
                 defaultValue={data.address}
-                value={address}
                 onChange={(e: any) => {
                   setAddress(e.target.value);
                 }}
@@ -177,7 +176,6 @@ const Settings: React.FC = () => {
                 placeholder="Enter the school's Contact number"
                 type="text"
                 defaultValue={data.contact}
-                value={contact}
                 onChange={(e: any) => {
                   setContact(e.target.value);
                 }}
@@ -189,7 +187,6 @@ const Settings: React.FC = () => {
                 placeholder="Enter the school's Mission"
                 type="text"
                 defaultValue={data.mission}
-                value={mission}
                 onChange={(e: any) => {
                   setMission(e.target.value);
                 }}
@@ -201,7 +198,6 @@ const Settings: React.FC = () => {
                 placeholder="Enter the school's Vision"
                 type="text"
                 defaultValue={data.vision}
-                value={vision}
                 onChange={(e: any) => {
                   setVision(e.target.value);
                 }}
