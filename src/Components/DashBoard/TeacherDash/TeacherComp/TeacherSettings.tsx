@@ -19,15 +19,15 @@ const Settings: React.FC = () => {
 
 	const user = useRecoilValue(User);
 	const [userState, setUserState] = useRecoilState(User);
+	const [data, setData] = useState({} as any);
 
 	const [image, setImage] = useState(pic2);
 	const [logo, setLogo] = useState("");
-	const [address, setAddress] = useState("");
-	const [contact, setContact] = useState("");
-	const [motivation, setMotivation] = useState("");
-	const [bio, setBio] = useState("");
-
-	const [data, setData] = useState({} as any);
+	const [address, setAddress] = useState(data?.address);
+	const [contact, setContact] = useState(data?.contact);
+	const [motivation, setMotivation] = useState(data?.motivation);
+	const [load, setLoad] = useState(false);
+	const [bio, setBio] = useState(data?.bio);
 
 	const fetchData = async () => {
 		const newURL = `${url}/api/teacher/${user._id}`;
@@ -73,6 +73,7 @@ const Settings: React.FC = () => {
 	};
 
 	const uploadInfo = async () => {
+		setLoad(true);
 		const newURL = `${url}/api/teacher/${user._id}/update-info`;
 
 		await axios
@@ -85,6 +86,7 @@ const Settings: React.FC = () => {
 					showConfirmButton: false,
 					timer: 2500,
 				}).then(() => {
+					setLoad(false);
 					//   navigate("/");
 				});
 			})
@@ -171,6 +173,7 @@ const Settings: React.FC = () => {
 							<MainInp
 								placeholder='Enter the Your Motivation'
 								type='text'
+								defaultValue={user?.motivation}
 								value={motivation}
 								onChange={(e: any) => {
 									setMotivation(e.target.value);
@@ -183,6 +186,7 @@ const Settings: React.FC = () => {
 								placeholder='Enter the Your Bio'
 								type='text'
 								value={bio}
+								defaultValue={user?.bio}
 								onChange={(e: any) => {
 									setBio(e.target.value);
 								}}
@@ -195,13 +199,23 @@ const Settings: React.FC = () => {
 								flexDirection: "row-reverse",
 								width: "90%",
 							}}>
-							<Button
-								style={{
-									backgroundColor: "#1DA1F2",
-								}}
-								onClick={uploadInfo}>
-								Save info
-							</Button>
+							{load ? (
+								<Button
+									disabled
+									style={{
+										backgroundColor: "#1DA1F2",
+									}}>
+									Save info
+								</Button>
+							) : (
+								<Button
+									style={{
+										backgroundColor: "#1DA1F2",
+									}}
+									onClick={uploadInfo}>
+									Save info
+								</Button>
+							)}
 						</div>
 					</BoxHold>
 					<BoxHold>
@@ -374,7 +388,7 @@ const Hols = styled.div`
 	display: flex;
 	justify-content: space-between;
 `;
-const Button = styled.div`
+const Button = styled.button`
 	height: 40px;
 	width: 150px;
 	background-color: #4a148c;
@@ -386,6 +400,8 @@ const Button = styled.div`
 	cursor: pointer;
 	padding: 0 10px;
 	transition: all 350ms;
+	border: none;
+	outline: none;
 
 	:hover {
 		transform: scale(0.97);
