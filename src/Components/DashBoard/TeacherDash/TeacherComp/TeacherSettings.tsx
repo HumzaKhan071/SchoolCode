@@ -269,6 +269,7 @@ const Settings: React.FC = () => {
 			</Container>
 		</>
 	);
+
 };
 
 export default Settings;

@@ -648,7 +648,6 @@ const Container = styled.div`
   position: absolute;
   right: 0px;
   padding-top: 100px;
-  // top: 50px;
 
   @media screen and (max-width: 1100px) {
     width: 95%;
