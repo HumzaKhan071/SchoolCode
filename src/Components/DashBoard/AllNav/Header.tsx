@@ -30,8 +30,6 @@ interface iSession {
 
 const url: string = "https://school-code.onrender.com";
 const Header = () => {
-
-
 	// const navigate = useNavigate();
 	const [userState, setUserState] = useRecoilState(User);
 	const [sessionState, setSessionState] = useRecoilState(Session);
@@ -78,19 +76,21 @@ const Header = () => {
 		backRef.current.style.left = "-2000px";
 	};
 
-
-  const getSession = async () => {
-    await axios
-      .get(`${url}/api/academic/${user._id}/viewing-present-academic-session`)
-      .then((res) => {
-        setAcademic(res.data.data?.academicSession[0]!);
-        setSessionState(academic);
-      });
-  };
+	const getSession = async () => {
+		await axios
+			.get(`${url}/api/academic/${user._id}/viewing-present-academic-session`)
+			.then((res) => {
+				setAcademic(res.data.data?.academicSession[0]!);
+				setSessionState(academic);
+			});
+	};
 	useEffect(() => {
 		getSession();
 		axios.get(url);
 		fetchData();
+		if (academic === null) {
+			setShowDrop(true);
+		}
 	}, [academic]);
 
 	React.useEffect(() => {
@@ -300,10 +300,11 @@ const Header = () => {
 				) : null}
 			</One1>
 
-			{showDrop ? <CreatingSessionModal toggleDrop={toggleDrop} /> : null}
+			{showDrop ? (
+				<CreatingSessionModal toggleDrop={toggleDrop} academic={academic} />
+			) : null}
 		</MainDown>
 	);
-
 };
 
 export default Header;
