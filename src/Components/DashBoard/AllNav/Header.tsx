@@ -40,6 +40,7 @@ const Header = () => {
 	const [showSession, setShowSession] = React.useState(false);
 	const [showMySession, setShowMySession] = React.useState(false);
 	const [showDrop, setShowDrop] = React.useState(false);
+	const [academ, setAcadem] = React.useState([] as any);
 
 	const [data, setData] = useState({} as any);
 
@@ -81,17 +82,33 @@ const Header = () => {
 			.get(`${url}/api/academic/${user._id}/viewing-present-academic-session`)
 			.then((res) => {
 				setAcademic(res.data.data?.academicSession[0]!);
+				window.localStorage.setItem(
+					"phoenix-session",
+					JSON.stringify(res?.data?.data?.academicSession),
+				);
 				setSessionState(academic);
+				// console.log("this is academic", academ?.academicSession?.length);
+				setAcadem(res?.data?.data);
 			});
 	};
+
 	useEffect(() => {
 		getSession();
 		axios.get(url);
 		fetchData();
-		if (academic === null) {
-			setShowDrop(true);
+
+		if (window.localStorage.getItem("phoenix-session")) {
+			const myData = JSON.parse(
+				window.localStorage.getItem("phoenix-session") || "",
+			);
+
+			if (myData?.length === 0) {
+				setShowDrop(true);
+			}
 		}
-	}, [academic]);
+
+		return;
+	}, [academ]);
 
 	React.useEffect(() => {
 		if (change) {
